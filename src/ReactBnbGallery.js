@@ -1,18 +1,19 @@
 import React from 'react';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
 import Gallery from './components/Gallery';
 import GalleryCloseButton from './components/GalleryCloseButton';
-import omit from 'lodash/omit';
-import { Direction, SlideDirection } from './constants';
 import { noop } from './utils/functions';
+import SlideDirectionShape from './shapes/SlideDirectionShape';
+import { Direction, FORWARDS } from './constants';
 import './styles.css';
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
   activePhotoPressed: PropTypes.func,
-  direction: PropTypes.oneOf([SlideDirection.FORWARDS, SlideDirection.BACKWARDS]),
+  direction: SlideDirectionShape,
   leftKeyPressed: PropTypes.func,
   nextButtonPressed: PropTypes.func,
   onClose: PropTypes.func,
@@ -28,7 +29,7 @@ const propTypes = {
 const defaultProps = {
   activePhotoIndex: 0,
   activePhotoPressed: noop,
-  direction: "forwards",
+  direction: FORWARDS,
   leftKeyPressed: noop,
   nextButtonPressed: noop,
   onClose: noop,

@@ -62,10 +62,13 @@
     "dist"
   ],
   "dependencies": {
+    "airbnb-prop-types": "^2.11.0",
     "ajv": "^6.0.0",
     "classnames": "^2.2.6",
     "focus-trap-react": "^5.0.1",
     "lodash": "^4.17.11",
+    "object.assign": "^4.1.0",
+    "object.values": "^1.0.4",
     "prop-types": "^15.6.2",
     "react-portal": "^4.2.0"
   }

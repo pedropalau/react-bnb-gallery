@@ -5,15 +5,14 @@ export const Direction = {
   RIGHT: "right",
 };
 
-export const SlideDirection = {
-  FORWARDS: "forwards",
-  BACKWARDS: "backwards",
-};
-
 export const PointerType = {
   TOUCH: "backwards",
   PEN: "pen",
 };
+
+export const FORWARDS = "forwards";
+
+export const BACKWARDS = "backwards";
 
 export const SHOW_PHOTO_LIST_LABEL = "Show photo list";
 

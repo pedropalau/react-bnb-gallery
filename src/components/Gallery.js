@@ -4,14 +4,15 @@ import GalleryCaption from './GalleryCaption';
 import GalleryPrevButton from './GalleryPrevButton';
 import GalleryNextButton from './GalleryNextButton';
 import GalleryPhoto from './GalleryPhoto';
-import { Direction, SlideDirection } from '../constants';
+import { Direction, FORWARDS } from '../constants';
+import SlideDirectionShape from '../shapes/SlideDirectionShape';
 import { noop } from '../utils/functions';
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
   nextPhotoIndex: PropTypes.number,
   activePhotoPressed: PropTypes.func,
-  direction: PropTypes.oneOf([SlideDirection.FORWARDS, SlideDirection.BACKWARDS]),
+  direction: SlideDirectionShape,
   nextButtonPressed: PropTypes.func,
   prevButtonPressed: PropTypes.func,
   showThumbnails: PropTypes.bool,
@@ -23,7 +24,7 @@ const defaultProps = {
   activePhotoIndex: 0,
   nextPhotoIndex: 0,
   activePhotoPressed: noop,
-  direction: "forwards",
+  direction: FORWARDS,
   nextButtonPressed: noop,
   prevButtonPressed: noop,
   showThumbnails: true,
