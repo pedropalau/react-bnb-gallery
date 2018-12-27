@@ -47,5 +47,5 @@ class Example extends Component {
 
 ## License
 
-MIT © [peterpalau](https://github.com/peterpalau)
+MIT © [Pedro Enrique Palau](https://github.com/peterpalau)
 "# react-bnb-gallery" 
