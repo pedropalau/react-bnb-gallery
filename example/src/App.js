@@ -6,7 +6,7 @@ export default class App extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      galleryOpened: true
+      galleryOpened: false
     };
   }
 
