@@ -1,4 +1,4 @@
-# react-bnb-gallery
+# WIP: react-bnb-gallery
 
 > Simple photo gallery based on React and Airbnb image gallery
 
