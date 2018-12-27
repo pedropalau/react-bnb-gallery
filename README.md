@@ -20,7 +20,7 @@ import ReactBnbGallery from 'react-bnb-gallery'
 class Example extends Component {
   render () {
     return (
-      <ReactBnbGallery show photos=[{
+      <ReactBnbGallery show photos=[
         {
           photo: "https://source.unsplash.com/aZjw7xI3QAA/1144x763",
           caption: "Viñales, Pinar del Río, Cuba",
@@ -39,7 +39,7 @@ class Example extends Component {
           subcaption: "Photo by Hannah Cauhepe on Unsplash",
           thumbnail: "https://source.unsplash.com/QdBHnkBdu4g/100x67",
         }
-      }] />
+      ] />
     )
   }
 }
