@@ -47,10 +47,10 @@ class Example extends Component {
 
 ## TODO
 
-- [] Better types checking & validations
-- [] Allow Server Side Rendering
-- [] Better responsive visualization
-- [] Write documentation & more demos
+- [ ] Better types checking & validations
+- [ ] Allow Server Side Rendering
+- [ ] Better responsive visualization
+- [ ] Write documentation & more demos
 
 ## License
 
