@@ -70,4 +70,3 @@ class Example extends Component {
 ## License
 
 MIT © [Pedro Enrique Palau](https://github.com/peterpalau)
-"# react-bnb-gallery"
