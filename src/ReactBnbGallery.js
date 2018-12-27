@@ -4,7 +4,7 @@ import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
 import Gallery from './components/Gallery';
 import GalleryCloseButton from './components/GalleryCloseButton';
-import omit from 'lodash/omit';
+import { omit } from 'lodash';
 import { Direction, SlideDirection } from './constants';
 import { noop } from './utils/functions';
 import './styles.css';
@@ -53,29 +53,25 @@ class ReactBnbGallery extends React.PureComponent {
 
   _processPhotos = (photos, total) => photos.map((photo, index) => this._processPhoto(photo, index + 1, total));
 
+  //** @todo: should return the same type for consistency */
   _processPhoto = (photo, number, total) => {
     if (typeof photo === "string") {
       return {
-        number: number,
-        photo: photo,
+        number,
+        photo,
         caption: `${number}/${total}`,
         subcaption: null,
         thumbnail: null,
       };
     }
 
-    // merge in default values
-    photo = Object.assign({
-      number: number,
-      caption: "",
+    return photo = {
+      ...photo,
+      number,
+      caption: `${number}/${total}: `, // @todo do this in a better way
       subcaption: null,
       thumbnail: null,
-    }, photo);
-
-    // @todo do this in a better way
-    photo.caption = `${number}/${total}: ${photo.caption}`;
-
-    return photo;
+    };
   }
 
   render = () => {
