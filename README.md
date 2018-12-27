@@ -49,6 +49,7 @@ class Example extends Component {
 
   render () {
     return (
+      <button onClick={this.toggleGallery}>Open photo gallery</button>
       <ReactBnbGallery
         show={this.state.galleryOpened}
         photos={photos}
