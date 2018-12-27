@@ -90,6 +90,14 @@
   padding-bottom: 75%;
 }
 
+.gallery .gallery-photos .gallery-empty {
+  color: #ffffff;
+  font-size: 1.45rem;
+  display: block;
+  text-align: center;
+  padding: 25% 0;
+}
+
 .gallery .gallery-photo--current {
   position: absolute;
   top: 0px;

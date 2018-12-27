@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import GalleryTogglePhotoList from './GalleryTogglePhotoList';
+import PhotosShape from '../shapes/PhotosShape';
 import { THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, THUMBNAIL_OFFSET } from '../constants';
 import {
   noop,
@@ -18,7 +19,7 @@ const propTypes = {
   showThumbnails: PropTypes.bool,
   current: PropTypes.number.isRequired,
   next: PropTypes.number.isRequired,
-  photos: PropTypes.array.isRequired,
+  photos: PhotosShape,
   onPress: PropTypes.func,
 };
 
@@ -79,8 +80,9 @@ class GalleryCaption extends React.PureComponent {
 
     const currentPhoto = this.getPhotoByIndex(current);
 
-    // the thumbnails container offset
     const offset = calculateThumbnailOffset(current, next, photos.length, this.thumbnailsRef.current);
+
+    const hasMoreThanOnePhoto = photos.length > 1;
 
     return (
       <figcaption className={className}>
@@ -91,23 +93,27 @@ class GalleryCaption extends React.PureComponent {
                 {currentPhoto.caption && <h3 className="photo-caption">{currentPhoto.caption}</h3>}
                 {currentPhoto.subcaption && <p className="photo-subcaption">{currentPhoto.subcaption}</p>}
               </div>
-              <div className="caption-right">
-                <GalleryTogglePhotoList
-                  isOpened={showThumbnails}
-                  onPress={this.toggleThumbnails} />
-              </div>
+              {hasMoreThanOnePhoto && (
+                <div className="caption-right">
+                  <GalleryTogglePhotoList
+                    isOpened={showThumbnails}
+                    onPress={this.toggleThumbnails} />
+                </div>
+              )}
             </div>
-            <div className="gallery-figcaption--thumbnails" aria-hidden={false} ref={this.thumbnailsRef}>
-              <div className="caption-thumbnails" style={{width: calculateThumbnailsContainerDimension(photos.length)}}>
-                <ul className="thumbnails-list" style={{ marginLeft: offset }}>
-                  {photos.map((photo, index) => (
-                    <li key={photo.photo}>
-                      {this._renderThumbnail(photo, index)}
-                    </li>
-                  ))}
-                </ul>
+            {hasMoreThanOnePhoto && (
+              <div className="gallery-figcaption--thumbnails" aria-hidden={false} ref={this.thumbnailsRef}>
+                <div className="caption-thumbnails" style={{width: calculateThumbnailsContainerDimension(photos.length)}}>
+                  <ul className="thumbnails-list" style={{ marginLeft: offset }}>
+                    {photos.map((photo, index) => (
+                      <li key={photo.photo}>
+                        {this._renderThumbnail(photo, index)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </figcaption>

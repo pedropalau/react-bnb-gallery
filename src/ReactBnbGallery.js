@@ -7,8 +7,17 @@ import Gallery from './components/Gallery';
 import GalleryCloseButton from './components/GalleryCloseButton';
 import { noop } from './utils/functions';
 import SlideDirectionShape from './shapes/SlideDirectionShape';
+import PhotosShape from './shapes/PhotosShape';
 import { Direction, FORWARDS } from './constants';
 import './styles.css';
+
+const defaultPhotoProps = {
+  number: 0,
+  photo: "",
+  caption: "",
+  subcaption: "",
+  thumbnail: "",
+};
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
@@ -19,7 +28,7 @@ const propTypes = {
   onClose: PropTypes.func,
   preloadSize: PropTypes.number,
   prevButtonPressed: PropTypes.func,
-  photos: PropTypes.array.isRequired,
+  photos: PhotosShape,
   rightKeyPressed: PropTypes.func,
   show: PropTypes.bool,
   showThumbnails: PropTypes.bool,
@@ -52,28 +61,15 @@ class ReactBnbGallery extends React.PureComponent {
     this.props.onClose();
   }
 
-  _processPhotos = (photos, total) => photos.map((photo, index) => this._processPhoto(photo, index + 1, total));
+  _processPhotos = (photos) => {
+    return photos.map(this._processPhoto);
+  };
 
-  //** @todo: should return the same type for consistency */
-  _processPhoto = (photo, number, total) => {
-    if (typeof photo === "string") {
-      return {
-        number,
-        photo,
-        caption: `${number}/${total}`,
-        subcaption: null,
-        thumbnail: null,
-      };
-    }
-
-    return photo = {
-      ...photo,
-      number,
-      caption: `${number}/${total}: `, // @todo do this in a better way
-      subcaption: null,
-      thumbnail: null,
-    };
-  }
+  _processPhoto = (photo, index) => {
+    return Object.assign({}, defaultPhotoProps,
+      (typeof photo === "string" ? { number: (index + 1), photo } : { ...photo, number: (index + 1) })
+    );
+  };
 
   render = () => {
     const { show, photos } = this.props;
@@ -81,9 +77,8 @@ class ReactBnbGallery extends React.PureComponent {
     if (!show) {
       return null; // nothing to return
     }
-
-    // process all pictures
-    const finalPhotos = this._processPhotos(photos, photos.length);
+    
+    const finalPhotos = this._processPhotos(photos);
 
     const galleryProps = omit(this.props, [
       'onClose',

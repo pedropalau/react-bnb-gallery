@@ -4,8 +4,9 @@ import GalleryCaption from './GalleryCaption';
 import GalleryPrevButton from './GalleryPrevButton';
 import GalleryNextButton from './GalleryNextButton';
 import GalleryPhoto from './GalleryPhoto';
-import { Direction, FORWARDS } from '../constants';
+import { Direction, FORWARDS, Phrases } from '../constants';
 import SlideDirectionShape from '../shapes/SlideDirectionShape';
+import PhotosShape from '../shapes/PhotosShape';
 import { noop } from '../utils/functions';
 
 const propTypes = {
@@ -16,8 +17,9 @@ const propTypes = {
   nextButtonPressed: PropTypes.func,
   prevButtonPressed: PropTypes.func,
   showThumbnails: PropTypes.bool,
-  photos: PropTypes.array.isRequired,
+  photos: PhotosShape,
   wrap: PropTypes.bool,
+  emptyMessage: PropTypes.string,
 };
 
 const defaultProps = {
@@ -30,6 +32,7 @@ const defaultProps = {
   showThumbnails: true,
   photos: [],
   wrap: false,
+  emptyMessage: Phrases.EMPTY_MESSAGE,
 };
 
 class Gallery extends React.PureComponent {
@@ -144,34 +147,46 @@ class Gallery extends React.PureComponent {
       photos,
       prevButtonPressed,
       showThumbnails,
+      emptyMessage,
     } = this.props;
 
     const { hidePrevButton, hideNextButton, controlsDisabled } = this.state;
 
     const current = this.getPhotoByIndex(this.state.activePhotoIndex);
 
+    const hasPhotos = photos.length > 0;
+    const hasMoreThanOnePhoto = hasPhotos && photos.length > 1;
+
     return (
       <div className="gallery">
         <div className="gallery-main">
-          {!hidePrevButton && <GalleryPrevButton disabled={controlsDisabled} onPress={() => this.move(Direction.PREV)} />}
-          {!hideNextButton && <GalleryNextButton disabled={controlsDisabled} onPress={() => this.move(Direction.NEXT)} />}
+          {!hidePrevButton && hasMoreThanOnePhoto && (<GalleryPrevButton disabled={controlsDisabled} onPress={() => this.move(Direction.PREV)} />)}
+          {!hideNextButton && hasMoreThanOnePhoto && (<GalleryNextButton disabled={controlsDisabled} onPress={() => this.move(Direction.NEXT)} />)}
           <div className="gallery-photos">
-            <div className="gallery-photo">
-              <div className="gallery-photo--current">
-                <GalleryPhoto
-                  photo={current}
-                  onLoad={this.onPhotoLoad}
-                  onError={this.onPhotoError}
-                  onPress={this.onPhotoPress} />
+            {hasPhotos ? (
+              <div className="gallery-photo">
+                <div className="gallery-photo--current">
+                  <GalleryPhoto
+                    photo={current}
+                    onLoad={this.onPhotoLoad}
+                    onError={this.onPhotoError}
+                    onPress={this.onPhotoPress} />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="gallery-empty">
+                {emptyMessage}
+              </div>
+            )}
           </div>
         </div>
-        {showThumbnails && (<GalleryCaption
-          current={this.state.activePhotoIndex}
-          next={this.state.nextPhotoIndex}
-          photos={photos}
-          onPress={this.onThumbnailPress} />)}
+        {showThumbnails && current && (
+          <GalleryCaption
+            current={this.state.activePhotoIndex}
+            next={this.state.nextPhotoIndex}
+            photos={photos}
+            onPress={this.onThumbnailPress} />
+        )}
       </div>
     );
   }

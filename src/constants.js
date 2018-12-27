@@ -34,3 +34,9 @@ export const THUMBNAIL_WIDTH = 100;
 export const THUMBNAIL_HEIGHT = 67;
 
 export const THUMBNAIL_OFFSET = 10;
+
+export const Phrases = {
+  EMPTY_MESSAGE: "No photos to show",
+  SHOW_PHOTO_LIST_LABEL: "Show photo list",
+  HIDE_PHOTO_LIST_LABEL: "Hide photo list",
+};
