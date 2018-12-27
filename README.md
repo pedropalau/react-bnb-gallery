@@ -50,6 +50,7 @@ class Example extends Component {
 - [ ] Better types checking & validations
 - [ ] Allow Server Side Rendering
 - [ ] Better responsive visualization
+- [ ] Testings
 - [ ] Write documentation & more demos
 
 ## License
