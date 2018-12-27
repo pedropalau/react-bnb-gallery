@@ -49,33 +49,10 @@ class Example extends Component {
 
   render () {
     return (
-<<<<<<< HEAD
       <ReactBnbGallery
         show={this.state.galleryOpened}
         photos={photos}
         onClose={this.toggleGallery} />
-=======
-      <ReactBnbGallery show photos=[
-        {
-          photo: "https://source.unsplash.com/aZjw7xI3QAA/1144x763",
-          caption: "Viñales, Pinar del Río, Cuba",
-          subcaption: "Photo by Simon Matzinger on Unsplash",
-          thumbnail: "https://source.unsplash.com/aZjw7xI3QAA/100x67",
-        },
-        {
-          photo: "https://source.unsplash.com/c77MgFOt7e0/1144x763",
-          caption: "La Habana, Cuba",
-          subcaption: "Photo by Gerardo Sanchez on Unsplash",
-          thumbnail: "https://source.unsplash.com/c77MgFOt7e0/100x67",
-        },
-        {
-          photo: "https://source.unsplash.com/QdBHnkBdu4g/1144x763",
-          caption: "Woman smoking a tobacco",
-          subcaption: "Photo by Hannah Cauhepe on Unsplash",
-          thumbnail: "https://source.unsplash.com/QdBHnkBdu4g/100x67",
-        }
-      ] />
->>>>>>> 7eb07cf078078d4ee70daa395e963e85059fea69
     )
   }
 }
@@ -86,19 +63,10 @@ class Example extends Component {
 - [ ] Better types checking & validations
 - [ ] Allow Server Side Rendering
 - [ ] Better responsive visualization
-<<<<<<< HEAD
 - [ ] Testing
-=======
-- [ ] Testings
->>>>>>> 7eb07cf078078d4ee70daa395e963e85059fea69
 - [ ] Write documentation & more demos
 
 ## License
 
-<<<<<<< HEAD
-MIT © [pedro palau isaac](https://github.com/peterpalau)
-"# react-bnb-gallery"
-=======
 MIT © [Pedro Enrique Palau](https://github.com/peterpalau)
 "# react-bnb-gallery"
->>>>>>> 7eb07cf078078d4ee70daa395e963e85059fea69
