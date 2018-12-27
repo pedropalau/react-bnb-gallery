@@ -1,5 +1,5 @@
 import React from 'react';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
