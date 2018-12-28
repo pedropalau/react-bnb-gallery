@@ -63,11 +63,14 @@ class Example extends Component {
 
 ## TODO
 
+- [x] Demostration
 - [ ] Better types checking & validations
 - [ ] Allow Server Side Rendering
 - [ ] Better responsive visualization
 - [ ] Testing
-- [ ] Write documentation & more demos
+- [ ] Documentation
+- [ ] Keyboard navigation
+- [ ] Touch swipe
 
 ## License
 
