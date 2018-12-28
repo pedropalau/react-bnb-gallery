@@ -68,6 +68,8 @@ class Example extends Component {
 - [ ] Better responsive visualization
 - [ ] Testing
 - [ ] Write documentation & more demos
+- [ ] Keyboard navigation
+- [ ] Touch swipe
 
 ## License
 
