@@ -44,7 +44,7 @@ class Example extends Component {
   }
 
   toggleGallery() {
-    this.stateState(prevState => ({
+    this.setState(prevState => ({
       galleryOpened: !prevState.galleryOpened
     }));
   }
