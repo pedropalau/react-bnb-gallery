@@ -4,7 +4,18 @@
   "description": "Simple photo gallery based on React and Airbnb image gallery",
   "author": "Pedro Enrique Palau",
   "homepage": "https://github.com/peterpalau/react-bnb-gallery",
-  "keywords": ["react", "gallery", "photos", "carousel", "image gallery", "photo gallery", "responsive", "slider", "component", "modal gallery"],
+  "keywords": [
+    "react",
+    "gallery",
+    "photos",
+    "carousel",
+    "image gallery",
+    "photo gallery",
+    "responsive",
+    "slider",
+    "component",
+    "modal gallery"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:peterpalau/react-bnb-gallery.git"
