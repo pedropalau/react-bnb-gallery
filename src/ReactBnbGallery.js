@@ -8,16 +8,15 @@ import GalleryCloseButton from './components/GalleryCloseButton';
 import { noop } from './utils/functions';
 import SlideDirectionShape from './shapes/SlideDirectionShape';
 import PhotosShape from './shapes/PhotosShape';
-import { Direction, FORWARDS } from './constants';
+import {
+  Direction,
+  FORWARDS,
+  defaultPhotoProps,
+  ARROW_LEFT_KEYCODE,
+  ARROW_RIGHT_KEYCODE,
+  ESC_KEYCODE
+} from './constants';
 import './styles.css';
-
-const defaultPhotoProps = {
-  number: 0,
-  photo: "",
-  caption: "",
-  subcaption: "",
-  thumbnail: "",
-};
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
@@ -32,6 +31,7 @@ const propTypes = {
   rightKeyPressed: PropTypes.func,
   show: PropTypes.bool,
   showThumbnails: PropTypes.bool,
+  keyboard: PropTypes.bool,
   wrap: PropTypes.bool,
 };
 
@@ -48,17 +48,45 @@ const defaultProps = {
   rightKeyPressed: noop,
   show: false,
   showThumbnails: true,
+  keyboard: true,
   wrap: false,
 };
 
 class ReactBnbGallery extends React.PureComponent {
   constructor() {
     super(...arguments);
+    this.gallery = React.createRef();
     this.close = this.close.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   close = () => {
     this.props.onClose();
+  }
+
+  onKeyDown = (event) => {
+    if (/input|textarea/i.test(event.target.tagName)) {
+      return;
+    }
+
+    switch (event.which) {
+      case ESC_KEYCODE:
+        event.preventDefault();
+        this.close();
+        break;
+
+      case ARROW_LEFT_KEYCODE:
+        event.preventDefault();
+        this.gallery.current.prev();
+        break;
+
+      case ARROW_RIGHT_KEYCODE:
+        event.preventDefault();
+        this.gallery.current.next();
+        break;
+
+      default:
+    }
   }
 
   _processPhotos = (photos) => {
@@ -77,7 +105,7 @@ class ReactBnbGallery extends React.PureComponent {
     if (!show) {
       return null; // nothing to return
     }
-    
+
     const finalPhotos = this._processPhotos(photos);
 
     const galleryProps = omit(this.props, [
@@ -92,7 +120,7 @@ class ReactBnbGallery extends React.PureComponent {
     return (
       <Portal>
         <FocusTrap>
-          <div className="gallery-modal" role="dialog" tabIndex="-1">
+          <div className="gallery-modal" role="dialog" tabIndex="-1" onKeyDown={this.onKeyDown}>
             <div className="gallery-modal--preload">
               {finalPhotos.map(photo => <img key={photo.photo} src={photo.photo} />)}
             </div>
@@ -107,7 +135,10 @@ class ReactBnbGallery extends React.PureComponent {
                       <div className="gallery-top">
                         <div className="gallery-top--inner"></div>
                       </div>
-                      <Gallery photos={finalPhotos} {...galleryProps} />
+                      <Gallery
+                        ref={this.gallery}
+                        photos={finalPhotos}
+                        {...galleryProps} />
                     </div>
                   </div>
                 </div>
