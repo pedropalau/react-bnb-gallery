@@ -11,7 +11,6 @@ import { noop } from '../utils/functions';
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
-  nextPhotoIndex: PropTypes.number,
   activePhotoPressed: PropTypes.func,
   direction: SlideDirectionShape,
   nextButtonPressed: PropTypes.func,
@@ -24,7 +23,6 @@ const propTypes = {
 
 const defaultProps = {
   activePhotoIndex: 0,
-  nextPhotoIndex: 0,
   activePhotoPressed: noop,
   direction: FORWARDS,
   nextButtonPressed: noop,
@@ -41,20 +39,20 @@ class Gallery extends React.PureComponent {
 
     const {
       activePhotoIndex,
-      nextPhotoIndex,
       photos,
       wrap
     } = this.props;
 
     this.state = {
       activePhotoIndex: activePhotoIndex,
-      nextPhotoIndex: nextPhotoIndex,
       hidePrevButton: wrap && activePhotoIndex === 0,
       hideNextButton: wrap && activePhotoIndex === photos.length - 1,
       controlsDisabled: true
     };
 
     this.move = this.move.bind(this);
+    this.prev = this.prev.bind(this);
+    this.next = this.next.bind(this);
     this.onPhotoLoad = this.onPhotoLoad.bind(this);
     this.onPhotoError = this.onPhotoError.bind(this);
     this.onPhotoPress = this.onPhotoPress.bind(this);
@@ -63,17 +61,19 @@ class Gallery extends React.PureComponent {
 
   getPhotoByIndex = (index) => this.props.photos[index];
 
-  move = (direction, index) => {
+  prev = () => this.move(Direction.PREV);
+
+  next = () => this.move(Direction.NEXT);
+
+  move = (direction, index = false) => {
     const { activePhotoIndex } = this.state;
 
-    const nextElementIndex = index || this._getItemByDirection(direction, activePhotoIndex);
-    const nextToElementIndex = this._getItemByDirection(direction, nextElementIndex);
+    const nextElementIndex = index !== false ? index : this._getItemByDirection(direction, activePhotoIndex);
 
     this._checkIsWrapped(direction, nextElementIndex);
 
     this.setState({
-      activePhotoIndex: nextElementIndex,
-      nextPhotoIndex: nextToElementIndex
+      activePhotoIndex: nextElementIndex
     });
   }
 
@@ -89,7 +89,7 @@ class Gallery extends React.PureComponent {
 
   onThumbnailPress = (index) => this.to(index);
 
-  to = index => {
+  to = (index) => {
     const { photos } = this.props;
     const { activePhotoIndex } = this.state;
 
@@ -160,8 +160,8 @@ class Gallery extends React.PureComponent {
     return (
       <div className="gallery">
         <div className="gallery-main">
-          {!hidePrevButton && hasMoreThanOnePhoto && (<GalleryPrevButton disabled={controlsDisabled} onPress={() => this.move(Direction.PREV)} />)}
-          {!hideNextButton && hasMoreThanOnePhoto && (<GalleryNextButton disabled={controlsDisabled} onPress={() => this.move(Direction.NEXT)} />)}
+          {!hidePrevButton && hasMoreThanOnePhoto && (<GalleryPrevButton disabled={controlsDisabled} onPress={this.prev} />)}
+          {!hideNextButton && hasMoreThanOnePhoto && (<GalleryNextButton disabled={controlsDisabled} onPress={this.next} />)}
           <div className="gallery-photos">
             {hasPhotos ? (
               <div className="gallery-photo">
@@ -183,7 +183,6 @@ class Gallery extends React.PureComponent {
         {showThumbnails && current && (
           <GalleryCaption
             current={this.state.activePhotoIndex}
-            next={this.state.nextPhotoIndex}
             photos={photos}
             onPress={this.onThumbnailPress} />
         )}
