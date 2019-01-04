@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import classnames from 'classnames';
+
 import LoadingSpinner from './LoadingSpinner';
-import { noop } from '../utils/functions';
+
+import noop from '../utils/noop';
 
 const propTypes = {
   photo: PropTypes.oneOfType([
