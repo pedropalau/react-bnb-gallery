@@ -38,7 +38,7 @@ class GalleryCaption extends React.PureComponent {
     super(...arguments);
     this.state = {
       showThumbnails: this.props.showThumbnails,
-      thumbnailsContainerWidth: 0,
+      thumbnailsContainerBounding: null,
       thumbnailsOffset: 0
     };
     this.toggleThumbnails = this.toggleThumbnails.bind(this);
@@ -48,17 +48,25 @@ class GalleryCaption extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if (prevProps.current !== this.props.current) {
       this.setState(prevState => ({
-        thumbnailsOffset: calculateThumbnailOffset(this.props.current, prevState.thumbnailsOffset, this.state.thumbnailsContainerWidth, this.props.photos.length)
+        thumbnailsOffset: calculateThumbnailOffset(
+          this.props.current,
+          this.state.thumbnailsContainerBounding,
+          this.props.photos.length
+        )
       }));
     }
   }
 
   setGalleryFigcaptionRef = (element) => {
     if (element) {
-      const width = element.getBoundingClientRect().width;
+      const bounding = element.getBoundingClientRect();
       this.setState({
-        thumbnailsContainerWidth: width,
-        thumbnailsOffset: calculateThumbnailOffset(this.props.current, 0, width, this.props.photos.length)
+        thumbnailsContainerBounding: bounding,
+        thumbnailsOffset: calculateThumbnailOffset(
+          this.props.current,
+          bounding,
+          this.props.photos.length
+        )
       });
     }
   };
@@ -125,7 +133,10 @@ class GalleryCaption extends React.PureComponent {
               )}
             </div>
             {hasMoreThanOnePhoto && (
-              <div className="gallery-figcaption--thumbnails" aria-hidden={false} ref={this.setGalleryFigcaptionRef}>
+              <div
+                className="gallery-figcaption--thumbnails"
+                aria-hidden={false}
+                ref={this.setGalleryFigcaptionRef}>
                 <div className="caption-thumbnails" style={{width: calculateThumbnailsContainerDimension(photos.length)}}>
                   <ul className="thumbnails-list" style={{ marginLeft: this.state.thumbnailsOffset }}>
                     {photos.map((photo, index) => (
