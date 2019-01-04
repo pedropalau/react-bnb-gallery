@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+
 import GalleryCaption from './GalleryCaption';
 import GalleryPrevButton from './GalleryPrevButton';
 import GalleryNextButton from './GalleryNextButton';
 import GalleryPhoto from './GalleryPhoto';
-import { Direction, FORWARDS, Phrases } from '../constants';
+
+import noop from '../utils/noop';
+
+import defaultPhrases from '../defaultPhrases';
+import getPhrasePropTypes from '../utils/getPhrasePropTypes';
+
 import SlideDirectionShape from '../shapes/SlideDirectionShape';
 import PhotosShape from '../shapes/PhotosShape';
-import { noop } from '../utils/functions';
+
+import {
+  FORWARDS,
+  DIRECTION_NEXT,
+  DIRECTION_PREV,
+} from '../constants';
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
@@ -18,7 +29,7 @@ const propTypes = {
   showThumbnails: PropTypes.bool,
   photos: PhotosShape,
   wrap: PropTypes.bool,
-  emptyMessage: PropTypes.string,
+  phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
 };
 
 const defaultProps = {
@@ -30,10 +41,10 @@ const defaultProps = {
   showThumbnails: true,
   photos: [],
   wrap: false,
-  emptyMessage: Phrases.EMPTY_MESSAGE,
+  phrases: defaultPhrases,
 };
 
-class Gallery extends React.PureComponent {
+class Gallery extends PureComponent {
   constructor() {
     super(...arguments);
 
@@ -61,9 +72,9 @@ class Gallery extends React.PureComponent {
 
   getPhotoByIndex = (index) => this.props.photos[index];
 
-  prev = () => this.move(Direction.PREV);
+  prev = () => this.move(DIRECTION_PREV);
 
-  next = () => this.move(Direction.NEXT);
+  next = () => this.move(DIRECTION_NEXT);
 
   move = (direction, index = false) => {
     const { activePhotoIndex } = this.state;
@@ -82,8 +93,7 @@ class Gallery extends React.PureComponent {
   onPhotoError = () => this.setState({ controlsDisabled: false });
 
   onPhotoPress = () => {
-    this.move(Direction.NEXT);
-
+    this.move(DIRECTION_NEXT);
     this.props.activePhotoPressed();
   }
 
@@ -101,7 +111,7 @@ class Gallery extends React.PureComponent {
       return; // nothing to do
     }
 
-    const direction = index > activePhotoIndex ? Direction.NEXT : Direction.PREV;
+    const direction = index > activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
 
     this.move(direction, index);
   }
@@ -125,8 +135,8 @@ class Gallery extends React.PureComponent {
   _getItemByDirection = (direction, activeIndex) => {
     const { photos, wrap } = this.props;
 
-    const isNextDirection = direction === Direction.NEXT;
-    const isPrevDirection = direction === Direction.PREV;
+    const isNextDirection = direction === DIRECTION_NEXT;
+    const isPrevDirection = direction === DIRECTION_PREV;
 
     const lastItemIndex = photos.length - 1;
     const isGoingToWrap = isPrevDirection && activeIndex === 0 || isNextDirection && activeIndex === lastItemIndex;
@@ -147,7 +157,9 @@ class Gallery extends React.PureComponent {
       photos,
       prevButtonPressed,
       showThumbnails,
-      emptyMessage,
+      phrases: {
+        noPhotosProvided: emptyMessage
+      },
     } = this.props;
 
     const { hidePrevButton, hideNextButton, controlsDisabled } = this.state;
@@ -182,6 +194,7 @@ class Gallery extends React.PureComponent {
         </div>
         {showThumbnails && current && (
           <GalleryCaption
+            phrases={this.props.phrases}
             current={this.state.activePhotoIndex}
             photos={photos}
             onPress={this.onThumbnailPress} />
