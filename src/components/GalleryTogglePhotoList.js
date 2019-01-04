@@ -1,28 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import classnames from 'classnames';
-import { noop } from '../utils/functions';
-import { SHOW_PHOTO_LIST_LABEL, HIDE_PHOTO_LIST_LABEL } from '../constants';
+
+import defaultPhrases from '../defaultPhrases';
+import getPhrasePropTypes from '../utils/getPhrasePropTypes';
+
+import noop from '../utils/noop';
 
 const propTypes = {
   isOpened: PropTypes.bool,
-  hideLabel: PropTypes.string,
-  showLabel: PropTypes.string,
   onPress: PropTypes.func,
+  phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
 };
 
 const defaultProps = {
   isOpened: true,
-  hideLabel: HIDE_PHOTO_LIST_LABEL,
-  showLabel: SHOW_PHOTO_LIST_LABEL,
   onPress: noop,
+  phrases: defaultPhrases,
 };
 
 const GalleryTogglePhotoList = ({
   isOpened,
-  hideLabel,
-  showLabel,
   onPress,
+  phrases: {
+    showPhotoList:showLabel,
+    hidePhotoList:hideLabel,
+  }
 }) => {
   const label = isOpened ? hideLabel : showLabel;
   const className = classnames(
@@ -30,7 +34,9 @@ const GalleryTogglePhotoList = ({
     isOpened ? "hide" : "open"
   );
   return (
-    <button className={className} onClick={onPress}>{label}</button>
+    <button className={className} onClick={onPress}>
+      {label}
+    </button>
   );
 };
 
