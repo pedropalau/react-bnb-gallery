@@ -103,11 +103,7 @@ class Gallery extends PureComponent {
     const { photos } = this.props;
     const { activePhotoIndex } = this.state;
 
-    if (index > photos.length - 1 || index < 0) {
-      return; // nothing to do
-    }
-
-    if (activePhotoIndex === index) {
+    if ((index > photos.length - 1 || index < 0) || activePhotoIndex === index) {
       return; // nothing to do
     }
 
