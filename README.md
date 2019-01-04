@@ -1,4 +1,6 @@
-# wip: react-bnb-gallery
+# wip: react-bnb-gallery <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
+ 
+[![npm badge][npm-badge-png]][package-url]
 
 > Simple photo gallery based on React and Airbnb image gallery
 
