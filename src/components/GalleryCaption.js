@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import classnames from 'classnames';
+import noop from '../utils/noop';
+
 import GalleryTogglePhotoList from './GalleryTogglePhotoList';
+
+import calculateThumbnailsContainerDimension from '../utils/calculateThumbnailsContainerDimension';
+import calculateThumbnailsOffset from '../utils/calculateThumbnailsOffset';
+
+import defaultPhrases from '../defaultPhrases';
+import getPhrasePropTypes from '../utils/getPhrasePropTypes';
+
 import PhotosShape from '../shapes/PhotosShape';
+
 import {
   THUMBNAIL_WIDTH,
   THUMBNAIL_HEIGHT,
   THUMBNAIL_OFFSET
 } from '../constants';
-import {
-  noop,
-  calculateThumbnailsContainerDimension,
-  calculateThumbnailOffset
-} from '../utils/functions';
 
 const thumbnailStyle = {
   width: THUMBNAIL_WIDTH,
@@ -21,9 +27,10 @@ const thumbnailStyle = {
 
 const propTypes = {
   showThumbnails: PropTypes.bool,
-  current: PropTypes.number.isRequired,
+  current: PropTypes.number,
   photos: PhotosShape,
   onPress: PropTypes.func,
+  phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
 };
 
 const defaultProps = {
@@ -31,6 +38,7 @@ const defaultProps = {
   current: 0,
   photos: [],
   onPress: noop,
+  phrases: defaultPhrases,
 };
 
 class GalleryCaption extends React.PureComponent {
@@ -48,7 +56,7 @@ class GalleryCaption extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if (prevProps.current !== this.props.current) {
       this.setState(prevState => ({
-        thumbnailsOffset: calculateThumbnailOffset(
+        thumbnailsOffset: calculateThumbnailsOffset(
           this.props.current,
           this.state.thumbnailsContainerBounding,
           this.props.photos.length
@@ -62,7 +70,7 @@ class GalleryCaption extends React.PureComponent {
       const bounding = element.getBoundingClientRect();
       this.setState({
         thumbnailsContainerBounding: bounding,
-        thumbnailsOffset: calculateThumbnailOffset(
+        thumbnailsOffset: calculateThumbnailsOffset(
           this.props.current,
           bounding,
           this.props.photos.length
@@ -107,7 +115,11 @@ class GalleryCaption extends React.PureComponent {
   };
 
   render = () => {
-    const { current, photos } = this.props;
+    const {
+      current,
+      photos,
+      phrases
+    } = this.props;
 
     const className = classnames("gallery-figcaption", !this.state.showThumbnails && "hide");
 
@@ -127,6 +139,7 @@ class GalleryCaption extends React.PureComponent {
               {hasMoreThanOnePhoto && (
                 <div className="caption-right">
                   <GalleryTogglePhotoList
+                    phrases={phrases}
                     isOpened={this.state.showThumbnails}
                     onPress={this.toggleThumbnails} />
                 </div>
