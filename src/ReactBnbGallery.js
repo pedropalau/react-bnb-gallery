@@ -1,22 +1,36 @@
-import React from 'react';
-import omit from 'lodash/omit';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
+
 import Gallery from './components/Gallery';
 import GalleryCloseButton from './components/GalleryCloseButton';
-import { noop } from './utils/functions';
+
+import omit from 'lodash/omit';
+import noop from './utils/noop';
+
+import defaultPhrases from './defaultPhrases';
+import getPhrasePropTypes from './utils/getPhrasePropTypes';
+
 import SlideDirectionShape from './shapes/SlideDirectionShape';
 import PhotosShape from './shapes/PhotosShape';
+
 import {
-  Direction,
   FORWARDS,
-  defaultPhotoProps,
   ARROW_LEFT_KEYCODE,
   ARROW_RIGHT_KEYCODE,
-  ESC_KEYCODE
+  ESC_KEYCODE,
 } from './constants';
+
 import './styles.css';
+
+const defaultPhotoProps = {
+  photo: undefined,
+  number: undefined,
+  caption: undefined,
+  subcaption: undefined,
+  thumbnail: undefined,
+};
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
@@ -33,6 +47,7 @@ const propTypes = {
   showThumbnails: PropTypes.bool,
   keyboard: PropTypes.bool,
   wrap: PropTypes.bool,
+  phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
 };
 
 const defaultProps = {
@@ -50,9 +65,10 @@ const defaultProps = {
   showThumbnails: true,
   keyboard: true,
   wrap: false,
+  phrases: defaultPhrases,
 };
 
-class ReactBnbGallery extends React.PureComponent {
+class ReactBnbGallery extends PureComponent {
   constructor() {
     super(...arguments);
     this.gallery = React.createRef();
@@ -100,7 +116,11 @@ class ReactBnbGallery extends React.PureComponent {
   };
 
   render = () => {
-    const { show, photos } = this.props;
+    const {
+      show,
+      photos,
+      phrases
+    } = this.props;
 
     if (!show) {
       return null; // nothing to return
@@ -136,6 +156,7 @@ class ReactBnbGallery extends React.PureComponent {
                         <div className="gallery-top--inner"></div>
                       </div>
                       <Gallery
+                        phrases={phrases}
                         ref={this.gallery}
                         photos={finalPhotos}
                         {...galleryProps} />
