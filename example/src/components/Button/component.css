@@ -1,0 +1,50 @@
+/* Button component */
+.button {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.084);
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.button__default {
+  display: block;
+  height: 44px;
+  padding: 0 19px;
+  font-size: 15px;
+  line-height: 41px;
+}
+
+.button_small {
+  /* todo */
+}
+
+.button__large {
+  line-height: 1.6;
+  height: 60px;
+  padding: 14px 24px;
+  font-size: 18px;
+}
+
+.button__primary {
+  color: #fff;
+  background-color: #111;
+}
+
+.button__primary:hover {
+  background-color: #000;
+}
+
+.button__secondary {
+  color: #fff;
+  background-color: #3cb46e;
+}
+
+.button__secondary:hover {
+  background-color: #37a866;
+}

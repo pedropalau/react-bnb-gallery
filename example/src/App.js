@@ -1,6 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactBnbGallery from 'react-bnb-gallery';
+
+import {
+  PhotoGrid,
+  Button,
+  Container,
+  GithubButton,
+  Text,
+  Title
+} from './components';
+
 import PHOTOS from './photos';
+
+const buttonCustomStyle = {
+  display: 'inline-block',
+  marginTop: '16px',
+  marginBottom: '24px',
+};
 
 export default class App extends Component {
   constructor() {
@@ -16,20 +32,28 @@ export default class App extends Component {
 
   render () {
     return (
-      <div className="container">
-        <h2 className="title">React simple gallery</h2>
-        <p className="description">This is an example of a simple photo gallery, inspired by the Airbnb photo gallery.</p>
-        <div className="action">
-          <button className="button" onClick={this.toggleGallery}>
-            Show photos
-          </button>
-        </div>
-        <ReactBnbGallery
-          show={this.state.galleryOpened}
-          photos={PHOTOS}
-          onClose={this.toggleGallery}
-        />
-      </div>
+      <Fragment>
+        <GithubButton url="https://github.com/peterpalau/react-bnb-gallery" />
+        <Container className="container">
+          <Title>React photo gallery</Title>
+          <Text>Friendly, customizable and accessible-ready simple photo gallery based on React.</Text>
+          <Container className="actions">
+            <Button
+              onPress={this.toggleGallery}
+              customStyle={buttonCustomStyle}
+              secondary
+              large>
+              View photo gallery
+            </Button>
+          </Container>
+          <ReactBnbGallery
+            show={this.state.galleryOpened}
+            photos={PHOTOS}
+            onClose={this.toggleGallery}
+            wrap />
+        </Container>
+        <PhotoGrid />
+      </Fragment>
     )
   }
 }

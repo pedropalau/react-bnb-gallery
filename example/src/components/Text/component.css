@@ -1,0 +1,6 @@
+/* Text component */
+.text {
+  color: var(--color);
+  font-size: 18px;
+  margin: 18px 0;
+}
