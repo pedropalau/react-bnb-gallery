@@ -119,7 +119,8 @@ class ReactBnbGallery extends PureComponent {
     const {
       show,
       photos,
-      phrases
+      phrases,
+      keyboard,
     } = this.props;
 
     if (!show) {
@@ -137,10 +138,20 @@ class ReactBnbGallery extends PureComponent {
       'photos',
     ]);
 
+    let modalProps = {
+      className: 'gallery-modal',
+      role: 'dialog',
+      tabIndex: -1,
+    };
+
+    if (keyboard) {
+      modalProps.onKeyDown = this.onKeyDown;
+    }
+
     return (
       <Portal>
         <FocusTrap>
-          <div className="gallery-modal" role="dialog" tabIndex="-1" onKeyDown={this.onKeyDown}>
+          <div {...modalProps}>
             <div className="gallery-modal--preload">
               {finalPhotos.map(photo => <img key={photo.photo} src={photo.photo} />)}
             </div>
