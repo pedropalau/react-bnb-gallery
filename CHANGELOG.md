@@ -4,8 +4,12 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.0.3
+- [new] Allow to disable keyboard navigation by the `keyboard` prop.
+- [fix] Better prop types validation.
+
 ## 1.0.2
-- [new] Allow an array of photos urls instead of an object.
+- [new] Allow an array of urls instead of objects.
 - [fix] Fix incorrect dynamic position offset of active thumbnails.
 
 ## 1.0.1
