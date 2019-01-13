@@ -1,6 +1,9 @@
-# wip: react-bnb-gallery
+# react-bnb-gallery
 
 > Simple photo gallery based on React and Airbnb image gallery
+
+
+## Live Demo
 
 ![Demo](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/react-bnb-demo.png)
 
@@ -8,11 +11,15 @@
 
 ## Install
 
+You can install the [react-bnb-gallery](https://www.npmjs.com/package/react-bnb-gallery) from [npm](https://www.npmjs.com/).
+
 ```bash
 npm install --save react-bnb-gallery
 ```
 
 ## Usage
+
+Following code is simplest usage.
 
 ```jsx
 import React, { Component } from 'react'
@@ -61,17 +68,56 @@ class Example extends Component {
 }
 ```
 
+### Gallery props
+
+You can set the following properties. For function options, the default value `noop` is translated to `() => {}`.
+
+| Name                       | Type             | Default          | Description                                                                                                                                                                                               |
+|:---------------------------|:-----------------|:-----------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `activePhotoIndex`         | `number`         | `0`              | Initial photo index to show.
+| `activePhotoPressed`       | `function`       | `noop`           | Called when a photo is pressed.
+| `leftKeyPressed`           | `function`       | `noop`           | Called when `left` key of the keyboard is pressed.
+| `nextButtonPressed`        | `function`       | `noop`           | Called when `next` control button is pressed.
+| `onClose`                  | `function`       | `noop`           | Called when the gallery modal is going to close.
+| `preloadSize`              | `number`         | `5`              | The number of photos to preload on gallery initialization.
+| `prevButtonPressed`        | `function`       | `noop`           | Called when `previous` control button is pressed.
+| `photos`                   | `array`          | `[]`             | Array of photos. It can be an `array` of photos `URL` or an `array` of `objects`. See the `[photo object]` props [bellow](#photos-array-item-properties-passed-into-reactbnbgallerys-photos-property).
+| `phrases`                  | `object`         | `defaultPhrases` | `...`
+| `rightKeyPressed`          | `function`       | `noop`           | Called when `right` key of the keyboard is pressed.
+| `show`                     | `function`       | `noop`           | Shows the modal when initialized.
+| `showThumbnails`           | `boolean`        | `true`           | Whether the gallery should show thumbnails.
+| `keyboard`                 | `boolean`        | `true`           | Whether the gallery should react to keyboard events.
+| `wrap`                     | `boolean`        | `false`          | Whether the gallery should cycle continuously or have hard stops.
+
+### Photos array item properties (passed into ReactBnbGallery's photos property)
+
+| Name               | Type        | Default     | Description                                                                                                                             |
+|:-------------------|:------------|:------------|:----------------------------------------------------------------------------------------------------------------------------------------|
+| photo              | `string`    | `undefined` | The `src` attribute value of the image.
+| number             | `number`    | `undefined` | The current number of the photo.
+| caption            | `string`    | `undefined` | Photo description.
+| subcaption         | `string`    | `undefined` | Photo secondary description, like the photo author or the name of the place where it was taken.
+| thumbnail          | `string`    | `undefined` | The `url` of the photo thumbnail. The preferred size for each thumbnail is `100x67`.
+
 ## TODO
 
 - [x] Demostration
-- [ ] Better types checking & validations
+- [x] Better types checking & validations
 - [ ] Allow Server Side Rendering
-- [ ] Better responsive visualization
+- [x] Better responsive visualization
 - [ ] Testing
 - [ ] Documentation
-- [ ] Keyboard navigation
+- [x] Keyboard navigation
 - [ ] Touch swipe
 
 ## License
 
-MIT © [Pedro Enrique Palau](https://github.com/peterpalau)
+Released under the [MIT Licence](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/LICENSE)
+
+## ChangeLog
+
+See [CHANGELOG.md](https://github.com/peterpalau/react-bnb-gallery/blob/master/CHANGELOG.md)
+
+## Author
+
+[Pedro E. Palau Isaac](https://github.com/peterpalau)
