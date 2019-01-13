@@ -1,6 +1,6 @@
 {
   "name": "react-bnb-gallery",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple photo gallery based on React and Airbnb image gallery",
   "author": "Pedro Enrique Palau",
   "homepage": "https://peterpalau.github.io/react-bnb-gallery-demo/",
@@ -74,6 +74,7 @@
   ],
   "dependencies": {
     "prop-types": "^15.6.1",
+    "airbnb-prop-types": "^2.11.0",
     "ajv": "^6.0.0",
     "classnames": "^2.2.6",
     "focus-trap-react": "^5.0.1",
