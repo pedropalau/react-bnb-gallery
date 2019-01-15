@@ -1,23 +1,41 @@
 {
-  "name": "react-bnb-gallery-example",
-  "homepage": "https://peterpalau.github.io/react-bnb-gallery",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "example",
+  "version": "0.1.0",
   "private": true,
+  "keywords": [
+    "react",
+    "gallery",
+    "photos",
+    "carousel",
+    "image gallery",
+    "photo gallery",
+    "responsive",
+    "slider",
+    "component",
+    "modal gallery"
+  ],
   "dependencies": {
     "airbnb-prop-types": "^2.11.0",
     "classnames": "^2.2.6",
     "prop-types": "^15.6.2",
-    "react": "^16.4.1",
     "react-bnb-gallery": "file:..",
-    "react-dom": "^16.4.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "^1.1.4"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-scripts": "2.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
-  }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
