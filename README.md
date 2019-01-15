@@ -83,7 +83,7 @@ You can set the following properties. For function options, the default value `n
 | `onClose`                  | `function`       | `noop`           | Called when the gallery modal is going to close.
 | `preloadSize`              | `number`         | `5`              | The number of photos to preload on gallery initialization.
 | `prevButtonPressed`        | `function`       | `noop`           | Called when `previous` control button is pressed.
-| `photos`                   | `array`          | `[]`             | Array of photos. It can be an `array` of photos `URL` or an `array` of `objects`. See the `[photo object]` props [bellow](#photos-array-item-properties-passed-into-reactbnbgallerys-photos-property).
+| `photos`                   | `array`          | `[]`             | Array of photos. It can be an `array` of photos `URLs` or an `array` of `objects`. See the `[photo object]` props [bellow](#photos-array-item-properties-passed-into-reactbnbgallerys-photos-property).
 | `phrases`                  | `object`         | `defaultPhrases` | `...`
 | `rightKeyPressed`          | `function`       | `noop`           | Called when `right` key of the keyboard is pressed.
 | `show`                     | `function`       | `noop`           | Shows the modal when initialized.
