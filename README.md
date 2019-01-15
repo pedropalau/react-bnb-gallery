@@ -5,6 +5,8 @@
 
 ## Live Demo
 
+[https://peterpalau.github.io/react-bnb-gallery/](https://peterpalau.github.io/react-bnb-gallery/)
+
 ![Demo](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/react-bnb-demo.png)
 
 [![NPM](https://img.shields.io/npm/v/react-bnb-gallery.svg)](https://www.npmjs.com/package/react-bnb-gallery) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
