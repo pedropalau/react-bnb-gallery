@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "Simple photo gallery based on React and Airbnb image gallery",
   "author": "Pedro Enrique Palau",
-  "homepage": "https://peterpalau.github.io/react-bnb-gallery-demo/",
+  "homepage": "https://peterpalau.github.io/react-bnb-gallery/",
   "keywords": [
     "react",
     "gallery",
