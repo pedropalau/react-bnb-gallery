@@ -1,13 +1,13 @@
 {
-  "main.css": "/static/css/main.a2a491dd.chunk.css",
-  "main.js": "/static/js/main.cc9bccd6.chunk.js",
-  "main.js.map": "/static/js/main.cc9bccd6.chunk.js.map",
-  "static/js/1.aca254fb.chunk.js": "/static/js/1.aca254fb.chunk.js",
-  "static/js/1.aca254fb.chunk.js.map": "/static/js/1.aca254fb.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
-  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/css/main.a2a491dd.chunk.css.map": "/static/css/main.a2a491dd.chunk.css.map",
-  "index.html": "/index.html",
-  "precache-manifest.1e4ec8807ecf8c1bb42a1ea319863a33.js": "/precache-manifest.1e4ec8807ecf8c1bb42a1ea319863a33.js",
-  "service-worker.js": "/service-worker.js"
+  "main.css": "/react-bnb-gallery/static/css/main.a2a491dd.chunk.css",
+  "main.js": "/react-bnb-gallery/static/js/main.cc9bccd6.chunk.js",
+  "main.js.map": "/react-bnb-gallery/static/js/main.cc9bccd6.chunk.js.map",
+  "static/js/1.aca254fb.chunk.js": "/react-bnb-gallery/static/js/1.aca254fb.chunk.js",
+  "static/js/1.aca254fb.chunk.js.map": "/react-bnb-gallery/static/js/1.aca254fb.chunk.js.map",
+  "runtime~main.js": "/react-bnb-gallery/static/js/runtime~main.86b971ab.js",
+  "runtime~main.js.map": "/react-bnb-gallery/static/js/runtime~main.86b971ab.js.map",
+  "static/css/main.a2a491dd.chunk.css.map": "/react-bnb-gallery/static/css/main.a2a491dd.chunk.css.map",
+  "index.html": "/react-bnb-gallery/index.html",
+  "precache-manifest.d1901e251f87b091d05bb9b12a625682.js": "/react-bnb-gallery/precache-manifest.d1901e251f87b091d05bb9b12a625682.js",
+  "service-worker.js": "/react-bnb-gallery/service-worker.js"
 }
