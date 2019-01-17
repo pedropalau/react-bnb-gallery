@@ -38,10 +38,36 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
 }
 
+a {
+  color: #C678DD;
+}
+
+a:hover {
+  color: #111111;
+}
+
+code {
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
 #root {
   display: -ms-flexbox;
   display: flex;
   width: 100%;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 .container {
@@ -61,4 +87,38 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   -ms-flex-line-pack: center;
   align-content: center;
   text-align: center;
+}
+
+.intro {
+  min-height: 100vh;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+p code,
+table code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #111111;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
 }

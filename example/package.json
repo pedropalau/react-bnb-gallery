@@ -18,9 +18,10 @@
   "dependencies": {
     "airbnb-prop-types": "^2.11.0",
     "classnames": "^2.2.6",
+    "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
-    "react-bnb-gallery": "file:..",
     "react": "^16.7.0",
+    "react-bnb-gallery": "^1.0.3",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"
   },

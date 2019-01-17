@@ -10,26 +10,29 @@
 }
 
 .title__h2 {
-  font-size: 40px;
+  font-size: 38px;
   line-height: 1.2;
 }
 
 .title__h3 {
-  font-size: 36px;
+  font-size: 34px;
   line-height: 1.2;
+  font-weight: 400;
 }
 
 .title__h4 {
-  font-size: 32px;
+  font-size: 24px;
   line-height: 1.2;
+  font-weight: 400;
+  color: #666666;
 }
 
 .title__h5 {
-  font-size: 28px;
+  font-size: 20px;
   line-height: 1.2;
 }
 
 .title__h6 {
-  font-size: 24px;
+  font-size: 18px;
   line-height: 1.2;
 }

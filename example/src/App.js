@@ -1,13 +1,16 @@
 import React, { Component, Fragment } from 'react';
+
 import ReactBnbGallery from 'react-bnb-gallery';
 
+import sections from './sections';
+
 import {
-  PhotoGrid,
   Button,
   Container,
   GithubButton,
   Text,
-  Title
+  Title,
+  Section,
 } from './components';
 
 import PHOTOS from './photos';
@@ -34,25 +37,31 @@ export default class App extends Component {
     return (
       <Fragment>
         <GithubButton url="https://github.com/peterpalau/react-bnb-gallery" />
-        <Container className="container">
-          <Title>React photo gallery</Title>
-          <Text>Friendly, customizable and accessible-ready simple photo gallery based on React.</Text>
-          <Container className="actions">
-            <Button
-              onPress={this.toggleGallery}
-              customStyle={buttonCustomStyle}
-              secondary
-              large>
-              View photo gallery
-            </Button>
+        <div role="main">
+          <Container className="container intro">
+            <Title level={1}>React photo gallery</Title>
+            <Text>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
+            <Container className="actions">
+              <Button
+                onPress={this.toggleGallery}
+                customStyle={buttonCustomStyle}
+                secondary
+                large>
+                View photo gallery
+              </Button>
+            </Container>
           </Container>
-          <ReactBnbGallery
-            show={this.state.galleryOpened}
-            photos={PHOTOS}
-            onClose={this.toggleGallery}
-            wrap />
-        </Container>
-        <PhotoGrid />
+          {sections.map(section => (
+            <Section key={section.id} title={section.title}>
+              {section.getComponent()}
+            </Section>
+          ))}
+        </div>
+        <ReactBnbGallery
+          show={this.state.galleryOpened}
+          photos={PHOTOS}
+          onClose={this.toggleGallery}
+          wrap />
       </Fragment>
     )
   }

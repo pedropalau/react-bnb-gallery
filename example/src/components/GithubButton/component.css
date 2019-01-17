@@ -1,3 +1,9 @@
+.github-corner {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
 .github-corner:hover .octo-arm {
   -webkit-animation: octocat-wave 560ms ease-in-out;
   animation: octocat-wave 560ms ease-in-out;

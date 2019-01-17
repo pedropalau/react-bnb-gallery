@@ -1,0 +1,10 @@
+/* Anchor component */
+.anchor {
+  display: block;
+  float: left;
+  vertical-align: middle;
+  line-height: 1.45;
+  margin-left: -30px;
+  padding-right: 4px;
+  visibility: hidden;
+}

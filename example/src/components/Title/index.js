@@ -12,7 +12,7 @@ const propTypes = forbidExtraProps({
 });
 
 const defaultProps = {
-  level: 1,
+  level: 2,
 };
 
 const Title = ({
@@ -23,7 +23,7 @@ const Title = ({
   return (
     <Level className={classnames(
       'title',
-      level && `title__${level}`
+      level && `title__h${level}`
     )}>
       {children}
     </Level>

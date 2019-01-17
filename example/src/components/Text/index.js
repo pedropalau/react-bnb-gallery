@@ -7,15 +7,19 @@ import classnames from 'classnames';
 import './component.css';
 
 const propTypes = forbidExtraProps({
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  inherit: PropTypes.bool,
 });
 
-const defaultProps = {};
+const defaultProps = {
+  inherit: false,
+};
 
 const Text = ({
-  children
+  children,
+  inherit,
 }) => (
-  <p className={classnames('text')}>
+  <p className={classnames('text', inherit && 'text__inherit')}>
     {children}
   </p>
 );
