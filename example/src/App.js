@@ -34,6 +34,8 @@ export default class App extends Component {
   }));
 
   render () {
+    const { galleryOpened } = this.state;
+
     return (
       <Fragment>
         <GithubButton url="https://github.com/peterpalau/react-bnb-gallery" />
@@ -58,10 +60,11 @@ export default class App extends Component {
           ))}
         </div>
         <ReactBnbGallery
-          show={this.state.galleryOpened}
+          show={galleryOpened}
           photos={PHOTOS}
           onClose={this.toggleGallery}
-          wrap />
+          wrap
+        />
       </Fragment>
     )
   }
