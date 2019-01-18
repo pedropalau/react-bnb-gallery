@@ -21,9 +21,9 @@
     "url": "git@github.com:peterpalau/react-bnb-gallery.git"
   },
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
+  "main": "dist/react-bnb-gallery.js",
+  "module": "dist/react-bnb-gallery.es.js",
+  "jsnext:main": "dist/react-bnb-gallery.es.js",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
