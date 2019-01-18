@@ -6,10 +6,12 @@ const propTypes = {
 };
 
 const defaultProps = {
-  show: true
+  show: true,
 };
 
-const LoadingSpinner = ({ show }) => (show && <div className="loading-spinner"></div>);
+const LoadingSpinner = ({ show }) => (show && (
+  <div className="loading-spinner" />
+));
 
 LoadingSpinner.propTypes = propTypes;
 LoadingSpinner.defaultProps = defaultProps;
