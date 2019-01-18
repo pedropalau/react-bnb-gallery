@@ -4,6 +4,10 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.0.4
+- [new] Testing.
+- [fix] Code style.
+
 ## 1.0.3
 - [new] Allow to disable keyboard navigation by the `keyboard` prop.
 - [fix] Better prop types validation.
