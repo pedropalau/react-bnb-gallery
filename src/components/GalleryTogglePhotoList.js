@@ -24,17 +24,21 @@ const GalleryTogglePhotoList = ({
   isOpened,
   onPress,
   phrases: {
-    showPhotoList:showLabel,
-    hidePhotoList:hideLabel,
-  }
+    showPhotoList: showLabel,
+    hidePhotoList: hideLabel,
+  },
 }) => {
   const label = isOpened ? hideLabel : showLabel;
   const className = classnames(
-    "gallery-thumbnails--toggle",
-    isOpened ? "hide" : "open"
+    'gallery-thumbnails--toggle',
+    isOpened ? 'hide' : 'open',
   );
   return (
-    <button className={className} onClick={onPress}>
+    <button
+      type="button"
+      className={className}
+      onClick={onPress}
+    >
       {label}
     </button>
   );

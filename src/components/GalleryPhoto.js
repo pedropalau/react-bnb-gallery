@@ -25,8 +25,8 @@ const defaultProps = {
 };
 
 class GalleryPhoto extends React.PureComponent {
-  constructor() {
-    super(...arguments);
+  constructor(props) {
+    super(props);
 
     this.state = {
       loading: true,
@@ -38,28 +38,31 @@ class GalleryPhoto extends React.PureComponent {
     this.onPress = this.onPress.bind(this);
   }
 
-  onPress = () => {
-    this.props.onPress();
+  onPress() {
+    const { onPress } = this.props;
+    onPress();
   }
 
-  onLoad = () => {
-    this.props.onLoad();
+  onLoad() {
+    const { onLoad } = this.props;
+    onLoad();
 
     this.setState({
-      loading: false
+      loading: false,
     });
   }
 
-  onError = () => {
-    this.props.onError();
+  onError() {
+    const { onError } = this.props;
+    onError();
 
     this.setState({
       loading: true,
-      withError: true
+      withError: true,
     });
   }
 
-  render = () => {
+  render() {
     const { loading, withError } = this.state;
 
     const { photo } = this.props;
@@ -68,24 +71,31 @@ class GalleryPhoto extends React.PureComponent {
       return null; // nothing to show
     }
 
-    const src = typeof photo === "string" ? photo : (typeof photo === "object") ? photo.photo : undefined;
-
     const className = classnames(
-      "gallery-media-photo",
-      "gallery-media-photo--block",
-      "gallery-media-cover",
-      loading && "loading"
+      'gallery-media-photo',
+      'gallery-media-photo--block',
+      'gallery-media-cover',
+      loading && 'loading',
     );
 
     return (
       <ul className="gallery-images--ul">
-        <li className={className} onClick={this.onPress}>
+        <li className={className}>
           {loading && <LoadingSpinner />}
-          <img
-            className="photo"
-            onLoad={this.onLoad}
-            onError={this.onError}
-            src={src} />
+          {!withError && (
+            <button
+              type="button"
+              onClick={this.onPress}
+            >
+              <img
+                alt={photo.caption}
+                className="photo"
+                onLoad={this.onLoad}
+                onError={this.onError}
+                src={photo.photo}
+              />
+            </button>
+          )}
         </li>
       </ul>
     );

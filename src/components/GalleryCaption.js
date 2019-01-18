@@ -17,7 +17,6 @@ import PhotosShape from '../shapes/PhotosShape';
 import {
   THUMBNAIL_WIDTH,
   THUMBNAIL_HEIGHT,
-  THUMBNAIL_OFFSET
 } from '../constants';
 
 const thumbnailStyle = {
@@ -42,86 +41,120 @@ const defaultProps = {
 };
 
 class GalleryCaption extends React.PureComponent {
-  constructor() {
-    super(...arguments);
+  constructor(props) {
+    super(props);
+    const {
+      current,
+      showThumbnails,
+    } = this.props;
     this.state = {
-      showThumbnails: this.props.showThumbnails,
+      current,
+      showThumbnails,
       thumbnailsContainerBounding: null,
-      thumbnailsOffset: 0
+      thumbnailsOffset: 0,
     };
     this.toggleThumbnails = this.toggleThumbnails.bind(this);
     this.setGalleryFigcaptionRef = this.setGalleryFigcaptionRef.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.current !== this.props.current) {
-      this.setState(prevState => ({
-        thumbnailsOffset: calculateThumbnailsOffset(
-          this.props.current,
-          this.state.thumbnailsContainerBounding,
-          this.props.photos.length
-        )
-      }));
+  static getDerivedStateFromProps(props, state) {
+    if (props.current !== state.current) {
+      const offset = calculateThumbnailsOffset(
+        props.current,
+        state.thumbnailsContainerBounding,
+        props.photos.length,
+      );
+      return {
+        thumbnailsOffset: offset,
+      };
+    }
+    return null;
+  }
+
+  onThumbnailPress(event) {
+    const {
+      onPress,
+      photos,
+    } = this.props;
+    const index = parseInt(event.currentTarget.dataset.photoIndex, 10);
+    if (index >= 0 && index <= photos.length - 1) {
+      onPress(index);
     }
   }
 
-  setGalleryFigcaptionRef = (element) => {
+  getPhotoByIndex(index) {
+    const { photos } = this.props;
+    return photos[index];
+  }
+
+  setGalleryFigcaptionRef(element) {
+    const {
+      current,
+      photos,
+    } = this.props;
     if (element) {
       const bounding = element.getBoundingClientRect();
+      const offset = calculateThumbnailsOffset(
+        current,
+        bounding,
+        photos.length,
+      );
       this.setState({
         thumbnailsContainerBounding: bounding,
-        thumbnailsOffset: calculateThumbnailsOffset(
-          this.props.current,
-          bounding,
-          this.props.photos.length
-        )
+        thumbnailsOffset: offset,
       });
-    }
-  };
-
-  toggleThumbnails = () => this.setState(prevState => ({
-    showThumbnails: !prevState.showThumbnails,
-  }));
-
-  getPhotoByIndex = (index) => this.props.photos[index];
-
-  onThumbnailPress = (event) => {
-    const index = parseInt(event.currentTarget.dataset.photoIndex, 10);
-    if (index >= 0 && index <= this.props.photos.length - 1) {
-      this.props.onPress(index);
     }
   }
 
-  _renderThumbnail = (photo, index, onClick) => {
+  toggleThumbnails() {
+    this.setState(prevState => ({
+      showThumbnails: !prevState.showThumbnails,
+    }));
+  }
+
+  renderThumbnail(photo, index, onClick) {
+    const { current } = this.props;
+
     const className = classnames(
-      "thumbnail-button",
-      index === this.props.current && "active"
+      'thumbnail-button',
+      index === current && 'active',
     );
 
     return (
       <button
+        type="button"
         aria-label={photo.caption}
         className={className}
         data-photo-index={index}
         onClick={onClick}
-        disabled={false}>
+        disabled={false}
+      >
         <img
           alt={photo.caption}
           src={photo.thumbnail || photo.photo}
           className="thumbnail"
-          style={thumbnailStyle} />
+          style={thumbnailStyle}
+        />
       </button>
     );
-  };
+  }
 
-  render = () => {
+  render() {
     const {
       current,
       photos,
-      phrases
+      phrases,
     } = this.props;
 
-    const className = classnames("gallery-figcaption", !this.state.showThumbnails && "hide");
+    const {
+      showThumbnails,
+      thumbnailsOffset,
+    } = this.state;
+
+    const className = classnames(
+      'gallery-figcaption',
+      !showThumbnails && 'hide',
+    );
 
     const currentPhoto = this.getPhotoByIndex(current);
 
@@ -140,8 +173,9 @@ class GalleryCaption extends React.PureComponent {
                 <div className="caption-right">
                   <GalleryTogglePhotoList
                     phrases={phrases}
-                    isOpened={this.state.showThumbnails}
-                    onPress={this.toggleThumbnails} />
+                    isOpened={showThumbnails}
+                    onPress={this.toggleThumbnails}
+                  />
                 </div>
               )}
             </div>
@@ -149,12 +183,23 @@ class GalleryCaption extends React.PureComponent {
               <div
                 className="gallery-figcaption--thumbnails"
                 aria-hidden={false}
-                ref={this.setGalleryFigcaptionRef}>
-                <div className="caption-thumbnails" style={{width: calculateThumbnailsContainerDimension(photos.length)}}>
-                  <ul className="thumbnails-list" style={{ marginLeft: this.state.thumbnailsOffset }}>
+                ref={this.setGalleryFigcaptionRef}
+              >
+                <div
+                  className="caption-thumbnails"
+                  style={{
+                    width: calculateThumbnailsContainerDimension(photos.length),
+                  }}
+                >
+                  <ul
+                    className="thumbnails-list"
+                    style={{
+                      marginLeft: thumbnailsOffset,
+                    }}
+                  >
                     {photos.map((photo, index) => (
                       <li key={photo.photo}>
-                        {this._renderThumbnail(photo, index, this.onThumbnailPress)}
+                        {this.renderThumbnail(photo, index, this.onThumbnailPress)}
                       </li>
                     ))}
                   </ul>

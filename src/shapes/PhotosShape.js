@@ -9,6 +9,6 @@ export default PropTypes.oneOfType([
       caption: PropTypes.string,
       subcaption: PropTypes.string,
       thumbnail: PropTypes.string,
-    })
-  )
+    }),
+  ),
 ]);

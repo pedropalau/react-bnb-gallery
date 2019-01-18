@@ -25,7 +25,8 @@ const GalleryNextButton = ({
     className="gallery-control--next"
     onPress={onPress}
     arrow={NEXT_ARROW}
-    disabled={disabled} />
+    disabled={disabled}
+  />
 );
 
 GalleryNextButton.propTypes = propTypes;

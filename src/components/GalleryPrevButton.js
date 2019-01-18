@@ -25,7 +25,8 @@ const GalleryPrevButton = ({
     className="gallery-control--prev"
     onPress={onPress}
     arrow={PREV_ARROW}
-    disabled={disabled} />
+    disabled={disabled}
+  />
 );
 
 GalleryPrevButton.propTypes = propTypes;

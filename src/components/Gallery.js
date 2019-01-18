@@ -11,11 +11,9 @@ import noop from '../utils/noop';
 import defaultPhrases from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
 
-import SlideDirectionShape from '../shapes/SlideDirectionShape';
 import PhotosShape from '../shapes/PhotosShape';
 
 import {
-  FORWARDS,
   DIRECTION_NEXT,
   DIRECTION_PREV,
 } from '../constants';
@@ -23,7 +21,6 @@ import {
 const propTypes = {
   activePhotoIndex: PropTypes.number,
   activePhotoPressed: PropTypes.func,
-  direction: SlideDirectionShape,
   nextButtonPressed: PropTypes.func,
   prevButtonPressed: PropTypes.func,
   showThumbnails: PropTypes.bool,
@@ -35,7 +32,6 @@ const propTypes = {
 const defaultProps = {
   activePhotoIndex: 0,
   activePhotoPressed: noop,
-  direction: FORWARDS,
   nextButtonPressed: noop,
   prevButtonPressed: noop,
   showThumbnails: true,
@@ -45,20 +41,20 @@ const defaultProps = {
 };
 
 class Gallery extends PureComponent {
-  constructor() {
-    super(...arguments);
+  constructor(props) {
+    super(props);
 
     const {
       activePhotoIndex,
       photos,
-      wrap
+      wrap,
     } = this.props;
 
     this.state = {
-      activePhotoIndex: activePhotoIndex,
+      activePhotoIndex,
       hidePrevButton: wrap && activePhotoIndex === 0,
       hideNextButton: wrap && activePhotoIndex === photos.length - 1,
-      controlsDisabled: true
+      controlsDisabled: true,
     };
 
     this.move = this.move.bind(this);
@@ -68,38 +64,65 @@ class Gallery extends PureComponent {
     this.onPhotoError = this.onPhotoError.bind(this);
     this.onPhotoPress = this.onPhotoPress.bind(this);
     this.onThumbnailPress = this.onThumbnailPress.bind(this);
+    this.onPrevButtonPress = this.onPrevButtonPress.bind(this);
+    this.onNextButtonPress = this.onNextButtonPress.bind(this);
   }
 
-  getPhotoByIndex = (index) => this.props.photos[index];
-
-  prev = () => this.move(DIRECTION_PREV);
-
-  next = () => this.move(DIRECTION_NEXT);
-
-  move = (direction, index = false) => {
-    const { activePhotoIndex } = this.state;
-
-    const nextElementIndex = index !== false ? index : this._getItemByDirection(direction, activePhotoIndex);
-
-    this._checkIsWrapped(direction, nextElementIndex);
-
-    this.setState({
-      activePhotoIndex: nextElementIndex
-    });
+  onNextButtonPress() {
+    const { nextButtonPressed } = this.props;
+    this.next();
+    nextButtonPressed();
   }
 
-  onPhotoLoad = () => this.setState({ controlsDisabled: false });
+  onPrevButtonPress() {
+    const { prevButtonPressed } = this.props;
+    this.prev();
+    prevButtonPressed();
+  }
 
-  onPhotoError = () => this.setState({ controlsDisabled: false });
+  onPhotoLoad() {
+    return this.setState({ controlsDisabled: false });
+  }
 
-  onPhotoPress = () => {
+  onPhotoError() {
+    return this.setState({ controlsDisabled: false });
+  }
+
+  onPhotoPress() {
+    const { activePhotoPressed } = this.props;
     this.move(DIRECTION_NEXT);
-    this.props.activePhotoPressed();
+    activePhotoPressed();
   }
 
-  onThumbnailPress = (index) => this.to(index);
+  onThumbnailPress(index) {
+    this.to(index);
+  }
 
-  to = (index) => {
+  getPhotoByIndex(index) {
+    const { photos } = this.props;
+    return photos[index];
+  }
+
+  getItemByDirection(direction, activeIndex) {
+    const { photos, wrap } = this.props;
+
+    const isNextDirection = direction === DIRECTION_NEXT;
+    const isPrevDirection = direction === DIRECTION_PREV;
+
+    const lastItemIndex = photos.length - 1;
+    const isGoingToWrap = (isPrevDirection && activeIndex === 0)
+      || (isNextDirection && activeIndex === lastItemIndex);
+
+    if (isGoingToWrap && wrap) {
+      return activeIndex;
+    }
+
+    const delta = isPrevDirection ? -1 : 1;
+    const itemIndex = (activeIndex + delta) % photos.length;
+    return itemIndex === -1 ? photos.length - 1 : itemIndex;
+  }
+
+  to(index) {
     const { photos } = this.props;
     const { activePhotoIndex } = this.state;
 
@@ -112,55 +135,60 @@ class Gallery extends PureComponent {
     this.move(direction, index);
   }
 
-  _checkIsWrapped = (direction, nextElementIndex) => {
-    const { photos, wrap } = this.props;
+  move(direction, index = false) {
+    const { activePhotoIndex } = this.state;
 
-    if (!wrap) {
-      return false; // nothing to do
-    }
+    const nextElementIndex = index !== false
+      ? index
+      : this.getItemByDirection(direction, activePhotoIndex);
 
-    this.setState({
-      hideNextButton: nextElementIndex === photos.length - 1
-    });
+    this.wrapCheck(direction, nextElementIndex);
 
     this.setState({
-      hidePrevButton: nextElementIndex === 0
+      activePhotoIndex: nextElementIndex,
     });
   }
 
-  _getItemByDirection = (direction, activeIndex) => {
-    const { photos, wrap } = this.props;
+  next() {
+    return this.move(DIRECTION_NEXT);
+  }
 
-    const isNextDirection = direction === DIRECTION_NEXT;
-    const isPrevDirection = direction === DIRECTION_PREV;
+  prev() {
+    return this.move(DIRECTION_PREV);
+  }
 
-    const lastItemIndex = photos.length - 1;
-    const isGoingToWrap = isPrevDirection && activeIndex === 0 || isNextDirection && activeIndex === lastItemIndex;
+  wrapCheck(direction, nextElementIndex) {
+    const {
+      photos,
+      wrap,
+    } = this.props;
 
-    if (isGoingToWrap && wrap) {
-      return activeIndex;
+    if (wrap) {
+      this.setState({
+        hideNextButton: nextElementIndex === photos.length - 1,
+        hidePrevButton: nextElementIndex === 0,
+      });
     }
-
-    const delta = isPrevDirection ? -1 : 1;
-    const itemIndex = (activeIndex + delta) % photos.length;
-    return itemIndex === -1 ? photos.length - 1 : itemIndex;
   }
 
   render() {
     const {
-      children,
-      nextButtonPressed,
       photos,
-      prevButtonPressed,
       showThumbnails,
-      phrases: {
-        noPhotosProvided: emptyMessage
-      },
+      phrases,
     } = this.props;
+
+    const {
+      noPhotosProvided: emptyMessage,
+    } = phrases;
+
+    const {
+      activePhotoIndex,
+    } = this.state;
 
     const { hidePrevButton, hideNextButton, controlsDisabled } = this.state;
 
-    const current = this.getPhotoByIndex(this.state.activePhotoIndex);
+    const current = this.getPhotoByIndex(activePhotoIndex);
 
     const hasPhotos = photos.length > 0;
     const hasMoreThanOnePhoto = hasPhotos && photos.length > 1;
@@ -168,8 +196,18 @@ class Gallery extends PureComponent {
     return (
       <div className="gallery">
         <div className="gallery-main">
-          {!hidePrevButton && hasMoreThanOnePhoto && (<GalleryPrevButton disabled={controlsDisabled} onPress={this.prev} />)}
-          {!hideNextButton && hasMoreThanOnePhoto && (<GalleryNextButton disabled={controlsDisabled} onPress={this.next} />)}
+          {!hidePrevButton && hasMoreThanOnePhoto && (
+            <GalleryPrevButton
+              disabled={controlsDisabled}
+              onPress={this.onPrevButtonPress}
+            />
+          )}
+          {!hideNextButton && hasMoreThanOnePhoto && (
+            <GalleryNextButton
+              disabled={controlsDisabled}
+              onPress={this.onNextButtonPress}
+            />
+          )}
           <div className="gallery-photos">
             {hasPhotos ? (
               <div className="gallery-photo">
@@ -178,7 +216,8 @@ class Gallery extends PureComponent {
                     photo={current}
                     onLoad={this.onPhotoLoad}
                     onError={this.onPhotoError}
-                    onPress={this.onPhotoPress} />
+                    onPress={this.onPhotoPress}
+                  />
                 </div>
               </div>
             ) : (
@@ -190,10 +229,11 @@ class Gallery extends PureComponent {
         </div>
         {showThumbnails && current && (
           <GalleryCaption
-            phrases={this.props.phrases}
-            current={this.state.activePhotoIndex}
+            phrases={phrases}
+            current={activePhotoIndex}
             photos={photos}
-            onPress={this.onThumbnailPress} />
+            onPress={this.onThumbnailPress}
+          />
         )}
       </div>
     );

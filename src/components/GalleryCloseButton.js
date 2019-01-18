@@ -9,13 +9,13 @@ const buttonStyle = {
   height: '2em',
   width: '2em',
   display: 'block',
-  fill: 'rgb(255, 255, 255)'
+  fill: 'rgb(255, 255, 255)',
 };
 
 const buttonProps = {
   viewBox: '0 0 24 24',
   role: 'img',
-  focusable: false
+  focusable: false,
 };
 
 const propTypes = {
