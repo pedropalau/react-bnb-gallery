@@ -86,6 +86,7 @@ class GalleryPhoto extends React.PureComponent {
             <button
               type="button"
               onClick={this.onPress}
+              className="photo-button"
             >
               <img
                 alt={photo.caption}

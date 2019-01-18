@@ -128,6 +128,19 @@
   overflow: hidden;
 }
 
+.gallery ul.gallery-images--ul li.gallery-media-photo button.photo-button {
+  display: block;
+  background: none;
+  border-width: 0;
+  -webkit-appereance: none;
+}
+
+.gallery ul.gallery-images--ul li.gallery-media-photo button.photo-button:focus,
+.gallery ul.gallery-images--ul li.gallery-media-photo button.photo-button:active {
+  outline: none;
+  border-width: 0;
+}
+
 .gallery ul.gallery-images--ul li.gallery-media-photo img.photo {
   max-height: 100%;
   max-width: 100%;
