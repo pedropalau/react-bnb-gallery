@@ -1,23 +1,34 @@
 {
-  "parser": "babel-eslint",
-  "extends": [
-    "standard",
-    "standard-react"
-  ],
-  "env": {
-    "es6": true
-  },
-  "plugins": [
-    "react"
-  ],
-  "parserOptions": {
-    "sourceType": "module"
-  },
-  "rules": {
-    // don't force es6 functions to include space before paren
-    "space-before-function-paren": 0,
+  "root": true,
 
-    // allow specifying true explicitly for boolean props
-    "react/jsx-boolean-value": 0
+  "extends": [
+    "airbnb"
+  ],
+
+  "env": {
+    "browser": true,
+    "node": true,
+  },
+
+  "rules": {
+    "linebreak-style": 0,
+
+    "class-methods-use-this": [2, { "exceptMethods": ["processPhoto"] }],
+
+    "react/forbid-foreign-prop-types": 2,
+
+    "jsx-a11y/click-events-have-key-events": 1,
+
+    "react/no-did-mount-set-state": 0,
+
+    "no-restricted-imports": 0,
+
+    "react/jsx-one-expression-per-line": 1,
+
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+  },
+
+  "settings": {
+    "propWrapperFunctions": ["forbidExtraProps", "exact", "Object.freeze"],
   }
 }
