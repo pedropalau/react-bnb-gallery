@@ -53,8 +53,9 @@ class GalleryCaption extends React.PureComponent {
       thumbnailsContainerBounding: null,
       thumbnailsOffset: 0,
     };
-    this.toggleThumbnails = this.toggleThumbnails.bind(this);
+    this.onThumbnailPress = this.onThumbnailPress.bind(this);
     this.setGalleryFigcaptionRef = this.setGalleryFigcaptionRef.bind(this);
+    this.toggleThumbnails = this.toggleThumbnails.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
