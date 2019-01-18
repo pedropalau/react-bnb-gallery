@@ -1,6 +1,6 @@
 # react-bnb-gallery
 
-[![NPM](https://img.shields.io/npm/v/react-bnb-gallery.svg)](https://www.npmjs.com/package/react-bnb-gallery) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-bnb-gallery.svg)](https://www.npmjs.com/package/react-bnb-gallery) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![License](https://img.shields.io/github/license/peterpalau/react-bnb-gallery.svg)](https://github.com/peterpalau/react-bnb-gallery/blob/master/LICENSE)
 
 > Simple photo gallery based on React and Airbnb image gallery
 
