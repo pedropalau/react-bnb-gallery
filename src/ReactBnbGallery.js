@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
 
+import omit from 'lodash/omit';
+
 import Gallery from './components/Gallery';
 import GalleryCloseButton from './components/GalleryCloseButton';
 
-import omit from 'lodash/omit';
 import noop from './utils/noop';
 
 import defaultPhrases from './defaultPhrases';
 import getPhrasePropTypes from './utils/getPhrasePropTypes';
+import getPhotos from './utils/getPhotos';
 
 import SlideDirectionShape from './shapes/SlideDirectionShape';
 import PhotosShape from './shapes/PhotosShape';
@@ -23,14 +25,6 @@ import {
 } from './constants';
 
 import './styles.css';
-
-const defaultPhotoProps = {
-  photo: undefined,
-  number: undefined,
-  caption: undefined,
-  subcaption: undefined,
-  thumbnail: undefined,
-};
 
 const propTypes = {
   activePhotoIndex: PropTypes.number,
@@ -69,18 +63,14 @@ const defaultProps = {
 };
 
 class ReactBnbGallery extends PureComponent {
-  constructor() {
-    super(...arguments);
+  constructor(props) {
+    super(props);
     this.gallery = React.createRef();
     this.close = this.close.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  close = () => {
-    this.props.onClose();
-  }
-
-  onKeyDown = (event) => {
+  onKeyDown(event) {
     if (/input|textarea/i.test(event.target.tagName)) {
       return;
     }
@@ -105,17 +95,12 @@ class ReactBnbGallery extends PureComponent {
     }
   }
 
-  _processPhotos = (photos) => {
-    return photos.map(this._processPhoto);
-  };
+  close() {
+    const { onClose } = this.props;
+    onClose();
+  }
 
-  _processPhoto = (photo, index) => {
-    return Object.assign({}, defaultPhotoProps,
-      (typeof photo === "string" ? { number: (index + 1), photo } : { ...photo, number: (index + 1) })
-    );
-  };
-
-  render = () => {
+  render() {
     const {
       show,
       photos,
@@ -127,7 +112,7 @@ class ReactBnbGallery extends PureComponent {
       return null; // nothing to return
     }
 
-    const finalPhotos = this._processPhotos(photos);
+    const _photos = getPhotos(photos);
 
     const galleryProps = omit(this.props, [
       'onClose',
@@ -138,22 +123,25 @@ class ReactBnbGallery extends PureComponent {
       'photos',
     ]);
 
-    let modalProps = {
+    const modalProps = {
       className: 'gallery-modal',
       role: 'dialog',
       tabIndex: -1,
+      onKeyDown: keyboard && this.onKeyDown,
     };
-
-    if (keyboard) {
-      modalProps.onKeyDown = this.onKeyDown;
-    }
 
     return (
       <Portal>
         <FocusTrap>
           <div {...modalProps}>
             <div className="gallery-modal--preload">
-              {finalPhotos.map(photo => <img key={photo.photo} src={photo.photo} />)}
+              {_photos.map(photo => (
+                <img
+                  alt={photo.photo}
+                  key={photo.photo}
+                  src={photo.photo}
+                />
+              ))}
             </div>
             <div className="gallery-modal--container">
               <div className="gallery-modal--table">
@@ -164,13 +152,14 @@ class ReactBnbGallery extends PureComponent {
                     </div>
                     <div className="gallery-content">
                       <div className="gallery-top">
-                        <div className="gallery-top--inner"></div>
+                        <div className="gallery-top--inner" />
                       </div>
                       <Gallery
                         phrases={phrases}
                         ref={this.gallery}
-                        photos={finalPhotos}
-                        {...galleryProps} />
+                        photos={_photos}
+                        {...galleryProps}
+                      />
                     </div>
                   </div>
                 </div>
@@ -180,7 +169,7 @@ class ReactBnbGallery extends PureComponent {
         </FocusTrap>
       </Portal>
     );
-  };
+  }
 }
 
 ReactBnbGallery.propTypes = propTypes;
