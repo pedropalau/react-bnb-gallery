@@ -21,7 +21,7 @@
     "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
-    "react-bnb-gallery": "^1.0.3",
+    "react-bnb-gallery": "file:..",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"
   },

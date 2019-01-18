@@ -7,10 +7,11 @@ import sections from './sections';
 import {
   Button,
   Container,
-  GithubButton,
+  Header,
   Text,
   Title,
   Section,
+  PhotoGrid,
 } from './components';
 
 import PHOTOS from './photos';
@@ -25,22 +26,49 @@ export default class App extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      galleryOpened: false
+      openGallery: false,
+      currentPhotos: null,
     };
+    this.closeGallery = this.closeGallery.bind(this);
+    this.onPhotoPress = this.onPhotoPress.bind(this);
+    this.toggleGallery = this.toggleGallery.bind(this);
   }
 
-  toggleGallery = () => this.setState(prevState => ({
-    galleryOpened: !prevState.galleryOpened,
-  }));
+  closeGallery() {
+    this.setState({
+      openGallery: false,
+      currentPhotos: null,
+    });
+  }
+
+  onPhotoPress(url) {
+    this.setState({
+      openGallery: true,
+      currentPhotos: [url],
+    });
+  }
+
+  toggleGallery() {
+    this.setState(prevState => ({
+      openGallery: !prevState.galleryOpened,
+    }));
+  }
 
   render () {
-    const { galleryOpened } = this.state;
+    const {
+      openGallery,
+      currentPhotos,
+    } = this.state;
+
+    const photosToShow = currentPhotos
+      ? currentPhotos
+      : PHOTOS;
 
     return (
       <Fragment>
-        <GithubButton url="https://github.com/peterpalau/react-bnb-gallery" />
-        <div role="main">
-          <Container className="container intro">
+        <Header />
+        <Container role="main">
+          <Container id="start" className="container intro">
             <Title level={1}>React photo gallery</Title>
             <Text>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
             <Container className="actions">
@@ -48,21 +76,25 @@ export default class App extends Component {
                 onPress={this.toggleGallery}
                 customStyle={buttonCustomStyle}
                 secondary
-                large>
+                large
+              >
                 View photo gallery
               </Button>
             </Container>
           </Container>
+          <PhotoGrid
+            onPhotoPress={this.onPhotoPress}
+          />
           {sections.map(section => (
-            <Section key={section.id} title={section.title}>
+            <Section key={section.id} section={section}>
               {section.getComponent()}
             </Section>
           ))}
-        </div>
+        </Container>
         <ReactBnbGallery
-          show={galleryOpened}
-          photos={PHOTOS}
-          onClose={this.toggleGallery}
+          show={openGallery}
+          photos={photosToShow}
+          onClose={this.closeGallery}
           wrap
         />
       </Fragment>

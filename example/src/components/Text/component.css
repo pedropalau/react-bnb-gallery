@@ -9,4 +9,5 @@
 .text__inherit {
   font-size: inherit;
   line-height: inherit;
+  margin-top: 0;
 }

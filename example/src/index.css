@@ -39,7 +39,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 a {
-  color: #C678DD;
+  color: #37a866;
 }
 
 a:hover {
@@ -48,7 +48,7 @@ a:hover {
 
 code {
   background: none;
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-family: var(--font-family-monospace);
   text-align: left;
   white-space: pre;
   word-spacing: normal;
@@ -90,7 +90,26 @@ code {
 }
 
 .intro {
-  min-height: 100vh;
+  min-height: 500px;
+  min-height: 50vh;
+  padding-top: 14em;
+  padding-bottom: 5em;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.responsive-table {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-bottom: 2em;
+}
+
+.title + .text {
+  margin-top: 0 !important;
 }
 
 table {

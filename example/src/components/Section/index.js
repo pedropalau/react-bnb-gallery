@@ -8,25 +8,25 @@ import Title from '../Title';
 import './component.css';
 
 const propTypes = {
-  title: PropTypes.string,
+  section: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
-  title: null,
+  section: null,
 };
 
 const Section = ({
-  title,
+  section,
   children,
 }) => (
   <Fragment>
-    <Rule />
-    <section className="section">
+    <section id={section.id} className="section">
       <Container className="container">
-        {title && <Title>{title}</Title>}
+        {section.title && <Title>{section.title}</Title>}
         {children}
       </Container>
     </section>
+    <Rule />
   </Fragment>
 );
 

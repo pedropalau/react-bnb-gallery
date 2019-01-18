@@ -5,5 +5,6 @@ export { default as Text } from './Text';
 export { default as Title } from './Title';
 export { default as PhotoGrid } from './PhotoGrid';
 export { default as GithubButton } from './GithubButton';
+export { default as Header } from './Header';
 export { default as Rule } from './Rule';
 export { default as Section } from './Section';
