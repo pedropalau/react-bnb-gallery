@@ -17,6 +17,10 @@ dist
 .env.test.local
 .env.production.local
 
+# Ignore test-related files
+/coverage.data
+/coverage/
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
