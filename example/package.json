@@ -23,7 +23,7 @@
     "react": "^16.7.0",
     "react-bnb-gallery": "file:..",
     "react-dom": "^16.7.0",
-    "react-scripts": "2.1.3"
+    "react-scripts": "2.1.3",
     "react-sizeme": "^2.5.2"
   },
   "scripts": {
