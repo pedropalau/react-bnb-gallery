@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
+import { getHeightWithProportion } from './utils';
+
 const propTypes = {
   src: PropTypes.string.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
   onPress: PropTypes.func,
+  columnSize: PropTypes.number,
 };
 
 const defaultProps = {
@@ -15,6 +18,7 @@ const defaultProps = {
   width: 100,
   height: 100,
   onPress: () => {},
+  columnSize: 100,
 };
 
 class Image extends PureComponent {
@@ -42,6 +46,16 @@ class Image extends PureComponent {
     });
   }
 
+  getRelativeHeight() {
+    const {
+      width,
+      height,
+      columnSize,
+    } = this.props;
+
+    return getHeightWithProportion(height, width, columnSize) - 8;
+  }
+
   render() {
     const {
       src,
@@ -52,6 +66,8 @@ class Image extends PureComponent {
     const {
       loading,
     } = this.state;
+
+    const relativeHeight = this.getRelativeHeight();
 
     return (
       <figure
@@ -64,15 +80,24 @@ class Image extends PureComponent {
         style={{
           width,
           height,
+          minHeight: relativeHeight,
+          maxHeight: relativeHeight,
         }}
       >
-        <img
-          alt=''
-          src={src}
-          width={width}
-          height={height}
-          onLoad={this.onLoad}
-        />
+        <div
+          className="bg"
+          style={{
+            backgroundImage: `url(${src})`
+          }}
+        >
+          <img
+            alt=''
+            src={src}
+            width={width}
+            height={height}
+            onLoad={this.onLoad}
+          />
+        </div>
       </figure>
     );
   }

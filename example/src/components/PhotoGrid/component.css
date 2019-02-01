@@ -10,8 +10,6 @@
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-left: -3px;
-  margin-right: -3px;
 }
 
 .grid .column {
@@ -50,24 +48,42 @@
   cursor: default;
 }
 
-.grid .column .picture img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  opacity: 1;
+
+.grid .column .picture .bg {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   -webkit-transition-delay: 0.82s;
   transition-delay: 0.82s;
   -webkit-transition: 0.75s ease all;
   transition: 0.75s ease all;
 }
 
+.grid .column .picture img {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.grid .column .picture.loading .bg,
 .grid .column .picture.loading img {
   opacity: 0;
 }
 
 .grid .column .picture.loaded img {
-  opacity: 1;
   position: relative;
+}
+
+.grid .column .picture.loaded img,
+.grid .column .picture.loaded .bg {
+  opacity: 1;
   z-index: 0;
   -webkit-transition: 0.75s ease all;
   transition: 0.75s ease all;
@@ -75,9 +91,10 @@
   transition-delay: 0s;
 }
 
-.grid .column .picture.loaded:hover img {
-  -webkit-transform: scale(1.06);
-  transform: scale(1.06);
+.grid .column .picture.loaded:hover img,
+.grid .column .picture.loaded:hover .bg {
+  -webkit-transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .grid .column .picture.loaded::before {

@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { withSize } from 'react-sizeme'
+
 import Image from './Image';
 
 import photos from './photos';
@@ -8,18 +10,35 @@ import photos from './photos';
 import './component.css';
 
 const propTypes = {
-  onPhotoPress: PropTypes.func
+  photosPerColumn: PropTypes.number,
+  onPhotoPress: PropTypes.func,
 };
 
 const defaultProps = {
-  onPhotoPress: () => {}
+  photosPerColumn: 3,
+  onPhotoPress: () => {},
 };
 
 class PhotoGrid extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.getColumnWidth();
+  }
+
+  getColumnWidth() {
+    const {
+      size,
+      photosPerColumn,
+    } = this.props;
+
+    this.columnWidth = size.width / (photos.length / photosPerColumn);
+  }
+
   renderColumns() {
     let columns = [];
     let index = 0;
     let current = 1;
+
     photos.forEach(photo => {
       if (!columns[index]) {
         columns[index] = [];
@@ -40,22 +59,27 @@ class PhotoGrid extends PureComponent {
   }
 
   renderPhoto(photo) {
-    const { onPhotoPress } = this.props;
+    const {
+      onPhotoPress,
+    } = this.props;
 
     return (
       <Image
         key={photo.src}
         onPress={onPhotoPress}
+        columnSize={this.columnWidth}
         {...photo}
       />
     );
   }
 
   render() {
+    const columns = this.renderColumns();
+
     return (
       <div className="grid-container">
         <div className="grid">
-          {this.renderColumns().map((column, index) => (
+          {columns.map((column, index) => (
             <div key={`.column${index}`} className="column">
               {column}
             </div>
@@ -69,4 +93,4 @@ class PhotoGrid extends PureComponent {
 PhotoGrid.propTypes = propTypes;
 PhotoGrid.defaultProps = defaultProps;
 
-export default PhotoGrid;
+export default withSize()(PhotoGrid);
