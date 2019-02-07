@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
@@ -20,29 +20,35 @@ const defaultProps = {
   phrases: defaultPhrases,
 };
 
-const GalleryTogglePhotoList = ({
-  isOpened,
-  onPress,
-  phrases: {
-    showPhotoList: showLabel,
-    hidePhotoList: hideLabel,
-  },
-}) => {
-  const label = isOpened ? hideLabel : showLabel;
-  const className = classnames(
-    'gallery-thumbnails--toggle',
-    isOpened ? 'hide' : 'open',
-  );
-  return (
-    <button
-      type="button"
-      className={className}
-      onClick={onPress}
-    >
-      {label}
-    </button>
-  );
-};
+class GalleryTogglePhotoList extends PureComponent {
+  render() {
+    const {
+      isOpened,
+      onPress,
+      phrases: {
+        showPhotoList: showLabel,
+        hidePhotoList: hideLabel,
+      },
+    } = this.props;
+
+    const label = isOpened ? hideLabel : showLabel;
+
+    const className = classnames(
+      'gallery-thumbnails--toggle',
+      isOpened ? 'hide' : 'open',
+    );
+
+    return (
+      <button
+        type="button"
+        className={className}
+        onClick={onPress}
+      >
+        {label}
+      </button>
+    );
+  }
+}
 
 GalleryTogglePhotoList.propTypes = propTypes;
 GalleryTogglePhotoList.defaultProps = defaultProps;
