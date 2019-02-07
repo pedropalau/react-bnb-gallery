@@ -23,8 +23,8 @@ const Section = ({
     <section id={section.id} className="section">
       <Container className="container">
         {section.title && <Title>{section.title}</Title>}
-        {children}
       </Container>
+      {children}
     </section>
     <Rule />
   </Fragment>
