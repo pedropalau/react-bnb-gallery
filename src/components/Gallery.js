@@ -1,17 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  galleryPropTypes,
+  galleryDefaultProps,
+} from '../common';
+
 import GalleryCaption from './GalleryCaption';
 import GalleryPrevButton from './GalleryPrevButton';
 import GalleryNextButton from './GalleryNextButton';
 import GalleryPhoto from './GalleryPhoto';
-
-import noop from '../utils/noop';
-
-import defaultPhrases from '../defaultPhrases';
-import getPhrasePropTypes from '../utils/getPhrasePropTypes';
-
-import PhotosShape from '../shapes/PhotosShape';
 
 import {
   DIRECTION_NEXT,
@@ -19,44 +17,31 @@ import {
 } from '../constants';
 
 const propTypes = {
-  activePhotoIndex: PropTypes.number,
-  activePhotoPressed: PropTypes.func,
-  nextButtonPressed: PropTypes.func,
-  prevButtonPressed: PropTypes.func,
-  showThumbnails: PropTypes.bool,
-  photos: PhotosShape,
-  wrap: PropTypes.bool,
-  phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
+  ...galleryPropTypes,
 };
 
 const defaultProps = {
-  activePhotoIndex: 0,
-  activePhotoPressed: noop,
-  nextButtonPressed: noop,
-  prevButtonPressed: noop,
-  showThumbnails: true,
-  photos: [],
-  wrap: false,
-  phrases: defaultPhrases,
+  ...galleryDefaultProps,
 };
 
 class Gallery extends PureComponent {
   constructor(props) {
     super(props);
-
     const {
       activePhotoIndex,
       photos,
       wrap,
     } = this.props;
-
     this.state = {
       activePhotoIndex,
       hidePrevButton: wrap && activePhotoIndex === 0,
       hideNextButton: wrap && activePhotoIndex === photos.length - 1,
       controlsDisabled: true,
     };
-
+    this.lastPreloadIndex = 0;
+    this.preloadedPhotos = [];
+    this.hasPhotos = photos.length > 0;
+    this.hasMoreThanOnePhoto = photos.length > 1;
     this.move = this.move.bind(this);
     this.prev = this.prev.bind(this);
     this.next = this.next.bind(this);
@@ -171,6 +156,68 @@ class Gallery extends PureComponent {
     }
   }
 
+  renderControls() {
+    const {
+      hidePrevButton,
+      hideNextButton,
+      controlsDisabled,
+    } = this.state;
+
+    let controls = [];
+
+    if (this.hasMoreThanOnePhoto) {
+      // previous control
+      if (!hidePrevButton ) {
+        controls.push((
+          <GalleryPrevButton
+            key=".prevControl"
+            disabled={controlsDisabled}
+            onPress={this.onPrevButtonPress}
+          />
+        ));
+      }
+
+      // next control
+      if (!hideNextButton) {
+        controls.push((
+          <GalleryNextButton
+            key=".nextControl"
+            disabled={controlsDisabled}
+            onPress={this.onNextButtonPress}
+          />
+        ));
+      }
+    }
+
+    return controls;
+  }
+
+  renderPreloadPhotos() {
+    const {
+      photos,
+      preloadSize,
+    } = this.props;
+
+    let preloadPhotosList = [];
+    if (preloadSize < photos.length) {
+      const preloadCopyArray = photos.slice(this.lastPreloadIndex, preloadSize);
+      this.lastPreloadIndex += preloadSize;
+      console.log(preloadCopyArray)
+    }
+
+    /*return (
+      this.photos.map(photo => (
+        <img
+          alt={photo.photo}
+          key={photo.photo}
+          src={photo.photo}
+        />
+      ))
+    );*/
+
+    return preloadPhotosList;
+  }
+
   render() {
     const {
       photos,
@@ -186,30 +233,22 @@ class Gallery extends PureComponent {
       activePhotoIndex,
     } = this.state;
 
-    const { hidePrevButton, hideNextButton, controlsDisabled } = this.state;
+    // preload photos
+    const galleryModalPreloadPhotos = this.renderPreloadPhotos();
+
+    const controls = this.renderControls();
 
     const current = this.getPhotoByIndex(activePhotoIndex);
 
-    const hasPhotos = photos.length > 0;
-    const hasMoreThanOnePhoto = hasPhotos && photos.length > 1;
-
     return (
       <div className="gallery">
+        <div className="gallery-modal--preload">
+          {galleryModalPreloadPhotos}
+        </div>
         <div className="gallery-main">
-          {!hidePrevButton && hasMoreThanOnePhoto && (
-            <GalleryPrevButton
-              disabled={controlsDisabled}
-              onPress={this.onPrevButtonPress}
-            />
-          )}
-          {!hideNextButton && hasMoreThanOnePhoto && (
-            <GalleryNextButton
-              disabled={controlsDisabled}
-              onPress={this.onNextButtonPress}
-            />
-          )}
+          {controls}
           <div className="gallery-photos">
-            {hasPhotos ? (
+            {this.hasPhotos ? (
               <div className="gallery-photo">
                 <div className="gallery-photo--current">
                   <GalleryPhoto

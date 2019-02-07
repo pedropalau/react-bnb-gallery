@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import GalleryControl from './GalleryControl';
@@ -17,17 +17,23 @@ const defaultProps = {
   disabled: false,
 };
 
-const GalleryNextButton = ({
-  onPress,
-  disabled,
-}) => (
-  <GalleryControl
-    className="gallery-control--next"
-    onPress={onPress}
-    arrow={NEXT_ARROW}
-    disabled={disabled}
-  />
-);
+class GalleryNextButton extends PureComponent {
+  render() {
+    const {
+      onPress,
+      disabled,
+    } = this.props;
+    
+    return (
+      <GalleryControl
+        className="gallery-control--next"
+        onPress={onPress}
+        arrow={NEXT_ARROW}
+        disabled={disabled}
+      />
+    );
+  }
+}
 
 GalleryNextButton.propTypes = propTypes;
 GalleryNextButton.defaultProps = defaultProps;
