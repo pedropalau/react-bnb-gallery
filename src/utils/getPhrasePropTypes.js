@@ -4,6 +4,10 @@ export default function defaultPhrases() {
   return Object.keys(defaultPhrases)
     .reduce((phrases, key) => ({
       ...phrases,
-      [key]: PropTypes.oneOfType([PropTypes.string, PropTypes.func, PropTypes.node]),
+      [key]: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.node,
+      ]),
     }), {});
 }

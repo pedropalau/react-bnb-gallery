@@ -15,6 +15,8 @@ const propTypes = forbidExtraProps({
   primary: PropTypes.bool,
   small: PropTypes.bool,
   secondary: PropTypes.bool,
+  outline: PropTypes.bool,
+  block: PropTypes.bool,
 });
 
 const defaultProps = {
@@ -25,6 +27,8 @@ const defaultProps = {
   primary: true,
   small: false,
   secondary: false,
+  outline: false,
+  block: false,
 };
 
 const Button = ({
@@ -36,6 +40,8 @@ const Button = ({
   primary,
   small,
   secondary,
+  outline,
+  block,
 }) => (
   <button className={classnames(
     'button',
@@ -46,6 +52,9 @@ const Button = ({
     // color
     primary && 'button__primary',
     secondary && 'button__secondary',
+    // styles
+    outline && 'button__outline',
+    block && 'button__block',
   )}
     onClick={onPress}
     style={customStyle}
