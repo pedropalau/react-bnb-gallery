@@ -8,7 +8,7 @@ import './component.css';
 
 const propTypes = forbidExtraProps({
   children: PropTypes.node.isRequired,
-  level: range(1, 6),
+  level: range(1, 7),
 });
 
 const defaultProps = {
