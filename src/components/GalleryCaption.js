@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
@@ -40,12 +40,13 @@ const defaultProps = {
   phrases: defaultPhrases,
 };
 
-class GalleryCaption extends React.PureComponent {
+class GalleryCaption extends PureComponent {
   constructor(props) {
     super(props);
     const {
       current,
       showThumbnails,
+      photos,
     } = this.props;
     this.state = {
       current,
@@ -53,6 +54,7 @@ class GalleryCaption extends React.PureComponent {
       thumbnailsContainerBounding: null,
       thumbnailsOffset: 0,
     };
+    this.hasMoreThanOnePhoto = photos.length > 1;
     this.onThumbnailPress = this.onThumbnailPress.bind(this);
     this.setGalleryFigcaptionRef = this.setGalleryFigcaptionRef.bind(this);
     this.toggleThumbnails = this.toggleThumbnails.bind(this);
@@ -67,6 +69,7 @@ class GalleryCaption extends React.PureComponent {
       );
       return {
         thumbnailsOffset: offset,
+        current: props.current,
       };
     }
     return null;
@@ -159,8 +162,6 @@ class GalleryCaption extends React.PureComponent {
 
     const currentPhoto = this.getPhotoByIndex(current);
 
-    const hasMoreThanOnePhoto = photos.length > 1;
-
     return (
       <figcaption className={className}>
         <div className="gallery-figcaption--content">
@@ -170,7 +171,7 @@ class GalleryCaption extends React.PureComponent {
                 {currentPhoto.caption && <h3 className="photo-caption">{currentPhoto.caption}</h3>}
                 {currentPhoto.subcaption && <p className="photo-subcaption">{currentPhoto.subcaption}</p>}
               </div>
-              {hasMoreThanOnePhoto && (
+              {this.hasMoreThanOnePhoto && (
                 <div className="caption-right">
                   <GalleryTogglePhotoList
                     phrases={phrases}
@@ -180,7 +181,7 @@ class GalleryCaption extends React.PureComponent {
                 </div>
               )}
             </div>
-            {hasMoreThanOnePhoto && (
+            {this.hasMoreThanOnePhoto && (
               <div
                 className="gallery-figcaption--thumbnails"
                 aria-hidden={false}
