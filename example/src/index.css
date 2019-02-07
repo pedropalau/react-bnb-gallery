@@ -1,7 +1,7 @@
 :root {
   --color: #111111;
   --font-family-sans-serif: "Helvetica Neue", Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-family-monospace: "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 }
 
 *,
@@ -62,6 +62,10 @@ code {
   hyphens: none;
 }
 
+code.prop {
+  font-weight: 700;
+}
+
 #root {
   display: -ms-flexbox;
   display: flex;
@@ -92,8 +96,8 @@ code {
 .intro {
   min-height: 500px;
   min-height: 50vh;
-  padding-top: 14em;
-  padding-bottom: 5em;
+  padding-top: 16em;
+  padding-bottom: 12em;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
@@ -112,32 +116,45 @@ code {
   margin-top: 0 !important;
 }
 
+.actions {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1rem;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.45;
 }
 
 p code,
 table code {
-  padding: 2px 4px;
-  font-size: 90%;
+  padding: 0.35rem 0.75rem;
   color: #111111;
-  background-color: #f1f1f1;
-  border-radius: 4px;
+  background-color: rgb(0, 0, 0, 0.051);
+  border-radius: 2px;
 }
 
 table th,
 table td {
-  padding: 0.75rem;
+  padding: 0.85rem 2rem 0.85rem 0.5rem;
   vertical-align: top;
-  border-top: 1px solid #dee2e6;
+  border-width: 0;
 }
 
 table thead th {
   vertical-align: bottom;
-  border-bottom: 2px solid #dee2e6;
+}
+
+table td {
+  color: #666666;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: rgb(245, 245, 245);
 }
