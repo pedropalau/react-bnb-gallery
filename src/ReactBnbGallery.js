@@ -9,62 +9,55 @@ import Gallery from './components/Gallery';
 import GalleryCloseButton from './components/GalleryCloseButton';
 
 import noop from './utils/noop';
-
-import defaultPhrases from './defaultPhrases';
-import getPhrasePropTypes from './utils/getPhrasePropTypes';
 import getPhotos from './utils/getPhotos';
 
-import SlideDirectionShape from './shapes/SlideDirectionShape';
-import PhotosShape from './shapes/PhotosShape';
+if (process.env.NODE_ENV !== 'production') {
+  const {whyDidYouUpdate} = require('why-did-you-update')
+  whyDidYouUpdate(React)
+}
 
 import {
-  FORWARDS,
   ARROW_LEFT_KEYCODE,
   ARROW_RIGHT_KEYCODE,
   ESC_KEYCODE,
 } from './constants';
 
+import {
+  galleryPropTypes,
+  galleryDefaultProps,
+} from './common';
+
+import {
+  forbidExtraProps,
+} from './common/prop-types';
+
 import './styles.css';
 
-const propTypes = {
-  activePhotoIndex: PropTypes.number,
-  activePhotoPressed: PropTypes.func,
-  direction: SlideDirectionShape,
+const propTypes = forbidExtraProps({
+  ...galleryPropTypes,
   leftKeyPressed: PropTypes.func,
-  nextButtonPressed: PropTypes.func,
   onClose: PropTypes.func,
-  preloadSize: PropTypes.number,
-  prevButtonPressed: PropTypes.func,
-  photos: PhotosShape,
   rightKeyPressed: PropTypes.func,
   show: PropTypes.bool,
-  showThumbnails: PropTypes.bool,
   keyboard: PropTypes.bool,
-  wrap: PropTypes.bool,
-  phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
-};
+  opacity: PropTypes.number,
+});
 
 const defaultProps = {
-  activePhotoIndex: 0,
-  activePhotoPressed: noop,
-  direction: FORWARDS,
+  ...galleryDefaultProps,
   leftKeyPressed: noop,
-  nextButtonPressed: noop,
   onClose: noop,
-  preloadSize: 5,
-  prevButtonPressed: noop,
-  photos: [],
   rightKeyPressed: noop,
   show: false,
-  showThumbnails: true,
   keyboard: true,
-  wrap: false,
-  phrases: defaultPhrases,
+  opacity: 1,
 };
 
 class ReactBnbGallery extends PureComponent {
   constructor(props) {
     super(props);
+    const { photos } = this.props;
+    this.photos = getPhotos(photos);
     this.gallery = React.createRef();
     this.close = this.close.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -100,10 +93,21 @@ class ReactBnbGallery extends PureComponent {
     onClose();
   }
 
+  getModalOverlayStyles() {
+    const {
+      opacity,
+    } = this.props;
+
+    let modalStyles = {
+      opacity,
+    };
+
+    return modalStyles;
+  }
+
   render() {
     const {
       show,
-      photos,
       phrases,
       keyboard,
     } = this.props;
@@ -112,15 +116,13 @@ class ReactBnbGallery extends PureComponent {
       return null; // nothing to return
     }
 
-    const _photos = getPhotos(photos);
-
     const galleryProps = omit(this.props, [
       'onClose',
       'leftKeyPressed',
-      'preloadSize',
       'rightKeyPressed',
       'show',
       'photos',
+      'opacity',
     ]);
 
     const modalProps = {
@@ -130,25 +132,22 @@ class ReactBnbGallery extends PureComponent {
       onKeyDown: keyboard && this.onKeyDown,
     };
 
+    // modal overlay customization styles
+    const galleryModalOverlayStyles = this.getModalOverlayStyles();
+
     return (
       <Portal>
         <FocusTrap>
           <div {...modalProps}>
-            <div className="gallery-modal--preload">
-              {_photos.map(photo => (
-                <img
-                  alt={photo.photo}
-                  key={photo.photo}
-                  src={photo.photo}
-                />
-              ))}
-            </div>
+            <div style={galleryModalOverlayStyles} className="gallery-modal--overlay"></div>
             <div className="gallery-modal--container">
               <div className="gallery-modal--table">
                 <div className="gallery-modal--cell">
                   <div className="gallery-modal--content">
                     <div className="gallery-modal--close">
-                      <GalleryCloseButton onPress={this.close} />
+                      <GalleryCloseButton
+                        onPress={this.close}
+                      />
                     </div>
                     <div className="gallery-content">
                       <div className="gallery-top">
@@ -157,7 +156,7 @@ class ReactBnbGallery extends PureComponent {
                       <Gallery
                         phrases={phrases}
                         ref={this.gallery}
-                        photos={_photos}
+                        photos={this.photos}
                         {...galleryProps}
                       />
                     </div>
