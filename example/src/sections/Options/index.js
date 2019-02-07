@@ -8,8 +8,8 @@ import Title from '../../components/Title';
 import withPrism from '../../utils/withPrism';
 
 const Options = () => (
-  <Container style={{ textAlign: 'left' }}>
-    <Text inherit>You can set the following properties. For function options, the default value noop is translated to <code>{`() => {}`}</code>.</Text>
+  <Container className="content" style={{ textAlign: 'center' }}>
+    <Text inherit>You can set the following properties.</Text>
     <div className="responsive-table">
       <table>
         <thead>
@@ -22,9 +22,15 @@ const Options = () => (
         </thead>
         <tbody>
           <tr>
-            <td align="left"><code>activePhotoIndex</code></td>
-            <td align="left"><code>number</code></td>
-            <td align="left"><code>0</code></td>
+            <td align="left">
+              <code className="prop">activePhotoIndex</code>
+            </td>
+            <td align="left">
+              <code>number</code>
+            </td>
+            <td align="left">
+              <code>0</code>
+            </td>
             <td align="left">Initial photo index to show.</td>
           </tr>
           <tr>
