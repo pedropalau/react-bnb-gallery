@@ -4,33 +4,29 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from '../utils/noop';
 
+import GalleryThumbnail from './GalleryThumbnail';
 import GalleryTogglePhotoList from './GalleryTogglePhotoList';
 
 import calculateThumbnailsContainerDimension from '../utils/calculateThumbnailsContainerDimension';
-import calculateThumbnailsOffset from '../utils/calculateThumbnailsOffset';
+import calculateThumbnailsLeftScroll from '../utils/calculateThumbnailsLeftScroll';
 
 import defaultPhrases from '../defaultPhrases';
 import getPhrasePropTypes from '../utils/getPhrasePropTypes';
 
+import {
+  forbidExtraProps,
+  nonNegativeInteger,
+} from '../common/prop-types';
+
 import PhotosShape from '../shapes/PhotosShape';
 
-import {
-  THUMBNAIL_WIDTH,
-  THUMBNAIL_HEIGHT,
-} from '../constants';
-
-const thumbnailStyle = {
-  width: THUMBNAIL_WIDTH,
-  height: THUMBNAIL_HEIGHT,
-};
-
-const propTypes = {
+const propTypes = forbidExtraProps({
   showThumbnails: PropTypes.bool,
-  current: PropTypes.number,
+  current: nonNegativeInteger,
   photos: PhotosShape,
   onPress: PropTypes.func,
   phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
-};
+});
 
 const defaultProps = {
   showThumbnails: true,
@@ -44,35 +40,28 @@ class GalleryCaption extends PureComponent {
   constructor(props) {
     super(props);
     const {
-      current,
       showThumbnails,
       photos,
     } = this.props;
+
     this.state = {
-      current,
       showThumbnails,
-      thumbnailsContainerBounding: null,
-      thumbnailsOffset: 0,
     };
+
+    this.thumbnailsWrapperRef = null;
+    this.thumbnailsListRef = null;
     this.hasMoreThanOnePhoto = photos.length > 1;
     this.onThumbnailPress = this.onThumbnailPress.bind(this);
     this.setGalleryFigcaptionRef = this.setGalleryFigcaptionRef.bind(this);
+    this.setGalleryThubmanilsRef = this.setGalleryThubmanilsRef.bind(this);
     this.toggleThumbnails = this.toggleThumbnails.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.current !== state.current) {
-      const offset = calculateThumbnailsOffset(
-        props.current,
-        state.thumbnailsContainerBounding,
-        props.photos.length,
-      );
-      return {
-        thumbnailsOffset: offset,
-        current: props.current,
-      };
+  componentDidUpdate(prevProps) {
+    const { current } = this.props;
+    if (current !== prevProps.current) {
+      this.setThumbnailsWrapperScrollLeft(current);
     }
-    return null;
   }
 
   onThumbnailPress(event) {
@@ -86,28 +75,24 @@ class GalleryCaption extends PureComponent {
     }
   }
 
+  setThumbnailsWrapperScrollLeft(current) {
+    const { photos } = this.props;
+    const bounding = this.thumbnailsWrapperRef.getBoundingClientRect();
+    const scrollLeft = calculateThumbnailsLeftScroll(current, photos.length, bounding);
+    this.thumbnailsListRef.style.marginLeft = `${scrollLeft}px`;
+  }
+
   getPhotoByIndex(index) {
     const { photos } = this.props;
     return photos[index];
   }
 
   setGalleryFigcaptionRef(element) {
-    const {
-      current,
-      photos,
-    } = this.props;
-    if (element) {
-      const bounding = element.getBoundingClientRect();
-      const offset = calculateThumbnailsOffset(
-        current,
-        bounding,
-        photos.length,
-      );
-      this.setState({
-        thumbnailsContainerBounding: bounding,
-        thumbnailsOffset: offset,
-      });
-    }
+    this.thumbnailsWrapperRef = element;
+  }
+
+  setGalleryThubmanilsRef(element) {
+    this.thumbnailsListRef = element;
   }
 
   toggleThumbnails() {
@@ -116,30 +101,16 @@ class GalleryCaption extends PureComponent {
     }));
   }
 
-  renderThumbnail(photo, index, onClick) {
+  renderThumbnail(photo, index, onPress) {
     const { current } = this.props;
 
-    const className = classnames(
-      'thumbnail-button',
-      index === current && 'active',
-    );
-
     return (
-      <button
-        type="button"
-        aria-label={photo.caption}
-        className={className}
-        data-photo-index={index}
-        onClick={onClick}
-        disabled={false}
-      >
-        <img
-          alt={photo.caption}
-          src={photo.thumbnail || photo.photo}
-          className="thumbnail"
-          style={thumbnailStyle}
-        />
-      </button>
+      <GalleryThumbnail
+        active={index === current}
+        photo={photo}
+        onPress={onPress}
+        number={index}
+      />
     );
   }
 
@@ -152,7 +123,6 @@ class GalleryCaption extends PureComponent {
 
     const {
       showThumbnails,
-      thumbnailsOffset,
     } = this.state;
 
     const className = classnames(
@@ -161,6 +131,7 @@ class GalleryCaption extends PureComponent {
     );
 
     const currentPhoto = this.getPhotoByIndex(current);
+    const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(photos.length);
 
     return (
       <figcaption className={className}>
@@ -168,8 +139,16 @@ class GalleryCaption extends PureComponent {
           <div className="gallery-figcaption--inner">
             <div className="gallery-figcaption--info">
               <div className="caption-left">
-                {currentPhoto.caption && <h3 className="photo-caption">{currentPhoto.caption}</h3>}
-                {currentPhoto.subcaption && <p className="photo-subcaption">{currentPhoto.subcaption}</p>}
+                {currentPhoto.caption && (
+                  <h3 className="photo-caption">
+                    {currentPhoto.caption}
+                  </h3>
+                )}
+                {currentPhoto.subcaption && (
+                  <p className="photo-subcaption">
+                    {currentPhoto.subcaption}
+                  </p>
+                )}
               </div>
               {this.hasMoreThanOnePhoto && (
                 <div className="caption-right">
@@ -189,15 +168,11 @@ class GalleryCaption extends PureComponent {
               >
                 <div
                   className="caption-thumbnails"
-                  style={{
-                    width: calculateThumbnailsContainerDimension(photos.length),
-                  }}
+                  style={{ width: captionThumbnailsWrapperWidth }}
                 >
                   <ul
                     className="thumbnails-list"
-                    style={{
-                      marginLeft: thumbnailsOffset,
-                    }}
+                    ref={this.setGalleryThubmanilsRef}
                   >
                     {photos.map((photo, index) => (
                       <li key={photo.photo}>
