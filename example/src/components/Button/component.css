@@ -11,6 +11,11 @@
   user-select: none;
 }
 
+.button:focus,
+.button:active {
+  outline: none;
+}
+
 .button__block {
   display: block;
   width: 100%;

@@ -13,13 +13,19 @@ const Header = () => (
         <li>
           <a href="#start">Home</a>
         </li>
-        {sections.map(section => (
-          <li key={section.id}>
-            <a href={`#${section.id}`}>
-              {section.title}
-            </a>
-          </li>
-        ))}
+        {sections.map(section => {
+          if (!section.disabled) {
+            return (
+              <li key={section.id}>
+                <a href={`#${section.id}`}>
+                  {section.title}
+                </a>
+              </li>
+            );
+          } else {
+            return null;
+          }
+        })}
         <li>
           <a href="https://github.com/peterpalau/react-bnb-gallery/" target="_blank" rel="noopener noreferrer">GitHub</a>
         </li>

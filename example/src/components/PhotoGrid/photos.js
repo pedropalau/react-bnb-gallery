@@ -32,9 +32,9 @@ export default [
   },
   /*---------------------------------------------------*/
   {
-    src: 'https://source.unsplash.com/random/500x501',
+    src: 'https://source.unsplash.com/random/500x500',
     width: 500,
-    height: 501,
+    height: 500,
   },
   {
     src: 'https://source.unsplash.com/random/801x724',
@@ -64,9 +64,9 @@ export default [
   },
   /*---------------------------------------------------*/
   {
-    src: 'https://source.unsplash.com/random/551x401',
+    src: 'https://source.unsplash.com/random/551x399',
     width: 551,
-    height: 401,
+    height: 399,
   },
   {
     src: 'https://source.unsplash.com/random/501x790',
@@ -80,9 +80,9 @@ export default [
   },
   /*---------------------------------------------------*/
   {
-    src: 'https://source.unsplash.com/random/801x1040',
+    src: 'https://source.unsplash.com/random/801x1037',
     width: 801,
-    height: 1040,
+    height: 1037,
   },
   {
     src: 'https://source.unsplash.com/random/551x437',
@@ -96,9 +96,9 @@ export default [
   },
   /*---------------------------------------------------*/
   {
-    src: 'https://source.unsplash.com/random/801x900',
+    src: 'https://source.unsplash.com/random/801x897',
     width: 801,
-    height: 900,
+    height: 897,
   },
   {
     src: 'https://source.unsplash.com/random/551x550',
@@ -112,9 +112,9 @@ export default [
   },
   /*---------------------------------------------------*/
   {
-    src: 'https://source.unsplash.com/random/801x687',
+    src: 'https://source.unsplash.com/random/801x683',
     width: 801,
-    height: 687,
+    height: 683,
   },
   {
     src: 'https://source.unsplash.com/random/551x465',

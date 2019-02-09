@@ -8,6 +8,7 @@ import {
   Button,
   Container,
   Header,
+  Spacing,
   Text,
   Title,
   Section,
@@ -72,30 +73,49 @@ export default class App extends Component {
             <Title level={1}>React photo gallery</Title>
             <Text>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
             <Container className="actions">
-              <Button
-                onPress={this.toggleGallery}
-                customStyle={buttonCustomStyle}
-                secondary
-                large
-              >
-                View photo gallery
-              </Button>
+              <Spacing right={2}>
+                <Button
+                  onPress={this.toggleGallery}
+                  customStyle={buttonCustomStyle}
+                  secondary
+                  large
+                >
+                  View photo gallery
+                </Button>
+              </Spacing>
+              <Spacing left={2}>
+                <Button
+                  customStyle={buttonCustomStyle}
+                  primary
+                  outline
+                  large
+                >
+                  Demos <em>(comming soon)</em>
+                </Button>
+              </Spacing>
             </Container>
           </Container>
           <PhotoGrid
             onPhotoPress={this.onPhotoPress}
           />
-          {sections.map(section => (
-            <Section key={section.id} section={section}>
-              {section.getComponent()}
-            </Section>
-          ))}
+          {sections.map(section => {
+            if (!section.disabled) {
+              return (
+                <Section key={section.id} section={section}>
+                  {section.getComponent()}
+                </Section>
+              );
+            } else {
+              return null;
+            }
+          })}
         </Container>
         <ReactBnbGallery
           show={openGallery}
           photos={photosToShow}
           onClose={this.closeGallery}
-          wrap
+          wrap={false}
+          backgroundColor='#000000'
         />
       </Fragment>
     )

@@ -35,6 +35,7 @@
 .grid .column .picture {
   margin: 3px 0;
   cursor: pointer;
+  min-width: 100%;
   max-width: 100%;
   height: auto !important;
   background-color: #ECECEE;

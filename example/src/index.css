@@ -123,6 +123,14 @@ code.prop {
   justify-content: center;
 }
 
+.button em {
+  font-size: 70%;
+  font-style: normal;
+  display: inline-block;
+  vertical-align: middle;
+  opacity: 0.5;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
