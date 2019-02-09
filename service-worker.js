@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/react-bnb-gallery/precache-manifest.ca44261b0cea34ed881a92290fe7f86c.js"
+  "/react-bnb-gallery/precache-manifest.c87949b59e9859bc2e4014d137f49042.js"
 );
 
 workbox.clientsClaim();
