@@ -20,6 +20,11 @@ export const THUMBNAIL_WIDTH = 100;
 export const THUMBNAIL_HEIGHT = 67;
 export const THUMBNAIL_OFFSET = 10;
 
+export const DEFAULT_OPACITY = 1;
+export const DEFAULT_COLOR = 'rgba(0,0,0,1)';
+export const NORMAL_COLOR = 'rgba(255,255,255,1)';
+export const INVERSE_COLOR = 'rgba(1,1,1,1)';
+
 export const defaultPhotoProps = {
   photo: undefined,
   number: undefined,
