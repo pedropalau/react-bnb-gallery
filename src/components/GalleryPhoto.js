@@ -1,40 +1,34 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import omit from 'lodash/omit';
 import classnames from 'classnames';
 
-import LoadingSpinner from './LoadingSpinner';
+import Image from './Image';
+import PhotoShape from '../shapes/PhotoShape';
 
+import {
+  imagePropTypes,
+  imageDefaultProps,
+} from '../common';
+import { forbidExtraProps } from '../common/prop-types';
 import noop from '../utils/noop';
 
-const propTypes = {
-  photo: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-  onLoad: PropTypes.func,
-  onError: PropTypes.func,
+const propTypes = forbidExtraProps({
+  ...imagePropTypes,
+  photo: PhotoShape,
   onPress: PropTypes.func,
-};
+});
 
 const defaultProps = {
+  ...imageDefaultProps,
   photo: null,
-  onLoad: noop,
-  onError: noop,
   onPress: noop,
 };
 
-class GalleryPhoto extends React.PureComponent {
+class GalleryPhoto extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loading: true,
-      withError: false,
-    };
-
-    this.onLoad = this.onLoad.bind(this);
-    this.onError = this.onError.bind(this);
     this.onPress = this.onPress.bind(this);
   }
 
@@ -43,60 +37,49 @@ class GalleryPhoto extends React.PureComponent {
     onPress();
   }
 
-  onLoad() {
-    const { onLoad } = this.props;
-    onLoad();
+  renderPhoto() {
+    const {
+      photo,
+      ...rest
+    } = this.props;
 
-    this.setState({
-      loading: false,
-    });
-  }
+    if (!photo) {
+      return null;
+    }
 
-  onError() {
-    const { onError } = this.props;
-    onError();
+    const imageProps = omit(rest, [
+      'onPress',
+    ]);
 
-    this.setState({
-      loading: true,
-      withError: true,
-    });
+    return (
+      <button
+        type="button"
+        onClick={this.onPress}
+        className="photo-button"
+      >
+        <Image
+          alt={photo.caption}
+          className="photo"
+          src={photo.photo}
+          {...imageProps}
+        />
+      </button>
+    );
   }
 
   render() {
-    const { loading, withError } = this.state;
-
-    const { photo } = this.props;
-
-    if (!photo) {
-      return null; // nothing to show
-    }
-
     const className = classnames(
       'gallery-media-photo',
       'gallery-media-photo--block',
       'gallery-media-cover',
-      loading && 'loading',
     );
+
+    const photoRendered = this.renderPhoto();
 
     return (
       <ul className="gallery-images--ul">
         <li className={className}>
-          {loading && <LoadingSpinner />}
-          {!withError && (
-            <button
-              type="button"
-              onClick={this.onPress}
-              className="photo-button"
-            >
-              <img
-                alt={photo.caption}
-                className="photo"
-                onLoad={this.onLoad}
-                onError={this.onError}
-                src={photo.photo}
-              />
-            </button>
-          )}
+          {photoRendered}
         </li>
       </ul>
     );
