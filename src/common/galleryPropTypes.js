@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -23,4 +22,5 @@ export default forbidExtraProps({
   preloadSize: nonNegativeInteger,
   wrap: PropTypes.bool,
   phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
+  light: PropTypes.bool,
 });
