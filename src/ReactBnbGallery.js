@@ -4,22 +4,21 @@ import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
 
 import omit from 'lodash/omit';
+import classnames from 'classnames';
 
 import Gallery from './components/Gallery';
 import GalleryCloseButton from './components/GalleryCloseButton';
 
+import opacityValidation from './common/opacityValidation';
 import noop from './utils/noop';
 import getPhotos from './utils/getPhotos';
-
-if (process.env.NODE_ENV !== 'production') {
-  const {whyDidYouUpdate} = require('why-did-you-update')
-  whyDidYouUpdate(React)
-}
 
 import {
   ARROW_LEFT_KEYCODE,
   ARROW_RIGHT_KEYCODE,
   ESC_KEYCODE,
+  DEFAULT_OPACITY,
+  DEFAULT_COLOR,
 } from './constants';
 
 import {
@@ -40,7 +39,8 @@ const propTypes = forbidExtraProps({
   rightKeyPressed: PropTypes.func,
   show: PropTypes.bool,
   keyboard: PropTypes.bool,
-  opacity: PropTypes.number,
+  opacity: opacityValidation,
+  backgroundColor: PropTypes.string,
 });
 
 const defaultProps = {
@@ -50,7 +50,8 @@ const defaultProps = {
   rightKeyPressed: noop,
   show: false,
   keyboard: true,
-  opacity: 1,
+  opacity: DEFAULT_OPACITY,
+  backgroundColor: DEFAULT_COLOR,
 };
 
 class ReactBnbGallery extends PureComponent {
@@ -88,21 +89,21 @@ class ReactBnbGallery extends PureComponent {
     }
   }
 
-  close() {
-    const { onClose } = this.props;
-    onClose();
-  }
-
   getModalOverlayStyles() {
     const {
       opacity,
+      backgroundColor,
     } = this.props;
 
-    let modalStyles = {
+    return {
       opacity,
+      backgroundColor,
     };
+  }
 
-    return modalStyles;
+  close() {
+    const { onClose } = this.props;
+    onClose();
   }
 
   render() {
@@ -110,6 +111,7 @@ class ReactBnbGallery extends PureComponent {
       show,
       phrases,
       keyboard,
+      light,
     } = this.props;
 
     if (!show) {
@@ -123,10 +125,15 @@ class ReactBnbGallery extends PureComponent {
       'show',
       'photos',
       'opacity',
+      'backgroundColor',
+      'keyboard',
     ]);
 
     const modalProps = {
-      className: 'gallery-modal',
+      className: classnames([
+        'gallery-modal',
+        light && 'mode-light',
+      ]),
       role: 'dialog',
       tabIndex: -1,
       onKeyDown: keyboard && this.onKeyDown,
@@ -139,7 +146,10 @@ class ReactBnbGallery extends PureComponent {
       <Portal>
         <FocusTrap>
           <div {...modalProps}>
-            <div style={galleryModalOverlayStyles} className="gallery-modal--overlay"></div>
+            <div
+              style={galleryModalOverlayStyles}
+              className="gallery-modal--overlay"
+            />
             <div className="gallery-modal--container">
               <div className="gallery-modal--table">
                 <div className="gallery-modal--cell">
@@ -147,6 +157,7 @@ class ReactBnbGallery extends PureComponent {
                     <div className="gallery-modal--close">
                       <GalleryCloseButton
                         onPress={this.close}
+                        light={light}
                       />
                     </div>
                     <div className="gallery-content">
