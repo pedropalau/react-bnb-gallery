@@ -1,4 +1,7 @@
-import { THUMBNAIL_WIDTH, THUMBNAIL_OFFSET } from '../constants';
+import {
+  THUMBNAIL_WIDTH,
+  THUMBNAIL_OFFSET,
+} from '../constants';
 
 export default function calculateThumbnailsOffset(current, bounding) {
   const half = (bounding.width / 2) - (THUMBNAIL_WIDTH / 2);
