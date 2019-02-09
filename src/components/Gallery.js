@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   galleryPropTypes,
   galleryDefaultProps,
 } from '../common';
 
+import GalleryPhoto from './GalleryPhoto';
 import GalleryCaption from './GalleryCaption';
 import GalleryPrevButton from './GalleryPrevButton';
 import GalleryNextButton from './GalleryNextButton';
-import GalleryPhoto from './GalleryPhoto';
 
 import {
   DIRECTION_NEXT,
@@ -158,21 +157,26 @@ class Gallery extends PureComponent {
 
   renderControls() {
     const {
+      light,
+    } = this.props;
+
+    const {
       hidePrevButton,
       hideNextButton,
       controlsDisabled,
     } = this.state;
 
-    let controls = [];
+    const controls = [];
 
     if (this.hasMoreThanOnePhoto) {
       // previous control
-      if (!hidePrevButton ) {
+      if (!hidePrevButton) {
         controls.push((
           <GalleryPrevButton
             key=".prevControl"
             disabled={controlsDisabled}
             onPress={this.onPrevButtonPress}
+            light={light}
           />
         ));
       }
@@ -184,6 +188,7 @@ class Gallery extends PureComponent {
             key=".nextControl"
             disabled={controlsDisabled}
             onPress={this.onNextButtonPress}
+            light={light}
           />
         ));
       }
@@ -193,29 +198,15 @@ class Gallery extends PureComponent {
   }
 
   renderPreloadPhotos() {
-    const {
-      photos,
-      preloadSize,
-    } = this.props;
+    const { photos } = this.props;
 
-    let preloadPhotosList = [];
-    if (preloadSize < photos.length) {
-      const preloadCopyArray = photos.slice(this.lastPreloadIndex, preloadSize);
-      this.lastPreloadIndex += preloadSize;
-      console.log(preloadCopyArray)
-    }
-
-    /*return (
-      this.photos.map(photo => (
-        <img
-          alt={photo.photo}
-          key={photo.photo}
-          src={photo.photo}
-        />
-      ))
-    );*/
-
-    return preloadPhotosList;
+    return photos.map(photo => (
+      <img
+        key={photo.photo}
+        alt={photo.photo}
+        src={photo.photo}
+      />
+    ));
   }
 
   render() {
