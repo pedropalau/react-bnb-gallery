@@ -1,5 +1,3 @@
-import React from 'react';
-
 import noop from '../utils/noop';
 import defaultPhrases from '../defaultPhrases';
 
@@ -16,4 +14,5 @@ export default {
   preloadSize: 5,
   wrap: false,
   phrases: defaultPhrases,
+  light: false,
 };
