@@ -61,9 +61,7 @@ export default class App extends Component {
       currentPhotos,
     } = this.state;
 
-    const photosToShow = currentPhotos
-      ? currentPhotos
-      : PHOTOS;
+    const photosToShow = currentPhotos || PHOTOS;
 
     return (
       <Fragment>
