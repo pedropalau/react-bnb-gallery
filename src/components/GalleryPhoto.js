@@ -58,7 +58,7 @@ class GalleryPhoto extends PureComponent {
         className="photo-button"
       >
         <Image
-          alt={photo.caption}
+          alt={photo.caption || ''}
           className="photo"
           src={photo.photo}
           {...imageProps}
