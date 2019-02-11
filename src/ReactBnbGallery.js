@@ -19,6 +19,7 @@ import {
   ESC_KEYCODE,
   DEFAULT_OPACITY,
   DEFAULT_COLOR,
+  DEFAULT_Z_INDEX,
 } from './constants';
 
 import {
@@ -28,6 +29,7 @@ import {
 
 import {
   forbidExtraProps,
+  nonNegativeInteger,
 } from './common/prop-types';
 
 import './styles.css';
@@ -41,6 +43,7 @@ const propTypes = forbidExtraProps({
   keyboard: PropTypes.bool,
   opacity: opacityValidation,
   backgroundColor: PropTypes.string,
+  zIndex: nonNegativeInteger,
 });
 
 const defaultProps = {
@@ -52,6 +55,7 @@ const defaultProps = {
   keyboard: true,
   opacity: DEFAULT_OPACITY,
   backgroundColor: DEFAULT_COLOR,
+  zIndex: DEFAULT_Z_INDEX,
 };
 
 class ReactBnbGallery extends Component {
@@ -123,6 +127,8 @@ class ReactBnbGallery extends Component {
       phrases,
       keyboard,
       light,
+      // abstract the user to use 'zIndex' instead of 'zindex'
+      zIndex: zindex,
     } = this.props;
 
     const { photos } = this.state;
@@ -139,6 +145,7 @@ class ReactBnbGallery extends Component {
       'photos',
       'opacity',
       'backgroundColor',
+      'zIndex',
       'keyboard',
     ]);
 
@@ -150,6 +157,7 @@ class ReactBnbGallery extends Component {
       role: 'dialog',
       tabIndex: -1,
       onKeyDown: keyboard && this.onKeyDown,
+      zindex,
     };
 
     // modal overlay customization styles
