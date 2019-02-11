@@ -4,6 +4,11 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.1.4
+- [new] Added `opacity` property to set the opacity level.
+- [new] Added `backgroundColor` property to set the background color.
+- [new] Added `zIndex` property to stack order relative to other components.
+
 ## 1.0.4
 - [new] Testing.
 - [fix] Code style.
