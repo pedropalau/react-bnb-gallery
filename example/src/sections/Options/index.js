@@ -111,6 +111,24 @@ const Options = () => (
             <td align="left"><code>false</code></td>
             <td align="left">Whether the gallery should cycle continuously or have hard stops.</td>
           </tr>
+          <tr>
+            <td align="left"><code>opacity</code></td>
+            <td align="left"><code>number</code></td>
+            <td align="left"><code>1</code></td>
+            <td align="left">Sets the opacity level for the component.</td>
+          </tr>
+          <tr>
+            <td align="left"><code>backgroundColor</code></td>
+            <td align="left"><code>string</code></td>
+            <td align="left"><code>#000000</code></td>
+            <td align="left">Sets the background color of the gallery component.</td>
+          </tr>
+          <tr>
+            <td align="left"><code>zIndex</code></td>
+            <td align="left"><code>number</code></td>
+            <td align="left"><code>2000</code></td>
+            <td align="left">Specifies the stack order of the component.</td>
+          </tr>
         </tbody>
       </table>
     </div>
