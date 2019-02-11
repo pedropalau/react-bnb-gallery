@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
@@ -54,14 +54,25 @@ const defaultProps = {
   backgroundColor: DEFAULT_COLOR,
 };
 
-class ReactBnbGallery extends PureComponent {
+class ReactBnbGallery extends Component {
   constructor(props) {
     super(props);
     const { photos } = this.props;
-    this.photos = getPhotos(photos);
+    this.state = {
+      photos: null,
+    };
     this.gallery = React.createRef();
     this.close = this.close.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.photos !== state.photos) {
+      return {
+        photos: getPhotos(props.photos),
+      };
+    }
+    return null;
   }
 
   onKeyDown(event) {
@@ -113,6 +124,8 @@ class ReactBnbGallery extends PureComponent {
       keyboard,
       light,
     } = this.props;
+
+    const { photos } = this.state;
 
     if (!show) {
       return null; // nothing to return
@@ -167,7 +180,7 @@ class ReactBnbGallery extends PureComponent {
                       <Gallery
                         phrases={phrases}
                         ref={this.gallery}
-                        photos={this.photos}
+                        photos={photos}
                         {...galleryProps}
                       />
                     </div>
