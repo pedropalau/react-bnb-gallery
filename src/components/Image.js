@@ -26,6 +26,7 @@ const defaultProps = {
   ...imageDefaultProps,
   style: null,
   className: null,
+  alt: '',
 };
 
 class Image extends PureComponent {
