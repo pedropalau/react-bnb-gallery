@@ -42,11 +42,14 @@ class Image extends PureComponent {
 
   onLoad() {
     const { onLoad } = this.props;
-    onLoad();
-    this.setState({
-      loading: false,
-      withError: false,
-    });
+    // wait a litle to show the final picture
+    setTimeout(() => {
+      onLoad();
+      this.setState({
+        loading: false,
+        withError: false,
+      });
+    }, 100);
   }
 
   onError() {
@@ -58,7 +61,7 @@ class Image extends PureComponent {
     });
   }
 
-  render() {
+  renderImage() {
     const {
       alt,
       src,
@@ -71,31 +74,59 @@ class Image extends PureComponent {
       withError,
     } = this.state;
 
-    const wrapperClassNames = [
-      'picture',
-      loading && 'loading',
-    ];
-
     const classNames = [
       className,
       'media-image',
     ];
 
+    let components = [];
+
+    // the loading spinner
+    // TODO: make this 'LoadingSpinner' component customizable
+    if (loading) {
+      components.push(
+        <LoadingSpinner key=".pictureLoadingSpinner" />
+      );
+    }
+
+    // if no loading, then return the
+    // picture only if no error ocurred
+    if (!withError) {
+      components.push(
+        <img
+          alt={alt}
+          key=".pictureComponent"
+          className={classnames(classNames)}
+          onLoad={this.onLoad}
+          onError={this.onError}
+          src={src}
+          style={style}
+        />
+      );
+    }
+
+    // TODO: show a custom message indicating the
+    // error ocurred while loading the picture
+
+    return components;
+  }
+
+  render() {
+    const {
+      loading,
+    } = this.state;
+
+    const wrapperClassNames = [
+      'picture',
+      loading && 'loading',
+    ];
+
+    // render the picture element
+    const picture = this.renderImage();
+
     return (
       <div className={classnames(wrapperClassNames)}>
-        {loading && (
-          <LoadingSpinner />
-        )}
-        {!withError && (
-          <img
-            alt={alt}
-            className={classnames(classNames)}
-            onLoad={this.onLoad}
-            onError={this.onError}
-            src={src}
-            style={style}
-          />
-        )}
+        {picture}
       </div>
     );
   }
