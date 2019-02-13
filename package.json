@@ -35,7 +35,8 @@
     "prepublish": "npm run build",
     "predeploy": "npm install && npm run build",
     "deploy": "gh-pages -d example/build",
-    "lint": "eslint --ext js src tests"
+    "lint": "eslint --ext js src tests",
+    "travis": "npm run test"
   },
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0",
