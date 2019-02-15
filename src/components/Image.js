@@ -79,30 +79,26 @@ class Image extends PureComponent {
       'media-image',
     ];
 
-    let components = [];
+    const components = [];
 
     // the loading spinner
     // TODO: make this 'LoadingSpinner' component customizable
     if (loading) {
-      components.push(
-        <LoadingSpinner key=".pictureLoadingSpinner" />
-      );
+      components.push(<LoadingSpinner key=".pictureLoadingSpinner" />);
     }
 
     // if no loading, then return the
     // picture only if no error ocurred
     if (!withError) {
-      components.push(
-        <img
-          alt={alt}
-          key=".pictureComponent"
-          className={classnames(classNames)}
-          onLoad={this.onLoad}
-          onError={this.onError}
-          src={src}
-          style={style}
-        />
-      );
+      components.push(<img
+        alt={alt}
+        key=".pictureComponent"
+        className={classnames(classNames)}
+        onLoad={this.onLoad}
+        onError={this.onError}
+        src={src}
+        style={style}
+      />);
     }
 
     // TODO: show a custom message indicating the
