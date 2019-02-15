@@ -8,7 +8,7 @@ import photos from '../test-photos';
 
 const requiredProps = {
   photos,
-}
+};
 
 describe('ReactBnbGallery', () => {
   describe('#render', () => {
@@ -25,7 +25,7 @@ describe('ReactBnbGallery', () => {
       const wrapper = shallow((
         <ReactBnbGallery
           {...requiredProps}
-          show={true}
+          show
         />
       )).dive();
       expect(wrapper.find(Gallery)).toHaveLength(1);
