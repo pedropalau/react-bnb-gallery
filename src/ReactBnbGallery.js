@@ -61,7 +61,6 @@ const defaultProps = {
 class ReactBnbGallery extends Component {
   constructor(props) {
     super(props);
-    const { photos } = this.props;
     this.state = {
       photos: null,
     };
