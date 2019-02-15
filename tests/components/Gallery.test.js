@@ -8,7 +8,7 @@ import photos from '../test-photos';
 
 const requiredProps = {
   photos,
-}
+};
 
 describe('Gallery', () => {
   describe('#render', () => {
@@ -16,7 +16,7 @@ describe('Gallery', () => {
       const wrapper = shallow((
         <Gallery
           {...requiredProps}
-          showThumbnails={true}
+          showThumbnails
         />
       ));
       expect(wrapper.find(GalleryCaption)).toHaveLength(1);
