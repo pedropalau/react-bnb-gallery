@@ -20,8 +20,7 @@ export default function calculateThumbnailsLeftScroll(current, total, bounding) 
 
   if (thumbnailsLeft < thumbnailsHalf) {
     calculatedScrollLeft = calculateThumbnailsContainerDimension(total) - bounding.width;
-  }
-  else {
+  } else {
     calculatedScrollLeft = thumbnailsOffset;
   }
 
