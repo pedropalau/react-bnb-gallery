@@ -21,13 +21,7 @@ const createConfig = (output) => ({
     svgr(),
     babel({
       exclude: 'node_modules/**',
-      runtimeHelpers: true,
-      plugins: [
-       [
-         '@babel/transform-runtime',
-         { useESModules: output.format !== 'cjs' }
-       ]
-     ]
+      plugins: [ '@babel/external-helpers' ]
     }),
     resolve(),
     commonjs()

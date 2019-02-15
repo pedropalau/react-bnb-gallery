@@ -32,7 +32,9 @@
     "npm": ">=5"
   },
   "scripts": {
-    "test": "jest --no-cache --config ./jest.config.js",
+    "test": "jest --no-cache",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --colors",
     "build": "rollup -c",
     "start": "rollup -c -w",
     "prepublish": "npm run build",
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@babel/plugin-external-helpers": "^7.2.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-decorators": "^7.0.0",
     "@babel/plugin-proposal-do-expressions": "^7.0.0",
@@ -86,7 +89,6 @@
     "gh-pages": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.1.0",
-    "jest-cli": "^24.1.0",
     "jest-environment-enzyme": "^7.0.1",
     "jest-enzyme": "^7.0.1",
     "prettier": "^1.6.1",
@@ -116,7 +118,6 @@
     "object.assign": "^4.1.0",
     "object.values": "^1.0.4",
     "prop-types": "^15.6.1",
-    "prop-types-exact": "^1.2.0",
     "react-portal": "^4.2.0"
   }
 }

@@ -1,21 +1,27 @@
-{
+module.exports = {
   "env": {
     "test": {
-      "presets": ["airbnb"]
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react",
+        "airbnb"
+      ]
     },
     "development": {
-      "presets": ["airbnb"]
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react",
+        "airbnb"
+      ]
     },
     "production": {
-      "presets": [["airbnb", { "removePropTypes": true }]],
+      "presets": [
+        ["airbnb", {
+          "removePropTypes": true
+        }]
+      ],
     }
   },
-  "presets": [
-    ["@babel/preset-env", {
-      "modules": false
-    }],
-    "@babel/preset-react"
-  ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-export-default-from",
