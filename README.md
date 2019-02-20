@@ -90,6 +90,9 @@ You can set the following properties. For function options, the default value `n
 | `showThumbnails`           | `boolean`        | `true`           | Whether the gallery should show thumbnails.
 | `keyboard`                 | `boolean`        | `true`           | Whether the gallery should react to keyboard events.
 | `wrap`                     | `boolean`        | `false`          | Whether the gallery should cycle continuously or have hard stops.
+| `opacity`                  | `number`         | `1`              | Sets the opacity level for the component.
+| `backgroundColor`          | `string`         | `#000000`        | Sets the background color of the gallery component.
+| `zIndex`                   | `number`         | `2000`           | Specifies the stack order of the component.
 
 ### Photos array item properties (passed into ReactBnbGallery's photos property)
 
