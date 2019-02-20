@@ -94,12 +94,11 @@ code.prop {
 }
 
 .intro {
-  min-height: 500px;
-  min-height: 50vh;
   padding-top: 16em;
   padding-bottom: 12em;
   display: -ms-flexbox;
   display: flex;
+  height: auto;
   -ms-flex-direction: column;
   flex-direction: column;
   -ms-flex-pack: center;
@@ -165,4 +164,35 @@ table td {
 
 table tbody tr:nth-child(odd) {
   background-color: rgb(245, 245, 245);
+}
+
+@media (max-width: 550px) {
+  .actions {
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .actions > div {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    padding: 10px 20px;
+  }
+
+  .actions .button {
+    width: 100%;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .intro {
+    padding-top: 10em;
+    padding-bottom: 6em;
+  }
+}
+
+@media (min-width: 1200px) {
+  .intro {
+    min-height: 500px;
+    max-height: 50vh;
+  }
 }
