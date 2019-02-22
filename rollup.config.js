@@ -20,8 +20,7 @@ const createConfig = (output) => ({
     url(),
     svgr(),
     babel({
-      exclude: 'node_modules/**',
-      plugins: [ '@babel/external-helpers' ]
+      exclude: 'node_modules/**'
     }),
     resolve(),
     commonjs()
