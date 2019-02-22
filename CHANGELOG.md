@@ -4,6 +4,9 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.1.5
+- [fix] Does not work with TypeScript ([#2](https://github.com/peterpalau/react-bnb-gallery/issues/2))
+
 ## 1.1.4
 - [new] Added `opacity` property to set the opacity level.
 - [new] Added `backgroundColor` property to set the background color.
