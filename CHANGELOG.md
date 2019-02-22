@@ -6,6 +6,7 @@
 
 ## 1.1.5
 - [fix] Does not work with TypeScript ([#2](https://github.com/peterpalau/react-bnb-gallery/issues/2))
+- [fix] Warning `Using "external-helpers" plugin with rollup is deprecated`.
 
 ## 1.1.4
 - [new] Added `opacity` property to set the opacity level.
