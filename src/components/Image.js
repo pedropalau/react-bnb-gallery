@@ -29,15 +29,23 @@ const defaultProps = {
   alt: '',
 };
 
+const defaultState = {
+  loading: true,
+  withError: false,
+};
+
 class Image extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loading: true,
-      withError: false,
-    };
+    this.state = defaultState;
     this.onLoad = this.onLoad.bind(this);
     this.onError = this.onError.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.src !== this.props.src) {
+      this.setState(defaultState);
+    }
   }
 
   onLoad() {
