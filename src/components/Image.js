@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
@@ -29,7 +29,7 @@ const defaultProps = {
   alt: '',
 };
 
-class Image extends PureComponent {
+class Image extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,7 +42,7 @@ class Image extends PureComponent {
 
   onLoad() {
     const { onLoad } = this.props;
-    // wait a litle to show the final picture
+    // wait a bit to show the final picture
     setTimeout(() => {
       onLoad();
       this.setState({
