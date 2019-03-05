@@ -36,6 +36,9 @@ class Gallery extends PureComponent {
       hidePrevButton: wrap && activePhotoIndex === 0,
       hideNextButton: wrap && activePhotoIndex === photos.length - 1,
       controlsDisabled: true,
+      touchStartInfo: null,
+      touchEndInfo: null,
+      touchMoved: false,
     };
     this.lastPreloadIndex = 0;
     this.preloadedPhotos = [];
@@ -47,6 +50,9 @@ class Gallery extends PureComponent {
     this.onPhotoLoad = this.onPhotoLoad.bind(this);
     this.onPhotoError = this.onPhotoError.bind(this);
     this.onPhotoPress = this.onPhotoPress.bind(this);
+    this.onTouchStart = this.onTouchStart.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
+    this.onTouchEnd = this.onTouchEnd.bind(this);
     this.onThumbnailPress = this.onThumbnailPress.bind(this);
     this.onPrevButtonPress = this.onPrevButtonPress.bind(this);
     this.onNextButtonPress = this.onNextButtonPress.bind(this);
@@ -76,6 +82,33 @@ class Gallery extends PureComponent {
     const { activePhotoPressed } = this.props;
     this.move(DIRECTION_NEXT);
     activePhotoPressed();
+  }
+
+  onTouchStart(event) {
+    this.setState({
+      touchStartInfo: event.targetTouches[0],
+    });
+  }
+
+  onTouchMove(event) {
+    this.setState({
+      touchMoved: true,
+      touchEndInfo: event.targetTouches[0],
+    });
+  }
+
+  onTouchEnd() {
+    const { touchStartInfo, touchEndInfo, touchMoved } = this.state;
+
+    if (touchMoved) {
+      if (touchStartInfo.screenX < touchEndInfo.screenX) {
+        this.onPrevButtonPress();
+      } else if (touchStartInfo.screenX > touchEndInfo.screenX) {
+        this.onNextButtonPress();
+      }
+    }
+
+    this.setState({ touchMoved: false });
   }
 
   onThumbnailPress(index) {
@@ -247,6 +280,9 @@ class Gallery extends PureComponent {
                     onLoad={this.onPhotoLoad}
                     onError={this.onPhotoError}
                     onPress={this.onPhotoPress}
+                    onTouchStart={this.onTouchStart}
+                    onTouchMove={this.onTouchMove}
+                    onTouchEnd={this.onTouchEnd}
                   />
                 </div>
               </div>
