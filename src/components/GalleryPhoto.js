@@ -18,12 +18,18 @@ const propTypes = forbidExtraProps({
   ...imagePropTypes,
   photo: PhotoShape,
   onPress: PropTypes.func,
+  onTouchStart: PropTypes.func,
+  onTouchMove: PropTypes.func,
+  onTouchEnd: PropTypes.func,
 });
 
 const defaultProps = {
   ...imageDefaultProps,
   photo: null,
   onPress: noop,
+  onTouchStart: noop,
+  onTouchMove: noop,
+  onTouchEnd: noop,
 };
 
 class GalleryPhoto extends PureComponent {
@@ -40,6 +46,9 @@ class GalleryPhoto extends PureComponent {
   renderPhoto() {
     const {
       photo,
+      onTouchStart,
+      onTouchMove,
+      onTouchEnd,
       ...rest
     } = this.props;
 
@@ -56,6 +65,9 @@ class GalleryPhoto extends PureComponent {
         type="button"
         onClick={this.onPress}
         className="photo-button"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
         <Image
           alt={photo.caption || ''}
