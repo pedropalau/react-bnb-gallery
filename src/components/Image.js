@@ -37,15 +37,27 @@ const defaultState = {
 class Image extends Component {
   constructor(props) {
     super(props);
-    this.state = defaultState;
+    const { src } = props;
+    this.state = {
+      currentSrc: src,
+      ...defaultState,
+    };
     this.onLoad = this.onLoad.bind(this);
     this.onError = this.onError.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.src !== this.props.src) {
-      this.setState(defaultState);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { src } = nextProps;
+    const { currentSrc } = prevState;
+
+    if (src !== currentSrc) {
+      return {
+        currentSrc: src,
+        ...defaultState,
+      };
     }
+
+    return null;
   }
 
   onLoad() {
