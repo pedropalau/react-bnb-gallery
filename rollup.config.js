@@ -10,9 +10,13 @@ import pkg from './package.json'
 
 const createConfig = (output) => ({
   input: 'src/index.js',
-  output: Object.assign({ sourcemap: true }, output),
+  output: Object.assign({
+    sourcemap: true,
+  }, output),
   plugins: [
-    external({ includeDependencies: true }),
+    external({
+      includeDependencies: true,
+    }),
     postcss({
       modules: false,
       sourcemap: false
@@ -23,7 +27,7 @@ const createConfig = (output) => ({
       exclude: 'node_modules/**'
     }),
     resolve(),
-    commonjs()
+    commonjs(),
   ]
 })
 
