@@ -4,6 +4,11 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.1.6
+- [enhancement] Using the latest version of some dependencies.
+- [enhancement] `react-scripts` version updated for the example showcase.
+- [fixed] Some vulnerabilities issues
+
 ## 1.1.5
 - [fix] Does not work with TypeScript ([#2](https://github.com/peterpalau/react-bnb-gallery/issues/2))
 - [fix] Warning `Using "external-helpers" plugin with rollup is deprecated`.
