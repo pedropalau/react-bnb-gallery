@@ -4,6 +4,10 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.1.7
+- [enhancement] Updates multiple dependencies.
+- [enhancement] Replace `npm` with `yarn`.
+
 ## 1.1.6
 - [enhancement] Using the latest version of some dependencies.
 - [enhancement] `react-scripts` version updated for the example showcase.
