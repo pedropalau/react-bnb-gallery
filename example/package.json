@@ -23,12 +23,15 @@
     "react": "^16.8.5",
     "react-bnb-gallery": "file:..",
     "react-dom": "^16.8.5",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^3.1.2",
     "react-sizeme": "^2.5.2"
   },
   "devDependencies": {
-    "babel-jest": "^24.8.0",
-    "jest": "^24.8.0"
+    "@babel/core": "^7.0.0",
+    "babel-jest": "^24.9.0"
+  },
+  "optionalDependencies": {
+    "typescript": "^3.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,10 +41,6 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "resolutions": {
-    "babel-jest": "24.7.1",
-    "jest": "24.7.1"
   },
   "browserslist": [
     ">0.2%",
