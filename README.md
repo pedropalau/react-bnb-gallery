@@ -4,7 +4,6 @@
 
 > Simple photo gallery based on React and Airbnb image gallery
 
-
 ## Live Demo
 
 [https://peterpalau.github.io/react-bnb-gallery/](https://peterpalau.github.io/react-bnb-gallery/)
