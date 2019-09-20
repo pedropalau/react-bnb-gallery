@@ -6,16 +6,12 @@ import GalleryCaption from '../../src/components/GalleryCaption';
 
 import photos from '../test-photos';
 
-const requiredProps = {
-  photos,
-};
-
 describe('Gallery', () => {
   describe('#render', () => {
     it('renders <GalleryCaption />', () => {
       const wrapper = shallow((
         <Gallery
-          {...requiredProps}
+          photos={photos}
           showThumbnails
         />
       ));
@@ -24,7 +20,7 @@ describe('Gallery', () => {
     it('<GalleryCaption /> is not rendered if props.showThumbnails === false', () => {
       const wrapper = shallow((
         <Gallery
-          {...requiredProps}
+          photos={photos}
           showThumbnails={false}
         />
       ));

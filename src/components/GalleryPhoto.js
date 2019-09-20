@@ -56,7 +56,11 @@ class GalleryPhoto extends PureComponent {
       return null;
     }
 
-    const imageProps = omit(rest, [
+    const {
+      onLoad,
+      onError,
+      style,
+    } = omit(rest, [
       'onPress',
     ]);
 
@@ -73,7 +77,9 @@ class GalleryPhoto extends PureComponent {
           alt={photo.caption || ''}
           className="photo"
           src={photo.photo}
-          {...imageProps}
+          onLoad={onLoad}
+          onError={onError}
+          style={style}
         />
       </button>
     );

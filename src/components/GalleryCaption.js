@@ -96,7 +96,7 @@ class GalleryCaption extends PureComponent {
   }
 
   toggleThumbnails() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       showThumbnails: !prevState.showThumbnails,
     }));
   }

@@ -22,12 +22,6 @@ const buttonStyleLight = {
   fill: INVERSE_COLOR,
 };
 
-const buttonProps = {
-  viewBox: '0 0 24 24',
-  role: 'img',
-  focusable: false,
-};
-
 const propTypes = forbidExtraProps({
   onPress: PropTypes.func,
   light: PropTypes.bool,
@@ -49,7 +43,9 @@ const GalleryCloseButton = ({
     aria-busy={false}
   >
     <svg
-      {...buttonProps}
+      viewBox="0 0 24 24"
+      role="img"
+      focusable="false"
       style={{
         ...buttonStyle,
         ...(light && buttonStyleLight),

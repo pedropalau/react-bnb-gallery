@@ -11,13 +11,6 @@ import {
   INVERSE_COLOR,
 } from '../constants';
 
-const svgAttributes = {
-  viewBox: '0 0 18 18',
-  role: 'presentation',
-  focusable: false,
-  'aria-hidden': true,
-};
-
 const controlStyle = {
   height: '2.8em',
   width: '2.8em',
@@ -76,7 +69,10 @@ class GalleryControl extends React.PureComponent {
         aria-label={label}
       >
         <svg
-          {...svgAttributes}
+          viewBox="0 0 18 18"
+          role="presentation"
+          focusable="false"
+          aria-hidden="true"
           style={{
             ...controlStyle,
             ...(light && controlStyleLight),

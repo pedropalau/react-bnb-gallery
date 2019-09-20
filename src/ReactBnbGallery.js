@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
@@ -136,7 +138,16 @@ class ReactBnbGallery extends Component {
       return null; // nothing to return
     }
 
-    const galleryProps = omit(this.props, [
+    const {
+      wrap,
+      activePhotoIndex,
+      activePhotoPressed,
+      direction,
+      nextButtonPressed,
+      prevButtonPressed,
+      showThumbnails,
+      preloadSize,
+    } = omit(this.props, [
       'onClose',
       'leftKeyPressed',
       'rightKeyPressed',
@@ -148,24 +159,22 @@ class ReactBnbGallery extends Component {
       'keyboard',
     ]);
 
-    const modalProps = {
-      className: classnames([
-        'gallery-modal',
-        light && 'mode-light',
-      ]),
-      role: 'dialog',
-      tabIndex: -1,
-      onKeyDown: keyboard && this.onKeyDown,
-      zindex,
-    };
-
     // modal overlay customization styles
     const galleryModalOverlayStyles = this.getModalOverlayStyles();
 
     return (
       <Portal>
         <FocusTrap>
-          <div {...modalProps}>
+          <div
+            className={classnames([
+              'gallery-modal',
+              light && 'mode-light',
+            ])}
+            zindex={zindex}
+            onKeyDown={keyboard && this.onKeyDown}
+            tabIndex="-1"
+            role="dialog"
+          >
             <div
               style={galleryModalOverlayStyles}
               className="gallery-modal--overlay"
@@ -188,7 +197,15 @@ class ReactBnbGallery extends Component {
                         phrases={phrases}
                         ref={this.gallery}
                         photos={photos}
-                        {...galleryProps}
+                        wrap={wrap}
+                        activePhotoIndex={activePhotoIndex}
+                        activePhotoPressed={activePhotoPressed}
+                        direction={direction}
+                        nextButtonPressed={nextButtonPressed}
+                        prevButtonPressed={prevButtonPressed}
+                        showThumbnails={showThumbnails}
+                        preloadSize={preloadSize}
+                        light={light}
                       />
                     </div>
                   </div>

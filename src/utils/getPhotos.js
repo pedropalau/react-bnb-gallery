@@ -1,9 +1,14 @@
 import { defaultPhotoProps } from '../constants';
 
 export function processPhoto(photo, index) {
-  return Object.assign({}, defaultPhotoProps, typeof photo === 'string'
+  const props = typeof photo === 'string'
     ? { number: (index + 1), photo }
-    : { ...photo, number: (index + 1) });
+    : { ...photo, number: (index + 1) };
+
+  return {
+    ...defaultPhotoProps,
+    ...props,
+  };
 }
 
 export default function getPhotos(photos) {

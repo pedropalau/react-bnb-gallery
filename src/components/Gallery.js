@@ -233,7 +233,7 @@ class Gallery extends PureComponent {
   renderPreloadPhotos() {
     const { photos } = this.props;
 
-    return photos.map(photo => (
+    return photos.map((photo) => (
       <img
         key={photo.photo}
         alt={photo.photo}

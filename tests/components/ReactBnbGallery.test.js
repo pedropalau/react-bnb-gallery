@@ -6,17 +6,11 @@ import Gallery from '../../src/components/Gallery';
 
 import photos from '../test-photos';
 
-const requiredProps = {
-  photos,
-};
-
 describe('ReactBnbGallery', () => {
   describe('#render', () => {
     it('unmounts', () => {
       const wrapper = mount((
-        <ReactBnbGallery
-          {...requiredProps}
-        />
+        <ReactBnbGallery photos={photos} />
       ));
       wrapper.setProps({ show: true });
       wrapper.unmount();
@@ -24,7 +18,7 @@ describe('ReactBnbGallery', () => {
     it('renders <Gallery />', () => {
       const wrapper = shallow((
         <ReactBnbGallery
-          {...requiredProps}
+          photos={photos}
           show
         />
       )).dive();
