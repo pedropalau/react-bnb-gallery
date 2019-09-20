@@ -27,10 +27,6 @@
   "bugs": {
     "url": "https://github.com/peterpalau/react-bnb-gallery/issues"
   },
-  "engines": {
-    "node": ">=10.*",
-    "yarn": ">=1.10.0"
-  },
   "scripts": {
     "test": "jest --no-cache",
     "test:watch": "jest --watch",
