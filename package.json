@@ -28,7 +28,7 @@
     "url": "https://github.com/peterpalau/react-bnb-gallery/issues"
   },
   "engines": {
-    "node": ">=8",
+    "node": ">=10.*",
     "yarn": ">=1.10.0"
   },
   "scripts": {
