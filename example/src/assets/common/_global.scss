@@ -35,31 +35,6 @@ code {
   flex-direction: column;
 }
 
-.container {
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  max-width: 700px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  text-align: center;
-}
-
-.intro {
-  padding-top: 2em;
-  padding-bottom: 2em;
-  display: flex;
-  height: auto;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .responsive-table {
   max-width: 100%;
   overflow-x: auto;
@@ -68,21 +43,6 @@ code {
 
 .title + .text {
   margin-top: 0 !important;
-}
-
-.actions {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.button em {
-  font-size: 70%;
-  font-style: normal;
-  display: inline-block;
-  vertical-align: middle;
-  opacity: 0.5;
 }
 
 table {
@@ -119,34 +79,4 @@ table td {
 
 table tbody tr:nth-child(odd) {
   background-color: rgb(245, 245, 245);
-}
-
-@media (max-width: 550px) {
-  .actions {
-    flex-direction: column;
-  }
-
-  .actions > div {
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-    padding: 10px 20px;
-  }
-
-  .actions .button {
-    width: 100%;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  .intro {
-    padding-top: 10em;
-    padding-bottom: 6em;
-  }
-}
-
-@media (min-width: 1200px) {
-  .intro {
-    min-height: 500px;
-    max-height: 50vh;
-  }
 }

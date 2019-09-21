@@ -1,0 +1,9 @@
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  padding-left: $container-gutter;
+  padding-right: $container-gutter;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}

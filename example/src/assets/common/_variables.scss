@@ -10,10 +10,36 @@ $body-color: $dark;
 $font-family-sans-serif: "Inter", sans-serif;
 $font-family-monospace: "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 
+$font-size-base: 1rem;
 $line-height-base: 1.5;
 
 $font-weight-normal: 400;
 $font-weight-bold: 700;
+
+$text-color: $body-color;
+$text-font-size: $font-size-base;
+$text-line-height: $line-height-base;
+$text-link-padding: 0 0.12rem;
+$text-link-background: #F7FAFC;
+$text-link-background-hover: #C6F6D5;
+$text-spacing: 0 0 1rem;
+
+/** Headings */
+$heading-color: $body-color;
+$heading-spacing: 0 auto 0.8rem;
+$heading-line-height: 1.5;
+$heading-font-weight: 700;
+
+$h1-font-size: 42px;
+$h2-font-size: 36px;
+$h3-font-size: 28px;
+$h4-font-size: 25px;
+$h5-font-size: 20px;
+$h6-font-size: 15px;
+
+/** Content */
+$container-max-width: 800px;
+$container-gutter: 15px;
 
 /** Links */
 $link-color: $primary;
@@ -87,3 +113,12 @@ $btn-large-font-size: 17px;
 $btn-large-border-width: 2px;
 $btn-large-border-radius: 4px;
 $btn-large-font-weight: $font-weight-bold;
+
+/** Header */
+$header-background-color: $white;
+$header-padding-x: 0;
+$header-padding-y: 0.25rem;
+$header-navigation-spacing: 1em;
+$header-container-max-width: $container-max-width;
+$header-border: 4px solid #48BB78;
+$header-border-bottom: 1px solid #EDF2F7;

@@ -8,3 +8,12 @@
 
 /** Components */
 @import "./components/buttons";
+@import "./components/titles";
+@import "./components/texts";
+
+/** Layouts */
+@import "./layouts/header";
+@import "./layouts/content";
+
+/** Pages */
+@import "./pages/home";
