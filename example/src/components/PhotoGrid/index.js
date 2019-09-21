@@ -7,7 +7,7 @@ import Image from './Image';
 
 import photos from './photos';
 
-import './component.css';
+import './component.scss';
 
 const propTypes = {
   photosPerColumn: PropTypes.number,

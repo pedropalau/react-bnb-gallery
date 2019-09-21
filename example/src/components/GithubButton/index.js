@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { forbidExtraProps } from 'airbnb-prop-types';
 
-import './component.css';
+import './component.scss';
 
 const svgStyle = {
   fill: '#111',

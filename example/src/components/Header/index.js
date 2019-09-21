@@ -5,7 +5,7 @@ import GithubButton from '../GithubButton/simple';
 
 import sections from '../../pages';
 
-import './component.css';
+import './component.scss';
 
 const Header = () => (
   <header className="header">

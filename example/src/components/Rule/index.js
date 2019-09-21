@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './component.css';
+import './component.scss';
 
 const Rule = () => (
   <div className="rule" />

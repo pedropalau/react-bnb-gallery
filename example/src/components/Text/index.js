@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { forbidExtraProps } from 'airbnb-prop-types';
 import classnames from 'classnames';
 
-import './component.css';
+import './component.scss';
 
 const propTypes = forbidExtraProps({
   children: PropTypes.node.isRequired,

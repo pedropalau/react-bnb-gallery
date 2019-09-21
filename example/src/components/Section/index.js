@@ -5,7 +5,7 @@ import Container from '../Container';
 import Rule from '../Rule';
 import Title from '../Title';
 
-import './component.css';
+import './component.scss';
 
 const propTypes = {
   section: PropTypes.object.isRequired,
