@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 const propTypes = forbidExtraProps({
   children: PropTypes.node.isRequired,
+  url: PropTypes.string,
   customStyle: PropTypes.object,
   large: PropTypes.bool,
   normal: PropTypes.bool,
@@ -17,6 +18,7 @@ const propTypes = forbidExtraProps({
 });
 
 const defaultProps = {
+  url: null,
   customStyle: null,
   large: false,
   normal: true,
@@ -30,6 +32,7 @@ const defaultProps = {
 
 const Button = ({
   children,
+  url,
   customStyle,
   large,
   normal,
@@ -39,26 +42,36 @@ const Button = ({
   secondary,
   outline,
   block,
-}) => (
-  <button className={classnames(
-    'button',
-    // sizing
-    (normal && (!primary || !secondary)) && 'button__default',
-    small && 'button__small',
-    large && 'button__large',
-    // color
-    primary && 'button__primary',
-    secondary && 'button__secondary',
-    // styles
-    outline && 'button__outline',
-    block && 'button__block',
-  )}
-    onClick={onPress}
-    style={customStyle}
-    type="button">
-    {children}
-  </button>
-);
+}) => {
+  let ComponentName, props = {};
+  if (url) {
+    ComponentName = 'a';
+    props = { href: url };
+  } else {
+    ComponentName = 'button';
+  }
+
+  return (
+    <ComponentName {...props} className={classnames(
+      'button',
+      // sizing
+      (normal && (!primary || !secondary)) && 'button__default',
+      small && 'button__small',
+      large && 'button__large',
+      // color
+      primary && 'button__primary',
+      secondary && 'button__secondary',
+      // styles
+      outline && 'button__outline',
+      block && 'button__block',
+    )}
+      onClick={onPress}
+      style={customStyle}
+      type="button">
+      {children}
+    </ComponentName>
+  );
+};
 
 Button.propTypes = propTypes;
 Button.defaultProps = defaultProps;
