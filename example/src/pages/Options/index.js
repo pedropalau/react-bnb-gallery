@@ -2,13 +2,15 @@ import React from 'react';
 
 import Anchor from '../../components/Anchor';
 import Container from '../../components/Container';
+import Heading from '../../components/Heading';
 import Text from '../../components/Text';
 import Title from '../../components/Title';
 
 import withPrism from '../../utils/withPrism';
 
 const Options = () => (
-  <Container className="content" style={{ textAlign: 'center' }}>
+  <Container className="container">
+    <Heading>Available options</Heading>
     <Text inherit>You can set the following properties.</Text>
     <div className="responsive-table">
       <table>
