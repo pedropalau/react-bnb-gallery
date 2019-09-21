@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 import GithubButton from '../GithubButton/simple';
 
-import sections from '../../sections';
+import sections from '../../pages';
 
 import './component.css';
 
@@ -10,16 +11,13 @@ const Header = () => (
   <header className="header">
     <nav className="navigation">
       <ul className="nav">
-        <li>
-          <a href="#start">Home</a>
-        </li>
         {sections.map(section => {
           if (!section.disabled) {
             return (
               <li key={section.id}>
-                <a href={`#${section.id}`}>
+                <Link to={section.id}>
                   {section.title}
-                </a>
+                </Link>
               </li>
             );
           } else {

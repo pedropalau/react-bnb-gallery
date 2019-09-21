@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 
-import ReactBnbGallery from 'react-bnb-gallery';
+import { default as ReactBnbGallery } from 'react-bnb-gallery';
 
 import Button from '../../components/Button';
 import Container from '../../components/Container';
