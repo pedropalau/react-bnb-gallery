@@ -1,9 +1,11 @@
 .button {
   display: inline-flex;
+  align-items: center;
   border: $btn-border;
   border-radius: $btn-border-radius;
   box-shadow: $btn-box-shadow;
   cursor: pointer;
+  text-decoration: none;
 
   &:focus,
   &:active {
