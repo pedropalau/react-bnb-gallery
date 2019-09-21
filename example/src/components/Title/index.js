@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { forbidExtraProps, range } from 'airbnb-prop-types';
 import classnames from 'classnames';
 
-import './component.scss';
-
 const propTypes = forbidExtraProps({
   children: PropTypes.node.isRequired,
   level: range(1, 7),
