@@ -15,7 +15,6 @@ import {
 import PHOTOS from '../../photos';
 
 const buttonCustomStyle = {
-  display: 'inline-block',
   marginTop: '16px',
   marginBottom: '24px',
 };
@@ -73,17 +72,18 @@ class Home extends Component {
                 primary
                 large
               >
-                View photo gallery
+                View demo gallery
               </Button>
             </Spacing>
             <Spacing left={2}>
               <Button
                 customStyle={buttonCustomStyle}
+                url="https://github.com/peterpalau/react-bnb-gallery"
                 secondary
                 outline
                 large
               >
-                Demos <em>(comming soon)</em>
+                Fork this repository
               </Button>
             </Spacing>
           </Container>
