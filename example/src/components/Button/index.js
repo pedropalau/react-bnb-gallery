@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { forbidExtraProps } from 'airbnb-prop-types';
 import classnames from 'classnames';
-
-import './component.scss';
 
 const propTypes = forbidExtraProps({
   children: PropTypes.node.isRequired,
@@ -24,7 +21,7 @@ const defaultProps = {
   large: false,
   normal: true,
   onPress: () => {},
-  primary: true,
+  primary: false,
   small: false,
   secondary: false,
   outline: false,
@@ -46,8 +43,8 @@ const Button = ({
   <button className={classnames(
     'button',
     // sizing
-    normal && 'button_default',
-    small && 'button_small',
+    (normal && (!primary || !secondary)) && 'button__default',
+    small && 'button__small',
     large && 'button__large',
     // color
     primary && 'button__primary',

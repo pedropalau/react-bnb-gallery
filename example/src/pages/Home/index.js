@@ -70,7 +70,7 @@ class Home extends Component {
               <Button
                 onPress={this.toggleGallery}
                 customStyle={buttonCustomStyle}
-                secondary
+                primary
                 large
               >
                 View photo gallery
@@ -79,7 +79,7 @@ class Home extends Component {
             <Spacing left={2}>
               <Button
                 customStyle={buttonCustomStyle}
-                primary
+                secondary
                 outline
                 large
               >

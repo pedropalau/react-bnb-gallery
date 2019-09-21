@@ -1,0 +1,99 @@
+.button {
+  display: inline-flex;
+  border: $btn-border;
+  border-radius: $btn-border-radius;
+  box-shadow: $btn-box-shadow;
+  cursor: pointer;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &.button__block {
+    display: block;
+    width: 100%;
+  }
+
+  &.button__default {
+    line-height: $btn-line-height;
+    height: $btn-height;
+    padding: $btn-padding-y $btn-padding-x;
+    font-size: $btn-font-size;
+    font-weight: $btn-font-weight;
+    border-width: $btn-border-width;
+    border-radius: $btn-border-radius;
+  }
+
+  &.button__small {
+    line-height: $btn-small-line-height;
+    height: $btn-small-height;
+    padding: $btn-small-padding-y $btn-small-padding-x;
+    font-size: $btn-small-font-size;
+    font-weight: $btn-small-font-weight;
+    border-width: $btn-small-border-width;
+    border-radius: $btn-small-border-radius;
+  }
+
+  &.button__large {
+    line-height: $btn-large-line-height;
+    height: $btn-large-height;
+    padding: $btn-large-padding-y $btn-large-padding-x;
+    font-size: $btn-large-font-size;
+    font-weight: $btn-large-font-weight;
+    border-width: $btn-large-border-width;
+    border-radius: $btn-large-border-radius;
+  }
+
+  &.button__outline {
+    box-shadow: none;
+  }
+
+  &.button__primary {
+    color: $btn-primary-color;
+    background-color: $btn-primary-background;
+    border-color: $btn-primary-border;
+  
+    &:hover {
+      color: $btn-primary-hover-color;
+      background-color: $btn-primary-hover-background;
+      border-color: $btn-primary-hover-border;
+    }
+  
+    &.button__outline {
+      color: $btn-primary-outline-color;
+      background-color: $btn-primary-outline-background;
+      border-color: $btn-primary-outline-border;
+
+      &:hover {
+        color: $btn-primary-outline-hover-color;
+        background-color: $btn-primary-outline-hover-background;
+        border-color: $btn-primary-outline-hover-border;
+      }
+    }
+  }
+
+  &.button__secondary {
+    color: $btn-secondary-color;
+    background-color: $btn-secondary-background;
+    border-color: $btn-secondary-border;
+
+    &:hover {
+      color: $btn-secondary-hover-color;
+      background-color: $btn-secondary-hover-background;
+      border-color: $btn-secondary-hover-border;
+    }
+
+    &.button__outline {
+      color: $btn-secondary-outline-color;
+      background-color: $btn-secondary-outline-background;
+      border-color: $btn-secondary-outline-border;
+
+      &:hover {
+        color: $btn-secondary-outline-hover-color;
+        background-color: $btn-secondary-outline-hover-background;
+        border-color: $btn-secondary-outline-hover-border;
+      }
+    }
+  }
+}

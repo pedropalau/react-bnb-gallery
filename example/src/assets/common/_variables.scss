@@ -1,6 +1,7 @@
 /** Colors */
+$white: #fff;
 $primary: #37a866;
-$dark: #111111;
+$dark: #111;
 
 /** Common */
 $body-color: $dark;
@@ -10,7 +11,9 @@ $font-family-sans-serif: "Helvetica Neue", Arial, -apple-system, BlinkMacSystemF
 $font-family-monospace: "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 
 $line-height-base: 1.5;
+
 $font-weight-normal: 400;
+$font-weight-bold: 700;
 
 /** Links */
 $link-color: $primary;
@@ -23,3 +26,64 @@ $code-text-align: left;
 $code-line-height: $line-height-base;
 $code-tab-size: 2;
 $code-font-weight: $font-weight-normal;
+
+/** Buttons */
+$btn-border-width: 1px;
+$btn-border-style: solid;
+$btn-border-color: transparent;
+$btn-border: $btn-border-width $btn-border-style $btn-border-color;
+$btn-border-radius: 2px;
+$btn-box-shadow: none;
+
+$btn-primary-color: $white;
+$btn-primary-background: #48bb78;
+$btn-primary-border: #48bb78;
+$btn-primary-hover-color: $white;
+$btn-primary-hover-background: #2f855a;
+$btn-primary-hover-border: #2f855a;
+$btn-primary-outline-color: #48BB78;
+$btn-primary-outline-background: transparent;
+$btn-primary-outline-border: #48BB78;
+$btn-primary-outline-hover-color: $white;
+$btn-primary-outline-hover-background: #48bb78;
+$btn-primary-outline-hover-border: #48bb78;
+
+$btn-secondary-color: #1A202C;
+$btn-secondary-background: #EDF2F7;
+$btn-secondary-border: #EDF2F7;
+$btn-secondary-hover-color: $white;
+$btn-secondary-hover-background: #1A202C;
+$btn-secondary-hover-border: #1A202C;
+$btn-secondary-outline-color: #1A202C;
+$btn-secondary-outline-background: transparent;
+$btn-secondary-outline-border: #E2E8F0;
+$btn-secondary-outline-hover-color: $white;
+$btn-secondary-outline-hover-background: #1A202C;
+$btn-secondary-outline-hover-border: #1A202C;
+
+$btn-line-height: 1.6;
+$btn-height: 44px;
+$btn-padding-y: 0;
+$btn-padding-x: 20px;
+$btn-font-size: 15px;
+$btn-border-width: 2px;
+$btn-border-radius: 3px;
+$btn-font-weight: $font-weight-bold;
+
+$btn-small-line-height: 1.6;
+$btn-small-height: 36px;
+$btn-small-padding-y: 0;
+$btn-small-padding-x: 14px;
+$btn-small-font-size: 12px;
+$btn-small-border-width: 1px;
+$btn-small-border-radius: 4px;
+$btn-small-font-weight: $font-weight-normal;
+
+$btn-large-line-height: 1.6;
+$btn-large-height: 54px;
+$btn-large-padding-y: 0;
+$btn-large-padding-x: 24px;
+$btn-large-font-size: 17px;
+$btn-large-border-width: 2px;
+$btn-large-border-radius: 4px;
+$btn-large-font-weight: $font-weight-bold;
