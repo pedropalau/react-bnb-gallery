@@ -36,9 +36,11 @@ export default [
   createConfig({
     file: pkg.main,
     format: 'cjs',
+    exports: 'named',
   }),
   createConfig({
     file: pkg.module,
     format: 'esm',
+    exports: 'named',
   }),
 ];
