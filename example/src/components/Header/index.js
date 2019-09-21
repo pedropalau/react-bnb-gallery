@@ -1,38 +1,55 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
+import Container from '../Container';
 import GithubButton from '../GithubButton/simple';
 
 import sections from '../../pages';
 
-import './component.scss';
+import { ReactComponent as Logo } from './logo.svg';
 
-const Header = () => (
-  <header className="header">
-    <nav className="navigation">
+class Header extends Component {
+  renderMenu() {
+    const items = sections.map(section => {
+      if (!section.disabled) {
+        return (
+          <li key={section.id}>
+            <Link to={section.id}>
+              {section.title}
+            </Link>
+          </li>
+        );
+      } else {
+        return null;
+      }
+    });
+
+    return (
       <ul className="nav">
-        {sections.map(section => {
-          if (!section.disabled) {
-            return (
-              <li key={section.id}>
-                <Link to={section.id}>
-                  {section.title}
-                </Link>
-              </li>
-            );
-          } else {
-            return null;
-          }
-        })}
-        <li>
-          <a href="https://github.com/peterpalau/react-bnb-gallery/" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </li>
+        {items}
       </ul>
-    </nav>
-    <div className="right">
-      <GithubButton />
-    </div>
-  </header>
-);
+    );
+  }
+
+  render() {
+    return (
+      <header className="header">
+        <Container className="header__container">
+          <div class="header__content">
+            <div class="header__brand">
+              <Logo />
+            </div>
+            <nav className="navigation">
+              {this.renderMenu()}
+            </nav>
+            <div className="right">
+              <GithubButton />
+            </div>
+          </div>
+        </Container>
+      </header>
+    );
+  }
+}
 
 export default Header;
