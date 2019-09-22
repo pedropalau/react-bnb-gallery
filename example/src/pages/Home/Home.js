@@ -8,7 +8,6 @@ import {
   Spacing,
   Text,
   Title,
-  // eslint-disable-next-line
   PhotoGrid,
 } from '../../components';
 
@@ -63,7 +62,7 @@ class Home extends Component {
       <>
         <Container id="start" className="container intro">
           <Title level={1}>React photo gallery</Title>
-          <Text>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
+          <Text inherit>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
           <Container className="actions">
             <Spacing right={2}>
               <Button
@@ -88,7 +87,7 @@ class Home extends Component {
             </Spacing>
           </Container>
         </Container>
-        {/* <PhotoGrid onPhotoPress={this.onPhotoPress} />*/ }
+        <PhotoGrid onPhotoPress={this.onPhotoPress} />
         <ReactBnbGallery
           show={openGallery}
           photos={photosToShow}
