@@ -8,13 +8,15 @@ $body-color: $dark;
 
 /** Typography */
 $font-family-sans-serif: "Inter", sans-serif;
-$font-family-monospace: "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+$font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
 
 $font-size-base: 1rem;
 $line-height-base: 1.5;
 
 $font-weight-normal: 400;
 $font-weight-bold: 700;
+
+$font-size-sm: $font-size-base - 0.1;
 
 $text-color: $body-color;
 $text-font-size: $font-size-base;
@@ -122,3 +124,15 @@ $header-navigation-spacing: 1em;
 $header-container-max-width: $container-max-width;
 $header-border: 4px solid #48BB78;
 $header-border-bottom: 1px solid #EDF2F7;
+
+/** Tables */
+$table-color: $body-color;
+$table-border: none;
+$table-odd-background: transparent;
+$table-spacing: 1rem;
+$table-background-color: $white;
+$table-font-size: $font-size-sm;
+$table-line-height: $line-height-base;
+$table-cell-padding: 0.85rem 2rem 0.85rem 0;
+$table-box-shadow: none;
+$table-cell-border: 1px solid #E2E8F0;

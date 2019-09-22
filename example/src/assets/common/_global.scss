@@ -27,6 +27,14 @@ code {
   line-height: $code-line-height;
   tab-size: $code-tab-size;
   hyphens: none;
+
+  &.data-type {
+    background-color: #E6FFFA;
+    color: #2F855A;
+    padding: 0.35rem 0.82rem;
+    font-weight: 400;
+    border-radius: 10em;
+  }
 }
 
 #root {
@@ -35,48 +43,6 @@ code {
   flex-direction: column;
 }
 
-.responsive-table {
-  max-width: 100%;
-  overflow-x: auto;
-  margin-bottom: 2em;
-}
-
 .title + .text {
   margin-top: 0 !important;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 1rem;
-  background-color: transparent;
-  font-size: 15px;
-  line-height: 1.45;
-}
-
-p code,
-table code {
-  padding: 0.35rem 0.75rem;
-  color: #111111;
-  background-color: rgba(0, 0, 0, 0.051);
-  border-radius: 2px;
-}
-
-table th,
-table td {
-  padding: 0.85rem 2rem 0.85rem 0.5rem;
-  vertical-align: top;
-  border-width: 0;
-}
-
-table thead th {
-  vertical-align: bottom;
-}
-
-table td {
-  color: #666666;
-}
-
-table tbody tr:nth-child(odd) {
-  background-color: rgb(245, 245, 245);
 }

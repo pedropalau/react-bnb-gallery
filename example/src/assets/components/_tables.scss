@@ -1,0 +1,38 @@
+.responsive-table {
+  max-width: 100%;
+  margin-bottom: 2em;
+
+  @media (max-width: 767px) {
+    overflow-x: auto;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: $table-border;
+  margin-bottom: $table-spacing;
+  background-color: $table-background-color;
+  font-size: $table-font-size;
+  line-height: $table-line-height;
+  color: $table-color;
+  box-shadow: $table-box-shadow;
+
+  th,
+  td {
+    padding: $table-cell-padding;
+    vertical-align: top;
+  }
+
+  thead th {
+    vertical-align: bottom;
+  }
+
+  td {
+    border-top: $table-cell-border;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: $table-odd-background;
+  }
+}
