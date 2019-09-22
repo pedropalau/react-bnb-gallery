@@ -136,3 +136,17 @@ $table-line-height: $line-height-base;
 $table-cell-padding: 0.85rem 2rem 0.85rem 0;
 $table-box-shadow: none;
 $table-cell-border: 1px solid #E2E8F0;
+
+/** Prims */
+$prism-color: #F7FAFC;
+$prism-background: #2D3748;
+$prism-font-family: $font-family-monospace;
+$prism-line-height: 22px;
+$prism-text-shadow: none;
+$prism-border-radius: 0.5rem;
+$prism-tab-size: 2;
+$prism-block-border-radius: $prism-border-radius;
+$prism-block-padding: 0 0 1em;
+$prism-block-margin: 0.5rem 0 1.5rem;
+$prism-code-border-radius: $prism-border-radius;
+$prism-code-padding: 0.1em;
