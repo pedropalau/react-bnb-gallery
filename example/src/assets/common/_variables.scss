@@ -150,3 +150,10 @@ $prism-block-padding: 0 0 1em;
 $prism-block-margin: 0.5rem 0 1.5rem;
 $prism-code-border-radius: $prism-border-radius;
 $prism-code-padding: 0.1em;
+
+/** Photo Grid */
+$photo-grid-gutter: 6px;
+$photo-grid-col-max-size: 12%;
+$photo-grid-picture-spacing: ($photo-grid-gutter / 2) 0;
+$photo-grid-picture-background: #EDF2F7;
+$photo-grid-picture-background-loaded: #1A202C;
