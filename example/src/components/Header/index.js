@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
 import Container from '../Container';
-import GithubButton from '../GithubButton/simple';
+import GitHubButton from '../GitHubButton';
 
 import sections from '../../pages';
 
@@ -43,7 +43,7 @@ class Header extends Component {
               {this.renderMenu()}
             </nav>
             <div className="right">
-              <GithubButton />
+              <GitHubButton user="peterpalau" repo="react-bnb-gallery" />
             </div>
           </div>
         </Container>
