@@ -6,6 +6,7 @@ import pages from './pages';
 import {
   Container,
   Header,
+  Footer,
 } from './components';
 
 class App extends Component {
@@ -61,6 +62,7 @@ class App extends Component {
             {this.renderRoutes()}
           </Fragment>
         </Container>
+        <Footer />
       </Router>
     );
   }

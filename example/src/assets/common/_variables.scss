@@ -125,6 +125,13 @@ $header-container-max-width: $container-max-width;
 $header-border: 4px solid #48BB78;
 $header-border-bottom: 1px solid #EDF2F7;
 
+/** Footer */
+$footer-background: #1A202C;
+$footer-font-size: $font-size-sm;
+$footer-color: #A0AEC0;
+$footer-link-color: $white;
+$footer-padding: 2em 1em;
+
 /** Tables */
 $table-color: $body-color;
 $table-border: none;
