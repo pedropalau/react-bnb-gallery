@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 
 import pages from './pages';
 
@@ -55,7 +55,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <HashRouter>
         <Header />
         <Container role="main">
           <Fragment>
@@ -63,7 +63,7 @@ class App extends Component {
           </Fragment>
         </Container>
         <Footer />
-      </Router>
+      </HashRouter>
     );
   }
 }
