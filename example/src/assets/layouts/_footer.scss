@@ -4,6 +4,8 @@
   color: $footer-color;
   padding: $footer-padding;
   text-align: center;
+  /** Sticky footer */
+  margin-top: auto;
 
   a {
     background: none;
