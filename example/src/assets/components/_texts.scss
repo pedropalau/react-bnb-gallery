@@ -16,6 +16,7 @@
     padding: $text-link-padding;
     background-color: $text-link-background;
     line-height: inherit;
+    border-bottom: 1px solid;
 
     &:hover {
       background-color: $text-link-background-hover;
