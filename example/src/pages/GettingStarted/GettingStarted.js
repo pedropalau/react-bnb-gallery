@@ -1,12 +1,14 @@
 import React from 'react';
 
 import Container from '../../components/Container';
+import Heading from '../../components/Heading';
 import Text from '../../components/Text';
 
 import withPrism from '../../utils/withPrism';
 
 const GettingStarted = () => (
   <Container className="container">
+    <Heading>Getting Started</Heading>
     <Text>You can install the <a href="https://www.npmjs.com/package/react-bnb-gallery" target="_blank" rel="noopener noreferrer">react-bnb-gallery</a> from <a href="https://www.npmjs.com/" target="_blank" rel="noopener noreferrer">npm</a>.</Text>
     <pre style={{ textAlign: 'center' }} className="language-javascript">
       <code>
