@@ -230,16 +230,25 @@ class Gallery extends PureComponent {
     return controls;
   }
 
-  renderPreloadPhotos() {
-    const { photos } = this.props;
+  renderPreloadPhotos(current) {
+    const { photos, preloadSize } = this.props;
+    let counter = 1;
+    let index = current;
+    let photo = null;
+    const preloadPhotos = [];
 
-    return photos.map((photo) => (
-      <img
-        key={photo.photo}
-        alt={photo.photo}
-        src={photo.photo}
-      />
-    ));
+    while (index < photos.length && counter <= preloadSize) {
+      photo = photos[index];
+      preloadPhotos.push((
+        <img
+          key={photo.photo}
+          alt={photo.photo}
+          src={photo.photo}
+        />
+      ));
+      index += 1;
+      counter += 1;
+    }
   }
 
   render() {
@@ -258,7 +267,7 @@ class Gallery extends PureComponent {
     } = this.state;
 
     // preload photos
-    const galleryModalPreloadPhotos = this.renderPreloadPhotos();
+    const galleryModalPreloadPhotos = this.renderPreloadPhotos(activePhotoIndex);
 
     const controls = this.renderControls();
 
