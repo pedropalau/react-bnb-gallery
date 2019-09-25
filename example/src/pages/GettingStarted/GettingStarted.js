@@ -16,7 +16,7 @@ const installCode = `
 
 const usageCode = `
   import React, { Component } from 'react';
-  import ReactBnbGallery from 'react-bnb-gallery';
+  import { ReactBnbGallery } from 'react-bnb-gallery';
 
   const photos = [...];
 
