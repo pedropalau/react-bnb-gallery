@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { default as ReactBnbGallery } from 'react-bnb-gallery';
+import { ReactBnbGallery } from 'react-bnb-gallery';
 
 import {
   Button,
