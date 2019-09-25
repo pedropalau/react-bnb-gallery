@@ -77,9 +77,16 @@
 }
 
 .gallery {
+  display: table;
+  font-size: 1rem;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.gallery-modal .gallery {
   display: table-row;
   height: 100%;
-  font-size: 1rem;
+  padding-bottom: 0;
 }
 
 .gallery .gallery-main {

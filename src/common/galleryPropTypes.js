@@ -23,4 +23,5 @@ export default forbidExtraProps({
   wrap: PropTypes.bool,
   phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
   light: PropTypes.bool,
+  backgroundColor: PropTypes.string,
 });

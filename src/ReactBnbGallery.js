@@ -20,7 +20,6 @@ import {
   ARROW_RIGHT_KEYCODE,
   ESC_KEYCODE,
   DEFAULT_OPACITY,
-  DEFAULT_COLOR,
   DEFAULT_Z_INDEX,
 } from './constants';
 
@@ -44,7 +43,6 @@ const propTypes = forbidExtraProps({
   show: PropTypes.bool,
   keyboard: PropTypes.bool,
   opacity: opacityValidation,
-  backgroundColor: PropTypes.string,
   zIndex: nonNegativeInteger,
 });
 
@@ -56,7 +54,6 @@ const defaultProps = {
   show: false,
   keyboard: true,
   opacity: DEFAULT_OPACITY,
-  backgroundColor: DEFAULT_COLOR,
   zIndex: DEFAULT_Z_INDEX,
 };
 
@@ -205,6 +202,7 @@ class ReactBnbGallery extends Component {
                         prevButtonPressed={prevButtonPressed}
                         showThumbnails={showThumbnails}
                         preloadSize={preloadSize}
+                        backgroundColor={null}
                         light={light}
                       />
                     </div>

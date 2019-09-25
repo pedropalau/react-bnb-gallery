@@ -1,7 +1,10 @@
 import noop from '../utils/noop';
 import defaultPhrases from '../defaultPhrases';
 
-import { FORWARDS } from '../constants';
+import {
+  DEFAULT_COLOR,
+  FORWARDS,
+} from '../constants';
 
 export default {
   activePhotoIndex: 0,
@@ -15,4 +18,5 @@ export default {
   wrap: false,
   phrases: defaultPhrases,
   light: false,
+  backgroundColor: DEFAULT_COLOR,
 };

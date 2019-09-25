@@ -174,6 +174,14 @@ class Gallery extends PureComponent {
     return this.move(DIRECTION_PREV);
   }
 
+  getStyles() {
+    const { backgroundColor } = this.props;
+
+    return {
+      backgroundColor,
+    };
+  }
+
   wrapCheck(direction, nextElementIndex) {
     const {
       photos,
@@ -273,8 +281,10 @@ class Gallery extends PureComponent {
 
     const current = this.getPhotoByIndex(activePhotoIndex);
 
+    const galleryStyles = this.getStyles();
+
     return (
-      <div className="gallery">
+      <div className="gallery" style={galleryStyles}>
         <div className="gallery-modal--preload">
           {galleryModalPreloadPhotos}
         </div>
