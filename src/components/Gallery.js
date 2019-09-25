@@ -139,17 +139,20 @@ class Gallery extends PureComponent {
     return itemIndex === -1 ? photos.length - 1 : itemIndex;
   }
 
-  to(index) {
-    const { photos } = this.props;
-    const { activePhotoIndex } = this.state;
+  getStyles() {
+    const { backgroundColor } = this.props;
 
-    if ((index > photos.length - 1 || index < 0) || activePhotoIndex === index) {
-      return; // nothing to do
-    }
+    return {
+      backgroundColor,
+    };
+  }
 
-    const direction = index > activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
+  prev() {
+    return this.move(DIRECTION_PREV);
+  }
 
-    this.move(direction, index);
+  next() {
+    return this.move(DIRECTION_NEXT);
   }
 
   move(direction, index = false) {
@@ -166,20 +169,17 @@ class Gallery extends PureComponent {
     });
   }
 
-  next() {
-    return this.move(DIRECTION_NEXT);
-  }
+  to(index) {
+    const { photos } = this.props;
+    const { activePhotoIndex } = this.state;
 
-  prev() {
-    return this.move(DIRECTION_PREV);
-  }
+    if ((index > photos.length - 1 || index < 0) || activePhotoIndex === index) {
+      return; // nothing to do
+    }
 
-  getStyles() {
-    const { backgroundColor } = this.props;
+    const direction = index > activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
 
-    return {
-      backgroundColor,
-    };
+    this.move(direction, index);
   }
 
   wrapCheck(direction, nextElementIndex) {
