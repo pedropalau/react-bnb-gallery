@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d20bce478ab8f03155e8997595625551",
+    "revision": "0eb15006c24e71c921f2088f797cb6fa",
     "url": "/react-bnb-gallery/index.html"
   },
   {
-    "revision": "48a395d00cf289cff4d2",
+    "revision": "3044769797b96e3b5f11",
     "url": "/react-bnb-gallery/static/css/main.a82e3e91.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-bnb-gallery/static/js/2.f45af34e.chunk.js"
   },
   {
-    "revision": "48a395d00cf289cff4d2",
-    "url": "/react-bnb-gallery/static/js/main.cadb95da.chunk.js"
+    "revision": "3044769797b96e3b5f11",
+    "url": "/react-bnb-gallery/static/js/main.ad1c4b23.chunk.js"
   },
   {
     "revision": "45a31c174d6a45bbc480",
