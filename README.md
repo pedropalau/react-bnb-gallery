@@ -1,5 +1,5 @@
+<h1 align="center">react-bnb-gallery</h1>
 <p align="center">
-  <h1>react-bnb-gallery</h1>
   Friendly, customizable and accessible-ready simple photo gallery based on React.
 </p>
 
