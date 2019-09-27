@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://peterpalau.github.io/react-bnb-gallery" target="_blank">react-bnb-gallery</a><br />
+  <h1>react-bnb-gallery</h1>
   Friendly, customizable and accessible-ready simple photo gallery based on React.
 </p>
 
