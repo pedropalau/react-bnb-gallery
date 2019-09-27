@@ -4,7 +4,11 @@
 </p>
 
 <p align="center">
-  [![NPM](https://img.shields.io/npm/v/react-bnb-gallery.svg)](https://www.npmjs.com/package/react-bnb-gallery) [![Download Count](http://img.shields.io/npm/dm/react-bnb-gallery.svg?style=flat)](http://www.npmjs.com/package/react-bnb-gallery) [![Build Status](https://travis-ci.org/peterpalau/react-bnb-gallery.svg?branch=master)](https://travis-ci.org/peterpalau/react-bnb-gallery) [![Dependencies](https://david-dm.org/peterpalau/react-bnb-gallery.svg)](https://david-dm.org/peterpalau/react-bnb-gallery) [![Dev Dependencies](https://david-dm.org/peterpalau/react-bnb-gallery/dev-status.svg)](https://david-dm.org/peterpalau/react-bnb-gallery?type=dev)
+  <a href="https://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="https://img.shields.io/npm/v/react-bnb-gallery.svg" alt="NPM"></a>
+  <a href="http://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="http://img.shields.io/npm/dm/react-bnb-gallery.svg?style=flat" alt="Download Count" /></a>
+  <a href="https://travis-ci.org/peterpalau/react-bnb-gallery" target="_blank"><img src="https://travis-ci.org/peterpalau/react-bnb-gallery.svg?branch=master" alt="Build Status" /></a>
+  <a href="https://david-dm.org/peterpalau/react-bnb-gallery" target="_blank"><img src="https://david-dm.org/peterpalau/react-bnb-gallery.svg" alt="Dependencies" /></a>
+  <a href="https://david-dm.org/peterpalau/react-bnb-gallery?type=dev" taret="_blank"><img src="https://david-dm.org/peterpalau/react-bnb-gallery/dev-status.svg" alt="Dev Dependencie" /></a>
 </p>
 
 ------
