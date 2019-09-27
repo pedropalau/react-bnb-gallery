@@ -136,17 +136,6 @@ You can set the following properties. For function options, the default value `n
 | subcaption         | `string`    | `undefined` | Photo secondary description, like the photo author or the name of the place where it was taken.
 | thumbnail          | `string`    | `undefined` | The `url` of the photo thumbnail. The preferred size for each thumbnail is `100x67`.
 
-## TODO
-
-- [x] Demostration
-- [x] Better types checking & validations
-- [ ] Allow Server Side Rendering
-- [x] Better responsive visualization
-- [ ] Testing
-- [ ] Documentation
-- [x] Keyboard navigation
-- [ ] Touch swipe
-
 ## License
 
 Released under the [MIT Licence](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/LICENSE)
