@@ -8,6 +8,8 @@
 
 - [enhancement] Updates multiple dependencies.
 - [enhancement] Replace `npm` with `yarn`.
+- [enhancement] `Gallery` is exported now as an individual component
+- [fix] All the images are loaded at the same time
 
 ## 1.1.6
 
