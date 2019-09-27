@@ -104,7 +104,8 @@
     "why-did-you-update": "^1.0.6"
   },
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "dependencies": {
     "airbnb-prop-types": "^2.11.0",
@@ -119,5 +120,8 @@
   },
   "optionalDependencies": {
     "typescript": "^3.6.2"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
