@@ -37,9 +37,9 @@ For full documentation, visit the [demo website](https://peterpalau.github.io/re
 
 ## License
 
-This package have been released under the [MIT Licence](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/LICENSE)
+This package have been released under the [MIT Licence](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/LICENSE).
 
-## Change Log
+## Updates
 
 If you are interested in view the main updates visit our [CHANGELOG.md](https://github.com/peterpalau/react-bnb-gallery/blob/master/CHANGELOG.md).
 
