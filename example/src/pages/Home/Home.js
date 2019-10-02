@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ReactBnbGallery } from 'react-bnb-gallery';
+import { ReactBnbGallery, Gallery } from 'react-bnb-gallery';
 
 import {
   Button,
@@ -12,6 +12,8 @@ import {
 } from '../../components';
 
 import PHOTOS from '../../photos';
+
+import 'react-bnb-gallery/dist/index.css';
 
 const buttonCustomStyle = {
   marginTop: '16px',
@@ -87,6 +89,9 @@ class Home extends Component {
             </Spacing>
           </Container>
         </Container>
+        <Gallery
+          photos={photosToShow}
+        />
         <PhotoGrid onPhotoPress={this.onPhotoPress} />
         <ReactBnbGallery
           show={openGallery}

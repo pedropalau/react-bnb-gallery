@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { forbidExtraProps } from '../common/prop-types';
-import noop from '../utils/noop';
+import { forbidExtraProps } from '../../common/prop-types';
+import noop from '../../utils/noop';
 
 import {
   NORMAL_COLOR,
   INVERSE_COLOR,
-} from '../constants';
+} from '../../constants';
 
 const CLOSE_PATH = 'm23.25 24c-.19 0-.38-.07-.53-.22l-10.72-10.72-10.72 10.72c-.29.29-.77.29-1.06 0s-.29-.77 0-1.06l10.72-10.72-10.72-10.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0l10.72 10.72 10.72-10.72c.29-.29.77-.29 1.06 0s .29.77 0 1.06l-10.72 10.72 10.72 10.72c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22';
 
@@ -32,7 +32,7 @@ const defaultProps = {
   light: false,
 };
 
-const GalleryCloseButton = ({
+const CloseButton = ({
   onPress,
   light,
 }) => (
@@ -56,7 +56,7 @@ const GalleryCloseButton = ({
   </button>
 );
 
-GalleryCloseButton.propTypes = propTypes;
-GalleryCloseButton.defaultProps = defaultProps;
+CloseButton.propTypes = propTypes;
+CloseButton.defaultProps = defaultProps;
 
-export default GalleryCloseButton;
+export default CloseButton;

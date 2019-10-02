@@ -2,23 +2,23 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
-import noop from '../utils/noop';
+import noop from '../../utils/noop';
 
-import GalleryThumbnail from './GalleryThumbnail';
-import GalleryTogglePhotoList from './GalleryTogglePhotoList';
+import Thumbnail from './Thumbnail';
+import TogglePhotoList from './TogglePhotoList';
 
-import calculateThumbnailsContainerDimension from '../utils/calculateThumbnailsContainerDimension';
-import calculateThumbnailsLeftScroll from '../utils/calculateThumbnailsLeftScroll';
+import calculateThumbnailsContainerDimension from '../../utils/calculateThumbnailsContainerDimension';
+import calculateThumbnailsLeftScroll from '../../utils/calculateThumbnailsLeftScroll';
 
-import defaultPhrases from '../defaultPhrases';
-import getPhrasePropTypes from '../utils/getPhrasePropTypes';
+import defaultPhrases from '../../defaultPhrases';
+import getPhrasePropTypes from '../../utils/getPhrasePropTypes';
 
 import {
   forbidExtraProps,
   nonNegativeInteger,
-} from '../common/prop-types';
+} from '../../common/prop-types';
 
-import PhotosShape from '../shapes/PhotosShape';
+import PhotosShape from '../../shapes/PhotosShape';
 
 const propTypes = forbidExtraProps({
   showThumbnails: PropTypes.bool,
@@ -36,7 +36,7 @@ const defaultProps = {
   phrases: defaultPhrases,
 };
 
-class GalleryCaption extends PureComponent {
+class Caption extends PureComponent {
   constructor(props) {
     super(props);
     const {
@@ -105,7 +105,7 @@ class GalleryCaption extends PureComponent {
     const { current } = this.props;
 
     return (
-      <GalleryThumbnail
+      <Thumbnail
         active={index === current}
         photo={photo}
         onPress={onPress}
@@ -152,7 +152,7 @@ class GalleryCaption extends PureComponent {
               </div>
               {this.hasMoreThanOnePhoto && (
                 <div className="caption-right">
-                  <GalleryTogglePhotoList
+                  <TogglePhotoList
                     phrases={phrases}
                     isOpened={showThumbnails}
                     onPress={this.toggleThumbnails}
@@ -190,7 +190,7 @@ class GalleryCaption extends PureComponent {
   }
 }
 
-GalleryCaption.propTypes = propTypes;
-GalleryCaption.defaultProps = defaultProps;
+Caption.propTypes = propTypes;
+Caption.defaultProps = defaultProps;
 
-export default GalleryCaption;
+export default Caption;
