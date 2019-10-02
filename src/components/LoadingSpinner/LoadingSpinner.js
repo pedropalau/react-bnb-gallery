@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { forbidExtraProps } from '../common/prop-types';
+import { forbidExtraProps } from '../../common/prop-types';
 
 const propTypes = forbidExtraProps({
   show: PropTypes.bool,

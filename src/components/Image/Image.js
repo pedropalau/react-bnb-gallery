@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../LoadingSpinner';
 
 import {
   imagePropTypes,
   imageDefaultProps,
-} from '../common';
-import { forbidExtraProps } from '../common/prop-types';
+} from '../../common';
+import { forbidExtraProps } from '../../common/prop-types';
 
 const propTypes = forbidExtraProps({
   ...imagePropTypes,

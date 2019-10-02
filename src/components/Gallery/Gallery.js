@@ -3,17 +3,17 @@ import React, { PureComponent } from 'react';
 import {
   galleryPropTypes,
   galleryDefaultProps,
-} from '../common';
+} from '../../common';
 
-import GalleryPhoto from './GalleryPhoto';
-import GalleryCaption from './GalleryCaption';
-import GalleryPrevButton from './GalleryPrevButton';
-import GalleryNextButton from './GalleryNextButton';
+import Photo from './Photo';
+import Caption from './Caption';
+import PrevButton from './PrevButton';
+import NextButton from './NextButton';
 
 import {
   DIRECTION_NEXT,
   DIRECTION_PREV,
-} from '../constants';
+} from '../../constants';
 
 const propTypes = {
   ...galleryPropTypes,
@@ -213,7 +213,7 @@ class Gallery extends PureComponent {
       // previous control
       if (!hidePrevButton) {
         controls.push((
-          <GalleryPrevButton
+          <PrevButton
             key=".prevControl"
             disabled={controlsDisabled}
             onPress={this.onPrevButtonPress}
@@ -225,7 +225,7 @@ class Gallery extends PureComponent {
       // next control
       if (!hideNextButton) {
         controls.push((
-          <GalleryNextButton
+          <NextButton
             key=".nextControl"
             disabled={controlsDisabled}
             onPress={this.onNextButtonPress}
@@ -294,7 +294,7 @@ class Gallery extends PureComponent {
             {this.hasPhotos ? (
               <div className="gallery-photo">
                 <div className="gallery-photo--current">
-                  <GalleryPhoto
+                  <Photo
                     photo={current}
                     onLoad={this.onPhotoLoad}
                     onError={this.onPhotoError}
@@ -313,7 +313,7 @@ class Gallery extends PureComponent {
           </div>
         </div>
         {showThumbnails && current && (
-          <GalleryCaption
+          <Caption
             phrases={phrases}
             current={activePhotoIndex}
             photos={photos}

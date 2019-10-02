@@ -21,9 +21,9 @@
     "url": "git@github.com:peterpalau/react-bnb-gallery.git"
   },
   "license": "MIT",
-  "main": "dist/react-bnb-gallery.js",
-  "module": "dist/react-bnb-gallery.es.js",
-  "jsnext:main": "dist/react-bnb-gallery.es.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
   "bugs": {
     "url": "https://github.com/peterpalau/react-bnb-gallery/issues"
   },
@@ -31,7 +31,8 @@
     "test": "jest --no-cache",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
-    "build": "rollup -c",
+    "build": "yarn build:css && rollup -c",
+    "build:css": "",
     "start": "rollup -c -w",
     "prepublishOnly": "yarn build",
     "predeploy": "yarn && yarn build",
@@ -100,6 +101,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-scss": "^1.0.2",
     "rollup-plugin-url": "^2.2.1",
     "why-did-you-update": "^1.0.6"
   },

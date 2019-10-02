@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import { forbidExtraProps } from '../common/prop-types';
-import noop from '../utils/noop';
+import { forbidExtraProps } from '../../common/prop-types';
+import noop from '../../utils/noop';
 
 import {
   NORMAL_COLOR,
   INVERSE_COLOR,
-} from '../constants';
+} from '../../constants';
 
 const controlStyle = {
   height: '2.8em',
