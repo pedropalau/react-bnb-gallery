@@ -620,7 +620,7 @@ div.loading-spinner {
 
 @media (min-width: 1128px) {
   .gallery .gallery-control {
-    width: 75px;
+    width: 20%;
     font-size: medium;
   }
 }
