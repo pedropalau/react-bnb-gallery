@@ -106,7 +106,7 @@
     "why-did-you-update": "^1.0.6"
   },
   "files": [
-    "dist",
+    "/dist",
     "index.d.ts"
   ],
   "dependencies": {
