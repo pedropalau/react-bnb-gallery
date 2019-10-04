@@ -1,8 +1,9 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
-import scss from 'rollup-plugin-scss';
 import resolve from 'rollup-plugin-node-resolve';
+import scss from 'rollup-plugin-scss';
+import stylelint from 'rollup-plugin-stylelint';
 import url from 'rollup-plugin-url';
 import svgr from '@svgr/rollup';
 
@@ -30,6 +31,12 @@ const createConfig = (output) => ({
     }),
     resolve(),
     commonjs(),
+    stylelint({
+      fix: false,
+      include: ['src/scss/**.scss'],
+      syntax: 'scss',
+      quiet: false,
+    }),
   ],
 });
 

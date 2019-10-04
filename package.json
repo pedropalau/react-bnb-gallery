@@ -47,7 +47,9 @@
     "prepublishOnly": "yarn build",
     "predeploy": "yarn && yarn build",
     "deploy": "gh-pages -d example/build",
-    "lint": "eslint --ext js src tests",
+    "lint": "yarn lint:scripts && yarn lint:css",
+    "lint:scripts": "eslint --ext js src tests",
+    "lint:css": "stylelint \"src/scss/*.{css,sass,scss,sss,less}\"",
     "travis": "yarn test"
   },
   "peerDependencies": {
@@ -112,7 +114,10 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-scss": "^1.0.2",
+    "rollup-plugin-stylelint": "^0.0.4",
     "rollup-plugin-url": "^2.2.1",
+    "stylelint": "~11.0.0",
+    "stylelint-config-standard": "^19.0.0",
     "why-did-you-update": "^1.0.6"
   },
   "dependencies": {
