@@ -9,7 +9,7 @@ import omit from 'lodash/omit';
 import classnames from 'classnames';
 
 import Gallery from './components/Gallery';
-import GalleryCloseButton from './components/GalleryCloseButton';
+import CloseButton from './components/CloseButton';
 
 import opacityValidation from './common/opacityValidation';
 import noop from './utils/noop';
@@ -181,7 +181,7 @@ class ReactBnbGallery extends Component {
                 <div className="gallery-modal--cell">
                   <div className="gallery-modal--content">
                     <div className="gallery-modal--close">
-                      <GalleryCloseButton
+                      <CloseButton
                         onPress={this.close}
                         light={light}
                       />

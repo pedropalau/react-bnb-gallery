@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import defaultPhrases from '../defaultPhrases';
-import getPhrasePropTypes from '../utils/getPhrasePropTypes';
+import defaultPhrases from '../../defaultPhrases';
+import getPhrasePropTypes from '../../utils/getPhrasePropTypes';
 
-import { forbidExtraProps } from '../common/prop-types';
-import noop from '../utils/noop';
+import { forbidExtraProps } from '../../common/prop-types';
+import noop from '../../utils/noop';
 
 const propTypes = forbidExtraProps({
   isOpened: PropTypes.bool,
@@ -21,7 +21,7 @@ const defaultProps = {
   phrases: defaultPhrases,
 };
 
-class GalleryTogglePhotoList extends PureComponent {
+class TogglePhotoList extends PureComponent {
   render() {
     const {
       isOpened,
@@ -51,7 +51,7 @@ class GalleryTogglePhotoList extends PureComponent {
   }
 }
 
-GalleryTogglePhotoList.propTypes = propTypes;
-GalleryTogglePhotoList.defaultProps = defaultProps;
+TogglePhotoList.propTypes = propTypes;
+TogglePhotoList.defaultProps = defaultProps;
 
-export default GalleryTogglePhotoList;
+export default TogglePhotoList;
