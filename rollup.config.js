@@ -20,6 +20,7 @@ const createConfig = (output) => ({
     scss({
       modules: true,
       sourcemap: false,
+      output: 'dist/style.css',
     }),
     url(),
     svgr(),
