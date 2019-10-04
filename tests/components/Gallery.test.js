@@ -2,29 +2,29 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import Gallery from '../../src/components/Gallery';
-import GalleryCaption from '../../src/components/GalleryCaption';
+import Caption from '../../src/components/Caption';
 
 import photos from '../test-photos';
 
 describe('Gallery', () => {
   describe('#render', () => {
-    it('renders <GalleryCaption />', () => {
+    it('renders <Caption />', () => {
       const wrapper = shallow((
         <Gallery
           photos={photos}
           showThumbnails
         />
       ));
-      expect(wrapper.find(GalleryCaption)).toHaveLength(1);
+      expect(wrapper.find(Caption)).toHaveLength(1);
     });
-    it('<GalleryCaption /> is not rendered if props.showThumbnails === false', () => {
+    it('<Caption /> is not rendered if props.showThumbnails === false', () => {
       const wrapper = shallow((
         <Gallery
           photos={photos}
           showThumbnails={false}
         />
       ));
-      expect(wrapper.find(GalleryCaption)).toHaveLength(0);
+      expect(wrapper.find(Caption)).toHaveLength(0);
     });
   });
 });
