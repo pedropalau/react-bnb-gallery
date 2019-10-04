@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import GalleryControl from './GalleryControl';
+import Control from '../Control';
 
-import { forbidExtraProps } from '../common/prop-types';
-import noop from '../utils/noop';
+import { forbidExtraProps } from '../../common/prop-types';
+import noop from '../../utils/noop';
 
 const NEXT_ARROW = 'm4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z';
 
@@ -20,7 +20,7 @@ const defaultProps = {
   light: false,
 };
 
-class GalleryNextButton extends PureComponent {
+class NextButton extends PureComponent {
   render() {
     const {
       onPress,
@@ -29,7 +29,7 @@ class GalleryNextButton extends PureComponent {
     } = this.props;
 
     return (
-      <GalleryControl
+      <Control
         className="gallery-control--next"
         onPress={onPress}
         arrow={NEXT_ARROW}
@@ -40,7 +40,7 @@ class GalleryNextButton extends PureComponent {
   }
 }
 
-GalleryNextButton.propTypes = propTypes;
-GalleryNextButton.defaultProps = defaultProps;
+NextButton.propTypes = propTypes;
+NextButton.defaultProps = defaultProps;
 
-export default GalleryNextButton;
+export default NextButton;

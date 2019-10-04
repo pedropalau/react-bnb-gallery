@@ -39,7 +39,7 @@ const defaultProps = {
   light: false,
 };
 
-class GalleryControl extends React.PureComponent {
+class Control extends React.PureComponent {
   constructor(props) {
     super(props);
     this.onButtonPress = this.onButtonPress.bind(this);
@@ -88,7 +88,7 @@ class GalleryControl extends React.PureComponent {
   }
 }
 
-GalleryControl.propTypes = propTypes;
-GalleryControl.defaultProps = defaultProps;
+Control.propTypes = propTypes;
+Control.defaultProps = defaultProps;
 
-export default GalleryControl;
+export default Control;

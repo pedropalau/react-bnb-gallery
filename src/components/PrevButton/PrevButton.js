@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import GalleryControl from './GalleryControl';
+import Control from '../Control';
 
-import { forbidExtraProps } from '../common/prop-types';
-import noop from '../utils/noop';
+import { forbidExtraProps } from '../../common/prop-types';
+import noop from '../../utils/noop';
 
 const PREV_ARROW = 'm13.7 16.29a1 1 0 1 1 -1.42 1.41l-8-8a1 1 0 0 1 0-1.41l8-8a1 1 0 1 1 1.42 1.41l-7.29 7.29z';
 
@@ -20,7 +20,7 @@ const defaultProps = {
   light: false,
 };
 
-class GalleryPrevButton extends PureComponent {
+class PrevButton extends PureComponent {
   render() {
     const {
       onPress,
@@ -29,7 +29,7 @@ class GalleryPrevButton extends PureComponent {
     } = this.props;
 
     return (
-      <GalleryControl
+      <Control
         className="gallery-control--prev"
         onPress={onPress}
         arrow={PREV_ARROW}
@@ -40,7 +40,7 @@ class GalleryPrevButton extends PureComponent {
   }
 }
 
-GalleryPrevButton.propTypes = propTypes;
-GalleryPrevButton.defaultProps = defaultProps;
+PrevButton.propTypes = propTypes;
+PrevButton.defaultProps = defaultProps;
 
-export default GalleryPrevButton;
+export default PrevButton;

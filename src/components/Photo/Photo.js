@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import classnames from 'classnames';
 
-import Image from './Image';
-import PhotoShape from '../shapes/PhotoShape';
+import Image from '../Image';
+import PhotoShape from '../../shapes/PhotoShape';
 
 import {
   imagePropTypes,
   imageDefaultProps,
-} from '../common';
-import { forbidExtraProps } from '../common/prop-types';
-import noop from '../utils/noop';
+} from '../../common';
+import { forbidExtraProps } from '../../common/prop-types';
+import noop from '../../utils/noop';
 
 const propTypes = forbidExtraProps({
   ...imagePropTypes,
@@ -32,7 +32,7 @@ const defaultProps = {
   onTouchEnd: noop,
 };
 
-class GalleryPhoto extends PureComponent {
+class Photo extends PureComponent {
   constructor(props) {
     super(props);
     this.onPress = this.onPress.bind(this);
@@ -104,7 +104,7 @@ class GalleryPhoto extends PureComponent {
   }
 }
 
-GalleryPhoto.propTypes = propTypes;
-GalleryPhoto.defaultProps = defaultProps;
+Photo.propTypes = propTypes;
+Photo.defaultProps = defaultProps;
 
-export default GalleryPhoto;
+export default Photo;

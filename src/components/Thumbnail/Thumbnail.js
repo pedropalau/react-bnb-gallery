@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import Image from './Image';
-import PhotoShape from '../shapes/PhotoShape';
+import Image from '../Image';
+import PhotoShape from '../../shapes/PhotoShape';
 
 import {
   forbidExtraProps,
   nonNegativeInteger,
-} from '../common/prop-types';
-import noop from '../utils/noop';
+} from '../../common/prop-types';
+import noop from '../../utils/noop';
 
 import {
   THUMBNAIL_WIDTH,
   THUMBNAIL_HEIGHT,
-} from '../constants';
+} from '../../constants';
 
 const thumbnailStyle = {
   width: THUMBNAIL_WIDTH,
@@ -36,7 +36,7 @@ const defaultProps = {
   number: 0,
 };
 
-class GalleryThumbnail extends PureComponent {
+class Thumbnail extends PureComponent {
   render() {
     const {
       active,
@@ -70,7 +70,7 @@ class GalleryThumbnail extends PureComponent {
   }
 }
 
-GalleryThumbnail.propTypes = propTypes;
-GalleryThumbnail.defaultProps = defaultProps;
+Thumbnail.propTypes = propTypes;
+Thumbnail.defaultProps = defaultProps;
 
-export default GalleryThumbnail;
+export default Thumbnail;
