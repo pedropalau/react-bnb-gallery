@@ -14,7 +14,12 @@
     "responsive",
     "slider",
     "component",
-    "modal gallery"
+    "modal gallery",
+    "images",
+    "react image gallery",
+    "react photo gallery",
+    "react modal gallery",
+    "react gallery",
   ],
   "repository": {
     "type": "git",
