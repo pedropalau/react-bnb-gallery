@@ -29,6 +29,12 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
+  "typings": "index.d.ts",
+  "files": [
+    "dist",
+    "index.d.ts",
+    "styles.css"
+  ],
   "bugs": {
     "url": "https://github.com/peterpalau/react-bnb-gallery/issues"
   },
@@ -36,8 +42,7 @@
     "test": "jest --no-cache",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
-    "build": "yarn build:css && rollup -c",
-    "build:css": "",
+    "build": "rollup -c",
     "start": "rollup -c -w",
     "prepublishOnly": "yarn build",
     "predeploy": "yarn && yarn build",
@@ -110,10 +115,6 @@
     "rollup-plugin-url": "^2.2.1",
     "why-did-you-update": "^1.0.6"
   },
-  "files": [
-    "/dist",
-    "index.d.ts"
-  ],
   "dependencies": {
     "airbnb-prop-types": "^2.11.0",
     "ajv": "^6.0.0",
