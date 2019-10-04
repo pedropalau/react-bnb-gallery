@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ReactBnbGallery, { Gallery } from 'react-bnb-gallery';
+import ReactBnbGallery from 'react-bnb-gallery';
 
 import {
   Button,
@@ -89,9 +89,6 @@ class Home extends Component {
             </Spacing>
           </Container>
         </Container>
-        <Gallery
-          photos={photosToShow}
-        />
         <PhotoGrid onPhotoPress={this.onPhotoPress} />
         <ReactBnbGallery
           show={openGallery}
