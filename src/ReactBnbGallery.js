@@ -33,7 +33,7 @@ import {
   nonNegativeInteger,
 } from './common/prop-types';
 
-import './style.scss';
+import './scss/style.scss';
 
 const propTypes = forbidExtraProps({
   ...galleryPropTypes,
