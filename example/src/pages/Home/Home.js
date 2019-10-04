@@ -13,8 +13,6 @@ import {
 
 import PHOTOS from '../../photos';
 
-import 'react-bnb-gallery/dist/style.css';
-
 const buttonCustomStyle = {
   marginTop: '16px',
   marginBottom: '24px',
