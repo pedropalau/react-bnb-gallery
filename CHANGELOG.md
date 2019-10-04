@@ -4,6 +4,12 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.1.8
+
+- [fix] Update typings of the package details
+- [enhancement] Folder organization
+- [enhancement] Update the visual of the component
+
 ## 1.1.7
 
 - [enhancement] Updates multiple dependencies.
