@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ReactBnbGallery, Gallery } from 'react-bnb-gallery';
+import ReactBnbGallery, { Gallery } from 'react-bnb-gallery';
 
 import {
   Button,
@@ -13,7 +13,7 @@ import {
 
 import PHOTOS from '../../photos';
 
-import 'react-bnb-gallery/dist/index.css';
+import 'react-bnb-gallery/dist/style.css';
 
 const buttonCustomStyle = {
   marginTop: '16px',
