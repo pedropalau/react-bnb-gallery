@@ -4,19 +4,19 @@ export type Props = {
     /**
      * Default photo to show.
      */
-    activePhotoIndex: number
+    activePhotoIndex?: number
     /**
      * Executed when a photo is pressed.
      */
-    activePhotoPressed: () => void
+    activePhotoPressed?: () => void
     /**
      * Executed when left key of the keyboard is pressed.
      */
-    leftKeyPressed: () => void
+    leftKeyPressed?: () => void
     /**
      * Called when next control button is pressed.
      */
-    nextButtonPressed: () => void
+    nextButtonPressed?: () => void
     /**
      * Called when the modal is going to close.
      */
@@ -24,11 +24,11 @@ export type Props = {
     /**
      * Preload number photos.
      */
-    preloadSize: number
+    preloadSize?: number
     /**
      * Called when previous control button is pressed.
      */
-    prevButtonPressed: () => void
+    prevButtonPressed?: () => void
     /**
      * Array of photos.
      * It can be an array of photos URLs or an array of objects.
