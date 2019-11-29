@@ -125,8 +125,7 @@ class ReactBnbGallery extends Component {
       phrases,
       keyboard,
       light,
-      // abstract the user to use 'zIndex' instead of 'zindex'
-      zIndex: zindex,
+      zIndex,
     } = this.props;
 
     const { photos } = this.state;
@@ -159,6 +158,10 @@ class ReactBnbGallery extends Component {
     // modal overlay customization styles
     const galleryModalOverlayStyles = this.getModalOverlayStyles();
 
+    const modalStyle = {
+      zIndex,
+    };
+
     return (
       <Portal>
         <FocusTrap>
@@ -167,10 +170,10 @@ class ReactBnbGallery extends Component {
               'gallery-modal',
               light && 'mode-light',
             ])}
-            zindex={zindex}
             onKeyDown={keyboard && this.onKeyDown}
             tabIndex="-1"
             role="dialog"
+            style={modalStyle}
           >
             <div
               style={galleryModalOverlayStyles}
