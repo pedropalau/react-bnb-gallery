@@ -4,6 +4,10 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.1.9
+
+- [fix] Correctly bind the `zIndex` property
+
 ## 1.1.8
 
 - [fix] Update typings of the package details
