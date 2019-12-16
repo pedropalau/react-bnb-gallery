@@ -14,6 +14,10 @@ const installCode = `
   yarn add react-bnb-gallery
 `;
 
+const importStyles = `
+  import 'react-bnb-gallery/dist/style.css'
+`;
+
 const usageCode = `
   import React, { Component } from 'react';
   import { ReactBnbGallery } from 'react-bnb-gallery';
@@ -57,6 +61,13 @@ const GettingStarted = () => (
     <pre className="language-javascript">
       <code className="language-javascript">
         {installCode}
+      </code>
+    </pre>
+    <Heading>Importing compiled CSS</Heading>
+    <Text>Alternatively, you may use the library CSS by simply adding this line to your project’s entry point:</Text>
+    <pre className="language-javascript">
+      <code className="language-javascript">
+        {importStyles}
       </code>
     </pre>
     <Text>Following code is simplest usage:</Text>
