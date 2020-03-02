@@ -123,10 +123,12 @@
 }
 
 .gallery {
-  display: table;
+  display: table-cell;
+  vertical-align: middle;
   font-size: 1rem;
   width: 100%;
   padding-bottom: 10;
+  
 
   ul.gallery-images--ul li.gallery-media-photo.loading .loading-spinner,
   ul.gallery-images--ul li.gallery-media-photo .picture.loading .loading-spinner {
