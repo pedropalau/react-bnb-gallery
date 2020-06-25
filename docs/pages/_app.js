@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import Head from 'next/head';
 
+import 'react-bnb-gallery/dist/style.css';
 import '../css/styles.css';
 
 const defaultProps = {
