@@ -4,6 +4,11 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.2.0
+
+- [fix] Updates multiple dependencies
+- [enhancement] Accept path-only images
+
 ## 1.1.9
 
 - [fix] Correctly bind the `zIndex` property
