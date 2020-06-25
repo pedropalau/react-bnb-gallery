@@ -1,0 +1,12 @@
+@tailwind base;
+
+html {
+  @apply font-sans;
+  @apply antialiased;
+  @apply text-gray-900;
+  @apply bg-gray-50;
+}
+
+@tailwind components;
+
+@tailwind utilities;

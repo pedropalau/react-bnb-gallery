@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import Head from 'next/head';
 
+import '../css/styles.css';
+
 const defaultProps = {
   pageProps: {},
 };
