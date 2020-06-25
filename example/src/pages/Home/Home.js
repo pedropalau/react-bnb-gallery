@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import ReactBnbGallery from 'react-bnb-gallery';
 
@@ -18,86 +18,72 @@ const buttonCustomStyle = {
   marginBottom: '24px',
 };
 
-class Home extends Component {
-  constructor() {
-    super(...arguments);
-    this.state = {
-      openGallery: false,
-      currentPhotos: null,
-    };
-    this.closeGallery = this.closeGallery.bind(this);
-    this.onPhotoPress = this.onPhotoPress.bind(this);
-    this.toggleGallery = this.toggleGallery.bind(this);
-  }
+const Home = () => {
+  const [galleryStatus, setGalleryStatus] = useState({
+    isOpen: false,
+    currentPhoto: null,
+  });
 
-  closeGallery() {
-    this.setState({
-      openGallery: false,
-      currentPhotos: null,
+  const onPhotoPress = useCallback((url) => {
+    setGalleryStatus({
+      isOpen: true,
+      currentPhoto: url,
     });
-  }
+  }, []);
 
-  onPhotoPress(url) {
-    this.setState({
-      openGallery: true,
-      currentPhotos: [url],
+  const onGalleryClose = useCallback(() => {
+    setGalleryStatus({
+      isOpen: false,
+      currentPhoto: null,
     });
-  }
+  }, []);
 
-  toggleGallery() {
-    this.setState(prevState => ({
-      openGallery: !prevState.galleryOpened,
-    }));
-  }
+  const isOpen = galleryStatus.isOpen;
 
-  render() {
-    const {
-      openGallery,
-      currentPhotos,
-    } = this.state;
+  const photosToShow = galleryStatus.currentPhoto || PHOTOS;
 
-    const photosToShow = currentPhotos || PHOTOS;
-
-    return (
-      <>
-        <Container id="start" className="container intro">
-          <Title level={1}>React photo gallery</Title>
-          <Text inherit>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
-          <Container className="actions">
-            <Spacing right={2}>
-              <Button
-                onPress={this.toggleGallery}
-                customStyle={buttonCustomStyle}
-                primary
-                large
-              >
-                View demo gallery
+  return (
+    <>
+      <Container id="start" className="container intro">
+        <Title level={1}>React photo gallery</Title>
+        <Text inherit>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
+        <Container className="actions">
+          <Spacing right={2}>
+            <Button
+              onPress={() => setGalleryStatus({
+                isOpen: true,
+                currentPhoto: null,
+              })}
+              customStyle={buttonCustomStyle}
+              primary
+              large
+            >
+              View demo gallery
               </Button>
-            </Spacing>
-            <Spacing left={2}>
-              <Button
-                customStyle={buttonCustomStyle}
-                url="https://github.com/peterpalau/react-bnb-gallery"
-                secondary
-                outline
-                large
-              >
-                Fork this repository
+          </Spacing>
+          <Spacing left={2}>
+            <Button
+              customStyle={buttonCustomStyle}
+              url="https://github.com/peterpalau/react-bnb-gallery"
+              secondary
+              outline
+              large
+            >
+              Fork this repository
               </Button>
-            </Spacing>
-          </Container>
+          </Spacing>
         </Container>
-        <PhotoGrid onPhotoPress={this.onPhotoPress} />
-        <ReactBnbGallery
-          show={openGallery}
-          photos={photosToShow}
-          onClose={this.closeGallery}
-          wrap={false}
-          backgroundColor='#000000'
-        />
-      </>
-    );
-  }
-}
+      </Container>
+      <PhotoGrid onPhotoPress={onPhotoPress} />
+      <ReactBnbGallery
+        show={isOpen}
+        photos={photosToShow}
+        onClose={onGalleryClose}
+        wrap={false}
+        backgroundColor='#000000'
+      />
+    </>
+  );
+};
 
 export default Home;
