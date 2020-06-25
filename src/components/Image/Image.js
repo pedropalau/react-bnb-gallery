@@ -62,19 +62,20 @@ class Image extends Component {
 
   onLoad() {
     const { onLoad } = this.props;
-    // wait a bit to show the final picture
-    setTimeout(() => {
-      onLoad();
-      this.setState({
-        loading: false,
-        withError: false,
-      });
-    }, 100);
+
+    onLoad();
+
+    this.setState({
+      loading: false,
+      withError: false,
+    });
   }
 
   onError() {
     const { onError } = this.props;
+
     onError();
+
     this.setState({
       loading: false,
       withError: true,

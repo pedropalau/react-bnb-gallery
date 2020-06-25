@@ -22,6 +22,7 @@
   border-right: 0.35em solid rgba(255, 255, 255, 0.2);
   border-bottom: 0.35em solid rgba(255, 255, 255, 0.2);
   border-left: 0.35em solid #fff;
+  border-radius: 100%;
   width: 6em;
   height: 6em;
 
@@ -34,7 +35,7 @@
 
 .loading-spinner,
 .gallery-figcaption--thumbnails .caption-thumbnails ul.thumbnails-list li button.thumbnail-button::after {
-  font-size: 10;
+  font-size: 10px;
   text-indent: -9999em;
   transform: translateZ(0);
   animation: GalleryLoadingSpinner 1.1s infinite linear;
@@ -135,7 +136,7 @@
     z-index: 1001;
     top: 50%;
     left: 50%;
-    margin: -1rem 0 0 -1rem; /* visually centered */
+    margin: -1.5rem 0 0 -1.5rem; /* visually centered */
     transform: translate(-50%, -50%);
   }
 
@@ -192,7 +193,6 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        overflow: hidden;
 
         img.photo {
           max-height: 100%;
@@ -204,7 +204,9 @@
           left: 0;
           margin: 0 auto;
           z-index: 0;
+          border-radius: 6px;
           transform: translateY(-50%);
+          box-shadow: 0 0.6rem 1rem rgba(#000, 0.25);
         }
       }
 
@@ -232,20 +234,33 @@
     height: 100%;
     z-index: 3;
     font-size: 0.5em;
-    width: 40;
+    width: 40%;
     background: none;
     border-width: 0;
     border-style: initial;
     border-color: initial;
     border-image: initial;
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
   }
 
   .gallery-control--prev {
     left: 0;
+
+    svg {
+      float: right;
+    }
   }
 
   .gallery-control--next {
     right: 0;
+
+    svg {
+      float: left;
+    }
   }
 }
 
@@ -316,7 +331,7 @@
   }
 
   .photo-caption {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1rem;
   }
 
@@ -332,7 +347,7 @@
 
 .gallery-figcaption--thumbnails {
   position: relative;
-  height: 67px;
+  height: 58px;
   overflow: hidden;
 
   .caption-thumbnails {
@@ -358,7 +373,6 @@
 
       li {
         float: left;
-        background-color: rgb(0, 0, 0);
 
         + li {
           margin-left: 10;
@@ -370,9 +384,14 @@
           display: block;
           overflow: hidden;
           background: transparent;
-          border: 0;
+          border: 4px solid transparent;
           margin: 0;
           padding: 0;
+
+          &:focus,
+          &:active {
+            outline: none;
+          }
 
           &.active {
             cursor: default;
@@ -400,8 +419,8 @@
         }
 
         img.thumbnail {
-          width: 100;
-          height: 67px;
+          width: 100%;
+          height: 100%;
           display: block;
           border-width: 0;
           position: relative;
@@ -409,15 +428,13 @@
           opacity: 0.3;
           filter: alpha(opacity=30);
           backface-visibility: hidden;
+          object-fit: cover;
+          border-radius: 4px;
           transition: 0.1s ease opacity;
         }
       }
     }
   }
-}
-
-.mode-light .gallery-figcaption--thumbnails .caption-thumbnails ul.thumbnails-list li {
-  background-color: rgb(255, 255, 255);
 }
 
 .gallery-figcaption--thumbnails .caption-thumbnails ul.thumbnails-list li button.thumbnail-button.active img,
@@ -435,8 +452,14 @@
   vertical-align: bottom;
   display: inline-block;
   color: inherit;
-  font-weight: inherit;
+  font-weight: 400;
+  font-size: 0.9rem;
   position: relative;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
 }
 
 .gallery-figcaption .gallery-thumbnails--toggle::after {
@@ -477,10 +500,14 @@
 .gallery-modal--close button.gallery-close {
   cursor: pointer;
   background: none transparent;
-  color: "buttontext";
   border: 0;
   display: block;
   padding: 0.5rem;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
 }
 
 .gallery ul.gallery-images--ul li.gallery-media-photo.loading::before {

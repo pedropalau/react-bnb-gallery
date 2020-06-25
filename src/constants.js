@@ -16,8 +16,8 @@ export const SPACE_KEYCODE = 32;
 export const TOUCHEVENT_COMPAT_WAIT = 500;
 export const SWIPE_THRESHOLD = 40;
 
-export const THUMBNAIL_WIDTH = 100;
-export const THUMBNAIL_HEIGHT = 67;
+export const THUMBNAIL_WIDTH = 58;
+export const THUMBNAIL_HEIGHT = 50;
 export const THUMBNAIL_OFFSET = 10;
 
 export const DEFAULT_OPACITY = 1;
