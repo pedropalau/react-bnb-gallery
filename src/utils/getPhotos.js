@@ -12,5 +12,6 @@ export function processPhoto(photo, index) {
 }
 
 export default function getPhotos(photos) {
-  return photos.map(processPhoto);
+  const photosToProcess = Object.prototype.toString.call(photos) === '[object Array]' ? photos : [photos];
+  return photosToProcess.map(processPhoto);
 }
