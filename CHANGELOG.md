@@ -4,6 +4,11 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.2.2
+
+- [fix] Lot of wrong styles
+- [enhancement] Updates images visualization
+
 ## 1.2.1
 
 - [fix] Wrong loading spinner style
