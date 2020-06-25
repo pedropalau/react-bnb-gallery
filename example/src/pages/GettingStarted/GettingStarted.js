@@ -19,39 +19,27 @@ const importStyles = `
 `;
 
 const usageCode = `
-  import React, { Component } from 'react';
-  import { ReactBnbGallery } from 'react-bnb-gallery';
+  import React, { useState } from 'react';
+  import ReactBnbGallery from 'react-bnb-gallery';
 
-  const photos = [...];
+  const PHOTOS = [...];
 
-  class Example extends Component {
-    constructor() {
-      super(...arguments);
-      this.state = {
-        galleryOpened: false
-      };
-      this.toggleGallery = this.toggleGallery.bind(this);
-    }
+  class GalleryExample = () => {
+    const [isOpen, setIsOpen] = useState(false);
 
-    toggleGallery() {
-      this.setState(prevState => ({
-        galleryOpened: !prevState.galleryOpened
-      }));
-    }
-
-    render () {
-      return (
-        <button onClick={this.toggleGallery}>
+    return (
+      <>
+        <button onClick={() => setIsOpen(true)}>
           Open gallery
         </button>
         <ReactBnbGallery
-          show={this.state.galleryOpened}
-          photos={photos}
-          onClose={this.toggleGallery}
+          show={isOpen}
+          photos={PHOTOS}
+          onClose={() => setIsOpen(false)}
         />
-      )
-    }
-  }
+      </>
+    );
+  };
 `;
 
 const GettingStarted = () => (
