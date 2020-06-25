@@ -16,7 +16,7 @@
 }
 
 .loading-spinner {
-  margin: 60 auto;
+  margin: 60px auto;
   position: relative;
   border-top: 0.35em solid rgba(255, 255, 255, 0.2);
   border-right: 0.35em solid rgba(255, 255, 255, 0.2);
@@ -28,7 +28,7 @@
   &::after {
     width: 6em;
     height: 6em;
-    border-radius: 50%;
+    border-radius: 100%;
   }
 }
 
