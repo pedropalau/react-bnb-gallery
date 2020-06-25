@@ -1,0 +1,19 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@tailwindcss/ui": "^0.3.0",
+    "autoprefixer": "^9.8.4",
+    "next": "9.4.4",
+    "postcss-nesting": "^7.0.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "tailwindcss": "^1.4.6"
+  }
+}
