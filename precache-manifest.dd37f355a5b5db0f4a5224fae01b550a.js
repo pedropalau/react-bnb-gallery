@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0d579fd82f0048db3468fd8512950e14",
+    "revision": "cb31fa7979a63a8631dec550a102e83a",
     "url": "/react-bnb-gallery/index.html"
   },
   {
-    "revision": "3d8483b14d5151c3fa9a",
-    "url": "/react-bnb-gallery/static/css/2.174ca354.chunk.css"
+    "revision": "ef84a45266607d1f1c11",
+    "url": "/react-bnb-gallery/static/css/2.21491d87.chunk.css"
   },
   {
-    "revision": "a683639c0131036d1786",
+    "revision": "350813c10a0460dfaa15",
     "url": "/react-bnb-gallery/static/css/main.3bb9d3ac.chunk.css"
   },
   {
-    "revision": "3d8483b14d5151c3fa9a",
-    "url": "/react-bnb-gallery/static/js/2.f0f781c0.chunk.js"
+    "revision": "ef84a45266607d1f1c11",
+    "url": "/react-bnb-gallery/static/js/2.668497d5.chunk.js"
   },
   {
     "revision": "3453b8997016469371284a28c0e873e2",
-    "url": "/react-bnb-gallery/static/js/2.f0f781c0.chunk.js.LICENSE.txt"
+    "url": "/react-bnb-gallery/static/js/2.668497d5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a683639c0131036d1786",
-    "url": "/react-bnb-gallery/static/js/main.0c7ebe59.chunk.js"
+    "revision": "350813c10a0460dfaa15",
+    "url": "/react-bnb-gallery/static/js/main.836c6775.chunk.js"
   },
   {
     "revision": "c6c3796635f5fe540679",

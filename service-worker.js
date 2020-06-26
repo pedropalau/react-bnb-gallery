@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-bnb-gallery/precache-manifest.b79f04f7ab4be33d236708cad80d8bfd.js"
+  "/react-bnb-gallery/precache-manifest.dd37f355a5b5db0f4a5224fae01b550a.js"
 );
 
 self.addEventListener('message', (event) => {
