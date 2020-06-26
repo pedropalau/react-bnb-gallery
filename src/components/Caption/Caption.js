@@ -168,7 +168,9 @@ class Caption extends PureComponent {
               >
                 <div
                   className="caption-thumbnails"
-                  style={{ width: captionThumbnailsWrapperWidth }}
+                  style={{
+                    width: captionThumbnailsWrapperWidth,
+                  }}
                 >
                   <ul
                     className="thumbnails-list"
