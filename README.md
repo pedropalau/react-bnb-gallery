@@ -1,9 +1,9 @@
-<h1 align="center">react-bnb-gallery</h1>
-<p align="center">
+<p>
+  <img alt="react-bnb-gallery" width="250" src="https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/rbg-logo.png" /><br />
   Friendly, customizable and accessible-ready simple photo gallery based on React.
 </p>
 
-<p align="center">
+<p>
   <a href="https://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="https://img.shields.io/npm/v/react-bnb-gallery.svg" alt="NPM"></a>
   <a href="http://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="http://img.shields.io/npm/dm/react-bnb-gallery.svg?style=flat" alt="Download Count" /></a>
   <a href="https://travis-ci.org/peterpalau/react-bnb-gallery" target="_blank"><img src="https://travis-ci.org/peterpalau/react-bnb-gallery.svg?branch=master" alt="Build Status" /></a>
