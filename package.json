@@ -121,15 +121,15 @@
     "why-did-you-update": "^1.0.6"
   },
   "dependencies": {
-    "airbnb-prop-types": "^2.11.0",
-    "ajv": "^6.0.0",
+    "airbnb-prop-types": "^2.16.0",
+    "ajv": "^6.12.3",
     "classnames": "^2.2.6",
-    "focus-trap-react": "^6.0.0",
-    "lodash": "^4.17.11",
+    "focus-trap-react": "^7.0.1",
+    "lodash": "^4.17.19",
     "object.assign": "^4.1.0",
-    "object.values": "^1.0.4",
-    "prop-types": "^15.6.1",
-    "react-portal": "^4.2.0"
+    "object.values": "^1.1.1",
+    "prop-types": "^15.7.2",
+    "react-portal": "^4.2.1"
   },
   "optionalDependencies": {
     "typescript": "^3.6.2"
