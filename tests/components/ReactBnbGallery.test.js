@@ -6,6 +6,17 @@ import Gallery from '../../src/components/Gallery';
 
 import photos from '../test-photos';
 
+// See https://github.com/focus-trap/focus-trap-react/issues/24#issuecomment-586034017
+jest.mock('focus-trap', () => {
+  const trap = {
+    activate: () => trap,
+    deactivate: () => trap,
+    pause: () => {},
+    unpause: () => {},
+  };
+  return () => trap;
+});
+
 describe('ReactBnbGallery', () => {
   describe('#render', () => {
     it('unmounts', () => {
