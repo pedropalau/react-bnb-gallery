@@ -80,6 +80,7 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime": "^7.10.4",
     "@svgr/rollup": "^5.4.0",
+    "@welldone-software/why-did-you-render": "^4.2.5",
     "airbnb-js-shims": "^2.2.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -117,8 +118,7 @@
     "rollup-plugin-stylelint": "^0.0.4",
     "rollup-plugin-url": "^2.2.1",
     "stylelint": "^13.6.1",
-    "stylelint-config-standard": "^20.0.0",
-    "why-did-you-update": "^1.0.8"
+    "stylelint-config-standard": "^20.0.0"
   },
   "dependencies": {
     "airbnb-prop-types": "^2.16.0",
