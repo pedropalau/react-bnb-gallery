@@ -5,7 +5,6 @@ cache: yarn
 node_js:
   - 13
   - 12
-  - 11
   - 10
 
 script:
