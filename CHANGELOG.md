@@ -4,6 +4,11 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.2.4
+
+- [enhancement] Updates dependencies
+- [enhancement] Updates development dependencies
+
 ## 1.2.3
 
 - [fix] Thumbnails list hide/show styles
