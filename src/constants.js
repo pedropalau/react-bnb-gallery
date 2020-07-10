@@ -18,7 +18,7 @@ export const SWIPE_THRESHOLD = 40;
 
 export const THUMBNAIL_WIDTH = 58;
 export const THUMBNAIL_HEIGHT = 50;
-export const THUMBNAIL_OFFSET = 10;
+export const THUMBNAIL_OFFSET = 8;
 
 export const DEFAULT_OPACITY = 1;
 export const DEFAULT_COLOR = 'rgba(0,0,0,1)';
