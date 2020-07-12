@@ -1,0 +1,67 @@
+---
+title: 'Installation'
+layout: 'docs-page'
+---
+
+<div class="heading mt-0">
+  <h2 class="flex items-center m-0 text-2xl">
+    <span class="text-base bg-gray-200 text-gray-700 h-8 w-8 rounded-full inline-flex justify-center items-center mt-px mr-3">1</span>
+    Install the library
+  </h2>
+</div>
+
+You can install [react-bnb-gallery](https://www.npmjs.com/package/react-bnb-gallery) from [npm](https://www.npmjs.com/).
+
+```bash
+# Using npm
+npm install react-bnb-gallery
+
+# Using Yarn
+yarn add react-bnb-gallery
+```
+
+<div class="heading mt-0">
+  <h2 class="flex items-center m-0 text-2xl">
+    <span class="text-base bg-gray-200 text-gray-700 h-8 w-8 rounded-full inline-flex justify-center items-center mt-px mr-3">2</span>
+    Import compiled CSS
+  </h2>
+</div>
+
+Alternatively, you may use the library CSS by simply adding this line to your project’s entry point:
+
+```javascript
+import 'react-bnb-gallery/dist/style.css'
+```
+
+<div class="heading mt-0">
+  <h2 class="flex items-center m-0 text-2xl">
+    <span class="text-base bg-gray-200 text-gray-700 h-8 w-8 rounded-full inline-flex justify-center items-center mt-px mr-3">3</span>
+    Start using the library
+  </h2>
+</div>
+
+Following code is simplest usage:
+
+```javascript
+import React, { useState } from 'react';
+import ReactBnbGallery from 'react-bnb-gallery';
+
+const PHOTOS = [...];
+
+class GalleryExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>
+        Open gallery
+      </button>
+      <ReactBnbGallery
+        show={isOpen}
+        photos={PHOTOS}
+        onClose={() => setIsOpen(false)}
+      />
+    </>
+  );
+};
+```
