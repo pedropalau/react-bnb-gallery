@@ -14,7 +14,7 @@ const HtmlHead = ({
 }) => (
   <Head>
     <title>
-      {`${title} | bnbgallery`}
+      {`${title} - bnbgallery`}
     </title>
   </Head>
 );
