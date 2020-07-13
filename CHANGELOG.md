@@ -4,6 +4,11 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.2.6
+
+- [enhancement] Updates dependencies
+- [enhancement] Integrates with GitHub Packages
+
 ## 1.2.5
 
 - [fix] Wrong thumbnails visualization
