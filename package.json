@@ -1,5 +1,5 @@
 {
-  "name": "react-bnb-gallery",
+  "name": "@peterpalau/react-bnb-gallery",
   "version": "1.2.6",
   "description": "Simple photo gallery based on React and Airbnb image gallery",
   "author": "Pedro Enrique Palau <pepalauisaac@gmail.com>",
