@@ -50,7 +50,8 @@
     "lint": "yarn lint:scripts && yarn lint:css",
     "lint:scripts": "eslint --ext js src tests",
     "lint:css": "stylelint \"src/scss/*.{css,sass,scss,sss,less}\"",
-    "travis": "yarn test"
+    "travis": "yarn test",
+    "preview": "yarn build && cd ./docs && yarn export"
   },
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0",
