@@ -1,5 +1,5 @@
 {
-  "name": "@peterpalau/react-bnb-gallery",
+  "name": "react-bnb-gallery",
   "version": "1.4.2",
   "description": "Simple photo gallery based on React and Airbnb image gallery",
   "author": "Pedro Enrique Palau <pepalauisaac@gmail.com>",
@@ -133,8 +133,5 @@
   },
   "optionalDependencies": {
     "typescript": "^3.6.2"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   }
 }
