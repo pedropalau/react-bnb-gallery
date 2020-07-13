@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "deploy": "yarn && yarn build"
+    "deploy": "yarn && yarn build",
+    "preview": "yarn && yarn dev"
   },
   "dependencies": {
     "@mdx-js/loader": "^1.6.6",
