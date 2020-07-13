@@ -4,6 +4,10 @@
 - []  https://github.com/peterpalau/react-bnb-gallery/pulls
 -->
 
+## 1.3.1
+
+- [enhancement] Creates actions and updates workflow
+
 ## 1.2.6
 
 - [enhancement] Updates dependencies
