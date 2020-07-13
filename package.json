@@ -114,8 +114,8 @@
     "rollup": "^2.21.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.3",
-    "rollup-plugin-postcss": "^2.5.0",
-    "rollup-plugin-scss": "^1.0.2",
+    "rollup-plugin-postcss": "^3.1.2",
+    "rollup-plugin-scss": "^2.5.0",
     "rollup-plugin-stylelint": "^1.0.0",
     "stylelint": "^13.6.1",
     "stylelint-config-standard": "^20.0.0"
