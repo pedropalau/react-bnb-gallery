@@ -1,10 +1,10 @@
-import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import url from '@rollup/plugin-url';
+import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import resolve from 'rollup-plugin-node-resolve';
 import scss from 'rollup-plugin-scss';
 import stylelint from 'rollup-plugin-stylelint';
-import url from 'rollup-plugin-url';
 import svgr from '@svgr/rollup';
 
 import pkg from './package.json';
@@ -26,7 +26,7 @@ const createConfig = (output) => ({
     url(),
     svgr(),
     babel({
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       exclude: 'node_modules/**',
     }),
     resolve(),
