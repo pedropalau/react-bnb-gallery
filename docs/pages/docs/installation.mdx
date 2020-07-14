@@ -46,7 +46,11 @@ Following code is simplest usage:
 import React, { useState } from 'react';
 import ReactBnbGallery from 'react-bnb-gallery';
 
-const PHOTOS = [...];
+const PHOTOS = [
+  'https://images.unsplash.com/photo-1470238660368-09dd17cab0b5',
+  'https://images.unsplash.com/photo-1565472604484-fd8b0414aaf3',
+  'https://images.unsplash.com/photo-1594240094495-1b9177b5fefc',
+];
 
 class GalleryExample = () => {
   const [isOpen, setIsOpen] = useState(false);
