@@ -41,7 +41,7 @@ const Home = () => {
           </button>
           <Link href="/docs/installation">
             <a
-              className="cursor-pointer inline-flex items-center bg-white px-4 py-2 rounded font-semibold text-gray-900 border border-gray-600 shadow hover:text-gray-100 hover:bg-black hover:border-black focus:outline-none focus:text-gray-100 focus:bg-gray-900 focus:border-gray-900 focus:shadow-outline-gray"
+              className="cursor-pointer inline-flex items-center bg-white px-4 py-2 rounded font-semibold text-gray-900 border border-gray-600 shadow hover:text-gray-100 hover:bg-black hover:border-black focus:outline-none focus:text-gray-100 focus:bg-black focus:border-gray-900 focus:shadow-outline-gray"
               role="button"
             >
               Get Started
