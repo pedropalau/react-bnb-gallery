@@ -1,4 +1,5 @@
 const tailwindui = require('@tailwindcss/ui');
+const typography = require('@tailwindcss/typography');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
   variants: {},
   plugins: [
     tailwindui,
+    typography,
   ],
 };

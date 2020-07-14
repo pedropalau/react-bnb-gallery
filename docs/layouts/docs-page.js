@@ -20,7 +20,7 @@ const Doc = ({
               {title}
             </h1>
             <hr className="my-8 border-b border-gray-200" />
-            <div className="markdown">
+            <div className="prose">
               {content}
             </div>
           </div>
