@@ -1,6 +1,7 @@
 [build]
-  command = "yarn export"
-  publish = "out"
+base = "docs"
+publish = "docs/out"
+command = "yarn export"
 
 [[plugins]]
 package = "netlify-plugin-cache-nextjs"
