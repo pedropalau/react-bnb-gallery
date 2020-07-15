@@ -18,7 +18,7 @@ const Sidebar = ({
   }
 
   return (
-    <div className="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:sticky lg:top-10 bg-white lg:bg-transparent">
+    <div className="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:sticky lg:top-16 bg-white lg:bg-transparent">
       <Navigation menu={menu} />
     </div>
   );
