@@ -18,7 +18,7 @@ const Home = () => {
   }, [isOpen]);
 
   return (
-    <Layout>
+    <Layout showMenuControls={false}>
       <Head title="Home" />
       <div className="flex flex-col items-star container mx-auto max-w-screen-lg py-10 lg:pt-20 lg:pb-32 px-6 md:px-10">
         <div className="lg:w-2/3">
