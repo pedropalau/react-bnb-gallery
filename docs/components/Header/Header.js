@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 import Logo from '../Logo';
+import Social from '../Social';
 
 const defaultProps = {
   menuOpened: false,
@@ -35,6 +36,7 @@ const Header = ({
             </a>
           </Link>
         </div>
+        <Social />
         {showMenuControls && (
           <div className="flex">
             {!menuOpened && (
