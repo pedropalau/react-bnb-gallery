@@ -18,9 +18,9 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="en">
+      <Html className="bg-white" lang="en">
         <Head />
-        <body className="flex flex-col min-h-screen bg-white">
+        <body className="flex flex-col min-h-screen">
           <Main />
           <NextScript />
         </body>
