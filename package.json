@@ -83,7 +83,7 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime": "^7.10.4",
     "@rollup/plugin-babel": "^5.0.4",
-    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-url": "^5.0.1",
     "@svgr/rollup": "^5.4.0",
     "@welldone-software/why-did-you-render": "^4.2.5",
