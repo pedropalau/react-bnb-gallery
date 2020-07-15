@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import Link from 'next/link';
 
@@ -9,6 +10,7 @@ import Social from '../Social';
 const defaultProps = {
   menuOpened: false,
   showMenuControls: true,
+  fixed: false,
   onMenuOpen: () => {},
   onMenuClose: () => {},
 };
@@ -16,6 +18,7 @@ const defaultProps = {
 const propTypes = {
   menuOpened: PropTypes.bool,
   showMenuControls: PropTypes.bool,
+  fixed: PropTypes.bool,
   onMenuOpen: PropTypes.func,
   onMenuClose: PropTypes.func,
 };
@@ -23,10 +26,17 @@ const propTypes = {
 const Header = ({
   menuOpened,
   showMenuControls,
+  fixed,
   onMenuOpen,
   onMenuClose,
 }) => (
-  <header className="w-full relative border-b border-gray-200 lg:py-6">
+  <header
+    className={classnames(
+      'w-full border-b border-gray-200 bg-white h-16 lg:h-20 overflow-hidden lg:py-6',
+      !fixed && 'relative',
+      fixed && 'fixed top-0 left-0',
+    )}
+  >
     <div className="container max-w-screen-lg mx-auto px-6 md:px-10">
       <div className="flex items-center -mx-6 md:mx-0">
         <div className="flex flex-1">
