@@ -25,9 +25,9 @@ const Doc = ({
               {content}
             </div>
             <footer className="border-t border-gray-200 mt-10 md:mt-4 pt-4 lg:mt-10 lg:pt-6">
-              <div className="flex lg:justify-end">
+              <div className="flex">
                 <a
-                  className="text-green-500 hover:underline"
+                  className="text-green-500 underline"
                   href={`https://github.com/peterpalau/react-bnb-gallery/tree/master/docs/pages/${__resourcePath}`}
                   target="_blank"
                   rel="noopener noreferrer"
