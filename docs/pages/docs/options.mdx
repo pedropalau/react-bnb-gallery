@@ -5,30 +5,138 @@ layout: 'docs-page'
 
 To customize **bnbgallery** you can use the following properties:
 
-- `activePhotoIndex`: `Number`<br />Initial photo index to show. Defaults to `0`.
-- `activePhotoPressed`: `Function`<br /> Called when a photo is pressed. Defaults to `noop`.
-- `leftKeyPressed`: `Function` - Called when left key of the keyboard is pressed. Defaults to `noop`.
-- `nextButtonPressed`: `Function`  - Called when next control button is pressed. Defaults to `noop`.
-- `onClose`: `Function` - Called when the gallery modal is going to close. Defaults to `noop`.
-- `preloadSize`: `Number`<br />The number of photos to preload on gallery initialization. Defaults to `5`.
-- `prevButtonPressed`: `Function`<br />Called when previous control button is pressed. Defaults to `noop`.
-- `photos`: `Array` - List of photos. It can be an array of photos URLs or an array of objects. See the [photo object] props bellow.
-- `phrases`: `Object` -	List of phrases. Could be used to translate strings. Defaults to `{...}`.
-- `rightKeyPressed`: `Function`<br />Called when right key of the keyboard is pressed. Defaults to `noop`.
-- `show`: `Function`<br />Shows the modal when initialized. Defaults to `noop`.
-- `showThumbnails`: `Boolean`<br />Whether the gallery should show thumbnails. Defaults to `true`.
-- `keyboard`: `Boolean`<br />Whether the gallery should react to keyboard events. Defaults to `true`.
-- `wrap`: `Boolean`<br />Whether the gallery should cycle continuously or have hard stops. Defaults to `false`.
-- `opacity`: `Number`<br />Sets the opacity level for the component. Defaults to `1`.
-- `backgroundColor`: `String`<br />Sets the background color of the gallery component. Defaults to `#000000`.
-- `zIndex`: `Number`<br />Specifies the stack order of the component. Defaults to `2000`.
+### `activePhotoIndex`
 
-### Photo properties
+`activePhotoIndex: number` 
+
+Initial photo index to show. Defaults to `0`.
+
+### `activePhotoPressed`
+
+`activePhotoPressed: function`
+
+Called when a photo is pressed. Defaults to `noop`.
+
+### `leftKeyPressed`
+
+`leftKeyPressed: function`
+
+Called when left key of the keyboard is pressed. Defaults to `noop`.
+
+### `nextButtonPressed`
+
+`nextButtonPressed: function`
+
+Called when next control button is pressed. Defaults to `noop`.
+
+### `onClose`
+
+`onClose: function`
+
+Called when the gallery modal is going to close. Defaults to `noop`.
+
+### `preloadSize`
+
+`preloadSize: number`
+
+The number of photos to preload on gallery initialization. Defaults to `5`.
+
+### `prevButtonPressed`
+
+`prevButtonPressed: function`
+
+Called when previous control button is pressed. Defaults to `noop`.
+
+### `photos`
+
+`photos: array`
+
+List of photos. It can be an array of photos URLs or an array of objects. See the [photo object] props bellow.
+
+### `phrases`
+
+`phrases: object`
+
+List of phrases. Could be used to translate strings. Defaults to `{...}`.
+
+### `rightKeyPressed`
+
+`rightKeyPressed: function`
+
+Called when right key of the keyboard is pressed. Defaults to `noop`.
+
+### `show`
+
+`show: function`
+
+Shows the modal when initialized. Defaults to `noop`.
+
+### `showThumbnails`
+
+`showThumbnails: boolean`
+
+Whether the gallery should show thumbnails. Defaults to `true`.
+
+### `keyboard`
+
+`keyboard: boolean`
+
+Whether the gallery should react to keyboard events. Defaults to `true`.
+
+### `wrap`
+
+`wrap: boolean`
+
+Whether the gallery should cycle continuously or have hard stops. Defaults to `false`.
+
+### `opacity`
+
+`opacity: number`
+
+Sets the opacity level for the component. Defaults to `1`.
+
+### `backgroundColor`
+
+`backgroundColor: string`
+
+Sets the background color of the gallery component. Defaults to `#000000`.
+
+### `zIndex`
+
+`zIndex: number`
+
+Specifies the stack order of the component. Defaults to `2000`.
+
+## Photo properties
 
 This props are passed into `ReactBnbGallery`'s photos property:
 
-- `photo`: `String`<br />The src attribute value of the image. Defaults to `undefined`.
-- `number`: `String`<br />The current number of the photo. Defaults to `undefined`.
-- `caption`: `String`<br />Photo description. Defaults to `undefined`.
-- `subcaption`: `String`<br />Photo secondary description, like the photo author or the name of the place where it was taken. Defaults to `undefined`.
-- `thumbnail`: `String`<br />The url of the photo thumbnail. The preferred size for each thumbnail is `100x67`. Defaults to `undefined`.
+### `photo`
+
+`photo: string`
+
+The src attribute value of the image. Defaults to `undefined`.
+
+### `number`
+
+`number: string`
+
+The current number of the photo. Defaults to `undefined`.
+
+### `caption`
+
+`caption: string`
+
+Photo description. Defaults to `undefined`.
+
+### `subcaption`
+
+`subcaption: string`
+
+Photo secondary description, like the photo author or the name of the place where it was taken. Defaults to `undefined`.
+
+### `thumbnail`
+
+`thumbnail: string`
+
+The url of the photo thumbnail. The preferred size for each thumbnail is `100x67`. Defaults to `undefined`.
