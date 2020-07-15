@@ -28,9 +28,9 @@ const Header = ({
   <header className="w-full relative border-b border-gray-200 lg:py-6">
     <div className="container max-w-screen-lg mx-auto px-6 md:px-10">
       <div className="flex items-center -mx-6 md:mx-0">
-        <div className="flex-1">
+        <div className="flex flex-1">
           <Link href="/">
-            <a title="Home" className="block pl-6 md:pl-0">
+            <a title="Home" className="inline-flex pl-6 md:pl-0">
               <Logo />
             </a>
           </Link>
