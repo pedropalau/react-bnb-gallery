@@ -5,7 +5,7 @@ import Link from 'next/link';
 import docsPages from '../../data/getDocsPages';
 
 const DocsNav = () => (
-  <div className="">
+  <nav className="px-6 pt-6 overflow-y-auto text-base lg:py-12 lg:pl-6 lg:pr-8 sticky?lg:h-(screen-16)">
     <ul className="space-y-2">
       {
         docsPages.map(({
@@ -24,7 +24,7 @@ const DocsNav = () => (
         ))
       }
     </ul>
-  </div>
+  </nav>
 );
 
 export default DocsNav;
