@@ -4,6 +4,8 @@ import Head from '../components/Head';
 import Layout from '../components/Layout';
 import Sidebar from '../components/Sidebar';
 
+import docsPages from '../data/getDocsPages';
+
 const Doc = ({
   title,
   __resourcePath,
@@ -13,10 +15,10 @@ const Doc = ({
       <Head title={title} />
       <div className="container max-w-screen-lg mx-auto px-6 md:px-10">
         <div className="flex flex-col lg:flex-row -mx-6">
-          <div className="hidden fixed inset-0 pt-16 h-full bg-white z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
-            <Sidebar />
+          <div className="hidden fixed inset-0 pt-16 h-full bg-white z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/3 lg:block lg:border-0">
+            <Sidebar menu={docsPages} />
           </div>
-          <div className="py-10 w-full px-6 md:px-8 lg:px-0 lg:w-3/4">
+          <div className="py-10 w-full px-6 md:px-8 lg:px-0 lg:w-2/3">
             <h1 className="text-2xl lg:text-3xl font-medium flex items-center">
               {title}
             </h1>
