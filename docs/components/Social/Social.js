@@ -3,7 +3,7 @@ import React from 'react';
 const Social = () => (
   <div className="flex justify-start items-center text-gray-400">
     <a
-      className="flex items-center hover:text-black mr-5"
+      className="flex items-center hover:text-black mr-5 py-4 lg:py-0"
       href="https://github.com/peterpalau/react-bnb-gallery"
       target="_blank"
       rel="noopener noreferrer"
@@ -18,7 +18,7 @@ const Social = () => (
       </svg>
     </a>
     <a
-      className="flex items-center hover:text-gray-700 mr-5"
+      className="flex items-center hover:text-gray-700 mr-5 py-4 lg:py-0"
       href="https://twitter.com/palauisaac"
       target="_blank"
       rel="noopener noreferrer"
