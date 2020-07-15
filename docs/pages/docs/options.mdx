@@ -3,18 +3,32 @@ title: 'Options'
 layout: 'docs-page'
 ---
 
-You can set the following properties:
+To customize **bnbgallery** you can use the following properties:
 
-### `activePhotoIndex`
+- `activePhotoIndex`: `Number`<br />Initial photo index to show. Defaults to `0`.
+- `activePhotoPressed`: `Function`<br /> Called when a photo is pressed. Defaults to `noop`.
+- `leftKeyPressed`: `Function` - Called when left key of the keyboard is pressed. Defaults to `noop`.
+- `nextButtonPressed`: `Function`  - Called when next control button is pressed. Defaults to `noop`.
+- `onClose`: `Function` - Called when the gallery modal is going to close. Defaults to `noop`.
+- `preloadSize`: `Number`<br />The number of photos to preload on gallery initialization. Defaults to `5`.
+- `prevButtonPressed`: `Function`<br />Called when previous control button is pressed. Defaults to `noop`.
+- `photos`: `Array` - List of photos. It can be an array of photos URLs or an array of objects. See the [photo object] props bellow.
+- `phrases`: `Object` -	List of phrases. Could be used to translate strings. Defaults to `{...}`.
+- `rightKeyPressed`: `Function`<br />Called when right key of the keyboard is pressed. Defaults to `noop`.
+- `show`: `Function`<br />Shows the modal when initialized. Defaults to `noop`.
+- `showThumbnails`: `Boolean`<br />Whether the gallery should show thumbnails. Defaults to `true`.
+- `keyboard`: `Boolean`<br />Whether the gallery should react to keyboard events. Defaults to `true`.
+- `wrap`: `Boolean`<br />Whether the gallery should cycle continuously or have hard stops. Defaults to `false`.
+- `opacity`: `Number`<br />Sets the opacity level for the component. Defaults to `1`.
+- `backgroundColor`: `String`<br />Sets the background color of the gallery component. Defaults to `#000000`.
+- `zIndex`: `Number`<br />Specifies the stack order of the component. Defaults to `2000`.
 
-`number` | `default`: `0`
+### Photo properties
 
-Initial photo index to show.
+This props are passed into `ReactBnbGallery`'s photos property:
 
-
-### `activePhotoPressed`
-
-`function` | `default`: `noop`
-
-Called when a photo is pressed.
-
+- `photo`: `String`<br />The src attribute value of the image. Defaults to `undefined`.
+- `number`: `String`<br />The current number of the photo. Defaults to `undefined`.
+- `caption`: `String`<br />Photo description. Defaults to `undefined`.
+- `subcaption`: `String`<br />Photo secondary description, like the photo author or the name of the place where it was taken. Defaults to `undefined`.
+- `thumbnail`: `String`<br />The url of the photo thumbnail. The preferred size for each thumbnail is `100x67`. Defaults to `undefined`.
