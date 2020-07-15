@@ -18,7 +18,7 @@ const Layout = ({
   showHeader,
   children,
 }) => (
-  <div className="flex flex-col min-h-screen border-t-4 border-black">
+  <div className="flex flex-col min-h-screen">
     {showHeader && (<Header />)}
     <Main>
       {children}
