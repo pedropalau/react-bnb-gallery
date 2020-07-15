@@ -1,11 +1,30 @@
 import React from 'react';
 
-import DocsNav from '../DocsNav';
+import Navigation, { MenuShape } from '../Navigation';
 
-const Sidebar = () => (
-  <div className="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:sticky lg:top-10 bg-white lg:bg-transparent">
-    <DocsNav />
-  </div>
-);
+const defaultProps = {
+  menu: null,
+};
+
+const propTypes = {
+  menu: MenuShape,
+};
+
+const Sidebar = ({
+  menu,
+}) => {
+  if (!menu) {
+    return null;
+  }
+
+  return (
+    <div className="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:sticky lg:top-10 bg-white lg:bg-transparent">
+      <Navigation menu={menu} />
+    </div>
+  );
+};
+
+Sidebar.defaultProps = defaultProps;
+Sidebar.propTypes = propTypes;
 
 export default Sidebar;
