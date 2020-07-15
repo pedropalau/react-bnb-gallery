@@ -2,21 +2,19 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import { getHeightWithProportion } from './utils';
-
 const defaultProps = {
   width: 100,
   height: 100,
+  alt: 'bnbgallery',
   onPress: () => {},
-  columnSize: 100,
 };
 
 const propTypes = {
   src: PropTypes.string.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
+  alt: PropTypes.string,
   onPress: PropTypes.func,
-  columnSize: PropTypes.number,
 };
 
 const Image = ({
@@ -24,6 +22,7 @@ const Image = ({
   onPress,
   width,
   height,
+  alt,
 }) => {
   const [status, setStatus] = useState({
     loading: true,
@@ -48,11 +47,17 @@ const Image = ({
       >
         <div className="w-full bg-green-500">
           <img
-            alt="bnbgallery"
-            className="block w-full h-auto object-cover"
+            alt={alt}
+            className={classnames(
+              'block w-full h-auto object-cover',
+              status.loading && 'opacity-0',
+              !status.loading && 'transition-opacity ease-in-out duration-1000 opacity-1',
+            )}
             width={width}
             height={height}
             src={src}
+            onLoad={() => setStatus({ loading: false, error: false })}
+            onError={() => setStatus({ loading: false, error: true })}
           />
         </div>
       </figure>
