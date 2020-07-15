@@ -25,7 +25,7 @@ const propTypes = {
 const Navigation = ({
   menu,
 }) => (
-  <nav className="px-6 pt-6 overflow-y-auto text-base lg:py-12 lg:pl-6 lg:pr-8 sticky?lg:h-(screen-16)">
+  <nav className="px-6 pt-6 overflow-y-auto text-base lg:py-14 lg:pl-6 lg:pr-8 sticky?lg:h-(screen-16)">
     <ul className="space-y-2">
       {
         menu.map(({
