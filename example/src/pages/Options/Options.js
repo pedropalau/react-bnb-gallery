@@ -160,13 +160,13 @@ const Options = () => (
           </tr>
           <tr>
             <td align="left">caption</td>
-            <td align="left"><code className="data-type">string</code></td>
+            <td align="left"><code className="data-type">string|node</code></td>
             <td align="left"><code>undefined</code></td>
             <td align="left">Photo description.</td>
           </tr>
           <tr>
             <td align="left">subcaption</td>
-            <td align="left"><code className="data-type">string</code></td>
+            <td align="left"><code className="data-type">string|node</code></td>
             <td align="left"><code>undefined</code></td>
             <td align="left">Photo secondary description, like the photo author or the name of the place where it was taken.</td>
           </tr>
