@@ -1,19 +1,13 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import {
-  galleryPropTypes,
-  galleryDefaultProps,
-} from '../../common';
+import { galleryPropTypes, galleryDefaultProps } from "../../common";
 
-import Photo from '../Photo';
-import Caption from '../Caption';
-import PrevButton from '../PrevButton';
-import NextButton from '../NextButton';
+import Photo from "../Photo";
+import Caption from "../Caption";
+import PrevButton from "../PrevButton";
+import NextButton from "../NextButton";
 
-import {
-  DIRECTION_NEXT,
-  DIRECTION_PREV,
-} from '../../constants';
+import { DIRECTION_NEXT, DIRECTION_PREV } from "../../constants";
 
 const propTypes = {
   ...galleryPropTypes,
@@ -26,11 +20,7 @@ const defaultProps = {
 class Gallery extends PureComponent {
   constructor(props) {
     super(props);
-    const {
-      activePhotoIndex,
-      photos,
-      wrap,
-    } = this.props;
+    const { activePhotoIndex, photos, wrap } = this.props;
     this.state = {
       activePhotoIndex,
       hidePrevButton: wrap && activePhotoIndex === 0,
@@ -127,8 +117,9 @@ class Gallery extends PureComponent {
     const isPrevDirection = direction === DIRECTION_PREV;
 
     const lastItemIndex = photos.length - 1;
-    const isGoingToWrap = (isPrevDirection && activeIndex === 0)
-      || (isNextDirection && activeIndex === lastItemIndex);
+    const isGoingToWrap =
+      (isPrevDirection && activeIndex === 0) ||
+      (isNextDirection && activeIndex === lastItemIndex);
 
     if (isGoingToWrap && wrap) {
       return activeIndex;
@@ -158,9 +149,10 @@ class Gallery extends PureComponent {
   move(direction, index = false) {
     const { activePhotoIndex } = this.state;
 
-    const nextElementIndex = index !== false
-      ? index
-      : this.getItemByDirection(direction, activePhotoIndex);
+    const nextElementIndex =
+      index !== false
+        ? index
+        : this.getItemByDirection(direction, activePhotoIndex);
 
     this.wrapCheck(direction, nextElementIndex);
 
@@ -173,20 +165,18 @@ class Gallery extends PureComponent {
     const { photos } = this.props;
     const { activePhotoIndex } = this.state;
 
-    if ((index > photos.length - 1 || index < 0) || activePhotoIndex === index) {
+    if (index > photos.length - 1 || index < 0 || activePhotoIndex === index) {
       return; // nothing to do
     }
 
-    const direction = index > activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
+    const direction =
+      index > activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
 
     this.move(direction, index);
   }
 
   wrapCheck(direction, nextElementIndex) {
-    const {
-      photos,
-      wrap,
-    } = this.props;
+    const { photos, wrap } = this.props;
 
     if (wrap) {
       this.setState({
@@ -197,41 +187,35 @@ class Gallery extends PureComponent {
   }
 
   renderControls() {
-    const {
-      light,
-    } = this.props;
+    const { light } = this.props;
 
-    const {
-      hidePrevButton,
-      hideNextButton,
-      controlsDisabled,
-    } = this.state;
+    const { hidePrevButton, hideNextButton, controlsDisabled } = this.state;
 
     const controls = [];
 
     if (this.hasMoreThanOnePhoto) {
       // previous control
       if (!hidePrevButton) {
-        controls.push((
+        controls.push(
           <PrevButton
             key=".prevControl"
             disabled={controlsDisabled}
             onPress={this.onPrevButtonPress}
             light={light}
           />
-        ));
+        );
       }
 
       // next control
       if (!hideNextButton) {
-        controls.push((
+        controls.push(
           <NextButton
             key=".nextControl"
             disabled={controlsDisabled}
             onPress={this.onNextButtonPress}
             light={light}
           />
-        ));
+        );
       }
     }
 
@@ -247,35 +231,25 @@ class Gallery extends PureComponent {
 
     while (index < photos.length && counter <= preloadSize) {
       photo = photos[index];
-      preloadPhotos.push((
-        <img
-          key={photo.photo}
-          alt={photo.photo}
-          src={photo.photo}
-        />
-      ));
+      preloadPhotos.push(
+        <img key={photo.photo} alt={photo.photo} src={photo.photo} />
+      );
       index += 1;
       counter += 1;
     }
   }
 
   render() {
-    const {
-      photos,
-      showThumbnails,
-      phrases,
-    } = this.props;
+    const { photos, showThumbnails, phrases } = this.props;
 
-    const {
-      noPhotosProvided: emptyMessage,
-    } = phrases;
+    const { noPhotosProvided: emptyMessage } = phrases;
 
-    const {
-      activePhotoIndex,
-    } = this.state;
+    const { activePhotoIndex } = this.state;
 
     // preload photos
-    const galleryModalPreloadPhotos = this.renderPreloadPhotos(activePhotoIndex);
+    const galleryModalPreloadPhotos = this.renderPreloadPhotos(
+      activePhotoIndex
+    );
 
     const controls = this.renderControls();
 
@@ -306,9 +280,7 @@ class Gallery extends PureComponent {
                 </div>
               </div>
             ) : (
-              <div className="gallery-empty">
-                {emptyMessage}
-              </div>
+              <div className="gallery-empty">{emptyMessage}</div>
             )}
           </div>
         </div>
