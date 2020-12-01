@@ -140,3 +140,22 @@ Photo secondary description, like the photo author or the name of the place wher
 `thumbnail: string`
 
 The url of the photo thumbnail. The preferred size for each thumbnail is `100x67`. Defaults to `undefined`.
+
+### `component`
+
+`component: React.Component`
+
+React component for rendering custom image. Following props are passed to custom components on render.
+
+ - src: `String` 
+    - Image url.
+ - alt: `String` 
+    - Image alt.
+ - onLoad: `Function` 
+    - Must be called when image is finished loading else spinning overlay will be visible indefinitely.
+ - onError: `Function`
+    - Must be called when image encounters error.
+ - style: `Object`
+    - Image style object specified by gallery. Should be passed to image inside your custom element or container of that image.
+ - className: `String`
+    - Image class name specified by gallery. Should be passed to image inside your custom element or container of that image.
