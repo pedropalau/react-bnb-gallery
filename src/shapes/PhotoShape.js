@@ -6,5 +6,5 @@ export default PropTypes.shape({
   caption: PropTypes.string,
   subcaption: PropTypes.string,
   thumbnail: PropTypes.string,
-  component: PropTypes.element,
+  component: PropTypes.func,
 });

@@ -59,6 +59,7 @@ class Photo extends PureComponent {
       alt: photo.caption || '',
       className: 'photo',
       src: photo.photo,
+      component: photo.component,
       onLoad,
       onError,
       style,
@@ -73,12 +74,8 @@ class Photo extends PureComponent {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        {!photo.component ? (
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <Image {...imageProps} />
-        ) : (
-          photo.component({ imageProps })
-        )}
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Image {...imageProps} />
       </button>
     );
   }
