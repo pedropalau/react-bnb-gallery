@@ -7,10 +7,7 @@ import classnames from 'classnames';
 import Image from '../Image';
 import PhotoShape from '../../shapes/PhotoShape';
 
-import {
-  imagePropTypes,
-  imageDefaultProps,
-} from '../../common';
+import { imagePropTypes, imageDefaultProps } from '../../common';
 import { forbidExtraProps } from '../../common/prop-types';
 import noop from '../../utils/noop';
 
@@ -56,13 +53,17 @@ class Photo extends PureComponent {
       return null;
     }
 
-    const {
+    const { onLoad, onError, style } = omit(rest, ['onPress']);
+
+    const imageProps = {
+      alt: photo.caption || '',
+      className: 'photo',
+      src: photo.photo,
+      component: photo.component,
       onLoad,
       onError,
       style,
-    } = omit(rest, [
-      'onPress',
-    ]);
+    };
 
     return (
       <button
@@ -73,14 +74,8 @@ class Photo extends PureComponent {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        <Image
-          alt={photo.caption || ''}
-          className="photo"
-          src={photo.photo}
-          onLoad={onLoad}
-          onError={onError}
-          style={style}
-        />
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Image {...imageProps} />
       </button>
     );
   }
@@ -96,9 +91,7 @@ class Photo extends PureComponent {
 
     return (
       <ul className="gallery-images--ul">
-        <li className={className}>
-          {photoRendered}
-        </li>
+        <li className={className}>{photoRendered}</li>
       </ul>
     );
   }

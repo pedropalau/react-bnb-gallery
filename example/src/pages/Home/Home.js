@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 
 import ReactBnbGallery from 'react-bnb-gallery';
 
@@ -10,6 +10,7 @@ import {
   Title,
   PhotoGrid,
 } from '../../components';
+import Image from '../../components/Image';
 
 import PHOTOS from '../../photos';
 
@@ -40,26 +41,48 @@ const Home = () => {
 
   const isOpen = galleryStatus.isOpen;
 
-  const photosToShow = galleryStatus.currentPhoto || PHOTOS;
+  const transformPhotos = useMemo(() => {
+    return PHOTOS.map((photo) => {
+      return {
+        ...photo,
+        component: Image,
+      };
+    });
+  }, []);
+
+  const photosToShow = galleryStatus.currentPhoto || transformPhotos;
 
   return (
     <>
       <Container id="start" className="container intro">
         <Title level={1}>React photo gallery</Title>
-        <Text inherit>Friendly, customizable and accessible-ready simple photo gallery based on <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>.</Text>
+        <Text inherit>
+          Friendly, customizable and accessible-ready simple photo gallery based
+          on{' '}
+          <a
+            href="https://reactjs.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            React
+          </a>
+          .
+        </Text>
         <Container className="actions">
           <Spacing right={2}>
             <Button
-              onPress={() => setGalleryStatus({
-                isOpen: true,
-                currentPhoto: null,
-              })}
+              onPress={() =>
+                setGalleryStatus({
+                  isOpen: true,
+                  currentPhoto: null,
+                })
+              }
               customStyle={buttonCustomStyle}
               primary
               large
             >
               View demo gallery
-              </Button>
+            </Button>
           </Spacing>
           <Spacing left={2}>
             <Button
@@ -70,7 +93,7 @@ const Home = () => {
               large
             >
               Fork this repository
-              </Button>
+            </Button>
           </Spacing>
         </Container>
       </Container>
@@ -80,7 +103,7 @@ const Home = () => {
         photos={photosToShow}
         onClose={onGalleryClose}
         wrap={false}
-        backgroundColor='#000000'
+        backgroundColor="#000000"
       />
     </>
   );
