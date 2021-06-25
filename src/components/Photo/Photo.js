@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import omit from 'lodash/omit';
 import classnames from 'classnames';
 
 import Image from '../Image';
@@ -60,9 +59,7 @@ class Photo extends PureComponent {
       onLoad,
       onError,
       style,
-    } = omit(rest, [
-      'onPress',
-    ]);
+    } = rest;
 
     return (
       <button
