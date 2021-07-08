@@ -1,8 +1,8 @@
 {
-  "name": "react-bnb-gallery",
+  "name": "react-bnb-gallery-lodash-es",
   "version": "1.4.4",
   "description": "Simple photo gallery based on React and Airbnb image gallery",
-  "author": "Pedro Enrique Palau <pepalauisaac@gmail.com>",
+  "author": "XLZY520 <1017866168@qq.com>",
   "homepage": "https://peterpalau.github.io/react-bnb-gallery/",
   "keywords": [
     "react",
