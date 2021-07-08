@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
 
-import omit from 'lodash/omit';
+import { omit } from 'lodash-es';
 import classnames from 'classnames';
 
 import Gallery from './components/Gallery';
