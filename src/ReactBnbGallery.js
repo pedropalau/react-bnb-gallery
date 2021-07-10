@@ -138,6 +138,7 @@ class ReactBnbGallery extends Component {
       wrap,
       activePhotoIndex,
       activePhotoPressed,
+      activePhotoPressedAutoMoveNext,
       direction,
       nextButtonPressed,
       prevButtonPressed,
@@ -200,6 +201,7 @@ class ReactBnbGallery extends Component {
                         wrap={wrap}
                         activePhotoIndex={activePhotoIndex}
                         activePhotoPressed={activePhotoPressed}
+                        activePhotoPressedAutoMoveNext={activePhotoPressedAutoMoveNext}
                         direction={direction}
                         nextButtonPressed={nextButtonPressed}
                         prevButtonPressed={prevButtonPressed}

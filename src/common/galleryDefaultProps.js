@@ -9,6 +9,7 @@ import {
 export default {
   activePhotoIndex: 0,
   activePhotoPressed: noop,
+  activePhotoPressedAutoMoveNext: false,
   direction: FORWARDS,
   nextButtonPressed: noop,
   prevButtonPressed: noop,

@@ -79,8 +79,10 @@ class Gallery extends PureComponent {
   }
 
   onPhotoPress() {
-    const { activePhotoPressed } = this.props;
-    this.move(DIRECTION_NEXT);
+    const { activePhotoPressed, activePhotoPressedAutoMoveNext } = this.props;
+    if (activePhotoPressedAutoMoveNext) {
+      this.move(DIRECTION_NEXT);
+    }
     activePhotoPressed();
   }
 
@@ -98,6 +100,7 @@ class Gallery extends PureComponent {
   }
 
   onTouchEnd() {
+    console.log(444);
     const { touchStartInfo, touchEndInfo, touchMoved } = this.state;
 
     if (touchMoved) {

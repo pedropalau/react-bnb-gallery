@@ -14,6 +14,7 @@ import getPhrasePropTypes from '../utils/getPhrasePropTypes';
 export default forbidExtraProps({
   activePhotoIndex: nonNegativeInteger,
   activePhotoPressed: PropTypes.func,
+  activePhotoPressedAutoMoveNext: PropTypes.bool,
   direction: SlideDirectionShape,
   nextButtonPressed: PropTypes.func,
   prevButtonPressed: PropTypes.func,

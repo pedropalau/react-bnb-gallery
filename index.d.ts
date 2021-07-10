@@ -10,6 +10,10 @@ export type Props = {
      */
     activePhotoPressed?: () => void
     /**
+     * Auto move next photo index when a photo is pressed.
+     */
+    activePhotoPressedAutoMoveNext?: boolean
+    /**
      * Executed when left key of the keyboard is pressed.
      */
     leftKeyPressed?: () => void
