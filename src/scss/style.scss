@@ -414,6 +414,12 @@
   }
 }
 
+@media (max-width: 550px) {
+  .gallery-figcaption{
+    top: 60px;
+  }
+}
+
 .mode-light .gallery-figcaption {
   color: #111;
 }
