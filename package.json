@@ -1,6 +1,6 @@
 {
   "name": "react-bnb-gallery",
-  "version": "1.4.4",
+  "version": "2.0.0-dev",
   "description": "Simple photo gallery based on React and Airbnb image gallery",
   "author": "Pedro Enrique Palau <pepalauisaac@gmail.com>",
   "homepage": "https://peterpalau.github.io/react-bnb-gallery/",
@@ -26,15 +26,8 @@
     "url": "git@github.com:peterpalau/react-bnb-gallery.git"
   },
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
-  "typings": "index.d.ts",
-  "files": [
-    "dist",
-    "index.d.ts",
-    "styles.css"
-  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "bugs": {
     "url": "https://github.com/peterpalau/react-bnb-gallery/issues"
   },
@@ -83,9 +76,12 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime": "^7.10.4",
     "@rollup/plugin-babel": "^5.0.4",
-    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-typescript": "^8.5.0",
     "@rollup/plugin-url": "^5.0.1",
     "@svgr/rollup": "^5.4.0",
+    "@types/react": "^18.0.21",
     "@welldone-software/why-did-you-render": "^4.2.5",
     "airbnb-js-shims": "^2.2.1",
     "babel-core": "7.0.0-bridge.0",
@@ -114,14 +110,17 @@
     "react-scripts": "^3.4.1",
     "react-test-renderer": "^16.13.1",
     "regenerator-runtime": "^0.13.5",
-    "rollup": "^2.21.0",
+    "rollup": "^2.79.1",
+    "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.3",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^3.1.2",
     "rollup-plugin-scss": "^2.5.0",
     "rollup-plugin-stylelint": "^1.0.0",
+    "rollup-plugin-terser": "^7.0.2",
     "stylelint": "^13.6.1",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint-config-standard": "^20.0.0",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
     "airbnb-prop-types": "^2.16.0",
@@ -133,8 +132,5 @@
     "object.values": "^1.1.1",
     "prop-types": "^15.7.2",
     "react-portal": "^4.2.1"
-  },
-  "optionalDependencies": {
-    "typescript": "^3.6.2"
   }
 }
