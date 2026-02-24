@@ -1,8 +1,3 @@
-import { frontMatter as installation } from '../pages/docs/installation.mdx';
-import { frontMatter as options } from '../pages/docs/options.mdx';
-import { frontMatter as license } from '../pages/docs/license.mdx';
-import { frontMatter as help } from '../pages/docs/help.mdx';
-
 export default [
   {
     slug: 'documentation',
@@ -11,23 +6,23 @@ export default [
       {
         slug: 'installation',
         url: '/docs/installation',
-        ...installation,
+        title: 'Installation',
       },
       {
         slug: 'options',
         url: '/docs/options',
-        ...options,
+        title: 'Options',
       },
     ],
   },
   {
     slug: 'license',
     url: '/docs/license',
-    ...license,
+    title: 'License',
   },
   {
     slug: 'help',
     url: '/docs/help',
-    ...help,
+    title: 'Help',
   },
 ];

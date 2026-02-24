@@ -36,12 +36,12 @@ const Home = () => {
               View Demo Gallery
             </button>
             <Link href="/docs/installation">
-              <a
+              <span
                 className="cursor-pointer inline-flex items-center justify-center bg-white py-5 md:px-4 md:py-2 rounded font-semibold text-gray-900 border border-gray-600 shadow hover:text-gray-100 hover:bg-black hover:border-black focus:outline-none focus:text-gray-100 focus:bg-black focus:border-gray-900 focus:shadow-outline-gray"
                 role="button"
               >
                 Get Started
-              </a>
+              </span>
             </Link>
           </div>
         </div>

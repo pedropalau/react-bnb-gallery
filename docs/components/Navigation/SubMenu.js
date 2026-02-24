@@ -37,10 +37,11 @@ const SubMenu = ({
           title,
         }) => (
           <li key={slug}>
-            <Link href={url}>
-              <a className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block text-gray-600 hover:translate-x-2px hover:text-black" href="#">
-                {title}
-              </a>
+            <Link
+              href={url}
+              className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block text-gray-600 hover:translate-x-2px hover:text-black"
+            >
+              {title}
             </Link>
           </li>
         ))

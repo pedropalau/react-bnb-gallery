@@ -27,13 +27,13 @@ yarn add react-bnb-gallery
 
 ## Live Demo
 
-[https://peterpalau.github.io/react-bnb-gallery/](https://peterpalau.github.io/react-bnb-gallery/)
+The demo and documentation are served from the unified Next.js docs app (`docs/`) and intended for Vercel deployment.
 
 ![Demo](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/react-bnb-demo.png)
 
 ## Documentation
 
-For full documentation, visit the [demo website](https://peterpalau.github.io/react-bnb-gallery).
+For full documentation, run the unified docs app locally with `pnpm docs:dev` (deployment target: Vercel with root `docs/`).
 
 ## License
 

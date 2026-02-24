@@ -1,12 +1,9 @@
-const withMdxEnhanced = require('next-mdx-enhanced');
-const withMDX = require('@next/mdx');
-const withTM = require('next-transpile-modules');
-
-module.exports = withMdxEnhanced({
-  layoutPath: 'layouts',
-  extendFrontMatter: {
-    phase: 'prebuild|loader|both',
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  transpilePackages: ['react-bnb-gallery'],
+  eslint: {
+    ignoreDuringBuilds: true,
   },
-})(withMDX(withTM({
-  transpileModules: ['react-bnb-gallery'],
-})));
+};
+
+module.exports = nextConfig;

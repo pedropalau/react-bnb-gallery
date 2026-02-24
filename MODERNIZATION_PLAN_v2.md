@@ -99,6 +99,14 @@ Questions to answer before implementation:
 4. Hosting preference for docs/demo (GitHub Pages, Vercel, Netlify)?
 5. Do you want design refresh only after technical migration, or during migration?
 
+Approved answers (2026-02-24):
+
+1. Docs stack: keep `Next.js` and upgrade to a modern supported version.
+2. Repository layout: unify docs and examples into a single workspace/app structure.
+3. Demo app preference: use `Next.js` for demos within the unified docs setup.
+4. Hosting: `Vercel`.
+5. Design refresh timing: do technical migration first, then design refresh in a follow-up phase/PR.
+
 ### Phase 6: Release Hardening
 
 Questions to answer before implementation:
@@ -276,6 +284,26 @@ Add decisions here as we align each phase:
   - Migrated test execution from `Jest` to `Vitest` with `jsdom` and V8 coverage.
   - Replaced Enzyme-based tests with Testing Library-based behavior tests.
   - Enforced `80%` global coverage gate for statements/lines in CI baseline.
+- 2026-02-24: Phase 4 implementation validated as complete.
+  - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm test:coverage`, and `pnpm build` all pass.
+  - Coverage gate verified with V8 provider: statements `85.86%`, lines `85.86%` (>= `80%` threshold).
+  - Transitional warning accepted for follow-up: React runtime warns on function-component `defaultProps` usage.
+- 2026-02-24: Phase 5 is now the active next phase (alignment questions pending approval before implementation).
+- 2026-02-24: Phase 5 alignment approved.
+  - Keep and modernize `Next.js` for docs.
+  - Unify docs and examples into one setup.
+  - Use `Next.js` for demos.
+  - Deploy docs/demo on `Vercel`.
+  - Schedule design refresh after technical migration (not during).
+- 2026-02-24: Phase 5 implementation started (PR scope: unified modern Next.js docs/demo app).
+  - Upgraded docs stack from legacy `Next.js 9` to modern `Next.js 15` with React 18.
+  - Removed legacy MDX/plugin chain and converted docs content pages to standard Next pages.
+  - Unified active docs/demo surface in `docs/` (homepage demo + docs routes) and deprecated standalone legacy `example` app usage.
+  - Root scripts updated for unified docs workflow: `docs:dev`, `docs:build`, `docs:start`.
+- 2026-02-24: Phase 5 implementation validated as complete.
+  - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
+  - Vercel deployment target is now represented by the Next.js docs app under `docs/`.
+  - Follow-up locked for post-migration design refresh per approved phase policy.
 - 2026-02-24: Phase 7 added to plan for explicit TypeScript migration sequencing.
 - 2026-02-24: Phase 8 added to plan for Sass/Biome/Babel modernization scope.
 

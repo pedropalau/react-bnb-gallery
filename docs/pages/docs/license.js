@@ -1,16 +1,18 @@
----
-title: 'License'
-layout: 'docs-page'
----
+import React from 'react';
 
-**BnbGallery** is free to use for personal and commercial projects under the [MIT license](https://github.com/peterpalau/react-bnb-gallery/blob/master/LICENSE).
+import DocsPage from '../../components/DocsPage';
 
-Attribution is not required, but greatly appreciated.
-
-It does not have to be user-facing and can remain within the code.
-
-```
-The MIT License (MIT)
+const License = () => (
+  <DocsPage title="License" path="docs/license.js">
+    <p>
+      <strong>BnbGallery</strong> is free to use for personal and commercial projects under the{' '}
+      <a href="https://github.com/peterpalau/react-bnb-gallery/blob/master/LICENSE">MIT license</a>.
+    </p>
+    <p>Attribution is not required, but greatly appreciated.</p>
+    <p>It does not have to be user-facing and can remain within the code.</p>
+    <pre>
+      <code>
+        {`The MIT License (MIT)
 
 Copyright (c) Pedro Enrique Palau <pepalauisaac@gmail.com>
 
@@ -30,5 +32,10 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+SOFTWARE.`}
+      </code>
+    </pre>
+  </DocsPage>
+);
+
+export default License;

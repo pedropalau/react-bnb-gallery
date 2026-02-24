@@ -37,10 +37,11 @@ const Navigation = ({
           let content;
           if (url) {
             content = (
-              <Link href={`/docs/${slug}`}>
-                <a className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block text-gray-900 hover:translate-x-2px text-lg font-semibold hover:text-black">
-                  {title}
-                </a>
+              <Link
+                href={`/docs/${slug}`}
+                className="px-2 -mx-2 py-1 transition duration-200 ease-in-out relative block text-gray-900 hover:translate-x-2px text-lg font-semibold hover:text-black"
+              >
+                {title}
               </Link>
             );
           } else {
