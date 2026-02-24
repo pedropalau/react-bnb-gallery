@@ -1,5 +1,7 @@
 import calculateThumbnailsOffset from '../src/utils/calculateThumbnailsOffset';
 import calculateThumbnailsContainerDimension from '../src/utils/calculateThumbnailsContainerDimension';
+import getPhrasePropTypes from '../src/utils/getPhrasePropTypes';
+import defaultPhrases from '../src/defaultPhrases';
 
 import {
   THUMBNAIL_WIDTH,
@@ -35,5 +37,16 @@ describe('the calculateThumbnailsContainerDimension function', () => {
   });
   it('dimension with total of 999', () => {
     expect(calculateThumbnailsContainerDimension(999)).toBe(65926);
+  });
+});
+
+describe('the getPhrasePropTypes function', () => {
+  it('creates a prop-type shape for all phrase keys', () => {
+    const phrasePropTypes = getPhrasePropTypes(defaultPhrases);
+
+    expect(Object.keys(phrasePropTypes)).toEqual(Object.keys(defaultPhrases));
+    Object.values(phrasePropTypes).forEach((propType) => {
+      expect(typeof propType).toBe('function');
+    });
   });
 });

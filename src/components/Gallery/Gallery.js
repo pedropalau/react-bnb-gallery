@@ -42,8 +42,6 @@ class Gallery extends PureComponent {
     };
     this.lastPreloadIndex = 0;
     this.preloadedPhotos = [];
-    this.hasPhotos = photos.length > 0;
-    this.hasMoreThanOnePhoto = photos.length > 1;
     this.move = this.move.bind(this);
     this.prev = this.prev.bind(this);
     this.next = this.next.bind(this);
@@ -199,7 +197,9 @@ class Gallery extends PureComponent {
   renderControls() {
     const {
       light,
+      photos,
     } = this.props;
+    const hasMoreThanOnePhoto = photos.length > 1;
 
     const {
       hidePrevButton,
@@ -209,7 +209,7 @@ class Gallery extends PureComponent {
 
     const controls = [];
 
-    if (this.hasMoreThanOnePhoto) {
+    if (hasMoreThanOnePhoto) {
       // previous control
       if (!hidePrevButton) {
         controls.push((
@@ -257,6 +257,8 @@ class Gallery extends PureComponent {
       index += 1;
       counter += 1;
     }
+
+    return preloadPhotos;
   }
 
   render() {
@@ -278,6 +280,7 @@ class Gallery extends PureComponent {
     const galleryModalPreloadPhotos = this.renderPreloadPhotos(activePhotoIndex);
 
     const controls = this.renderControls();
+    const hasPhotos = photos.length > 0;
 
     const current = this.getPhotoByIndex(activePhotoIndex);
 
@@ -291,7 +294,7 @@ class Gallery extends PureComponent {
         <div className="gallery-main">
           {controls}
           <div className="gallery-photos">
-            {this.hasPhotos ? (
+            {hasPhotos ? (
               <div className="gallery-photo">
                 <div className="gallery-photo--current">
                   <Photo
