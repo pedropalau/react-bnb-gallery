@@ -11,10 +11,17 @@ Please note we have a code of conduct, please follow it in all your interactions
    build.
 2. Update the README.md with details of changes to the interface, this includes new environment
    variables, exposed ports, useful file locations and container parameters.
-3. Increase the version numbers in any examples files and the README.md to the new version that this
-   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
+3. For publishable changes, add a changeset file with `pnpm changeset` instead of manually editing
+   package versions. Versions/changelog are managed through release PR automation.
 4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you
    do not have permission to do that, you may request the second reviewer to merge it for you.
+
+## Release Process
+
+1. Merge PRs with changesets to `master`.
+2. The `release` workflow creates/updates an automated release PR with version and changelog updates.
+3. Merge the release PR to publish to npm with provenance enabled.
+4. Publishing runs under the protected `npm-publish` environment and requires approval as configured in GitHub.
 
 ## Code of Conduct
 
