@@ -2,4 +2,3 @@ onlyBuiltDependencies:
   - core-js
   - core-js-pure
   - es5-ext
-  - node-sass

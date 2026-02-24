@@ -29,6 +29,15 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.es.js",
+      "types": "./index.d.ts"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./styles.css": "./styles.css"
+  },
   "typings": "index.d.ts",
   "files": [
     "dist",
@@ -46,8 +55,8 @@
     "test": "jest --no-cache",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
-    "build": "rollup -c",
-    "start": "rollup -c -w",
+    "build": "vite build",
+    "start": "vite build --watch",
     "prepublishOnly": "pnpm build",
     "predeploy": "pnpm install && pnpm build",
     "deploy": "gh-pages -d example/build",
@@ -86,10 +95,7 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "@babel/runtime": "^7.10.4",
-    "@rollup/plugin-babel": "^5.0.4",
-    "@rollup/plugin-commonjs": "^14.0.0",
-    "@rollup/plugin-url": "^5.0.1",
-    "@svgr/rollup": "^5.4.0",
+    "@vitejs/plugin-react": "^5.1.0",
     "@welldone-software/why-did-you-render": "^4.2.5",
     "airbnb-js-shims": "^2.2.1",
     "babel-core": "7.0.0-bridge.0",
@@ -118,14 +124,10 @@
     "react-scripts": "^3.4.1",
     "react-test-renderer": "^16.13.1",
     "regenerator-runtime": "^0.13.5",
-    "rollup": "^2.21.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.3",
-    "rollup-plugin-postcss": "^3.1.2",
-    "rollup-plugin-scss": "^2.5.0",
-    "rollup-plugin-stylelint": "^1.0.0",
+    "sass": "^1.80.0",
     "stylelint": "^13.6.1",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint-config-standard": "^20.0.0",
+    "vite": "^7.1.5"
   },
   "dependencies": {
     "airbnb-prop-types": "^2.16.0",
