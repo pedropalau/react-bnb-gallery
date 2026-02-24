@@ -18,7 +18,7 @@
     "next": "9.4.4",
     "netlify-plugin-cache-nextjs": "^1.4.0",
     "next-mdx-enhanced": "^3.0.0",
-    "next-transpile-modules": "^3.3.0",
+    "next-transpile-modules": "^10.0.1",
     "postcss-nesting": "^7.0.1",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
