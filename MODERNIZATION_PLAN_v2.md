@@ -59,6 +59,16 @@ Questions to answer before implementation:
 4. Should we remove deprecated props/APIs immediately or deprecate first?
 5. Do you want a migration guide drafted in this phase?
 
+Approved answers (2026-02-24):
+
+1. React support policy: `React 18+` only for `2.0.0` (peer range: `^18 || ^19`).
+2. Backward-compatibility boundary:
+   - Default to preserving public prop names and core interaction flows (`open/close`, next/prev, thumbnail toggling, keyboard/touch navigation).
+   - Behavior changes are allowed for bug fixes and standards correctness, with migration notes.
+3. Accessibility improvements policy: allow small breaking changes when required for correctness (ARIA semantics, focus behavior, keyboard behavior), but prefer non-breaking fixes first.
+4. Deprecated API policy: deprecate first within `2.x` (runtime warnings + docs), remove in next major unless an item is clearly unsafe/incorrect.
+5. Migration guide: yes, draft and ship in this phase with before/after examples and a checklist.
+
 ### Phase 4: Test Modernization
 
 Questions to answer before implementation:
@@ -213,7 +223,12 @@ Add decisions here as we align each phase:
   - Legacy root `react-scripts` dependency removed and root/example `node-sass` dependency usage removed.
   - Repository lockfile strategy aligned to canonical `pnpm` by removing stale Yarn lockfiles.
   - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
-- Pending: React support matrix.
+- 2026-02-24: Phase 3 alignment approved.
+  - React support policy: `18+` only (`^18 || ^19` peer range).
+  - Backward compatibility: preserve public props/core flows by default; allow correctness/bug-fix behavior changes with migration notes.
+  - Accessibility policy: allow small breaking changes when needed for correctness.
+  - Deprecation policy: deprecate first in `2.x`, remove in next major unless unsafe.
+  - Migration guide: in scope for this phase.
 
 ## Execution Loop We Will Follow
 

@@ -41,7 +41,6 @@ class Caption extends PureComponent {
     super(props);
     const {
       showThumbnails,
-      photos,
     } = this.props;
 
     this.state = {
@@ -50,7 +49,6 @@ class Caption extends PureComponent {
 
     this.thumbnailsWrapperRef = null;
     this.thumbnailsListRef = null;
-    this.hasMoreThanOnePhoto = photos.length > 1;
     this.onThumbnailPress = this.onThumbnailPress.bind(this);
     this.setGalleryFigcaptionRef = this.setGalleryFigcaptionRef.bind(this);
     this.setGalleryThubmanilsRef = this.setGalleryThubmanilsRef.bind(this);
@@ -132,6 +130,7 @@ class Caption extends PureComponent {
 
     const currentPhoto = this.getPhotoByIndex(current);
     const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(photos.length);
+    const hasMoreThanOnePhoto = photos.length > 1;
 
     return (
       <figcaption className={className}>
@@ -150,7 +149,7 @@ class Caption extends PureComponent {
                   </p>
                 )}
               </div>
-              {this.hasMoreThanOnePhoto && (
+              {hasMoreThanOnePhoto && (
                 <div className="caption-right">
                   <TogglePhotoList
                     phrases={phrases}
@@ -160,7 +159,7 @@ class Caption extends PureComponent {
                 </div>
               )}
             </div>
-            {this.hasMoreThanOnePhoto && (
+            {hasMoreThanOnePhoto && (
               <div
                 className="gallery-figcaption--thumbnails"
                 aria-hidden={false}

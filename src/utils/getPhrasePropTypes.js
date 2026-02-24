@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
-export default function defaultPhrases() {
-  return Object.keys(defaultPhrases)
+export default function getPhrasePropTypes(phrasesMap) {
+  return Object.keys(phrasesMap)
     .reduce((phrases, key) => ({
       ...phrases,
       [key]: PropTypes.oneOfType([
