@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Legacy Example (Archived)
+
+This standalone Create React App example is no longer the active docs/demo surface.
+Use the unified Next.js docs app in `docs/` instead.
 
 ## Available Scripts
 
