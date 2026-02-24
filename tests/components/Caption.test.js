@@ -1,26 +1,30 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import Caption from '../../src/components/Caption';
-import TogglePhotoList from '../../src/components/TogglePhotoList';
 
 import photos from '../test-photos';
 
 describe('Caption', () => {
   describe('#render', () => {
     it('updates thumbnail controls when photos prop changes', () => {
-      const wrapper = shallow((
+      const { container, rerender } = render((
         <Caption
           current={0}
           photos={photos.slice(0, 1)}
         />
       ));
 
-      expect(wrapper.find(TogglePhotoList)).toHaveLength(0);
+      expect(container.querySelector('.gallery-thumbnails--toggle')).not.toBeInTheDocument();
 
-      wrapper.setProps({ photos: photos.slice(0, 2) });
+      rerender((
+        <Caption
+          current={0}
+          photos={photos.slice(0, 2)}
+        />
+      ));
 
-      expect(wrapper.find(TogglePhotoList)).toHaveLength(1);
+      expect(container.querySelector('.gallery-thumbnails--toggle')).toBeInTheDocument();
     });
   });
 });

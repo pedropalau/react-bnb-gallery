@@ -1,40 +1,32 @@
-/* eslint-disable jest/expect-expect */
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import ReactBnbGallery from '../../src/ReactBnbGallery';
-import Gallery from '../../src/components/Gallery';
 
 import photos from '../test-photos';
 
-// See https://github.com/focus-trap/focus-trap-react/issues/24#issuecomment-586034017
-jest.mock('focus-trap', () => {
-  const trap = {
-    activate: () => trap,
-    deactivate: () => trap,
-    pause: () => {},
-    unpause: () => {},
-  };
-  return () => trap;
-});
+vi.mock('focus-trap-react', () => ({
+  default: ({ children }) => children,
+}));
 
 describe('ReactBnbGallery', () => {
   describe('#render', () => {
     it('unmounts', () => {
-      const wrapper = mount((
+      const { rerender, unmount } = render((
         <ReactBnbGallery photos={photos} />
       ));
-      wrapper.setProps({ show: true });
-      wrapper.unmount();
+      rerender(<ReactBnbGallery photos={photos} show />);
+      expect(() => unmount()).not.toThrow();
     });
     it('renders <Gallery />', () => {
-      const wrapper = shallow((
+      render((
         <ReactBnbGallery
           photos={photos}
           show
         />
-      )).dive();
-      expect(wrapper.find(Gallery)).toHaveLength(1);
+      ));
+      expect(document.body.querySelector('.gallery')).toBeInTheDocument();
     });
   });
 });
