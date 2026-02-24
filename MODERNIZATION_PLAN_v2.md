@@ -229,6 +229,12 @@ Add decisions here as we align each phase:
   - Accessibility policy: allow small breaking changes when needed for correctness.
   - Deprecation policy: deprecate first in `2.x`, remove in next major unless unsafe.
   - Migration guide: in scope for this phase.
+- 2026-02-24: Phase 3 implementation validated as complete.
+  - Core runtime fixes implemented for preload rendering, phrase prop-type mapping, and prop-change-safe gallery/caption controls.
+  - React support policy applied in package metadata: peer range updated to `react/react-dom ^18 || ^19`.
+  - Migration guidance added to `README.md` for `2.0.0` (React support, runtime behavior fixes, deprecation policy).
+  - Transitional exception accepted: local test stack remains Enzyme/React 16 during this phase; test-stack migration is tracked in Phase 4.
+  - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
 
 ## Execution Loop We Will Follow
 
