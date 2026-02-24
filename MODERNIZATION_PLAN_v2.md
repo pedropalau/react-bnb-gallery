@@ -208,6 +208,11 @@ Add decisions here as we align each phase:
   - CSS strategy: keep standalone exported CSS for now (Tailwind migration planned in future work).
   - Type strategy: keep JS + `.d.ts` in this phase; full `TypeScript` migration is a planned follow-up.
   - Browser support: modern evergreen browsers.
+- 2026-02-24: Phase 2 implementation validated as complete.
+  - Library build uses `Vite` library mode with dual `ESM + CJS` output and package `exports`.
+  - Legacy root `react-scripts` dependency removed and root/example `node-sass` dependency usage removed.
+  - Repository lockfile strategy aligned to canonical `pnpm` by removing stale Yarn lockfiles.
+  - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
 - Pending: React support matrix.
 
 ## Execution Loop We Will Follow
