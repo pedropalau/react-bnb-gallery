@@ -202,6 +202,12 @@ Add decisions here as we align each phase:
   - CI, Dependabot, CodeQL, and Node/pnpm policy are in place.
   - Transitional exception accepted: current build logs legacy `node-sass` runtime warnings in local validation.
   - Follow-up locked for Phase 2: remove Sass tooling/dependencies and eliminate Sass-related build warnings.
+- 2026-02-24: Phase 2 alignment approved.
+  - Build tool: `Vite` (library mode).
+  - Distribution target: dual `ESM + CJS`.
+  - CSS strategy: keep standalone exported CSS for now (Tailwind migration planned in future work).
+  - Type strategy: keep JS + `.d.ts` in this phase; full `TypeScript` migration is a planned follow-up.
+  - Browser support: modern evergreen browsers.
 - Pending: React support matrix.
 
 ## Execution Loop We Will Follow
