@@ -192,8 +192,12 @@ Add decisions here as we align each phase:
 - 2026-02-24: Initial plan created.
 - 2026-02-24: Plan renamed to `MODERNIZATION_PLAN_v2.md`.
 - 2026-02-24: Modernization target set to version `2.0.0`.
-- Pending: package manager choice.
-- Pending: Node support matrix.
+- 2026-02-24: Phase 1 alignment approved.
+  - Canonical package manager: `pnpm`.
+  - Minimum Node version: `22 LTS`.
+  - Security automation: `Dependabot + CodeQL` enabled.
+  - CI trigger policy: `PRs + master + version tags`.
+  - Required checks: `lint + test + build`.
 - Pending: React support matrix.
 
 ## Execution Loop We Will Follow
