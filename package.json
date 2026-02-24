@@ -140,5 +140,10 @@
   },
   "optionalDependencies": {
     "typescript": "^3.6.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "cheerio": "1.0.0-rc.12"
+    }
   }
 }

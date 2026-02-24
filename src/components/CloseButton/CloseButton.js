@@ -40,6 +40,7 @@ const CloseButton = ({
     onClick={onPress}
     className="gallery-close"
     type="button"
+    aria-label="Close gallery"
     aria-busy={false}
   >
     <svg
