@@ -117,6 +117,14 @@ Questions to answer before implementation:
 4. Should changelog be generated automatically?
 5. Should publishing require protected environment approvals?
 
+Approved answers (2026-02-24):
+
+1. Versioning strategy: automated `changesets`.
+2. Release PRs: auto-generated.
+3. npm provenance/signing: enabled.
+4. Changelog: generated automatically from changesets.
+5. Publishing approvals: require protected GitHub environment approvals.
+
 ### Phase 7: TypeScript Migration
 
 Questions to answer before implementation:
@@ -296,7 +304,7 @@ Add decisions here as we align each phase:
   - Deploy docs/demo on `Vercel`.
   - Schedule design refresh after technical migration (not during).
 - 2026-02-24: Phase 5 implementation started (PR scope: unified modern Next.js docs/demo app).
-  - Upgraded docs stack from legacy `Next.js 9` to modern `Next.js 15` with React 18.
+  - Upgraded docs stack from legacy `Next.js 9` to modern `Next.js 16.1.6` with React 18.
   - Removed legacy MDX/plugin chain and converted docs content pages to standard Next pages.
   - Unified active docs/demo surface in `docs/` (homepage demo + docs routes) and deprecated standalone legacy `example` app usage.
   - Root scripts updated for unified docs workflow: `docs:dev`, `docs:build`, `docs:start`.
@@ -304,6 +312,19 @@ Add decisions here as we align each phase:
   - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
   - Vercel deployment target is now represented by the Next.js docs app under `docs/`.
   - Follow-up locked for post-migration design refresh per approved phase policy.
+- 2026-02-24: Phase 6 alignment approved.
+  - Use `changesets` for automated versioning and release PR workflow.
+  - Enable npm provenance/signing in publish workflow.
+  - Generate changelog automatically from changesets.
+  - Require protected environment approval for publish.
+- 2026-02-24: Phase 6 implementation started (PR scope: release automation hardening).
+  - Added `changesets` configuration and repository scripts for versioning and publish flow.
+  - Replaced legacy tag-driven publish workflow with a `release` workflow using `changesets/action`.
+  - Release workflow configured with npm provenance publish path and protected `npm-publish` environment gate.
+  - Contributor guidance updated for changeset-driven releases.
+- 2026-02-24: Phase 6 implementation validated as complete.
+  - Local validation completed: `pnpm changeset status`, `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+  - Publish path requires GitHub secrets/env setup: `NPM_AUTH_TOKEN` secret and protected `npm-publish` environment approvals.
 - 2026-02-24: Phase 7 added to plan for explicit TypeScript migration sequencing.
 - 2026-02-24: Phase 8 added to plan for Sass/Biome/Babel modernization scope.
 
