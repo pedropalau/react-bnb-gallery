@@ -26,6 +26,8 @@ Modernize the repository safely in phases, keep compatibility decisions explicit
 | 4 | Test modernization | Replace Enzyme, improve behavior coverage | 2-4 |
 | 5 | Docs and example modernization | Modern docs/app stack and updated demos | 3-6 |
 | 6 | Release hardening | Repeatable and verifiable release pipeline | 2-3 |
+| 7 | TypeScript migration | Convert source to TypeScript with declaration-first compatibility | 3-6 |
+| 8 | Toolchain simplification | Replace Sass, ESLint/Prettier, and Babel with a leaner stack | 3-6 |
 
 ## Mandatory Alignment Questions Per Phase
 
@@ -106,6 +108,26 @@ Questions to answer before implementation:
 3. Do you want npm provenance/signing enabled?
 4. Should changelog be generated automatically?
 5. Should publishing require protected environment approvals?
+
+### Phase 7: TypeScript Migration
+
+Questions to answer before implementation:
+
+1. Migration strategy: incremental file-by-file vs full conversion in one major PR train?
+2. TypeScript strictness target (`strict: true` immediately vs staged strictness)?
+3. Public API typing source of truth: generated `.d.ts` from TS build vs manually maintained declarations?
+4. Do we allow temporary JS/TS mixed source during migration?
+5. Should TypeScript migration be included in `2.0.0` scope or scheduled for `2.1.x`?
+
+### Phase 8: Toolchain Simplification
+
+Questions to answer before implementation:
+
+1. Sass replacement target: plain CSS + PostCSS, CSS Modules, Tailwind, or `vanilla-extract`?
+2. Lint/format replacement: fully migrate to `Biome` (replacing ESLint + Prettier) in one phase?
+3. Babel replacement policy: remove Babel config/plugins and rely on `Vite` (`esbuild`/`swc`) transforms only?
+4. Migration strategy: do these changes happen in one coordinated phase or split into independent PR tracks (styles, lint/format, build transforms)?
+5. Release timing: include toolchain simplification in `2.0.0` or schedule as post-`2.0.0` hardening (`2.1.x`)?
 
 ## Known High-Priority Technical Risks to Address
 
@@ -254,6 +276,8 @@ Add decisions here as we align each phase:
   - Migrated test execution from `Jest` to `Vitest` with `jsdom` and V8 coverage.
   - Replaced Enzyme-based tests with Testing Library-based behavior tests.
   - Enforced `80%` global coverage gate for statements/lines in CI baseline.
+- 2026-02-24: Phase 7 added to plan for explicit TypeScript migration sequencing.
+- 2026-02-24: Phase 8 added to plan for Sass/Biome/Babel modernization scope.
 
 ## Execution Loop We Will Follow
 
