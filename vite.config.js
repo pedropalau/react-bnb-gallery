@@ -12,7 +12,7 @@ const external = [
 export default defineConfig({
   esbuild: {
     loader: 'jsx',
-    include: /src\/.*\.js$/,
+    include: /(src|tests)\/.*\.js$/,
     exclude: [],
   },
   plugins: [
@@ -33,6 +33,21 @@ export default defineConfig({
       external,
       output: {
         exports: 'named',
+      },
+    },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.js'],
+    include: ['tests/**/*.test.js'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'json-summary'],
+      include: ['src/**/*.{js,jsx,mjs}'],
+      thresholds: {
+        lines: 80,
+        statements: 80,
       },
     },
   },

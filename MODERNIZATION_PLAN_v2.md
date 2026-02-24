@@ -79,6 +79,14 @@ Questions to answer before implementation:
 4. Do snapshot tests stay, or prioritize behavior-focused tests?
 5. Do you want visual regression testing in scope now?
 
+Approved answers (2026-02-24):
+
+1. Test runner: `Vitest`.
+2. Enzyme strategy: fully replace in this phase.
+3. Coverage target: `80%` global threshold in CI (ratchet target to `90%` in later follow-up).
+4. Test style: prioritize behavior-focused tests; keep snapshots minimal.
+5. Visual regression: out of scope for now.
+
 ### Phase 5: Docs and Example Modernization
 
 Questions to answer before implementation:
@@ -235,6 +243,17 @@ Add decisions here as we align each phase:
   - Migration guidance added to `README.md` for `2.0.0` (React support, runtime behavior fixes, deprecation policy).
   - Transitional exception accepted: local test stack remains Enzyme/React 16 during this phase; test-stack migration is tracked in Phase 4.
   - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+- 2026-02-24: Phase 3 completion merged to `master` via PRs `#139` and `#140`.
+- 2026-02-24: Phase 4 alignment approved.
+  - Test runner: `Vitest`.
+  - Enzyme strategy: full replacement in this phase.
+  - Coverage threshold: `80%` global CI gate (future ratchet target: `90%`).
+  - Test style: behavior-focused with minimal snapshots.
+  - Visual regression: out of scope for this phase.
+- 2026-02-24: Phase 4 implementation started (PR scope: test runner migration).
+  - Migrated test execution from `Jest` to `Vitest` with `jsdom` and V8 coverage.
+  - Replaced Enzyme-based tests with Testing Library-based behavior tests.
+  - Enforced `80%` global coverage gate for statements/lines in CI baseline.
 
 ## Execution Loop We Will Follow
 
