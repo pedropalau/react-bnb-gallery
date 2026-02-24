@@ -16,7 +16,7 @@
     "autoprefixer": "^9.8.4",
     "classnames": "^2.2.6",
     "next": "9.4.4",
-    "netlify-plugin-cache-nextjs": "^1.4.0",
+    "netlify-plugin-cache-nextjs": "^1.6.1",
     "next-mdx-enhanced": "^3.0.0",
     "next-transpile-modules": "^3.3.0",
     "postcss-nesting": "^7.0.1",
