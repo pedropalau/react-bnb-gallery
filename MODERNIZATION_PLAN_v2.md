@@ -198,6 +198,10 @@ Add decisions here as we align each phase:
   - Security automation: `Dependabot + CodeQL` enabled.
   - CI trigger policy: `PRs + master + version tags`.
   - Required checks: `lint + test + build`.
+- 2026-02-24: Phase 1 implementation validated as complete.
+  - CI, Dependabot, CodeQL, and Node/pnpm policy are in place.
+  - Transitional exception accepted: current build logs legacy `node-sass` runtime warnings in local validation.
+  - Follow-up locked for Phase 2: remove Sass tooling/dependencies and eliminate Sass-related build warnings.
 - Pending: React support matrix.
 
 ## Execution Loop We Will Follow
