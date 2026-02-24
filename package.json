@@ -31,9 +31,9 @@
   "jsnext:main": "dist/index.es.js",
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "require": "./dist/index.js",
-      "import": "./dist/index.es.js",
-      "types": "./index.d.ts"
+      "import": "./dist/index.es.js"
     },
     "./dist/style.css": "./dist/style.css",
     "./styles.css": "./styles.css"

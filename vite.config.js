@@ -10,7 +10,16 @@ const external = [
 ];
 
 export default defineConfig({
-  plugins: [react()],
+  esbuild: {
+    loader: 'jsx',
+    include: /src\/.*\.js$/,
+    exclude: [],
+  },
+  plugins: [
+    react({
+      include: /\.[jt]sx?$/,
+    }),
+  ],
   build: {
     sourcemap: true,
     lib: {
