@@ -43,6 +43,23 @@ This package have been released under the [MIT Licence](https://raw.githubuserco
 
 If you are interested in view the main updates visit our [CHANGELOG.md](https://github.com/peterpalau/react-bnb-gallery/blob/master/CHANGELOG.md).
 
+## Migration to 2.0.0
+
+### React support
+
+- `react-bnb-gallery@2.x` supports `react` and `react-dom` `^18 || ^19`.
+- React 15/16 are no longer supported in the 2.x line.
+
+### Runtime behavior fixes included in Phase 3
+
+- Preload images are now correctly returned/rendered by the gallery preload path.
+- Gallery and caption controls now react correctly when `photos` prop changes at runtime.
+- Phrase prop-type shape generation now maps keys from the provided phrase object.
+
+### Deprecation policy
+
+- Deprecated APIs are deprecate-first during `2.x` (warnings + docs), then removed in the next major unless unsafe.
+
 ## Contributing
 
 If you're interested in contributing please read the [contributing docs](https://github.com/peterpalau/react-bnb-gallery/blob/master/CONTRIBUTING.md) **before submitting a pull request**.
