@@ -15,7 +15,7 @@
     "@tailwindcss/ui": "^0.3.0",
     "autoprefixer": "^9.8.4",
     "classnames": "^2.2.6",
-    "next": "9.4.4",
+    "next": "16.1.6",
     "netlify-plugin-cache-nextjs": "^1.4.0",
     "next-mdx-enhanced": "^3.0.0",
     "next-transpile-modules": "^3.3.0",
