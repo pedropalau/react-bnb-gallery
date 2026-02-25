@@ -430,6 +430,9 @@ Add decisions here as we align each phase:
   - Added behavior-focused tests for controlled `activePhotoIndex` caption sync and touch swipe callback paths in `Gallery`.
   - Added keyboard behavior tests in `ReactBnbGallery` for Escape close handling and input-target keydown ignore behavior.
   - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+- 2026-02-25: Phase 9 PR-2 started (docs and migration guidance hardening).
+  - Updated `README.md` prop defaults and descriptions to match current runtime behavior (`wrap`, `preloadSize`, `backgroundColor`, `zIndex`, and `light`).
+  - Added `2.1.x` migration guidance documenting removal of runtime `propTypes`/`airbnb-prop-types` validation and TS-first contract expectations.
 
 ## Execution Loop We Will Follow
 
