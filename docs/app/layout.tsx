@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Instrument_Sans as FontSans } from 'next/font/google';
+import { Geist as FontSans } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -8,7 +8,7 @@ import './styles.css';
 
 const sans = FontSans({
 	subsets: ['latin'],
-	variable: '--font-ans',
+	variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
