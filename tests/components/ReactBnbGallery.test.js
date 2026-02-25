@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
-
+import { INVERSE_COLOR } from '../../src/constants';
 import ReactBnbGallery from '../../src/ReactBnbGallery';
 
 import photos from '../test-photos';
@@ -95,6 +95,15 @@ describe('ReactBnbGallery', () => {
 			const modal = document.body.querySelector('.gallery-modal');
 			expect(modal).toHaveAttribute('role', 'dialog');
 			expect(modal).toHaveAttribute('aria-modal', 'true');
+		});
+
+		it('forwards light mode to gallery controls', () => {
+			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
+
+			const nextControlIcon = document.body.querySelector(
+				'.gallery-control--next svg',
+			);
+			expect(nextControlIcon).toHaveStyle({ fill: INVERSE_COLOR });
 		});
 
 		it('warns when photos is passed as a single string', () => {

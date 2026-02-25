@@ -186,6 +186,7 @@ function ReactBnbGallery({
 											phrases={phrases}
 											ref={gallery}
 											photos={photos}
+											light={light}
 											wrap={wrap}
 											activePhotoIndex={activePhotoIndex}
 											activePhotoPressed={activePhotoPressed}
