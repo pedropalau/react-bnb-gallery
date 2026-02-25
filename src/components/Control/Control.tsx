@@ -39,14 +39,27 @@ const defaultProps = {
   light: false,
 };
 
-class Control extends React.PureComponent {
-  constructor(props) {
+interface ControlProps {
+  arrow?: string | null;
+  onPress?: () => void;
+  label?: string;
+  className?: string | null;
+  disabled?: boolean;
+  light?: boolean;
+}
+
+class Control extends React.PureComponent<ControlProps> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
+  constructor(props: ControlProps) {
     super(props);
     this.onButtonPress = this.onButtonPress.bind(this);
   }
 
   onButtonPress() {
-    const { onPress } = this.props;
+    const { onPress = noop } = this.props;
     onPress();
     return false;
   }
@@ -66,7 +79,7 @@ class Control extends React.PureComponent {
         className={classnames('gallery-control', className)}
         onClick={this.onButtonPress}
         disabled={disabled}
-        aria-label={label}
+        aria-label={label || ''}
       >
         <svg
           viewBox="0 0 18 18"
@@ -79,7 +92,7 @@ class Control extends React.PureComponent {
           }}
         >
           <path
-            d={arrow}
+            d={arrow || ''}
             fillRule="evenodd"
           />
         </svg>
@@ -87,8 +100,5 @@ class Control extends React.PureComponent {
     );
   }
 }
-
-Control.propTypes = propTypes;
-Control.defaultProps = defaultProps;
 
 export default Control;
