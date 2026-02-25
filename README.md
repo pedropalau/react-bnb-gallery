@@ -3,6 +3,8 @@
   Friendly, customizable and accessible-ready simple photo gallery based on React.
 </p>
 
+> **Active Development Notice:** This repository is currently under active development with the assistance of AI tools. Expect frequent updates, refactors, and improvements.
+
 <p>
   <a href="https://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="https://img.shields.io/npm/v/react-bnb-gallery.svg" alt="NPM"></a>
   <a href="http://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="http://img.shields.io/npm/dm/react-bnb-gallery.svg?style=flat" alt="Download Count" /></a>
