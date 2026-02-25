@@ -46,6 +46,30 @@ export interface ReactBnbGalleryProps {
 	zIndex?: number;
 }
 
+/**
+ * A lightbox gallery component for React. Renders photos in a full-screen modal
+ * with thumbnail navigation, keyboard controls, and customizable appearance.
+ *
+ * @param activePhotoIndex - Index of the currently displayed photo (default: `0`)
+ * @param activePhotoPressed - Callback fired when the active photo is pressed
+ * @param backgroundColor - Overlay background color (default: `'#000'`)
+ * @param direction - Navigation direction; deprecated in 2.x — use `activePhotoIndex` with callbacks instead
+ * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
+ * @param leftKeyPressed - Callback fired when the left arrow key is pressed
+ * @param light - Enables light mode styling (default: `false`)
+ * @param nextButtonPressed - Callback fired when the next button is pressed
+ * @param onClose - Callback fired when the gallery is closed
+ * @param opacity - Overlay opacity between `0` and `1` (default: `0.8`)
+ * @param photos - One or more photos to display; accepts a URL string, a `GalleryPhoto` object, or an array of either
+ * @param phrases - Localization strings for UI labels
+ * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
+ * @param prevButtonPressed - Callback fired when the previous button is pressed
+ * @param rightKeyPressed - Callback fired when the right arrow key is pressed
+ * @param show - Whether the gallery modal is visible (default: `false`)
+ * @param showThumbnails - Whether the thumbnail strip is shown (default: `true`)
+ * @param wrap - Whether navigation wraps around from the last photo to the first (default: `false`)
+ * @param zIndex - CSS `z-index` of the modal (default: `1000`)
+ */
 function ReactBnbGallery({
 	activePhotoIndex = 0,
 	activePhotoPressed,

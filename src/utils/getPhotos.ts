@@ -1,23 +1,32 @@
-import { defaultPhotoProps, type PhotoProps } from '../constants';
+import type { GalleryPhoto } from '../types/gallery';
 
+/**
+ * Normalizes a single photo entry into a `GalleryPhoto` object with a 1-based position number.
+ *
+ * @param photo - A photo URL string or an existing `GalleryPhoto` object.
+ * @param index - The zero-based index of the photo in its array, used to assign `number`.
+ * @returns A `GalleryPhoto` with `number` set to `index + 1`.
+ */
 export function processPhoto(
-	photo: string | PhotoProps,
+	photo: string | GalleryPhoto,
 	index: number,
-): PhotoProps {
-	const props =
-		typeof photo === 'string'
-			? { number: index + 1, photo }
-			: { ...photo, number: index + 1 };
-
-	return {
-		...defaultPhotoProps,
-		...props,
-	};
+): GalleryPhoto {
+	return typeof photo === 'string'
+		? { number: index + 1, photo }
+		: { ...photo, number: index + 1 };
 }
 
+/**
+ * Normalizes one or more photos into an array of `GalleryPhoto` objects,
+ * each assigned a sequential 1-based `number`.
+ *
+ * @param photos - A single photo URL string, a single `GalleryPhoto` object,
+ *   or an array of either. A non-array value is wrapped in an array before processing.
+ * @returns An array of `GalleryPhoto` objects with sequential `number` fields.
+ */
 export default function getPhotos(
-	photos: string | PhotoProps | Array<string | PhotoProps>,
-): PhotoProps[] {
+	photos: string | GalleryPhoto | Array<string | GalleryPhoto>,
+): GalleryPhoto[] {
 	const photosToProcess = Array.isArray(photos) ? photos : [photos];
 	return photosToProcess.map(processPhoto);
 }
