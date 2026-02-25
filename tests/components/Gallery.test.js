@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import Gallery from '../../src/components/Gallery';
 
@@ -99,6 +100,73 @@ describe('Gallery', () => {
 				'aria-label',
 				'Next photo',
 			);
+		});
+
+		it('syncs caption content when activePhotoIndex prop changes', () => {
+			const photoList = photos.slice(0, 2);
+			const { container, rerender } = render(
+				<Gallery photos={photoList} showThumbnails activePhotoIndex={0} />,
+			);
+
+			expect(container.querySelector('.photo-caption')).toHaveTextContent(
+				photoList[0].caption,
+			);
+
+			rerender(
+				<Gallery photos={photoList} showThumbnails activePhotoIndex={1} />,
+			);
+
+			expect(container.querySelector('.photo-caption')).toHaveTextContent(
+				photoList[1].caption,
+			);
+		});
+
+		it('triggers next callback when swiping left on photo', () => {
+			const nextButtonPressed = vi.fn();
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					nextButtonPressed={nextButtonPressed}
+				/>,
+			);
+
+			const photoButton = container.querySelector('.photo-button');
+			expect(photoButton).toBeInTheDocument();
+
+			fireEvent.touchStart(photoButton, {
+				targetTouches: [{ screenX: 200 }],
+			});
+			fireEvent.touchMove(photoButton, {
+				targetTouches: [{ screenX: 100 }],
+			});
+			fireEvent.touchEnd(photoButton);
+
+			expect(nextButtonPressed).toHaveBeenCalledTimes(1);
+		});
+
+		it('triggers previous callback when swiping right on photo', () => {
+			const prevButtonPressed = vi.fn();
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					prevButtonPressed={prevButtonPressed}
+				/>,
+			);
+
+			const photoButton = container.querySelector('.photo-button');
+			expect(photoButton).toBeInTheDocument();
+
+			fireEvent.touchStart(photoButton, {
+				targetTouches: [{ screenX: 100 }],
+			});
+			fireEvent.touchMove(photoButton, {
+				targetTouches: [{ screenX: 200 }],
+			});
+			fireEvent.touchEnd(photoButton);
+
+			expect(prevButtonPressed).toHaveBeenCalledTimes(1);
 		});
 	});
 });

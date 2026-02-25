@@ -426,6 +426,10 @@ Add decisions here as we align each phase:
   - Removed runtime validation layer from library source (`propTypes`, `airbnb-prop-types`, shape helpers, and related compatibility utility files).
   - Updated package dependencies and tests to reflect TypeScript-only runtime contracts for library API validation.
   - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+- 2026-02-25: Phase 9 follow-up test hardening completed (PR-1 continuation scope).
+  - Added behavior-focused tests for controlled `activePhotoIndex` caption sync and touch swipe callback paths in `Gallery`.
+  - Added keyboard behavior tests in `ReactBnbGallery` for Escape close handling and input-target keydown ignore behavior.
+  - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
 
 ## Execution Loop We Will Follow
 
