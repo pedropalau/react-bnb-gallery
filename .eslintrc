@@ -24,6 +24,16 @@
     "browser": true,
     "node": true
   },
+  "overrides": [
+    {
+      "files": [
+        "tests/**/*.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
   "rules": {
     "linebreak-style": 0,
     "class-methods-use-this": [2, { "exceptMethods": ["processPhoto"] }],
