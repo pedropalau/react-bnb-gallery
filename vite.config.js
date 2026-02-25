@@ -9,6 +9,8 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const pkg = JSON.parse(
 	readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
 );
+const isWatchMode =
+	process.argv.includes('--watch') || process.argv.includes('-w');
 const external = [
 	...Object.keys(pkg.peerDependencies || {}),
 	...Object.keys(pkg.dependencies || {}),
@@ -28,6 +30,8 @@ export default defineConfig({
 		}),
 	],
 	build: {
+		// Keep output files available during rebuilds so docs dev can resolve package assets.
+		emptyOutDir: !isWatchMode,
 		sourcemap: true,
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),

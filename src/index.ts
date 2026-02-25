@@ -1,3 +1,5 @@
+import './css/style.css';
+
 import { Gallery } from './components/gallery';
 import { ReactBnbGallery } from './ReactBnbGallery';
 

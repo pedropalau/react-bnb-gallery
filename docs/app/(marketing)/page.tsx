@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import ReactBnbGallery, { type GalleryPhoto } from 'react-bnb-gallery';
+import { type GalleryPhoto, ReactBnbGallery } from 'react-bnb-gallery';
 
 import { PhotoGrid } from '@/components/photo-grid';
 import { Button } from '@/components/ui/button';
@@ -99,7 +99,9 @@ export default function HomePage() {
 					</Button>
 				</div>
 			</div>
-			<PhotoGrid className="px-4 md:px-6 lg:px-8 xl:px-10 mb-4 md:mb-6 lg:mb-8 xl:mb-10 mask-[linear-gradient(to_bottom,black_50%,transparent_98%)]" />
+			<div className="md:pt-6 lg:pt-8 xl:pt-10">
+				<PhotoGrid className="px-4 md:px-6 lg:px-8 xl:px-10 mb-4 md:mb-6 lg:mb-8 xl:mb-10 mask-[linear-gradient(to_bottom,black_50%,transparent_98%)]" />
+			</div>
 			<ReactBnbGallery
 				show={open}
 				photos={photos}

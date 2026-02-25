@@ -38,8 +38,7 @@ yarn add react-bnb-gallery`}</code>
 				</h3>
 			</div>
 			<p>
-				Alternatively, you may use the library CSS by simply adding this line to
-				your project&apos;s entry point:
+				Import the library CSS in your project&apos;s entry point:
 			</p>
 			<pre>
 				<code>import &apos;react-bnb-gallery/dist/style.css&apos;</code>

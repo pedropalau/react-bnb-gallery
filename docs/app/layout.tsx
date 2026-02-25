@@ -22,13 +22,8 @@ export default function RootLayout({
 	children,
 }: Readonly<{ children: ReactNode }>) {
 	return (
-		<html lang="en">
-			<body
-				className={cn(
-					'bg-background text-foreground antialiased text-base font-sans overscroll-none',
-					sans.variable,
-				)}
-			>
+		<html lang="en" suppressHydrationWarning className={sans.variable}>
+			<body className="bg-background text-foreground antialiased text-base font-sans overscroll-none">
 				{children}
 			</body>
 		</html>

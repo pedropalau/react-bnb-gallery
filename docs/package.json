@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
   "scripts": {
-    "dev": "pnpm --filter react-bnb-gallery build && next dev",
+    "dev": "next dev",
     "prebuild": "pnpm --filter react-bnb-gallery build",
     "build": "next build",
     "start": "next start",
