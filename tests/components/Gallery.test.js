@@ -51,5 +51,40 @@ describe('Gallery', () => {
 				container.querySelector('.gallery-control--next'),
 			).toBeInTheDocument();
 		});
+
+		it('syncs wrap controls when activePhotoIndex prop changes', () => {
+			const photoList = photos.slice(0, 2);
+			const { container, rerender } = render(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					wrap
+					activePhotoIndex={0}
+				/>,
+			);
+
+			expect(
+				container.querySelector('.gallery-control--prev'),
+			).not.toBeInTheDocument();
+			expect(
+				container.querySelector('.gallery-control--next'),
+			).toBeInTheDocument();
+
+			rerender(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					wrap
+					activePhotoIndex={1}
+				/>,
+			);
+
+			expect(
+				container.querySelector('.gallery-control--prev'),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector('.gallery-control--next'),
+			).not.toBeInTheDocument();
+		});
 	});
 });

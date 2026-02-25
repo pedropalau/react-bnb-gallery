@@ -58,10 +58,19 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
 	constructor(props: GalleryProps) {
 		super(props);
 		const { activePhotoIndex, photos, wrap } = this.props;
-		this.state = {
+		const normalizedActivePhotoIndex = this.getNormalizedActivePhotoIndex(
 			activePhotoIndex,
-			hidePrevButton: wrap && activePhotoIndex === 0,
-			hideNextButton: wrap && activePhotoIndex === photos.length - 1,
+			photos.length,
+		);
+		const { hidePrevButton, hideNextButton } = this.getWrapControlState(
+			normalizedActivePhotoIndex,
+			photos.length,
+			wrap,
+		);
+		this.state = {
+			activePhotoIndex: normalizedActivePhotoIndex,
+			hidePrevButton,
+			hideNextButton,
 			controlsDisabled: true,
 			touchStartInfo: null,
 			touchEndInfo: null,
@@ -81,6 +90,66 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
 		this.onThumbnailPress = this.onThumbnailPress.bind(this);
 		this.onPrevButtonPress = this.onPrevButtonPress.bind(this);
 		this.onNextButtonPress = this.onNextButtonPress.bind(this);
+	}
+
+	componentDidUpdate(prevProps: GalleryProps) {
+		const { activePhotoIndex, photos, wrap } = this.props;
+		if (
+			activePhotoIndex !== prevProps.activePhotoIndex ||
+			photos !== prevProps.photos ||
+			wrap !== prevProps.wrap
+		) {
+			const normalizedActivePhotoIndex = this.getNormalizedActivePhotoIndex(
+				activePhotoIndex,
+				photos.length,
+			);
+			const { hidePrevButton, hideNextButton } = this.getWrapControlState(
+				normalizedActivePhotoIndex,
+				photos.length,
+				wrap,
+			);
+
+			if (
+				this.state.activePhotoIndex !== normalizedActivePhotoIndex ||
+				this.state.hidePrevButton !== hidePrevButton ||
+				this.state.hideNextButton !== hideNextButton
+			) {
+				this.setState({
+					activePhotoIndex: normalizedActivePhotoIndex,
+					hidePrevButton,
+					hideNextButton,
+				});
+			}
+		}
+	}
+
+	getNormalizedActivePhotoIndex(
+		activePhotoIndex: number,
+		totalPhotos: number,
+	): number {
+		if (totalPhotos === 0) {
+			return 0;
+		}
+
+		return Math.min(Math.max(activePhotoIndex, 0), totalPhotos - 1);
+	}
+
+	getWrapControlState(
+		activePhotoIndex: number,
+		totalPhotos: number,
+		wrap: boolean,
+	) {
+		if (!wrap || totalPhotos <= 1) {
+			return {
+				hidePrevButton: false,
+				hideNextButton: false,
+			};
+		}
+
+		return {
+			hidePrevButton: activePhotoIndex === 0,
+			hideNextButton: activePhotoIndex === totalPhotos - 1,
+		};
 	}
 
 	onNextButtonPress() {
@@ -183,16 +252,23 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
 
 	move(direction: string, index: number | false = false) {
 		const { activePhotoIndex } = this.state;
+		const { photos, wrap } = this.props;
 
 		const nextElementIndex =
 			index !== false
 				? index
 				: this.getItemByDirection(direction, activePhotoIndex);
 
-		this.wrapCheck(direction, nextElementIndex);
+		const { hidePrevButton, hideNextButton } = this.getWrapControlState(
+			nextElementIndex,
+			photos.length,
+			wrap,
+		);
 
 		this.setState({
 			activePhotoIndex: nextElementIndex,
+			hidePrevButton,
+			hideNextButton,
 		});
 	}
 
@@ -208,17 +284,6 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
 			index > activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
 
 		this.move(direction, index);
-	}
-
-	wrapCheck(direction: string, nextElementIndex: number) {
-		const { photos, wrap } = this.props;
-
-		if (wrap) {
-			this.setState({
-				hideNextButton: nextElementIndex === photos.length - 1,
-				hidePrevButton: nextElementIndex === 0,
-			});
-		}
 	}
 
 	renderControls() {

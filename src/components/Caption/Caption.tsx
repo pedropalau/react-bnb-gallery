@@ -67,7 +67,18 @@ class Caption extends PureComponent<CaptionProps, CaptionState> {
 	}
 
 	componentDidUpdate(prevProps: CaptionProps) {
-		const { current } = this.props;
+		const { current, showThumbnails } = this.props;
+		const { showThumbnails: stateShowThumbnails } = this.state;
+
+		if (
+			showThumbnails !== prevProps.showThumbnails &&
+			showThumbnails !== stateShowThumbnails
+		) {
+			this.setState({
+				showThumbnails,
+			});
+		}
+
 		if (current !== prevProps.current) {
 			this.setThumbnailsWrapperScrollLeft(current);
 		}
