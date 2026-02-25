@@ -28,6 +28,7 @@ Modernize the repository safely in phases, keep compatibility decisions explicit
 | 6 | Release hardening | Repeatable and verifiable release pipeline | 2-3 |
 | 7 | TypeScript migration | Convert source to TypeScript with declaration-first compatibility | 3-6 |
 | 8 | Toolchain simplification | Replace Sass, ESLint/Prettier, and Babel with a leaner stack | 3-6 |
+| 9 | React surface modernization | Remove legacy React patterns and align component architecture to modern React + TS conventions | 2-5 |
 
 ## Mandatory Alignment Questions Per Phase
 
@@ -144,6 +145,17 @@ Questions to answer before implementation:
 3. Babel replacement policy: remove Babel config/plugins and rely on `Vite` (`esbuild`/`swc`) transforms only?
 4. Migration strategy: do these changes happen in one coordinated phase or split into independent PR tracks (styles, lint/format, build transforms)?
 5. Release timing: include toolchain simplification in `2.0.0` or schedule as post-`2.0.0` hardening (`2.1.x`)?
+
+### Phase 9: React Surface Modernization
+
+Questions to answer before implementation:
+
+1. Class-component migration scope: convert all remaining class components in this phase, or ship incrementally by risk area?
+2. Runtime prop validation policy: keep `propTypes` for JS consumer runtime checks, or rely on TypeScript-only API contracts?
+3. Legacy helper policy: keep `airbnb-prop-types` usage for now, or migrate to plain `prop-types` (or remove runtime validators entirely)?
+4. Compatibility policy: are small behavior changes acceptable when refactoring class lifecycles to hooks, provided public props remain stable?
+5. Release timing: target this modernization work for `2.0.0` completion, or schedule for `2.1.x` hardening?
+6. Skill-assisted implementation policy: should we standardize Phase 9 React work using external skills guidance (`frontend-design`, `vercel-react-best-practices`) for implementation/review checklists?
 
 ## Known High-Priority Technical Risks to Address
 
@@ -367,6 +379,20 @@ Add decisions here as we align each phase:
   - Removed deprecated standalone CRA-based `example/` app sources and configuration (`react-scripts`-based scaffold no longer maintained).
   - Replaced `example/README.md` with a migration pointer to unified docs/demo usage (`pnpm docs:dev`).
   - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
+- 2026-02-25: Phase 8 implementation finalized on `master`.
+  - Merged PR train: `#155`, `#156`, `#157`, and `#158`.
+  - Post-phase warning follow-up merged: `#159` (removed function-component `defaultProps` warnings).
+- 2026-02-25: Phase 9 added to plan for React surface modernization; alignment answers pending before implementation.
+- 2026-02-25: Phase 9 alignment updated (partial approval captured).
+  - Approved: migrate remaining class components in one coordinated pass.
+  - Approved: remove runtime `propTypes` in favor of TypeScript-only contracts.
+  - Approved: remove `airbnb-prop-types` usage.
+  - Pending clarification: compatibility tolerance for lifecycle-to-hooks refactors (strict parity vs allowing scoped behavior corrections).
+  - Approved: schedule Phase 9 delivery for `2.1.x`.
+  - Approved: use installed external skills guidance for implementation quality controls in this phase (`frontend-design`, `vercel-react-best-practices`).
+- 2026-02-25: External skills installed for Phase 9 execution support.
+  - Installed `frontend-design` from `anthropics/skills` into `/home/pedro/.codex/skills/frontend-design`.
+  - Installed `vercel-react-best-practices` from `vercel-labs/agent-skills` into `/home/pedro/.codex/skills/vercel-react-best-practices`.
 
 ## Execution Loop We Will Follow
 
