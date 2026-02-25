@@ -421,6 +421,11 @@ Add decisions here as we align each phase:
 - 2026-02-25: External skills installed for Phase 9 execution support.
   - Installed `frontend-design` from `anthropics/skills` into `/home/pedro/.codex/skills/frontend-design`.
   - Installed `vercel-react-best-practices` from `vercel-labs/agent-skills` into `/home/pedro/.codex/skills/vercel-react-best-practices`.
+- 2026-02-25: Phase 9 implementation started (PR-1 scope: class-to-hooks conversion + runtime validator removal).
+  - Converted remaining class components in `src/` to function components with hooks and preserved imperative gallery controls through `forwardRef`/`useImperativeHandle`.
+  - Removed runtime validation layer from library source (`propTypes`, `airbnb-prop-types`, shape helpers, and related compatibility utility files).
+  - Updated package dependencies and tests to reflect TypeScript-only runtime contracts for library API validation.
+  - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
 
 ## Execution Loop We Will Follow
 

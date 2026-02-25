@@ -1,27 +1,39 @@
-import type React from 'react';
-import { PureComponent } from 'react';
+import type { TouchEvent } from 'react';
+import {
+	forwardRef,
+	memo,
+	useCallback,
+	useEffect,
+	useImperativeHandle,
+	useMemo,
+	useState,
+} from 'react';
 
-import { galleryDefaultProps, galleryPropTypes } from '../../common';
+import { galleryDefaultProps } from '../../common';
 import { DIRECTION_NEXT, DIRECTION_PREV } from '../../constants';
-import type { GalleryPhoto, GalleryPhrases } from '../../types/gallery';
+import type {
+	GalleryController,
+	GalleryPhoto,
+	GalleryPhrases,
+} from '../../types/gallery';
 import Caption from '../Caption';
 import NextButton from '../NextButton';
 import Photo from '../Photo';
 import PrevButton from '../PrevButton';
 
 interface GalleryProps {
-	activePhotoIndex: number;
-	activePhotoPressed: () => void;
-	backgroundColor: string;
-	direction: string;
-	light: boolean;
-	nextButtonPressed: () => void;
-	phrases: GalleryPhrases;
-	photos: GalleryPhoto[];
-	preloadSize: number;
-	prevButtonPressed: () => void;
-	showThumbnails: boolean;
-	wrap: boolean;
+	activePhotoIndex?: number;
+	activePhotoPressed?: () => void;
+	backgroundColor?: string;
+	direction?: string;
+	light?: boolean;
+	nextButtonPressed?: () => void;
+	phrases?: GalleryPhrases;
+	photos?: GalleryPhoto[];
+	preloadSize?: number;
+	prevButtonPressed?: () => void;
+	showThumbnails?: boolean;
+	wrap?: boolean;
 }
 
 interface TouchInfo {
@@ -38,36 +50,62 @@ interface GalleryState {
 	touchMoved: boolean;
 }
 
-const propTypes = {
-	...galleryPropTypes,
-};
+function getNormalizedActivePhotoIndex(
+	activePhotoIndex: number,
+	totalPhotos: number,
+): number {
+	if (totalPhotos === 0) {
+		return 0;
+	}
 
-const defaultProps = {
-	...galleryDefaultProps,
-};
+	return Math.min(Math.max(activePhotoIndex, 0), totalPhotos - 1);
+}
 
-class Gallery extends PureComponent<GalleryProps, GalleryState> {
-	static propTypes = propTypes;
+function getWrapControlState(
+	activePhotoIndex: number,
+	totalPhotos: number,
+	wrap: boolean,
+) {
+	if (!wrap || totalPhotos <= 1) {
+		return {
+			hidePrevButton: false,
+			hideNextButton: false,
+		};
+	}
 
-	static defaultProps = defaultProps;
+	return {
+		hidePrevButton: activePhotoIndex === 0,
+		hideNextButton: activePhotoIndex === totalPhotos - 1,
+	};
+}
 
-	lastPreloadIndex: number;
-
-	preloadedPhotos: GalleryPhoto[];
-
-	constructor(props: GalleryProps) {
-		super(props);
-		const { activePhotoIndex, photos, wrap } = this.props;
-		const normalizedActivePhotoIndex = this.getNormalizedActivePhotoIndex(
+const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
+	{
+		activePhotoIndex = galleryDefaultProps.activePhotoIndex,
+		activePhotoPressed = galleryDefaultProps.activePhotoPressed,
+		backgroundColor = galleryDefaultProps.backgroundColor,
+		light = galleryDefaultProps.light,
+		nextButtonPressed = galleryDefaultProps.nextButtonPressed,
+		phrases = galleryDefaultProps.phrases,
+		photos = galleryDefaultProps.photos,
+		preloadSize = galleryDefaultProps.preloadSize,
+		prevButtonPressed = galleryDefaultProps.prevButtonPressed,
+		showThumbnails = galleryDefaultProps.showThumbnails,
+		wrap = galleryDefaultProps.wrap,
+	},
+	ref,
+) {
+	const [state, setState] = useState<GalleryState>(() => {
+		const normalizedActivePhotoIndex = getNormalizedActivePhotoIndex(
 			activePhotoIndex,
 			photos.length,
 		);
-		const { hidePrevButton, hideNextButton } = this.getWrapControlState(
+		const { hidePrevButton, hideNextButton } = getWrapControlState(
 			normalizedActivePhotoIndex,
 			photos.length,
 			wrap,
 		);
-		this.state = {
+		return {
 			activePhotoIndex: normalizedActivePhotoIndex,
 			hidePrevButton,
 			hideNextButton,
@@ -76,262 +114,228 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
 			touchEndInfo: null,
 			touchMoved: false,
 		};
-		this.lastPreloadIndex = 0;
-		this.preloadedPhotos = [];
-		this.move = this.move.bind(this);
-		this.prev = this.prev.bind(this);
-		this.next = this.next.bind(this);
-		this.onPhotoLoad = this.onPhotoLoad.bind(this);
-		this.onPhotoError = this.onPhotoError.bind(this);
-		this.onPhotoPress = this.onPhotoPress.bind(this);
-		this.onTouchStart = this.onTouchStart.bind(this);
-		this.onTouchMove = this.onTouchMove.bind(this);
-		this.onTouchEnd = this.onTouchEnd.bind(this);
-		this.onThumbnailPress = this.onThumbnailPress.bind(this);
-		this.onPrevButtonPress = this.onPrevButtonPress.bind(this);
-		this.onNextButtonPress = this.onNextButtonPress.bind(this);
-	}
+	});
 
-	componentDidUpdate(prevProps: GalleryProps) {
-		const { activePhotoIndex, photos, wrap } = this.props;
-		if (
-			activePhotoIndex !== prevProps.activePhotoIndex ||
-			photos !== prevProps.photos ||
-			wrap !== prevProps.wrap
-		) {
-			const normalizedActivePhotoIndex = this.getNormalizedActivePhotoIndex(
-				activePhotoIndex,
-				photos.length,
-			);
-			const { hidePrevButton, hideNextButton } = this.getWrapControlState(
-				normalizedActivePhotoIndex,
-				photos.length,
-				wrap,
-			);
-
-			if (
-				this.state.activePhotoIndex !== normalizedActivePhotoIndex ||
-				this.state.hidePrevButton !== hidePrevButton ||
-				this.state.hideNextButton !== hideNextButton
-			) {
-				this.setState({
-					activePhotoIndex: normalizedActivePhotoIndex,
-					hidePrevButton,
-					hideNextButton,
-				});
-			}
-		}
-	}
-
-	getNormalizedActivePhotoIndex(
-		activePhotoIndex: number,
-		totalPhotos: number,
-	): number {
-		if (totalPhotos === 0) {
-			return 0;
-		}
-
-		return Math.min(Math.max(activePhotoIndex, 0), totalPhotos - 1);
-	}
-
-	getWrapControlState(
-		activePhotoIndex: number,
-		totalPhotos: number,
-		wrap: boolean,
-	) {
-		if (!wrap || totalPhotos <= 1) {
-			return {
-				hidePrevButton: false,
-				hideNextButton: false,
-			};
-		}
-
-		return {
-			hidePrevButton: activePhotoIndex === 0,
-			hideNextButton: activePhotoIndex === totalPhotos - 1,
-		};
-	}
-
-	onNextButtonPress() {
-		const { nextButtonPressed } = this.props;
-		this.next();
-		nextButtonPressed();
-	}
-
-	onPrevButtonPress() {
-		const { prevButtonPressed } = this.props;
-		this.prev();
-		prevButtonPressed();
-	}
-
-	onPhotoLoad() {
-		return this.setState({ controlsDisabled: false });
-	}
-
-	onPhotoError() {
-		return this.setState({ controlsDisabled: false });
-	}
-
-	onPhotoPress() {
-		const { activePhotoPressed } = this.props;
-		this.move(DIRECTION_NEXT);
-		activePhotoPressed();
-	}
-
-	onTouchStart(event: React.TouchEvent) {
-		this.setState({
-			touchStartInfo: event.targetTouches[0],
-		});
-	}
-
-	onTouchMove(event: React.TouchEvent) {
-		this.setState({
-			touchMoved: true,
-			touchEndInfo: event.targetTouches[0],
-		});
-	}
-
-	onTouchEnd() {
-		const { touchStartInfo, touchEndInfo, touchMoved } = this.state;
-
-		if (touchMoved && touchStartInfo && touchEndInfo) {
-			if (touchStartInfo.screenX < touchEndInfo.screenX) {
-				this.onPrevButtonPress();
-			} else if (touchStartInfo.screenX > touchEndInfo.screenX) {
-				this.onNextButtonPress();
-			}
-		}
-
-		this.setState({ touchMoved: false });
-	}
-
-	onThumbnailPress(index: number) {
-		this.to(index);
-	}
-
-	getPhotoByIndex(index: number) {
-		const { photos } = this.props;
-		return photos[index];
-	}
-
-	getItemByDirection(direction: string, activeIndex: number) {
-		const { photos, wrap } = this.props;
-
-		const isNextDirection = direction === DIRECTION_NEXT;
-		const isPrevDirection = direction === DIRECTION_PREV;
-
-		const lastItemIndex = photos.length - 1;
-		const isGoingToWrap =
-			(isPrevDirection && activeIndex === 0) ||
-			(isNextDirection && activeIndex === lastItemIndex);
-
-		if (isGoingToWrap && wrap) {
-			return activeIndex;
-		}
-
-		const delta = isPrevDirection ? -1 : 1;
-		const itemIndex = (activeIndex + delta) % photos.length;
-		return itemIndex === -1 ? photos.length - 1 : itemIndex;
-	}
-
-	getStyles() {
-		const { backgroundColor } = this.props;
-
-		return {
-			backgroundColor,
-		};
-	}
-
-	prev() {
-		return this.move(DIRECTION_PREV);
-	}
-
-	next() {
-		return this.move(DIRECTION_NEXT);
-	}
-
-	move(direction: string, index: number | false = false) {
-		const { activePhotoIndex } = this.state;
-		const { photos, wrap } = this.props;
-
-		const nextElementIndex =
-			index !== false
-				? index
-				: this.getItemByDirection(direction, activePhotoIndex);
-
-		const { hidePrevButton, hideNextButton } = this.getWrapControlState(
-			nextElementIndex,
+	useEffect(() => {
+		const normalizedActivePhotoIndex = getNormalizedActivePhotoIndex(
+			activePhotoIndex,
+			photos.length,
+		);
+		const { hidePrevButton, hideNextButton } = getWrapControlState(
+			normalizedActivePhotoIndex,
 			photos.length,
 			wrap,
 		);
 
-		this.setState({
-			activePhotoIndex: nextElementIndex,
-			hidePrevButton,
-			hideNextButton,
+		setState((prevState) => {
+			if (
+				prevState.activePhotoIndex === normalizedActivePhotoIndex &&
+				prevState.hidePrevButton === hidePrevButton &&
+				prevState.hideNextButton === hideNextButton
+			) {
+				return prevState;
+			}
+
+			return {
+				...prevState,
+				activePhotoIndex: normalizedActivePhotoIndex,
+				hidePrevButton,
+				hideNextButton,
+			};
 		});
-	}
+	}, [activePhotoIndex, photos, wrap]);
 
-	to(index: number) {
-		const { photos } = this.props;
-		const { activePhotoIndex } = this.state;
+	const getItemByDirection = useCallback(
+		(direction: string, activeIndex: number) => {
+			if (photos.length === 0) {
+				return 0;
+			}
 
-		if (index > photos.length - 1 || index < 0 || activePhotoIndex === index) {
-			return; // nothing to do
-		}
+			const isNextDirection = direction === DIRECTION_NEXT;
+			const isPrevDirection = direction === DIRECTION_PREV;
+			const lastItemIndex = photos.length - 1;
+			const isGoingToWrap =
+				(isPrevDirection && activeIndex === 0) ||
+				(isNextDirection && activeIndex === lastItemIndex);
 
-		const direction =
-			index > activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
+			if (isGoingToWrap && wrap) {
+				return activeIndex;
+			}
 
-		this.move(direction, index);
-	}
+			const delta = isPrevDirection ? -1 : 1;
+			const itemIndex = (activeIndex + delta) % photos.length;
+			return itemIndex === -1 ? photos.length - 1 : itemIndex;
+		},
+		[photos, wrap],
+	);
 
-	renderControls() {
-		const { light, photos } = this.props;
+	const move = useCallback(
+		(direction: string, index: number | false = false) => {
+			setState((prevState) => {
+				const nextElementIndex =
+					index !== false
+						? index
+						: getItemByDirection(direction, prevState.activePhotoIndex);
+
+				const { hidePrevButton, hideNextButton } = getWrapControlState(
+					nextElementIndex,
+					photos.length,
+					wrap,
+				);
+
+				return {
+					...prevState,
+					activePhotoIndex: nextElementIndex,
+					hidePrevButton,
+					hideNextButton,
+				};
+			});
+		},
+		[getItemByDirection, photos.length, wrap],
+	);
+
+	const prev = useCallback(() => {
+		move(DIRECTION_PREV);
+	}, [move]);
+
+	const next = useCallback(() => {
+		move(DIRECTION_NEXT);
+	}, [move]);
+
+	useImperativeHandle(
+		ref,
+		() => ({
+			prev,
+			next,
+		}),
+		[prev, next],
+	);
+
+	const onNextButtonPress = useCallback(() => {
+		next();
+		nextButtonPressed();
+	}, [next, nextButtonPressed]);
+
+	const onPrevButtonPress = useCallback(() => {
+		prev();
+		prevButtonPressed();
+	}, [prev, prevButtonPressed]);
+
+	const onPhotoLoad = useCallback(() => {
+		setState((prevState) => ({ ...prevState, controlsDisabled: false }));
+	}, []);
+
+	const onPhotoError = useCallback(() => {
+		setState((prevState) => ({ ...prevState, controlsDisabled: false }));
+	}, []);
+
+	const onPhotoPress = useCallback(() => {
+		move(DIRECTION_NEXT);
+		activePhotoPressed();
+	}, [activePhotoPressed, move]);
+
+	const onTouchStart = useCallback((event: TouchEvent) => {
+		setState((prevState) => ({
+			...prevState,
+			touchStartInfo: event.targetTouches[0],
+		}));
+	}, []);
+
+	const onTouchMove = useCallback((event: TouchEvent) => {
+		setState((prevState) => ({
+			...prevState,
+			touchMoved: true,
+			touchEndInfo: event.targetTouches[0],
+		}));
+	}, []);
+
+	const onTouchEnd = useCallback(() => {
+		setState((prevState) => {
+			const { touchStartInfo, touchEndInfo, touchMoved } = prevState;
+			if (touchMoved && touchStartInfo && touchEndInfo) {
+				if (touchStartInfo.screenX < touchEndInfo.screenX) {
+					onPrevButtonPress();
+				} else if (touchStartInfo.screenX > touchEndInfo.screenX) {
+					onNextButtonPress();
+				}
+			}
+
+			return {
+				...prevState,
+				touchMoved: false,
+			};
+		});
+	}, [onNextButtonPress, onPrevButtonPress]);
+
+	const to = useCallback(
+		(index: number) => {
+			if (
+				index > photos.length - 1 ||
+				index < 0 ||
+				state.activePhotoIndex === index
+			) {
+				return;
+			}
+
+			const direction =
+				index > state.activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
+			move(direction, index);
+		},
+		[move, photos.length, state.activePhotoIndex],
+	);
+
+	const onThumbnailPress = useCallback(
+		(index: number) => {
+			to(index);
+		},
+		[to],
+	);
+
+	const controls = useMemo(() => {
 		const hasMoreThanOnePhoto = photos.length > 1;
-
-		const { hidePrevButton, hideNextButton, controlsDisabled } = this.state;
-
-		const controls = [];
-
-		if (hasMoreThanOnePhoto) {
-			// previous control
-			if (!hidePrevButton) {
-				controls.push(
-					<PrevButton
-						key=".prevControl"
-						disabled={controlsDisabled}
-						onPress={this.onPrevButtonPress}
-						light={light}
-					/>,
-				);
-			}
-
-			// next control
-			if (!hideNextButton) {
-				controls.push(
-					<NextButton
-						key=".nextControl"
-						disabled={controlsDisabled}
-						onPress={this.onNextButtonPress}
-						light={light}
-					/>,
-				);
-			}
+		if (!hasMoreThanOnePhoto) {
+			return null;
 		}
 
-		return controls;
-	}
+		const ui = [];
+		if (!state.hidePrevButton) {
+			ui.push(
+				<PrevButton
+					key=".prevControl"
+					disabled={state.controlsDisabled}
+					onPress={onPrevButtonPress}
+					light={light}
+				/>,
+			);
+		}
+		if (!state.hideNextButton) {
+			ui.push(
+				<NextButton
+					key=".nextControl"
+					disabled={state.controlsDisabled}
+					onPress={onNextButtonPress}
+					light={light}
+				/>,
+			);
+		}
+		return ui;
+	}, [
+		light,
+		onNextButtonPress,
+		onPrevButtonPress,
+		photos.length,
+		state.controlsDisabled,
+		state.hideNextButton,
+		state.hidePrevButton,
+	]);
 
-	renderPreloadPhotos(current: number) {
-		const { photos, preloadSize } = this.props;
+	const galleryModalPreloadPhotos = useMemo(() => {
 		let counter = 1;
-		let index = current;
-		let photo: GalleryPhoto | null = null;
+		let index = state.activePhotoIndex;
 		const preloadPhotos = [];
 
 		while (index < photos.length && counter <= preloadSize) {
-			photo = photos[index];
+			const photo = photos[index];
 			preloadPhotos.push(
 				<img key={photo.photo} alt={photo.photo} src={photo.photo} />,
 			);
@@ -340,64 +344,48 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
 		}
 
 		return preloadPhotos;
-	}
+	}, [photos, preloadSize, state.activePhotoIndex]);
 
-	render() {
-		const { photos, showThumbnails, phrases } = this.props;
+	const hasPhotos = photos.length > 0;
+	const current = photos[state.activePhotoIndex];
+	const galleryStyles = { backgroundColor };
+	const { noPhotosProvided: emptyMessage } = phrases;
 
-		const { noPhotosProvided: emptyMessage } = phrases;
-
-		const { activePhotoIndex } = this.state;
-
-		// preload photos
-		const galleryModalPreloadPhotos =
-			this.renderPreloadPhotos(activePhotoIndex);
-
-		const controls = this.renderControls();
-		const hasPhotos = photos.length > 0;
-
-		const current = this.getPhotoByIndex(activePhotoIndex);
-
-		const galleryStyles = this.getStyles();
-
-		return (
-			<div className="gallery" style={galleryStyles}>
-				<div className="gallery-modal--preload">
-					{galleryModalPreloadPhotos}
-				</div>
-				<div className="gallery-main">
-					{controls}
-					<div className="gallery-photos">
-						{hasPhotos ? (
-							<div className="gallery-photo">
-								<div className="gallery-photo--current">
-									<Photo
-										photo={current}
-										onLoad={this.onPhotoLoad}
-										onError={this.onPhotoError}
-										onPress={this.onPhotoPress}
-										onTouchStart={this.onTouchStart}
-										onTouchMove={this.onTouchMove}
-										onTouchEnd={this.onTouchEnd}
-									/>
-								</div>
+	return (
+		<div className="gallery" style={galleryStyles}>
+			<div className="gallery-modal--preload">{galleryModalPreloadPhotos}</div>
+			<div className="gallery-main">
+				{controls}
+				<div className="gallery-photos">
+					{hasPhotos ? (
+						<div className="gallery-photo">
+							<div className="gallery-photo--current">
+								<Photo
+									photo={current}
+									onLoad={onPhotoLoad}
+									onError={onPhotoError}
+									onPress={onPhotoPress}
+									onTouchStart={onTouchStart}
+									onTouchMove={onTouchMove}
+									onTouchEnd={onTouchEnd}
+								/>
 							</div>
-						) : (
-							<div className="gallery-empty">{emptyMessage}</div>
-						)}
-					</div>
+						</div>
+					) : (
+						<div className="gallery-empty">{emptyMessage}</div>
+					)}
 				</div>
-				{showThumbnails && current && (
-					<Caption
-						phrases={phrases}
-						current={activePhotoIndex}
-						photos={photos}
-						onPress={this.onThumbnailPress}
-					/>
-				)}
 			</div>
-		);
-	}
-}
+			{showThumbnails && current && (
+				<Caption
+					phrases={phrases}
+					current={state.activePhotoIndex}
+					photos={photos}
+					onPress={onThumbnailPress}
+				/>
+			)}
+		</div>
+	);
+});
 
-export default Gallery;
+export default memo(Gallery);
