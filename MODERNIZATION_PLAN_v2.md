@@ -136,6 +136,14 @@ Questions to answer before implementation:
 4. Do we allow temporary JS/TS mixed source during migration?
 5. Should TypeScript migration be included in `2.0.0` scope or scheduled for `2.1.x`?
 
+Approved answers (2026-02-25):
+
+1. Migration strategy: one-shot migration (single coordinated TS conversion track).
+2. TypeScript strictness: `strict: true` immediately.
+3. Public API typing source of truth: generated `.d.ts` from the TypeScript build.
+4. Source policy during migration: all TypeScript (no temporary JS/TS mixed source).
+5. Release timing: schedule TypeScript migration for `2.1.x` (post-`2.0.0`).
+
 ### Phase 8: Toolchain Simplification
 
 Questions to answer before implementation:
@@ -258,6 +266,7 @@ If `gh` is unavailable, create PR manually using the same template content.
 Add decisions here as we align each phase:
 
 - 2026-02-24: Initial plan created.
+- 2026-02-25: Phase 7 alignment approved (one-shot migration, strict TS, generated declarations, TS-only source, target `2.1.x`).
 - 2026-02-24: Plan renamed to `MODERNIZATION_PLAN_v2.md`.
 - 2026-02-24: Modernization target set to version `2.0.0`.
 - 2026-02-24: Phase 1 alignment approved.
