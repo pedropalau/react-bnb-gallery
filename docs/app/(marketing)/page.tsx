@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import ReactBnbGallery from 'react-bnb-gallery';
 
 import PhotoGrid from '@/components/photo-grid';
@@ -9,11 +9,7 @@ import { Button } from '@/components/ui/button';
 import photos from '@/constants/photos';
 
 export default function HomePage() {
-	const [isOpen, setOpen] = useState(false);
-
-	const toggleGallery = useCallback(() => {
-		setOpen((value) => !value);
-	}, []);
+	const [open, setOpen] = useState(false);
 
 	return (
 		<>
@@ -27,7 +23,7 @@ export default function HomePage() {
 					and let your photos shine.
 				</p>
 				<div className="flex w-full items-center justify-center gap-2 pt-2 **:data-[slot=button]:shadow-none">
-					<Button size="lg" onClick={toggleGallery}>
+					<Button size="lg" onClick={() => setOpen(true)}>
 						Try the Demo
 					</Button>
 					<Button size="lg" variant="outline" asChild>
@@ -37,10 +33,10 @@ export default function HomePage() {
 			</div>
 			<PhotoGrid />
 			<ReactBnbGallery
-				show={isOpen}
+				show={open}
 				photos={photos}
 				backgroundColor="rgba(0,0,0,0.9)"
-				onClose={toggleGallery}
+				onClose={() => setOpen(false)}
 			/>
 		</>
 	);
