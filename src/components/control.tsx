@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import { memo, useCallback } from 'react';
 
-import { INVERSE_COLOR, NORMAL_COLOR } from '../../constants';
+import { INVERSE_COLOR, NORMAL_COLOR } from '../constants';
 
 const controlStyle = {
 	height: '2.8em',
@@ -13,6 +13,9 @@ const controlStyleLight = {
 	fill: INVERSE_COLOR,
 };
 
+/**
+ * Shared arrow-control button props used by previous/next controls.
+ */
 interface ControlProps {
 	arrow?: string | null;
 	onPress?: () => void;
@@ -22,6 +25,9 @@ interface ControlProps {
 	light?: boolean;
 }
 
+/**
+ * Renders a reusable SVG arrow button for gallery navigation.
+ */
 function Control({
 	arrow = null,
 	onPress,

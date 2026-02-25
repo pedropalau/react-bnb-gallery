@@ -1,13 +1,16 @@
 import classnames from 'classnames';
 import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
-import defaultPhrases from '../../defaultPhrases';
-import type { GalleryPhoto, GalleryPhrases } from '../../types/gallery';
-import calculateThumbnailsContainerDimension from '../../utils/calculateThumbnailsContainerDimension';
-import calculateThumbnailsLeftScroll from '../../utils/calculateThumbnailsLeftScroll';
-import Thumbnail from '../Thumbnail';
-import TogglePhotoList from '../TogglePhotoList';
+import defaultPhrases from '../defaultPhrases';
+import type { GalleryPhoto, GalleryPhrases } from '../types/gallery';
+import calculateThumbnailsContainerDimension from '../utils/calculateThumbnailsContainerDimension';
+import calculateThumbnailsLeftScroll from '../utils/calculateThumbnailsLeftScroll';
+import Thumbnail from './thumbnail';
+import TogglePhotoList from './toggle-photo-list';
 
+/**
+ * Props for the gallery caption area and thumbnail strip.
+ */
 interface CaptionProps {
 	current?: number;
 	onPress?: (index: number) => void;
@@ -16,6 +19,9 @@ interface CaptionProps {
 	showThumbnails?: boolean;
 }
 
+/**
+ * Renders the current photo caption and optional thumbnail navigation.
+ */
 function Caption({
 	current = 0,
 	onPress,

@@ -1,14 +1,17 @@
 import classnames from 'classnames';
 import { memo } from 'react';
-import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../../constants';
-import type { GalleryPhoto } from '../../types/gallery';
-import Image from '../Image/Image';
+import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
+import type { GalleryPhoto } from '../types/gallery';
+import Image from './image';
 
 const thumbnailStyle = {
 	width: THUMBNAIL_WIDTH,
 	height: THUMBNAIL_HEIGHT,
 };
 
+/**
+ * Props for a single thumbnail button in the caption strip.
+ */
 interface ThumbnailProps {
 	active?: boolean;
 	photo?: GalleryPhoto | null;
@@ -16,6 +19,9 @@ interface ThumbnailProps {
 	number?: number;
 }
 
+/**
+ * Renders a clickable thumbnail for selecting a photo by index.
+ */
 function Thumbnail({
 	active = false,
 	photo = null,

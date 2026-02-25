@@ -9,18 +9,21 @@ import {
 	useState,
 } from 'react';
 
-import { DEFAULT_COLOR, DIRECTION_NEXT, DIRECTION_PREV } from '../../constants';
-import defaultPhrases from '../../defaultPhrases';
+import { DEFAULT_COLOR, DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
+import defaultPhrases from '../defaultPhrases';
 import type {
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
-} from '../../types/gallery';
-import Caption from '../Caption';
-import NextButton from '../NextButton';
-import Photo from '../Photo';
-import PrevButton from '../PrevButton';
+} from '../types/gallery';
+import Caption from './caption';
+import NextButton from './next-button';
+import Photo from './photo';
+import PrevButton from './prev-button';
 
+/**
+ * Props for the internal gallery viewport, controls, and caption panel.
+ */
 interface GalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
@@ -52,6 +55,9 @@ interface GalleryState {
 
 const EMPTY_PHOTOS: GalleryPhoto[] = [];
 
+/**
+ * Clamps a requested active index to available photo bounds.
+ */
 function getNormalizedActivePhotoIndex(
 	activePhotoIndex: number,
 	totalPhotos: number,
@@ -63,6 +69,9 @@ function getNormalizedActivePhotoIndex(
 	return Math.min(Math.max(activePhotoIndex, 0), totalPhotos - 1);
 }
 
+/**
+ * Computes control visibility when wrap mode is enabled.
+ */
 function getWrapControlState(
 	activePhotoIndex: number,
 	totalPhotos: number,
@@ -81,6 +90,9 @@ function getWrapControlState(
 	};
 }
 
+/**
+ * Core carousel component responsible for image navigation and touch gestures.
+ */
 const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
 		activePhotoIndex = 0,

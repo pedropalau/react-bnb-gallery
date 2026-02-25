@@ -3,8 +3,8 @@ import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Portal } from 'react-portal';
-import CloseButton from './components/CloseButton';
-import Gallery from './components/Gallery';
+import CloseButton from './components/close-button';
+import Gallery from './components/gallery';
 import {
 	ARROW_LEFT_KEYCODE,
 	ARROW_RIGHT_KEYCODE,

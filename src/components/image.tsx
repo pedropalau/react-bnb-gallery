@@ -1,13 +1,16 @@
 import classnames from 'classnames';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from './loading-spinner';
 
 const defaultState = {
 	loading: true,
 	withError: false,
 };
 
+/**
+ * Props for the image wrapper with loading/error handling.
+ */
 interface ImageProps {
 	alt: string;
 	src: string;
@@ -17,12 +20,18 @@ interface ImageProps {
 	onError?: () => void;
 }
 
+/**
+ * Internal load state tracked per rendered source.
+ */
 interface ImageState {
 	currentSrc: string;
 	loading: boolean;
 	withError: boolean;
 }
 
+/**
+ * Renders an image with a spinner while loading and hides on error.
+ */
 function Image({
 	alt,
 	src,

@@ -1,4 +1,4 @@
-import Gallery from './components/Gallery';
+import Gallery from './components/gallery';
 import ReactBnbGallery from './ReactBnbGallery';
 
 export default ReactBnbGallery;

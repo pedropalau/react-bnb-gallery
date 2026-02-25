@@ -1,9 +1,12 @@
 import classnames from 'classnames';
 import type { CSSProperties, TouchEvent } from 'react';
 import { memo, useCallback } from 'react';
-import type { GalleryPhoto } from '../../types/gallery';
-import Image from '../Image/Image';
+import type { GalleryPhoto } from '../types/gallery';
+import Image from './image';
 
+/**
+ * Props for the active gallery photo surface.
+ */
 interface PhotoProps {
 	photo?: GalleryPhoto | null;
 	onPress?: () => void;
@@ -15,6 +18,9 @@ interface PhotoProps {
 	style?: CSSProperties;
 }
 
+/**
+ * Renders the main photo element and forwards interaction callbacks.
+ */
 function Photo({
 	photo = null,
 	onPress,

@@ -1,13 +1,19 @@
 import classnames from 'classnames';
 import { memo } from 'react';
-import defaultPhrases from '../../defaultPhrases';
+import defaultPhrases from '../defaultPhrases';
 
+/**
+ * Props for the thumbnail list visibility toggle.
+ */
 interface TogglePhotoListProps {
 	isOpened?: boolean;
 	onPress?: () => void;
 	phrases?: typeof defaultPhrases;
 }
 
+/**
+ * Renders the text button that shows or hides the thumbnail strip.
+ */
 function TogglePhotoList({
 	isOpened = true,
 	onPress,
