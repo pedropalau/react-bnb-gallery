@@ -1,222 +1,129 @@
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import type React from 'react';
-import { PureComponent } from 'react';
-import { forbidExtraProps, nonNegativeInteger } from '../../common/prop-types';
+import type { MouseEvent } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import defaultPhrases from '../../defaultPhrases';
-import PhotosShape from '../../shapes/PhotosShape';
 import type { GalleryPhoto, GalleryPhrases } from '../../types/gallery';
 import calculateThumbnailsContainerDimension from '../../utils/calculateThumbnailsContainerDimension';
 import calculateThumbnailsLeftScroll from '../../utils/calculateThumbnailsLeftScroll';
-import getPhrasePropTypes from '../../utils/getPhrasePropTypes';
 import noop from '../../utils/noop';
 import Thumbnail from '../Thumbnail';
 import TogglePhotoList from '../TogglePhotoList';
 
 interface CaptionProps {
-	current: number;
-	onPress: (index: number) => void;
-	photos: GalleryPhoto[];
-	phrases: GalleryPhrases;
-	showThumbnails: boolean;
+	current?: number;
+	onPress?: (index: number) => void;
+	photos?: GalleryPhoto[];
+	phrases?: GalleryPhrases;
+	showThumbnails?: boolean;
 }
 
-interface CaptionState {
-	showThumbnails: boolean;
-}
+function Caption({
+	current = 0,
+	onPress = noop,
+	photos = [],
+	phrases = defaultPhrases,
+	showThumbnails: showThumbnailsProp = true,
+}: CaptionProps) {
+	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
+	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
+	const thumbnailsListRef = useRef<HTMLUListElement | null>(null);
+	const previousCurrentRef = useRef(current);
 
-const propTypes = forbidExtraProps({
-	showThumbnails: PropTypes.bool,
-	current: nonNegativeInteger,
-	photos: PhotosShape,
-	onPress: PropTypes.func,
-	phrases: PropTypes.shape(getPhrasePropTypes(defaultPhrases)),
-});
+	useEffect(() => {
+		setShowThumbnails(showThumbnailsProp);
+	}, [showThumbnailsProp]);
 
-const defaultProps = {
-	showThumbnails: true,
-	current: 0,
-	photos: [],
-	onPress: noop,
-	phrases: defaultPhrases,
-};
-
-class Caption extends PureComponent<CaptionProps, CaptionState> {
-	static propTypes = propTypes;
-
-	static defaultProps = defaultProps;
-
-	thumbnailsWrapperRef: HTMLDivElement | null;
-
-	thumbnailsListRef: HTMLUListElement | null;
-
-	constructor(props: CaptionProps) {
-		super(props);
-		const { showThumbnails } = this.props;
-
-		this.state = {
-			showThumbnails,
-		};
-
-		this.thumbnailsWrapperRef = null;
-		this.thumbnailsListRef = null;
-		this.onThumbnailPress = this.onThumbnailPress.bind(this);
-		this.setGalleryFigcaptionRef = this.setGalleryFigcaptionRef.bind(this);
-		this.setGalleryThubmanilsRef = this.setGalleryThubmanilsRef.bind(this);
-		this.toggleThumbnails = this.toggleThumbnails.bind(this);
-	}
-
-	componentDidUpdate(prevProps: CaptionProps) {
-		const { current, showThumbnails } = this.props;
-		const { showThumbnails: stateShowThumbnails } = this.state;
-
-		if (
-			showThumbnails !== prevProps.showThumbnails &&
-			showThumbnails !== stateShowThumbnails
-		) {
-			this.setState({
-				showThumbnails,
-			});
-		}
-
-		if (current !== prevProps.current) {
-			this.setThumbnailsWrapperScrollLeft(current);
-		}
-	}
-
-	onThumbnailPress(event: React.MouseEvent<HTMLElement>) {
-		const { onPress, photos } = this.props;
-		const index = parseInt(event.currentTarget.dataset.photoIndex || '-1', 10);
-		if (index >= 0 && index <= photos.length - 1) {
-			onPress(index);
-		}
-	}
-
-	setThumbnailsWrapperScrollLeft(current: number) {
-		const { photos } = this.props;
-
-		if (!this.thumbnailsWrapperRef || !this.thumbnailsListRef) {
+	useEffect(() => {
+		if (current === previousCurrentRef.current) {
 			return;
 		}
 
-		const bounding = this.thumbnailsWrapperRef.getBoundingClientRect();
+		previousCurrentRef.current = current;
+		if (!thumbnailsWrapperRef.current || !thumbnailsListRef.current) {
+			return;
+		}
+
+		const bounding = thumbnailsWrapperRef.current.getBoundingClientRect();
 		const scrollLeft = calculateThumbnailsLeftScroll(
 			current,
 			photos.length,
 			bounding,
 		);
-		this.thumbnailsListRef.style.marginLeft = `${scrollLeft}px`;
-	}
+		thumbnailsListRef.current.style.marginLeft = `${scrollLeft}px`;
+	}, [current, photos.length]);
 
-	getPhotoByIndex(index: number) {
-		const { photos } = this.props;
-		return photos[index];
-	}
+	const onThumbnailPress = (event: MouseEvent<HTMLElement>) => {
+		const index = parseInt(event.currentTarget.dataset.photoIndex || '-1', 10);
+		if (index >= 0 && index <= photos.length - 1) {
+			onPress(index);
+		}
+	};
 
-	setGalleryFigcaptionRef(element: HTMLDivElement | null) {
-		this.thumbnailsWrapperRef = element;
-	}
+	const toggleThumbnails = () => {
+		setShowThumbnails((prevState) => !prevState);
+	};
 
-	setGalleryThubmanilsRef(element: HTMLUListElement | null) {
-		this.thumbnailsListRef = element;
-	}
+	const className = classnames('gallery-figcaption', !showThumbnails && 'hide');
+	const currentPhoto = photos[current];
+	const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(
+		photos.length,
+	);
+	const hasMoreThanOnePhoto = photos.length > 1;
 
-	toggleThumbnails() {
-		this.setState((prevState) => ({
-			showThumbnails: !prevState.showThumbnails,
-		}));
-	}
-
-	renderThumbnail(
-		photo: GalleryPhoto,
-		index: number,
-		onPress: (event: React.MouseEvent<HTMLElement>) => void,
-	) {
-		const { current } = this.props;
-
-		return (
-			<Thumbnail
-				active={index === current}
-				photo={photo}
-				onPress={onPress}
-				number={index}
-			/>
-		);
-	}
-
-	render() {
-		const { current, photos, phrases } = this.props;
-
-		const { showThumbnails } = this.state;
-
-		const className = classnames(
-			'gallery-figcaption',
-			!showThumbnails && 'hide',
-		);
-
-		const currentPhoto = this.getPhotoByIndex(current);
-		const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(
-			photos.length,
-		);
-		const hasMoreThanOnePhoto = photos.length > 1;
-
-		return (
-			<figcaption className={className}>
-				<div className="gallery-figcaption--content">
-					<div className="gallery-figcaption--inner">
-						<div className="gallery-figcaption--info">
-							<div className="caption-left">
-								{currentPhoto.caption && (
-									<h3 className="photo-caption">{currentPhoto.caption}</h3>
-								)}
-								{currentPhoto.subcaption && (
-									<p className="photo-subcaption">{currentPhoto.subcaption}</p>
-								)}
-							</div>
-							{hasMoreThanOnePhoto && (
-								<div className="caption-right">
-									<TogglePhotoList
-										phrases={phrases}
-										isOpened={showThumbnails}
-										onPress={this.toggleThumbnails}
-									/>
-								</div>
+	return (
+		<figcaption className={className}>
+			<div className="gallery-figcaption--content">
+				<div className="gallery-figcaption--inner">
+					<div className="gallery-figcaption--info">
+						<div className="caption-left">
+							{currentPhoto?.caption && (
+								<h3 className="photo-caption">{currentPhoto.caption}</h3>
+							)}
+							{currentPhoto?.subcaption && (
+								<p className="photo-subcaption">{currentPhoto.subcaption}</p>
 							)}
 						</div>
 						{hasMoreThanOnePhoto && (
-							<div
-								className="gallery-figcaption--thumbnails"
-								aria-hidden={false}
-								ref={this.setGalleryFigcaptionRef}
-							>
-								<div
-									className="caption-thumbnails"
-									style={{
-										width: captionThumbnailsWrapperWidth,
-									}}
-								>
-									<ul
-										className="thumbnails-list"
-										ref={this.setGalleryThubmanilsRef}
-									>
-										{photos.map((photo: GalleryPhoto, index: number) => (
-											<li key={photo.photo || `${index}`}>
-												{this.renderThumbnail(
-													photo,
-													index,
-													this.onThumbnailPress,
-												)}
-											</li>
-										))}
-									</ul>
-								</div>
+							<div className="caption-right">
+								<TogglePhotoList
+									phrases={phrases}
+									isOpened={showThumbnails}
+									onPress={toggleThumbnails}
+								/>
 							</div>
 						)}
 					</div>
+					{hasMoreThanOnePhoto && (
+						<div
+							className="gallery-figcaption--thumbnails"
+							aria-hidden={false}
+							ref={thumbnailsWrapperRef}
+						>
+							<div
+								className="caption-thumbnails"
+								style={{
+									width: captionThumbnailsWrapperWidth,
+								}}
+							>
+								<ul className="thumbnails-list" ref={thumbnailsListRef}>
+									{photos.map((photo: GalleryPhoto, index: number) => (
+										<li key={photo.photo || `${index}`}>
+											<Thumbnail
+												active={index === current}
+												photo={photo}
+												onPress={onThumbnailPress}
+												number={index}
+											/>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+					)}
 				</div>
-			</figcaption>
-		);
-	}
+			</div>
+		</figcaption>
+	);
 }
 
-export default Caption;
+export default memo(Caption);

@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
-import React from 'react';
 import { vi } from 'vitest';
-
+import { INVERSE_COLOR } from '../../src/constants';
 import ReactBnbGallery from '../../src/ReactBnbGallery';
 
 import photos from '../test-photos';
@@ -55,12 +54,56 @@ describe('ReactBnbGallery', () => {
 			expect(rightKeyPressed).toHaveBeenCalledTimes(1);
 		});
 
+		it('invokes onClose callback when escape key is pressed', () => {
+			const onClose = vi.fn();
+
+			render(<ReactBnbGallery photos={photos} show onClose={onClose} />);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			expect(modal).toBeInTheDocument();
+
+			fireEvent.keyDown(modal, { key: 'Escape' });
+
+			expect(onClose).toHaveBeenCalledTimes(1);
+		});
+
+		it('ignores keyboard navigation when event target is an input element', () => {
+			const leftKeyPressed = vi.fn();
+
+			render(
+				<ReactBnbGallery
+					photos={photos}
+					show
+					leftKeyPressed={leftKeyPressed}
+				/>,
+			);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			expect(modal).toBeInTheDocument();
+
+			const input = document.createElement('input');
+			modal.appendChild(input);
+
+			fireEvent.keyDown(input, { key: 'ArrowLeft' });
+
+			expect(leftKeyPressed).not.toHaveBeenCalled();
+		});
+
 		it('renders dialog as modal for assistive tech', () => {
 			render(<ReactBnbGallery photos={photos} show />);
 
 			const modal = document.body.querySelector('.gallery-modal');
 			expect(modal).toHaveAttribute('role', 'dialog');
 			expect(modal).toHaveAttribute('aria-modal', 'true');
+		});
+
+		it('forwards light mode to gallery controls', () => {
+			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
+
+			const nextControlIcon = document.body.querySelector(
+				'.gallery-control--next svg',
+			);
+			expect(nextControlIcon).toHaveStyle({ fill: INVERSE_COLOR });
 		});
 
 		it('warns when photos is passed as a single string', () => {

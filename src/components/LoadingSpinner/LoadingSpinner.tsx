@@ -1,19 +1,13 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-
-import { forbidExtraProps } from '../../common/prop-types';
-
-const propTypes = forbidExtraProps({
-	show: PropTypes.bool,
-});
-
 interface LoadingSpinnerProps {
 	show?: boolean;
 }
 
-const LoadingSpinner = ({ show = true }: LoadingSpinnerProps) =>
-	show && <div className="loading-spinner" />;
+function LoadingSpinner({ show = true }: LoadingSpinnerProps) {
+	if (!show) {
+		return null;
+	}
 
-LoadingSpinner.propTypes = propTypes;
+	return <div className="loading-spinner" />;
+}
 
 export default LoadingSpinner;

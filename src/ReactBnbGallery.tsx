@@ -1,17 +1,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable react/no-unused-prop-types */
 
 import classnames from 'classnames';
 import FocusTrap from 'focus-trap-react';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import type { KeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Portal } from 'react-portal';
-import { galleryDefaultProps, galleryPropTypes } from './common';
-import opacityValidation from './common/opacityValidation';
-import { forbidExtraProps, nonNegativeInteger } from './common/prop-types';
+import { galleryDefaultProps } from './common';
 import CloseButton from './components/CloseButton';
 import Gallery from './components/Gallery';
-
 import {
 	ARROW_LEFT_KEYCODE,
 	ARROW_RIGHT_KEYCODE,
@@ -20,7 +16,11 @@ import {
 	ESC_KEYCODE,
 	FORWARDS,
 } from './constants';
-import type { GalleryPhoto, GalleryPhrases } from './types/gallery';
+import type {
+	GalleryController,
+	GalleryPhoto,
+	GalleryPhrases,
+} from './types/gallery';
 import getPhotos from './utils/getPhotos';
 import noop from './utils/noop';
 
@@ -48,116 +48,43 @@ interface ReactBnbGalleryProps {
 	zIndex?: number;
 }
 
-interface ReactBnbGalleryState {
-	photos: GalleryPhoto[] | null;
-}
+function ReactBnbGallery({
+	activePhotoIndex = galleryDefaultProps.activePhotoIndex,
+	activePhotoPressed = galleryDefaultProps.activePhotoPressed,
+	backgroundColor = galleryDefaultProps.backgroundColor,
+	direction = galleryDefaultProps.direction,
+	keyboard = true,
+	leftKeyPressed = noop,
+	light = galleryDefaultProps.light,
+	nextButtonPressed = galleryDefaultProps.nextButtonPressed,
+	onClose = noop,
+	opacity = DEFAULT_OPACITY,
+	photos: photosInput = galleryDefaultProps.photos,
+	phrases = galleryDefaultProps.phrases,
+	preloadSize = galleryDefaultProps.preloadSize,
+	prevButtonPressed = galleryDefaultProps.prevButtonPressed,
+	rightKeyPressed = noop,
+	show = false,
+	showThumbnails = galleryDefaultProps.showThumbnails,
+	wrap = galleryDefaultProps.wrap,
+	zIndex = DEFAULT_Z_INDEX,
+}: ReactBnbGalleryProps) {
+	const gallery = useRef<GalleryController | null>(null);
+	const previousPropsRef = useRef<{
+		photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
+		direction?: string;
+	} | null>(null);
 
-const propTypes = forbidExtraProps({
-	...galleryPropTypes,
-	leftKeyPressed: PropTypes.func,
-	onClose: PropTypes.func,
-	rightKeyPressed: PropTypes.func,
-	show: PropTypes.bool,
-	keyboard: PropTypes.bool,
-	opacity: opacityValidation,
-	zIndex: nonNegativeInteger,
-});
-
-const defaultProps = {
-	...galleryDefaultProps,
-	leftKeyPressed: noop,
-	onClose: noop,
-	rightKeyPressed: noop,
-	show: false,
-	keyboard: true,
-	opacity: DEFAULT_OPACITY,
-	zIndex: DEFAULT_Z_INDEX,
-};
-
-class ReactBnbGallery extends Component<
-	ReactBnbGalleryProps,
-	ReactBnbGalleryState
-> {
-	static propTypes = propTypes;
-
-	static defaultProps = defaultProps;
-
-	gallery: React.RefObject<Gallery | null>;
-
-	constructor(props: ReactBnbGalleryProps) {
-		super(props);
-		this.state = {
-			photos: null,
-		};
-		this.gallery = React.createRef<Gallery | null>();
-		this.close = this.close.bind(this);
-		this.onKeyDown = this.onKeyDown.bind(this);
-	}
-
-	componentDidMount() {
-		this.warnDeprecatedPropUsage(undefined);
-	}
-
-	componentDidUpdate(prevProps: ReactBnbGalleryProps) {
-		this.warnDeprecatedPropUsage(prevProps);
-	}
-
-	static getDerivedStateFromProps(
-		props: ReactBnbGalleryProps,
-		state: ReactBnbGalleryState,
-	) {
-		if (props.photos !== state.photos) {
-			return {
-				photos: getPhotos(props.photos || []),
-			};
-		}
-		return null;
-	}
-
-	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-		const target = event.target as HTMLElement;
-		const { leftKeyPressed = noop, rightKeyPressed = noop } = this.props;
-		const key = event.key;
-
-		if (/input|textarea/i.test(target.tagName)) {
-			return;
-		}
-
-		switch (key || event.which) {
-			case 'Escape':
-			case ESC_KEYCODE:
-				event.preventDefault();
-				this.close();
-				break;
-
-			case 'ArrowLeft':
-			case ARROW_LEFT_KEYCODE:
-				event.preventDefault();
-				this.gallery.current?.prev();
-				leftKeyPressed();
-				break;
-
-			case 'ArrowRight':
-			case ARROW_RIGHT_KEYCODE:
-				event.preventDefault();
-				this.gallery.current?.next();
-				rightKeyPressed();
-				break;
-
-			default:
-		}
-	}
-
-	warnDeprecatedPropUsage(prevProps?: ReactBnbGalleryProps) {
+	useEffect(() => {
 		if (process.env.NODE_ENV === 'production') {
 			return;
 		}
 
-		const { photos, direction } = this.props;
-
-		const usingNonArrayPhotosInput = photos != null && !Array.isArray(photos);
+		const previousProps = previousPropsRef.current;
+		const usingNonArrayPhotosInput =
+			photosInput != null && !Array.isArray(photosInput);
 		const wasUsingNonArrayPhotosInput =
-			prevProps?.photos != null && !Array.isArray(prevProps.photos);
+			previousProps?.photos != null && !Array.isArray(previousProps.photos);
 
 		if (usingNonArrayPhotosInput && !wasUsingNonArrayPhotosInput) {
 			console.warn(
@@ -168,111 +95,116 @@ class ReactBnbGallery extends Component<
 		const usingDeprecatedDirectionProp =
 			typeof direction === 'string' && direction !== FORWARDS;
 		const wasUsingDeprecatedDirectionProp =
-			typeof prevProps?.direction === 'string' &&
-			prevProps.direction !== FORWARDS;
+			typeof previousProps?.direction === 'string' &&
+			previousProps.direction !== FORWARDS;
 
 		if (usingDeprecatedDirectionProp && !wasUsingDeprecatedDirectionProp) {
 			console.warn(
 				'[react-bnb-gallery] Deprecation: `direction` is deprecated in 2.x and will be removed in the next major release. Use navigation callbacks and `activePhotoIndex` control instead.',
 			);
 		}
-	}
 
-	getModalOverlayStyles() {
-		const { opacity, backgroundColor } = this.props;
-
-		return {
-			opacity,
-			backgroundColor,
-		};
-	}
-
-	close() {
-		const { onClose = noop } = this.props;
-		onClose();
-	}
-
-	render() {
-		const {
-			show,
-			phrases,
-			keyboard,
-			light = false,
-			zIndex,
-			wrap,
-			activePhotoIndex,
-			activePhotoPressed,
+		previousPropsRef.current = {
+			photos: photosInput,
 			direction,
-			nextButtonPressed,
-			prevButtonPressed,
-			showThumbnails,
-			preloadSize,
-		} = this.props;
-
-		const { photos } = this.state;
-
-		if (!show) {
-			return null; // nothing to return
-		}
-
-		// modal overlay customization styles
-		const galleryModalOverlayStyles = this.getModalOverlayStyles();
-
-		const modalStyle = {
-			zIndex,
 		};
+	}, [photosInput, direction]);
 
-		return (
-			<Portal>
-				<FocusTrap>
+	const photos = useMemo(() => getPhotos(photosInput || []), [photosInput]);
+
+	const close = useCallback(() => {
+		onClose();
+	}, [onClose]);
+
+	const onKeyDown = useCallback(
+		(event: KeyboardEvent<HTMLDivElement>) => {
+			const target = event.target as HTMLElement;
+			if (/input|textarea/i.test(target.tagName)) {
+				return;
+			}
+
+			switch (event.key || event.which) {
+				case 'Escape':
+				case ESC_KEYCODE:
+					event.preventDefault();
+					close();
+					break;
+				case 'ArrowLeft':
+				case ARROW_LEFT_KEYCODE:
+					event.preventDefault();
+					gallery.current?.prev();
+					leftKeyPressed();
+					break;
+				case 'ArrowRight':
+				case ARROW_RIGHT_KEYCODE:
+					event.preventDefault();
+					gallery.current?.next();
+					rightKeyPressed();
+					break;
+				default:
+			}
+		},
+		[close, leftKeyPressed, rightKeyPressed],
+	);
+
+	const galleryModalOverlayStyles = useMemo(
+		() => ({ opacity, backgroundColor }),
+		[backgroundColor, opacity],
+	);
+
+	if (!show) {
+		return null;
+	}
+
+	return (
+		<Portal>
+			<FocusTrap>
+				<div
+					className={classnames(['gallery-modal', light && 'mode-light'])}
+					onKeyDown={keyboard ? onKeyDown : undefined}
+					tabIndex={-1}
+					role="dialog"
+					aria-modal="true"
+					style={{ zIndex }}
+				>
 					<div
-						className={classnames(['gallery-modal', light && 'mode-light'])}
-						onKeyDown={keyboard ? this.onKeyDown : undefined}
-						tabIndex={-1}
-						role="dialog"
-						aria-modal="true"
-						style={modalStyle}
-					>
-						<div
-							style={galleryModalOverlayStyles}
-							className="gallery-modal--overlay"
-						/>
-						<div className="gallery-modal--container">
-							<div className="gallery-modal--table">
-								<div className="gallery-modal--cell">
-									<div className="gallery-modal--content">
-										<div className="gallery-modal--close">
-											<CloseButton onPress={this.close} light={light} />
+						style={galleryModalOverlayStyles}
+						className="gallery-modal--overlay"
+					/>
+					<div className="gallery-modal--container">
+						<div className="gallery-modal--table">
+							<div className="gallery-modal--cell">
+								<div className="gallery-modal--content">
+									<div className="gallery-modal--close">
+										<CloseButton onPress={close} light={light} />
+									</div>
+									<div className="gallery-content">
+										<div className="gallery-top">
+											<div className="gallery-top--inner" />
 										</div>
-										<div className="gallery-content">
-											<div className="gallery-top">
-												<div className="gallery-top--inner" />
-											</div>
-											<Gallery
-												phrases={phrases}
-												ref={this.gallery}
-												photos={photos || []}
-												wrap={wrap}
-												activePhotoIndex={activePhotoIndex}
-												activePhotoPressed={activePhotoPressed}
-												direction={direction}
-												nextButtonPressed={nextButtonPressed}
-												prevButtonPressed={prevButtonPressed}
-												showThumbnails={showThumbnails}
-												preloadSize={preloadSize}
-												backgroundColor={undefined}
-												light={light}
-											/>
-										</div>
+										<Gallery
+											phrases={phrases}
+											ref={gallery}
+											photos={photos}
+											light={light}
+											wrap={wrap}
+											activePhotoIndex={activePhotoIndex}
+											activePhotoPressed={activePhotoPressed}
+											direction={direction}
+											nextButtonPressed={nextButtonPressed}
+											prevButtonPressed={prevButtonPressed}
+											showThumbnails={showThumbnails}
+											preloadSize={preloadSize}
+										/>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</FocusTrap>
-			</Portal>
-		);
-	}
+				</div>
+			</FocusTrap>
+		</Portal>
+	);
 }
 
 export default ReactBnbGallery;

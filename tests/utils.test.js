@@ -1,8 +1,6 @@
 import { THUMBNAIL_WIDTH } from '../src/constants';
-import defaultPhrases from '../src/defaultPhrases';
 import calculateThumbnailsContainerDimension from '../src/utils/calculateThumbnailsContainerDimension';
 import calculateThumbnailsOffset from '../src/utils/calculateThumbnailsOffset';
-import getPhrasePropTypes from '../src/utils/getPhrasePropTypes';
 
 describe('the calculateThumbnailsOffset function', () => {
 	it('offset with current 0 and width of 100', () => {
@@ -34,16 +32,5 @@ describe('the calculateThumbnailsContainerDimension function', () => {
 	});
 	it('dimension with total of 999', () => {
 		expect(calculateThumbnailsContainerDimension(999)).toBe(65926);
-	});
-});
-
-describe('the getPhrasePropTypes function', () => {
-	it('creates a prop-type shape for all phrase keys', () => {
-		const phrasePropTypes = getPhrasePropTypes(defaultPhrases);
-
-		expect(Object.keys(phrasePropTypes)).toEqual(Object.keys(defaultPhrases));
-		Object.values(phrasePropTypes).forEach((propType) => {
-			expect(typeof propType).toBe('function');
-		});
 	});
 });

@@ -1,8 +1,6 @@
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { memo, useCallback } from 'react';
 
-import { forbidExtraProps } from '../../common/prop-types';
 import { INVERSE_COLOR, NORMAL_COLOR } from '../../constants';
 import noop from '../../utils/noop';
 
@@ -16,24 +14,6 @@ const controlStyleLight = {
 	fill: INVERSE_COLOR,
 };
 
-const propTypes = forbidExtraProps({
-	arrow: PropTypes.string,
-	onPress: PropTypes.func,
-	label: PropTypes.string,
-	className: PropTypes.string,
-	disabled: PropTypes.bool,
-	light: PropTypes.bool,
-});
-
-const defaultProps = {
-	arrow: null,
-	onPress: noop,
-	label: '',
-	className: null,
-	disabled: false,
-	light: false,
-};
-
 interface ControlProps {
 	arrow?: string | null;
 	onPress?: () => void;
@@ -43,48 +23,40 @@ interface ControlProps {
 	light?: boolean;
 }
 
-class Control extends React.PureComponent<ControlProps> {
-	static propTypes = propTypes;
-
-	static defaultProps = defaultProps;
-
-	constructor(props: ControlProps) {
-		super(props);
-		this.onButtonPress = this.onButtonPress.bind(this);
-	}
-
-	onButtonPress() {
-		const { onPress = noop } = this.props;
+function Control({
+	arrow = null,
+	onPress = noop,
+	label = '',
+	className = null,
+	disabled = false,
+	light = false,
+}: ControlProps) {
+	const onButtonPress = useCallback(() => {
 		onPress();
-		return false;
-	}
+	}, [onPress]);
 
-	render() {
-		const { arrow, label, className, disabled, light } = this.props;
-
-		return (
-			<button
-				type="button"
-				className={classnames('gallery-control', className)}
-				onClick={this.onButtonPress}
-				disabled={disabled}
-				aria-label={label || ''}
+	return (
+		<button
+			type="button"
+			className={classnames('gallery-control', className)}
+			onClick={onButtonPress}
+			disabled={disabled}
+			aria-label={label}
+		>
+			<svg
+				viewBox="0 0 18 18"
+				role="presentation"
+				focusable="false"
+				aria-hidden="true"
+				style={{
+					...controlStyle,
+					...(light && controlStyleLight),
+				}}
 			>
-				<svg
-					viewBox="0 0 18 18"
-					role="presentation"
-					focusable="false"
-					aria-hidden="true"
-					style={{
-						...controlStyle,
-						...(light && controlStyleLight),
-					}}
-				>
-					<path d={arrow || ''} fillRule="evenodd" />
-				</svg>
-			</button>
-		);
-	}
+				<path d={arrow || ''} fillRule="evenodd" />
+			</svg>
+		</button>
+	);
 }
 
-export default Control;
+export default memo(Control);
