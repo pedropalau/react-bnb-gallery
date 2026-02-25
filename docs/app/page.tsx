@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import ReactBnbGallery from 'react-bnb-gallery';
 
-import Layout from '../components/layout';
-import PhotoGrid from '../components/photo-grid';
-import photos from '../constants/photos';
+import Layout from '@/components/layout';
+import PhotoGrid from '@/components/photo-grid';
+import photos from '@/constants/photos';
 
 export default function HomePage() {
 	const [isOpen, setOpen] = useState(false);

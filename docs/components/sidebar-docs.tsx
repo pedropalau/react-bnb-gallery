@@ -2,7 +2,7 @@
 
 import classnames from 'classnames';
 
-import docsPages from '../data/getDocsPages';
+import docsPages from '@/data/getDocsPages';
 import Sidebar from './sidebar';
 
 interface SidebarDocsProps {

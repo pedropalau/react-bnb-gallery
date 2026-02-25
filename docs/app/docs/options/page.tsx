@@ -1,5 +1,5 @@
-import DocsPage from '../../../components/docs-page';
-import { createPageMetadata } from '../../../lib/metadata';
+import DocsPage from '@/components/docs-page';
+import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata = createPageMetadata('Options');
 

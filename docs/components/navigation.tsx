@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import type { DocsNavItem } from '../data/getDocsPages';
+import type { DocsNavItem } from '@/data/getDocsPages';
 import SubMenu from './navigation-sub-menu';
 
 interface NavigationProps {
