@@ -1,8 +1,9 @@
-import {
-  THUMBNAIL_WIDTH,
-  THUMBNAIL_OFFSET,
-} from '../constants';
+import { THUMBNAIL_OFFSET, THUMBNAIL_WIDTH } from '../constants';
 
-export default function calculateThumbnailsContainerDimension(total: number): number {
-  return (THUMBNAIL_WIDTH * total) + ((THUMBNAIL_OFFSET * total) - THUMBNAIL_OFFSET);
+export default function calculateThumbnailsContainerDimension(
+	total: number,
+): number {
+	return (
+		THUMBNAIL_WIDTH * total + (THUMBNAIL_OFFSET * total - THUMBNAIL_OFFSET)
+	);
 }

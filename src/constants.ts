@@ -27,18 +27,18 @@ export const INVERSE_COLOR = 'rgba(1,1,1,1)';
 export const DEFAULT_Z_INDEX = 2000;
 
 export interface PhotoProps {
-  photo?: string;
-  number?: number;
-  caption?: string;
-  subcaption?: string;
-  thumbnail?: string;
-  [key: string]: unknown;
+	photo?: string;
+	number?: number;
+	caption?: string;
+	subcaption?: string;
+	thumbnail?: string;
+	[key: string]: unknown;
 }
 
 export const defaultPhotoProps: PhotoProps = {
-  photo: undefined,
-  number: undefined,
-  caption: undefined,
-  subcaption: undefined,
-  thumbnail: undefined,
+	photo: undefined,
+	number: undefined,
+	caption: undefined,
+	subcaption: undefined,
+	thumbnail: undefined,
 };

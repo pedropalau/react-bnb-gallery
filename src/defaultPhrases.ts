@@ -3,9 +3,9 @@ const showPhotoList = 'Show photo list';
 const hidePhotoList = 'Hide photo list';
 
 const defaultPhrases = {
-  noPhotosProvided,
-  showPhotoList,
-  hidePhotoList,
+	noPhotosProvided,
+	showPhotoList,
+	hidePhotoList,
 };
 
 export default defaultPhrases;

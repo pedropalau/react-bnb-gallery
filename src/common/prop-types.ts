@@ -1,9 +1,3 @@
-import {
-  forbidExtraProps,
-  nonNegativeInteger,
-} from 'airbnb-prop-types';
+import { forbidExtraProps, nonNegativeInteger } from 'airbnb-prop-types';
 
-export {
-  forbidExtraProps,
-  nonNegativeInteger,
-};
+export { forbidExtraProps, nonNegativeInteger };
