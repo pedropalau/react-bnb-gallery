@@ -433,6 +433,12 @@ Add decisions here as we align each phase:
 - 2026-02-25: Phase 9 PR-2 started (docs and migration guidance hardening).
   - Updated `README.md` prop defaults and descriptions to match current runtime behavior (`wrap`, `preloadSize`, `backgroundColor`, `zIndex`, and `light`).
   - Added `2.1.x` migration guidance documenting removal of runtime `propTypes`/`airbnb-prop-types` validation and TS-first contract expectations.
+- 2026-02-25: Phase 9 PR-2 validated as complete.
+  - Local validation completed: `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+  - Documentation/migration guidance updates merged to `master` via PR `#161`.
+- 2026-02-25: Phase 9 implementation finalized on `master`.
+  - Merged Phase 9 PR train: `#160` and `#161`.
+  - Phase goals completed: class-component migration, TypeScript-only runtime contracts, legacy runtime validator removal, behavior-parity hardening tests, and migration/docs alignment.
 
 ## Execution Loop We Will Follow
 
