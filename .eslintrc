@@ -44,8 +44,24 @@
     "no-restricted-imports": 0,
     "react/jsx-one-expression-per-line": 1,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/extensions": [2, "ignorePackages", {
+      "js": "never",
+      "jsx": "never",
+      "ts": "never",
+      "tsx": "never"
+    }],
   },
   "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    },
     "propWrapperFunctions": [
       "forbidExtraProps",
       "exact",
