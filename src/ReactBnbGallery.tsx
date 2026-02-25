@@ -8,8 +8,8 @@ import { Portal } from 'react-portal';
 import omit from 'lodash/omit';
 import classnames from 'classnames';
 
-import Gallery from './components/Gallery';
-import CloseButton from './components/CloseButton';
+import Gallery from './components/Gallery/Gallery';
+import CloseButton from './components/CloseButton/CloseButton';
 
 import opacityValidation from './common/opacityValidation';
 import noop from './utils/noop';
@@ -35,6 +35,14 @@ import {
 
 import './scss/style.scss';
 
+interface ReactBnbGalleryProps {
+  [key: string]: any;
+}
+
+interface ReactBnbGalleryState {
+  photos: any[] | null;
+}
+
 const propTypes = forbidExtraProps({
   ...galleryPropTypes,
   leftKeyPressed: PropTypes.func,
@@ -57,18 +65,24 @@ const defaultProps = {
   zIndex: DEFAULT_Z_INDEX,
 };
 
-class ReactBnbGallery extends Component {
-  constructor(props) {
+class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGalleryState> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
+  gallery: React.RefObject<any>;
+
+  constructor(props: ReactBnbGalleryProps) {
     super(props);
     this.state = {
       photos: null,
     };
-    this.gallery = React.createRef();
+    this.gallery = React.createRef<any>();
     this.close = this.close.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: ReactBnbGalleryProps, state: ReactBnbGalleryState) {
     if (props.photos !== state.photos) {
       return {
         photos: getPhotos(props.photos),
@@ -77,8 +91,10 @@ class ReactBnbGallery extends Component {
     return null;
   }
 
-  onKeyDown(event) {
-    if (/input|textarea/i.test(event.target.tagName)) {
+  onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    const target = event.target as HTMLElement;
+
+    if (/input|textarea/i.test(target.tagName)) {
       return;
     }
 
@@ -90,12 +106,12 @@ class ReactBnbGallery extends Component {
 
       case ARROW_LEFT_KEYCODE:
         event.preventDefault();
-        this.gallery.current.prev();
+        this.gallery.current?.prev();
         break;
 
       case ARROW_RIGHT_KEYCODE:
         event.preventDefault();
-        this.gallery.current.next();
+        this.gallery.current?.next();
         break;
 
       default:
@@ -170,8 +186,8 @@ class ReactBnbGallery extends Component {
               'gallery-modal',
               light && 'mode-light',
             ])}
-            onKeyDown={keyboard && this.onKeyDown}
-            tabIndex="-1"
+            onKeyDown={keyboard ? this.onKeyDown : undefined}
+            tabIndex={-1}
             role="dialog"
             style={modalStyle}
           >
@@ -219,8 +235,5 @@ class ReactBnbGallery extends Component {
     );
   }
 }
-
-ReactBnbGallery.propTypes = propTypes;
-ReactBnbGallery.defaultProps = defaultProps;
 
 export default ReactBnbGallery;

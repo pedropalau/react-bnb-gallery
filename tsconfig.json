@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "types": [
       "node",
-      "vitest/globals"
+      "vitest/globals",
+      "react",
+      "react-dom"
     ]
   },
   "include": [
