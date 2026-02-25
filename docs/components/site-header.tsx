@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 
 import { Logo } from './logo';
 import { SocialLinks } from './social-links';
+import { Button } from './ui/button';
 
 export function SiteHeader({
 	className,
@@ -22,9 +23,11 @@ export function SiteHeader({
 			<div className="container mx-auto max-w-screen-lg px-6 md:px-10">
 				<div className="flex items-center justify-between gap-4">
 					<div className="flex items-center">
-						<Link href="/" title="Home" className="inline-flex pl-6 md:pl-0">
-							<Logo />
-						</Link>
+						<Button variant="ghost" size="icon">
+							<Link href="/" title="Home" className="inline-flex pl-6 md:pl-0">
+								<Logo />
+							</Link>
+						</Button>
 					</div>
 					<SocialLinks />
 				</div>

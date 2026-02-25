@@ -14,7 +14,7 @@ export function PhotoGrid({
 }) {
 	const columns = useMemo(() => {
 		return photos.reduce<GridPhoto[][]>((acc, photo, index) => {
-			const columnIndex = index % photosPerColumn;
+			const columnIndex = Math.floor(index / photosPerColumn);
 			if (!acc[columnIndex]) {
 				acc[columnIndex] = [];
 			}
@@ -26,8 +26,8 @@ export function PhotoGrid({
 	return (
 		<div className="relative">
 			<div className="grid grid-cols-1 gap-px md:grid-cols-8">
-				{columns.map((column, index) => (
-					<div key={`column-${index}`} className="flex flex-col space-y-px">
+				{columns.map((column) => (
+					<div key={column[0].src} className="flex flex-col space-y-px">
 						{column.map((photo) => (
 							<GridImage
 								key={photo.src}

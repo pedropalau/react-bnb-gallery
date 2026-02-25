@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import ReactBnbGallery from 'react-bnb-gallery';
 
 import PhotoGrid from '@/components/photo-grid';
+import { Button } from '@/components/ui/button';
 import photos from '@/constants/photos';
 
 export default function HomePage() {
@@ -16,27 +17,22 @@ export default function HomePage() {
 
 	return (
 		<>
-			<div className="container mx-auto flex max-w-5xl flex-col items-start px-6 py-10 md:px-10 lg:pb-32 lg:pt-20">
-				<div className="lg:w-2/3">
-					<h1 className="text-3xl font-light leading-snug text-black md:text-4xl">
-						Friendly, customizable and accessible-ready simple photo gallery
-						based on <b className="font-semibold">React</b>.
-					</h1>
-					<div className="mt-10 flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
-						<button
-							type="button"
-							className="inline-flex cursor-pointer items-center justify-center rounded border border-transparent bg-black py-5 font-semibold text-white shadow hover:bg-green-500 focus:bg-green-600 focus:shadow-outline-green focus:outline-none md:px-4 md:py-2"
-							onClick={toggleGallery}
-						>
-							View Demo Gallery
-						</button>
-						<Link
-							href="/docs/installation"
-							className="inline-flex cursor-pointer items-center justify-center rounded border border-gray-600 bg-white py-5 font-semibold text-gray-900 shadow hover:border-black hover:bg-black hover:text-gray-100 focus:border-gray-900 focus:bg-black focus:text-gray-100 focus:shadow-outline-gray focus:outline-none md:px-4 md:py-2"
-						>
-							Get Started
-						</Link>
-					</div>
+			<div className="container flex flex-col items-center gap-2 px-6 py-8 text-center md:py-16 lg:py-20 xl:gap-4">
+				<h1 className="text-primary leading-tighter text-3xl font-semibold tracking-tight text-balance lg:leading-[1.1] lg:font-semibold xl:text-5xl xl:tracking-tighter max-w-4xl">
+					The photo gallery component for <b className="font-semibold">React</b>
+				</h1>
+				<p className="text-foreground max-w-4xl text-base text-balance sm:text-lg">
+					A lightweight, accessible, and fully customizable lightbox gallery
+					inspired by the Airbnb photo gallery. Drop it into any React project
+					and let your photos shine.
+				</p>
+				<div className="flex w-full items-center justify-center gap-2 pt-2 **:data-[slot=button]:shadow-none">
+					<Button size="lg" onClick={toggleGallery}>
+						Try the Demo
+					</Button>
+					<Button size="lg" variant="outline" asChild>
+						<Link href="/docs/installation">Read the Docs</Link>
+					</Button>
 				</div>
 			</div>
 			<PhotoGrid />
