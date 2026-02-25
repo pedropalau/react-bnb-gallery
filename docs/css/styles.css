@@ -1,6 +1,8 @@
-@tailwind base;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 html {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   @apply font-sans;
   @apply antialiased;
   @apply text-gray-900;
@@ -28,7 +30,3 @@ html {
   @apply border-none;
   @apply p-0;
 }
-
-@tailwind components;
-
-@tailwind utilities;

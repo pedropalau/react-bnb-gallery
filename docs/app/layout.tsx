@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-import 'react-bnb-gallery/dist/style.css';
+import 'react-bnb-gallery/styles.css';
 import '../css/styles.css';
 
 const inter = Inter({
