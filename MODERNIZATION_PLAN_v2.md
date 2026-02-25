@@ -350,6 +350,12 @@ Add decisions here as we align each phase:
 - 2026-02-25: Phase 8 PR-3 implementation validated as complete.
   - Local validation completed: `pnpm lint:biome`, `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
   - Transitional follow-up locked for next PR: Biome cutover and removal of legacy lint/format stack after parity sign-off.
+- 2026-02-25: Phase 8 PR-4 implementation validated as complete (Biome cutover).
+  - Canonical lint/format tooling switched to direct `biome` scripts (`pnpm lint:biome`, `pnpm format:biome`) with `pnpm lint` as the CI-facing gate.
+  - Legacy lint/format stack removed: `eslint*`, `stylelint*`, and `prettier` dependencies plus `.eslintrc`, `.eslintignore`, `.stylelintrc`, and `.stylelintignore`.
+  - Biome scope expanded to include `src/css/**/*.css`; legacy `alpha(opacity=...)` declarations replaced with standards-based `filter: opacity(...)` for parser compatibility.
+  - CI/release workflow lint invocations remain canonical through `pnpm lint` (no command divergence introduced).
+  - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
 
 ## Execution Loop We Will Follow
 

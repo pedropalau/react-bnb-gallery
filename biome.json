@@ -3,6 +3,7 @@
   "files": {
     "includes": [
       "src/**/*.{js,jsx,ts,tsx}",
+      "src/css/**/*.css",
       "tests/**/*.{js,jsx,ts,tsx}",
       "vite.config.js"
     ]
