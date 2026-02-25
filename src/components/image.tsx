@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
-import LoadingSpinner from './loading-spinner';
+import { LoadingSpinner } from './loading-spinner';
 
 const defaultState = {
 	loading: true,
@@ -97,4 +97,10 @@ function Image({
 	);
 }
 
+export { Image };
+
+/**
+ * @deprecated Use named import instead: `import { Image } from './image'`.
+ * Default export will be removed in the next major version.
+ */
 export default Image;

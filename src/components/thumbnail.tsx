@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { memo } from 'react';
 import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
 import type { GalleryPhoto } from '../types/gallery';
-import Image from './image';
+import { Image } from './image';
 
 const thumbnailStyle = {
 	width: THUMBNAIL_WIDTH,
@@ -53,4 +53,12 @@ function Thumbnail({
 	);
 }
 
-export default memo(Thumbnail);
+const MemoizedThumbnail = memo(Thumbnail);
+
+export { MemoizedThumbnail as Thumbnail };
+
+/**
+ * @deprecated Use named import instead: `import { Thumbnail } from './thumbnail'`.
+ * Default export will be removed in the next major version.
+ */
+export default MemoizedThumbnail;

@@ -1,12 +1,12 @@
 import classnames from 'classnames';
 import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
-import defaultPhrases from '../defaultPhrases';
+import { defaultPhrases } from '../defaultPhrases';
 import type { GalleryPhoto, GalleryPhrases } from '../types/gallery';
-import calculateThumbnailsContainerDimension from '../utils/calculateThumbnailsContainerDimension';
-import calculateThumbnailsLeftScroll from '../utils/calculateThumbnailsLeftScroll';
-import Thumbnail from './thumbnail';
-import TogglePhotoList from './toggle-photo-list';
+import { calculateThumbnailsContainerDimension } from '../utils/calculateThumbnailsContainerDimension';
+import { calculateThumbnailsLeftScroll } from '../utils/calculateThumbnailsLeftScroll';
+import { Thumbnail } from './thumbnail';
+import { TogglePhotoList } from './toggle-photo-list';
 
 /**
  * Props for the gallery caption area and thumbnail strip.
@@ -131,4 +131,12 @@ function Caption({
 	);
 }
 
-export default memo(Caption);
+const MemoizedCaption = memo(Caption);
+
+export { MemoizedCaption as Caption };
+
+/**
+ * @deprecated Use named import instead: `import { Caption } from './caption'`.
+ * Default export will be removed in the next major version.
+ */
+export default MemoizedCaption;

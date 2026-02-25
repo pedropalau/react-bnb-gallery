@@ -1,5 +1,5 @@
 import { THUMBNAIL_OFFSET, THUMBNAIL_WIDTH } from '../constants';
-import calculateThumbnailsContainerDimension from './calculateThumbnailsContainerDimension';
+import { calculateThumbnailsContainerDimension } from './calculateThumbnailsContainerDimension';
 
 interface Bounding {
 	width: number;
@@ -23,7 +23,7 @@ interface Bounding {
  * @returns A negative pixel offset to apply as the `left` CSS property, or `0`
  *   when no scrolling is needed.
  */
-export default function calculateThumbnailsLeftScroll(
+export function calculateThumbnailsLeftScroll(
 	current: number,
 	total: number,
 	bounding: Bounding,
@@ -51,3 +51,10 @@ export default function calculateThumbnailsLeftScroll(
 
 	return -Math.abs(calculatedScrollLeft);
 }
+
+/**
+ * @deprecated Use named import instead:
+ * `import { calculateThumbnailsLeftScroll } from './calculateThumbnailsLeftScroll'`.
+ * Default export will be removed in the next major version.
+ */
+export default calculateThumbnailsLeftScroll;

@@ -10,16 +10,16 @@ import {
 } from 'react';
 
 import { DEFAULT_COLOR, DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
-import defaultPhrases from '../defaultPhrases';
+import { defaultPhrases } from '../defaultPhrases';
 import type {
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
 } from '../types/gallery';
-import Caption from './caption';
-import NextButton from './next-button';
-import Photo from './photo';
-import PrevButton from './prev-button';
+import { Caption } from './caption';
+import { NextButton } from './next-button';
+import { Photo } from './photo';
+import { PrevButton } from './prev-button';
 
 /**
  * Props for the internal gallery viewport, controls, and caption panel.
@@ -402,4 +402,12 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	);
 });
 
-export default memo(Gallery);
+const MemoizedGallery = memo(Gallery);
+
+export { MemoizedGallery as Gallery };
+
+/**
+ * @deprecated Use named import instead: `import { Gallery } from './gallery'`.
+ * Default export will be removed in the next major version.
+ */
+export default MemoizedGallery;

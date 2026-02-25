@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import type { CSSProperties, TouchEvent } from 'react';
 import { memo, useCallback } from 'react';
 import type { GalleryPhoto } from '../types/gallery';
-import Image from './image';
+import { Image } from './image';
 
 /**
  * Props for the active gallery photo surface.
@@ -70,4 +70,12 @@ function Photo({
 	);
 }
 
-export default memo(Photo);
+const MemoizedPhoto = memo(Photo);
+
+export { MemoizedPhoto as Photo };
+
+/**
+ * @deprecated Use named import instead: `import { Photo } from './photo'`.
+ * Default export will be removed in the next major version.
+ */
+export default MemoizedPhoto;

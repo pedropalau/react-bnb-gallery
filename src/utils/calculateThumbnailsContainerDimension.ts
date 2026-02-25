@@ -12,10 +12,17 @@ import { THUMBNAIL_OFFSET, THUMBNAIL_WIDTH } from '../constants';
  * @param total - The number of thumbnails to display.
  * @returns The total width in pixels for the thumbnails container.
  */
-export default function calculateThumbnailsContainerDimension(
+export function calculateThumbnailsContainerDimension(
 	total: number,
 ): number {
 	return (
 		THUMBNAIL_WIDTH * total + (THUMBNAIL_OFFSET * total - THUMBNAIL_OFFSET)
 	);
 }
+
+/**
+ * @deprecated Use named import instead:
+ * `import { calculateThumbnailsContainerDimension } from './calculateThumbnailsContainerDimension'`.
+ * Default export will be removed in the next major version.
+ */
+export default calculateThumbnailsContainerDimension;

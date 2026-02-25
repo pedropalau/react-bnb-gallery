@@ -3,8 +3,8 @@ import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Portal } from 'react-portal';
-import CloseButton from './components/close-button';
-import Gallery from './components/gallery';
+import { CloseButton } from './components/close-button';
+import { Gallery } from './components/gallery';
 import {
 	ARROW_LEFT_KEYCODE,
 	ARROW_RIGHT_KEYCODE,
@@ -14,13 +14,13 @@ import {
 	ESC_KEYCODE,
 	FORWARDS,
 } from './constants';
-import defaultPhrases from './defaultPhrases';
+import { defaultPhrases } from './defaultPhrases';
 import type {
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
 } from './types/gallery';
-import getPhotos from './utils/getPhotos';
+import { getPhotos } from './utils/getPhotos';
 
 import './css/style.css';
 
@@ -70,7 +70,7 @@ export interface ReactBnbGalleryProps {
  * @param wrap - Whether navigation wraps around from the last photo to the first (default: `false`)
  * @param zIndex - CSS `z-index` of the modal (default: `1000`)
  */
-function ReactBnbGallery({
+export function ReactBnbGallery({
 	activePhotoIndex = 0,
 	activePhotoPressed,
 	backgroundColor = DEFAULT_COLOR,
@@ -235,4 +235,8 @@ function ReactBnbGallery({
 	);
 }
 
+/**
+ * @deprecated Use named import instead: `import { ReactBnbGallery } from 'react-bnb-gallery'`.
+ * Default export will be removed in the next major version.
+ */
 export default ReactBnbGallery;

@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import { memo } from 'react';
-import defaultPhrases from '../defaultPhrases';
+import { defaultPhrases } from '../defaultPhrases';
 
 /**
  * Props for the thumbnail list visibility toggle.
@@ -33,4 +33,12 @@ function TogglePhotoList({
 	);
 }
 
-export default memo(TogglePhotoList);
+const MemoizedTogglePhotoList = memo(TogglePhotoList);
+
+export { MemoizedTogglePhotoList as TogglePhotoList };
+
+/**
+ * @deprecated Use named import instead: `import { TogglePhotoList } from './toggle-photo-list'`.
+ * Default export will be removed in the next major version.
+ */
+export default MemoizedTogglePhotoList;

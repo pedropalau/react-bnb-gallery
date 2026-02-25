@@ -1,7 +1,7 @@
-import type defaultPhrases from '../defaultPhrases';
+import type { DefaultPhrases } from '../defaultPhrases';
 
 /** Localization strings used throughout the gallery UI. */
-export type GalleryPhrases = typeof defaultPhrases;
+export type GalleryPhrases = DefaultPhrases;
 
 /** Represents a single photo entry in the gallery. */
 export interface GalleryPhoto {
