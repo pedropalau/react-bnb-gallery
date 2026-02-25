@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import clsx from 'clsx';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from './loading-spinner';
@@ -81,12 +81,12 @@ function Image({
 	const classNames = [className, 'media-image'];
 
 	return (
-		<div className={classnames(wrapperClassNames)}>
+		<div className={clsx(wrapperClassNames)}>
 			{loading && <LoadingSpinner />}
 			{!withError && (
 				<img
 					alt={alt}
-					className={classnames(classNames)}
+					className={clsx(classNames)}
 					onLoad={handleLoad}
 					onError={handleError}
 					src={src}

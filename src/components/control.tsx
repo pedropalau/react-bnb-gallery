@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { memo, useCallback } from 'react';
 
 import { INVERSE_COLOR, NORMAL_COLOR } from '../constants';
@@ -43,7 +43,7 @@ function Control({
 	return (
 		<button
 			type="button"
-			className={classnames('gallery-control', className)}
+			className={clsx('gallery-control', className)}
 			onClick={onButtonPress}
 			disabled={disabled}
 			aria-label={label}

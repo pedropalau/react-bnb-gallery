@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
@@ -189,7 +189,7 @@ export function ReactBnbGallery({
 		>
 			<div
 				ref={modalRef}
-				className={classnames(['gallery-modal', light && 'mode-light'])}
+				className={clsx(['gallery-modal', light && 'mode-light'])}
 				onKeyDown={keyboard ? onKeyDown : undefined}
 				tabIndex={-1}
 				role="dialog"

@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { memo } from 'react';
 import { defaultPhrases } from '../defaultPhrases';
 
@@ -21,7 +21,7 @@ function TogglePhotoList({
 }: TogglePhotoListProps) {
 	const { showPhotoList: showLabel, hidePhotoList: hideLabel } = phrases;
 	const label = isOpened ? hideLabel : showLabel;
-	const className = classnames(
+	const className = clsx(
 		'gallery-thumbnails--toggle',
 		isOpened ? 'hide' : 'open',
 	);

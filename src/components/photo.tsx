@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import clsx from 'clsx';
 import type { CSSProperties, TouchEvent } from 'react';
 import { memo, useCallback } from 'react';
 import type { GalleryPhoto } from '../types/gallery';
@@ -39,7 +39,7 @@ function Photo({
 		return null;
 	}
 
-	const className = classnames(
+	const className = clsx(
 		'gallery-media-photo',
 		'gallery-media-photo--block',
 		'gallery-media-cover',

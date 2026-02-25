@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { memo } from 'react';
 import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
 import type { GalleryPhoto } from '../types/gallery';
@@ -32,7 +32,7 @@ function Thumbnail({
 		return null;
 	}
 
-	const className = classnames('thumbnail-button', active && 'active');
+	const className = clsx('thumbnail-button', active && 'active');
 
 	return (
 		<button

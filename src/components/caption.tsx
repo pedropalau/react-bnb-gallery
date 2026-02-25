@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import clsx from 'clsx';
 import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { defaultPhrases } from '../defaultPhrases';
@@ -68,7 +68,7 @@ function Caption({
 		setShowThumbnails((prevState) => !prevState);
 	};
 
-	const className = classnames('gallery-figcaption', !showThumbnails && 'hide');
+	const className = clsx('gallery-figcaption', !showThumbnails && 'hide');
 	const currentPhoto = photos[current];
 	const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(
 		photos.length,
