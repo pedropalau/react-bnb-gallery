@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
-import { imageDefaultProps } from '../../common';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 const defaultState = {
@@ -29,8 +28,8 @@ function Image({
 	src,
 	style = null,
 	className = null,
-	onLoad = imageDefaultProps.onLoad,
-	onError = imageDefaultProps.onError,
+	onLoad,
+	onError,
 }: ImageProps) {
 	const [state, setState] = useState<ImageState>(() => ({
 		currentSrc: src,
@@ -51,7 +50,7 @@ function Image({
 	}, [src]);
 
 	const handleLoad = () => {
-		onLoad();
+		onLoad?.();
 		setState((prevState) => ({
 			...prevState,
 			loading: false,
@@ -60,7 +59,7 @@ function Image({
 	};
 
 	const handleError = () => {
-		onError();
+		onError?.();
 		setState((prevState) => ({
 			...prevState,
 			loading: false,

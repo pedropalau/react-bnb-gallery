@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import { memo, useCallback } from 'react';
 
 import { INVERSE_COLOR, NORMAL_COLOR } from '../../constants';
-import noop from '../../utils/noop';
 
 const controlStyle = {
 	height: '2.8em',
@@ -25,14 +24,14 @@ interface ControlProps {
 
 function Control({
 	arrow = null,
-	onPress = noop,
+	onPress,
 	label = '',
 	className = null,
 	disabled = false,
 	light = false,
 }: ControlProps) {
 	const onButtonPress = useCallback(() => {
-		onPress();
+		onPress?.();
 	}, [onPress]);
 
 	return (

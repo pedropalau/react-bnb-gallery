@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import type { CSSProperties, TouchEvent } from 'react';
 import { memo, useCallback } from 'react';
 import type { GalleryPhoto } from '../../types/gallery';
-import noop from '../../utils/noop';
 import Image from '../Image/Image';
 
 interface PhotoProps {
@@ -18,16 +17,16 @@ interface PhotoProps {
 
 function Photo({
 	photo = null,
-	onPress = noop,
-	onTouchStart = noop,
-	onTouchMove = noop,
-	onTouchEnd = noop,
+	onPress,
+	onTouchStart,
+	onTouchMove,
+	onTouchEnd,
 	onLoad,
 	onError,
 	style,
 }: PhotoProps) {
 	const onPressHandler = useCallback(() => {
-		onPress();
+		onPress?.();
 	}, [onPress]);
 
 	if (!photo) {

@@ -82,14 +82,14 @@ function getWrapControlState(
 const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
 		activePhotoIndex = galleryDefaultProps.activePhotoIndex,
-		activePhotoPressed = galleryDefaultProps.activePhotoPressed,
+		activePhotoPressed,
 		backgroundColor = galleryDefaultProps.backgroundColor,
 		light = galleryDefaultProps.light,
-		nextButtonPressed = galleryDefaultProps.nextButtonPressed,
+		nextButtonPressed,
 		phrases = galleryDefaultProps.phrases,
 		photos = galleryDefaultProps.photos,
 		preloadSize = galleryDefaultProps.preloadSize,
-		prevButtonPressed = galleryDefaultProps.prevButtonPressed,
+		prevButtonPressed,
 		showThumbnails = galleryDefaultProps.showThumbnails,
 		wrap = galleryDefaultProps.wrap,
 	},
@@ -213,12 +213,12 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 
 	const onNextButtonPress = useCallback(() => {
 		next();
-		nextButtonPressed();
+		nextButtonPressed?.();
 	}, [next, nextButtonPressed]);
 
 	const onPrevButtonPress = useCallback(() => {
 		prev();
-		prevButtonPressed();
+		prevButtonPressed?.();
 	}, [prev, prevButtonPressed]);
 
 	const onPhotoLoad = useCallback(() => {
@@ -231,7 +231,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 
 	const onPhotoPress = useCallback(() => {
 		move(DIRECTION_NEXT);
-		activePhotoPressed();
+		activePhotoPressed?.();
 	}, [activePhotoPressed, move]);
 
 	const onTouchStart = useCallback((event: TouchEvent) => {

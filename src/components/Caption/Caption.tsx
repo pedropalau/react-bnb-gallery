@@ -5,7 +5,6 @@ import defaultPhrases from '../../defaultPhrases';
 import type { GalleryPhoto, GalleryPhrases } from '../../types/gallery';
 import calculateThumbnailsContainerDimension from '../../utils/calculateThumbnailsContainerDimension';
 import calculateThumbnailsLeftScroll from '../../utils/calculateThumbnailsLeftScroll';
-import noop from '../../utils/noop';
 import Thumbnail from '../Thumbnail';
 import TogglePhotoList from '../TogglePhotoList';
 
@@ -19,7 +18,7 @@ interface CaptionProps {
 
 function Caption({
 	current = 0,
-	onPress = noop,
+	onPress,
 	photos = [],
 	phrases = defaultPhrases,
 	showThumbnails: showThumbnailsProp = true,
@@ -55,7 +54,7 @@ function Caption({
 	const onThumbnailPress = (event: MouseEvent<HTMLElement>) => {
 		const index = parseInt(event.currentTarget.dataset.photoIndex || '-1', 10);
 		if (index >= 0 && index <= photos.length - 1) {
-			onPress(index);
+			onPress?.(index);
 		}
 	};
 

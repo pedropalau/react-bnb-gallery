@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import { memo } from 'react';
 import defaultPhrases from '../../defaultPhrases';
-import noop from '../../utils/noop';
 
 interface TogglePhotoListProps {
 	isOpened?: boolean;
@@ -11,7 +10,7 @@ interface TogglePhotoListProps {
 
 function TogglePhotoList({
 	isOpened = true,
-	onPress = noop,
+	onPress,
 	phrases = defaultPhrases,
 }: TogglePhotoListProps) {
 	const { showPhotoList: showLabel, hidePhotoList: hideLabel } = phrases;

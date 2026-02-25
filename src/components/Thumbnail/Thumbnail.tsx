@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import { memo } from 'react';
 import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../../constants';
 import type { GalleryPhoto } from '../../types/gallery';
-import noop from '../../utils/noop';
 import Image from '../Image/Image';
 
 const thumbnailStyle = {
@@ -20,7 +19,7 @@ interface ThumbnailProps {
 function Thumbnail({
 	active = false,
 	photo = null,
-	onPress = noop,
+	onPress,
 	number = 0,
 }: ThumbnailProps) {
 	if (!photo) {

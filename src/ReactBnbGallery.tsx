@@ -5,24 +5,24 @@ import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Portal } from 'react-portal';
-import { galleryDefaultProps } from './common';
 import CloseButton from './components/CloseButton';
 import Gallery from './components/Gallery';
 import {
 	ARROW_LEFT_KEYCODE,
 	ARROW_RIGHT_KEYCODE,
+	DEFAULT_COLOR,
 	DEFAULT_OPACITY,
 	DEFAULT_Z_INDEX,
 	ESC_KEYCODE,
 	FORWARDS,
 } from './constants';
+import defaultPhrases from './defaultPhrases';
 import type {
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
 } from './types/gallery';
 import getPhotos from './utils/getPhotos';
-import noop from './utils/noop';
 
 import './css/style.css';
 
@@ -49,24 +49,24 @@ export interface ReactBnbGalleryProps {
 }
 
 function ReactBnbGallery({
-	activePhotoIndex = galleryDefaultProps.activePhotoIndex,
-	activePhotoPressed = galleryDefaultProps.activePhotoPressed,
-	backgroundColor = galleryDefaultProps.backgroundColor,
-	direction = galleryDefaultProps.direction,
+	activePhotoIndex = 0,
+	activePhotoPressed,
+	backgroundColor = DEFAULT_COLOR,
+	direction = FORWARDS,
 	keyboard = true,
-	leftKeyPressed = noop,
-	light = galleryDefaultProps.light,
-	nextButtonPressed = galleryDefaultProps.nextButtonPressed,
-	onClose = noop,
+	leftKeyPressed,
+	light = false,
+	nextButtonPressed,
+	onClose,
 	opacity = DEFAULT_OPACITY,
-	photos: photosInput = galleryDefaultProps.photos,
-	phrases = galleryDefaultProps.phrases,
-	preloadSize = galleryDefaultProps.preloadSize,
-	prevButtonPressed = galleryDefaultProps.prevButtonPressed,
-	rightKeyPressed = noop,
+	photos: photosInput = [],
+	phrases = defaultPhrases,
+	preloadSize = 5,
+	prevButtonPressed,
+	rightKeyPressed,
 	show = false,
-	showThumbnails = galleryDefaultProps.showThumbnails,
-	wrap = galleryDefaultProps.wrap,
+	showThumbnails = true,
+	wrap = false,
 	zIndex = DEFAULT_Z_INDEX,
 }: ReactBnbGalleryProps) {
 	const gallery = useRef<GalleryController | null>(null);
@@ -114,7 +114,7 @@ function ReactBnbGallery({
 	const photos = useMemo(() => getPhotos(photosInput || []), [photosInput]);
 
 	const close = useCallback(() => {
-		onClose();
+		onClose?.();
 	}, [onClose]);
 
 	const onKeyDown = useCallback(
@@ -134,13 +134,13 @@ function ReactBnbGallery({
 				case ARROW_LEFT_KEYCODE:
 					event.preventDefault();
 					gallery.current?.prev();
-					leftKeyPressed();
+					leftKeyPressed?.();
 					break;
 				case 'ArrowRight':
 				case ARROW_RIGHT_KEYCODE:
 					event.preventDefault();
 					gallery.current?.next();
-					rightKeyPressed();
+					rightKeyPressed?.();
 					break;
 				default:
 			}

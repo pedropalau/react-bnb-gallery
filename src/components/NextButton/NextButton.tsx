@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import noop from '../../utils/noop';
 import Control from '../Control/Control';
 
 const NEXT_ARROW =
@@ -12,7 +11,7 @@ interface NextButtonProps {
 }
 
 function NextButton({
-	onPress = noop,
+	onPress,
 	disabled = false,
 	light = false,
 }: NextButtonProps) {
