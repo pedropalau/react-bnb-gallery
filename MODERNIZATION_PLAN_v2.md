@@ -154,6 +154,14 @@ Questions to answer before implementation:
 4. Migration strategy: do these changes happen in one coordinated phase or split into independent PR tracks (styles, lint/format, build transforms)?
 5. Release timing: include toolchain simplification in `2.0.0` or schedule as post-`2.0.0` hardening (`2.1.x`)?
 
+Approved answers (2026-02-25):
+
+1. Sass replacement target: `Tailwind CSS`.
+2. Lint/format replacement: fully migrate to `Biome` in this phase (replace ESLint + Prettier).
+3. Babel replacement policy: remove Babel and rely on Vite transforms only.
+4. Migration strategy: execute everything in one coordinated PR.
+5. Release timing: schedule toolchain simplification for `2.1.x` (post-`2.0.0`).
+
 ### Phase 9: React Surface Modernization
 
 Questions to answer before implementation:
@@ -267,6 +275,7 @@ Add decisions here as we align each phase:
 
 - 2026-02-24: Initial plan created.
 - 2026-02-25: Phase 7 alignment approved (one-shot migration, strict TS, generated declarations, TS-only source, target `2.1.x`).
+- 2026-02-25: Phase 8 alignment approved (Tailwind CSS, full Biome migration, remove Babel, one coordinated PR, target `2.1.x`).
 - 2026-02-24: Plan renamed to `MODERNIZATION_PLAN_v2.md`.
 - 2026-02-24: Modernization target set to version `2.0.0`.
 - 2026-02-24: Phase 1 alignment approved.
