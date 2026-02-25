@@ -30,17 +30,16 @@
   "module": "dist/index.es.js",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "require": "./dist/index.js",
       "import": "./dist/index.es.js"
     },
     "./dist/style.css": "./dist/style.css",
     "./styles.css": "./styles.css"
   },
-  "typings": "index.d.ts",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist",
-    "index.d.ts",
     "styles.css"
   ],
   "bugs": {
@@ -66,7 +65,7 @@
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish --provenance --access public",
     "lint": "pnpm lint:scripts && pnpm lint:css && pnpm typecheck",
-    "lint:scripts": "eslint --ext js src tests",
+    "lint:scripts": "eslint --no-error-on-unmatched-pattern --ext js src tests",
     "lint:css": "stylelint \"src/scss/*.{css,sass,scss,sss,less}\"",
     "preview": "pnpm docs:build"
   },

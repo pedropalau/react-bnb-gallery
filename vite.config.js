@@ -26,7 +26,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
     lib: {
-      entry: resolve(__dirname, 'src/index.js'),
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'ReactBnbGallery',
       formats: ['es', 'cjs'],
       fileName: (format) => (format === 'es' ? 'index.es.js' : 'index.js'),
