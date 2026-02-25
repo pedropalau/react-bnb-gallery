@@ -22,5 +22,10 @@
     },
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "css.customData": [".vscode/tailwind.json"],
+    "css.customData": [
+        ".vscode/tailwind.json"
+    ],
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
 }
