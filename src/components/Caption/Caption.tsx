@@ -19,9 +19,14 @@ import {
 } from '../../common/prop-types';
 
 import PhotosShape from '../../shapes/PhotosShape';
+import { GalleryPhrases, GalleryPhoto } from '../../types/gallery';
 
 interface CaptionProps {
-  [key: string]: any;
+  current: number;
+  onPress: (index: number) => void;
+  photos: GalleryPhoto[];
+  phrases: GalleryPhrases;
+  showThumbnails: boolean;
 }
 
 interface CaptionState {
@@ -120,7 +125,7 @@ class Caption extends PureComponent<CaptionProps, CaptionState> {
     }));
   }
 
-  renderThumbnail(photo: any, index: number, onPress: (event: React.MouseEvent<HTMLElement>) => void) {
+  renderThumbnail(photo: GalleryPhoto, index: number, onPress: (event: React.MouseEvent<HTMLElement>) => void) {
     const { current } = this.props;
 
     return (
@@ -196,8 +201,8 @@ class Caption extends PureComponent<CaptionProps, CaptionState> {
                     className="thumbnails-list"
                     ref={this.setGalleryThubmanilsRef}
                   >
-                    {photos.map((photo: any, index: number) => (
-                      <li key={photo.photo}>
+                    {photos.map((photo: GalleryPhoto, index: number) => (
+                      <li key={photo.photo || `${index}`}>
                         {this.renderThumbnail(photo, index, this.onThumbnailPress)}
                       </li>
                     ))}

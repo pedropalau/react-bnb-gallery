@@ -11,7 +11,11 @@ const defaultProps = {
   show: true,
 };
 
-const LoadingSpinner = ({ show }) => (show && (
+interface LoadingSpinnerProps {
+  show?: boolean;
+}
+
+const LoadingSpinner = ({ show = true }: LoadingSpinnerProps) => (show && (
   <div className="loading-spinner" />
 ));
 
