@@ -126,6 +126,13 @@ To view the full changelog visit [CHANGELOG.md](https://github.com/peterpalau/re
 
 ## Migration to 2.0.0
 
+### Quick checklist
+
+- Upgrade to `react` + `react-dom` `^18 || ^19`.
+- Use array input for `photos` (`Photo[]` or `string[]`), not a single object/string.
+- Remove reliance on `direction` and drive navigation with callbacks and `activePhotoIndex`.
+- Re-run your integration tests for keyboard, thumbnail toggling, and next/prev navigation.
+
 ### React support
 
 - `react-bnb-gallery@2.x` requires `react` and `react-dom` `^18 || ^19`.
@@ -140,6 +147,25 @@ To view the full changelog visit [CHANGELOG.md](https://github.com/peterpalau/re
 ### Deprecation policy
 
 Deprecated APIs receive warnings and documentation during `2.x`, then are removed in the next major release unless doing so would be unsafe.
+
+### Deprecated in 2.x (removal planned for next major)
+
+- Non-array `photos` input (`photos={singlePhoto}` or `photos=\"url\"`).
+- `direction` prop.
+
+### Before/after examples
+
+Before (deprecated):
+
+```jsx
+<ReactBnbGallery photos={singlePhotoObject} direction="backwards" show />
+```
+
+After:
+
+```jsx
+<ReactBnbGallery photos={[singlePhotoObject]} activePhotoIndex={0} show />
+```
 
 ## Contributing
 

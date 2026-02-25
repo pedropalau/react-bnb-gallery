@@ -18,6 +18,7 @@ import {
 	DEFAULT_OPACITY,
 	DEFAULT_Z_INDEX,
 	ESC_KEYCODE,
+	FORWARDS,
 } from './constants';
 import type { GalleryPhoto, GalleryPhrases } from './types/gallery';
 import getPhotos from './utils/getPhotos';
@@ -93,6 +94,14 @@ class ReactBnbGallery extends Component<
 		this.onKeyDown = this.onKeyDown.bind(this);
 	}
 
+	componentDidMount() {
+		this.warnDeprecatedPropUsage(undefined);
+	}
+
+	componentDidUpdate(prevProps: ReactBnbGalleryProps) {
+		this.warnDeprecatedPropUsage(prevProps);
+	}
+
 	static getDerivedStateFromProps(
 		props: ReactBnbGalleryProps,
 		state: ReactBnbGalleryState,
@@ -136,6 +145,36 @@ class ReactBnbGallery extends Component<
 				break;
 
 			default:
+		}
+	}
+
+	warnDeprecatedPropUsage(prevProps?: ReactBnbGalleryProps) {
+		if (process.env.NODE_ENV === 'production') {
+			return;
+		}
+
+		const { photos, direction } = this.props;
+
+		const usingNonArrayPhotosInput = photos != null && !Array.isArray(photos);
+		const wasUsingNonArrayPhotosInput =
+			prevProps?.photos != null && !Array.isArray(prevProps.photos);
+
+		if (usingNonArrayPhotosInput && !wasUsingNonArrayPhotosInput) {
+			console.warn(
+				'[react-bnb-gallery] Deprecation: passing `photos` as a single string/object is deprecated in 2.x and will be removed in the next major release. Pass an array instead.',
+			);
+		}
+
+		const usingDeprecatedDirectionProp =
+			typeof direction === 'string' && direction !== FORWARDS;
+		const wasUsingDeprecatedDirectionProp =
+			typeof prevProps?.direction === 'string' &&
+			prevProps.direction !== FORWARDS;
+
+		if (usingDeprecatedDirectionProp && !wasUsingDeprecatedDirectionProp) {
+			console.warn(
+				'[react-bnb-gallery] Deprecation: `direction` is deprecated in 2.x and will be removed in the next major release. Use navigation callbacks and `activePhotoIndex` control instead.',
+			);
 		}
 	}
 

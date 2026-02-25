@@ -11,6 +11,16 @@ vi.mock('focus-trap-react', () => ({
 }));
 
 describe('ReactBnbGallery', () => {
+	let warnSpy;
+
+	beforeEach(() => {
+		warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+	});
+
+	afterEach(() => {
+		warnSpy.mockRestore();
+	});
+
 	describe('#render', () => {
 		it('unmounts', () => {
 			const { rerender, unmount } = render(<ReactBnbGallery photos={photos} />);
@@ -51,6 +61,24 @@ describe('ReactBnbGallery', () => {
 			const modal = document.body.querySelector('.gallery-modal');
 			expect(modal).toHaveAttribute('role', 'dialog');
 			expect(modal).toHaveAttribute('aria-modal', 'true');
+		});
+
+		it('warns when photos is passed as a single string', () => {
+			render(<ReactBnbGallery photos="https://example.com/photo.jpg" show />);
+
+			expect(warnSpy).toHaveBeenCalledWith(
+				expect.stringContaining(
+					'Deprecation: passing `photos` as a single string/object is deprecated',
+				),
+			);
+		});
+
+		it('warns when deprecated direction prop is used', () => {
+			render(<ReactBnbGallery photos={photos} show direction="backwards" />);
+
+			expect(warnSpy).toHaveBeenCalledWith(
+				expect.stringContaining('Deprecation: `direction` is deprecated'),
+			);
 		});
 	});
 });
