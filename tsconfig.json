@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "vitest/globals",
+      "react",
+      "react-dom",
+      "react-portal"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "vite.config.js"
+  ],
+  "exclude": [
+    "dist",
+    "docs",
+    "example",
+    "node_modules",
+    "coverage"
+  ]
+}

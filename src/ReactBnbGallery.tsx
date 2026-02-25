@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
 
-import omit from 'lodash/omit';
 import classnames from 'classnames';
 
 import Gallery from './components/Gallery';
@@ -32,8 +31,35 @@ import {
   forbidExtraProps,
   nonNegativeInteger,
 } from './common/prop-types';
+import { GalleryPhoto, GalleryPhrases } from './types/gallery';
 
 import './scss/style.scss';
+
+interface ReactBnbGalleryProps {
+  activePhotoIndex?: number;
+  activePhotoPressed?: () => void;
+  backgroundColor?: string;
+  direction?: string;
+  keyboard?: boolean;
+  leftKeyPressed?: () => void;
+  light?: boolean;
+  nextButtonPressed?: () => void;
+  onClose?: () => void;
+  opacity?: number;
+  photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
+  phrases?: GalleryPhrases;
+  preloadSize?: number;
+  prevButtonPressed?: () => void;
+  rightKeyPressed?: () => void;
+  show?: boolean;
+  showThumbnails?: boolean;
+  wrap?: boolean;
+  zIndex?: number;
+}
+
+interface ReactBnbGalleryState {
+  photos: GalleryPhoto[] | null;
+}
 
 const propTypes = forbidExtraProps({
   ...galleryPropTypes,
@@ -57,28 +83,36 @@ const defaultProps = {
   zIndex: DEFAULT_Z_INDEX,
 };
 
-class ReactBnbGallery extends Component {
-  constructor(props) {
+class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGalleryState> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
+  gallery: React.RefObject<Gallery | null>;
+
+  constructor(props: ReactBnbGalleryProps) {
     super(props);
     this.state = {
       photos: null,
     };
-    this.gallery = React.createRef();
+    this.gallery = React.createRef<Gallery | null>();
     this.close = this.close.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: ReactBnbGalleryProps, state: ReactBnbGalleryState) {
     if (props.photos !== state.photos) {
       return {
-        photos: getPhotos(props.photos),
+        photos: getPhotos(props.photos || []),
       };
     }
     return null;
   }
 
-  onKeyDown(event) {
-    if (/input|textarea/i.test(event.target.tagName)) {
+  onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    const target = event.target as HTMLElement;
+
+    if (/input|textarea/i.test(target.tagName)) {
       return;
     }
 
@@ -90,12 +124,12 @@ class ReactBnbGallery extends Component {
 
       case ARROW_LEFT_KEYCODE:
         event.preventDefault();
-        this.gallery.current.prev();
+        this.gallery.current?.prev();
         break;
 
       case ARROW_RIGHT_KEYCODE:
         event.preventDefault();
-        this.gallery.current.next();
+        this.gallery.current?.next();
         break;
 
       default:
@@ -115,7 +149,7 @@ class ReactBnbGallery extends Component {
   }
 
   close() {
-    const { onClose } = this.props;
+    const { onClose = noop } = this.props;
     onClose();
   }
 
@@ -124,17 +158,8 @@ class ReactBnbGallery extends Component {
       show,
       phrases,
       keyboard,
-      light,
+      light = false,
       zIndex,
-    } = this.props;
-
-    const { photos } = this.state;
-
-    if (!show) {
-      return null; // nothing to return
-    }
-
-    const {
       wrap,
       activePhotoIndex,
       activePhotoPressed,
@@ -143,17 +168,13 @@ class ReactBnbGallery extends Component {
       prevButtonPressed,
       showThumbnails,
       preloadSize,
-    } = omit(this.props, [
-      'onClose',
-      'leftKeyPressed',
-      'rightKeyPressed',
-      'show',
-      'photos',
-      'opacity',
-      'backgroundColor',
-      'zIndex',
-      'keyboard',
-    ]);
+    } = this.props;
+
+    const { photos } = this.state;
+
+    if (!show) {
+      return null; // nothing to return
+    }
 
     // modal overlay customization styles
     const galleryModalOverlayStyles = this.getModalOverlayStyles();
@@ -170,8 +191,8 @@ class ReactBnbGallery extends Component {
               'gallery-modal',
               light && 'mode-light',
             ])}
-            onKeyDown={keyboard && this.onKeyDown}
-            tabIndex="-1"
+            onKeyDown={keyboard ? this.onKeyDown : undefined}
+            tabIndex={-1}
             role="dialog"
             style={modalStyle}
           >
@@ -196,7 +217,7 @@ class ReactBnbGallery extends Component {
                       <Gallery
                         phrases={phrases}
                         ref={this.gallery}
-                        photos={photos}
+                        photos={photos || []}
                         wrap={wrap}
                         activePhotoIndex={activePhotoIndex}
                         activePhotoPressed={activePhotoPressed}
@@ -205,7 +226,7 @@ class ReactBnbGallery extends Component {
                         prevButtonPressed={prevButtonPressed}
                         showThumbnails={showThumbnails}
                         preloadSize={preloadSize}
-                        backgroundColor={null}
+                        backgroundColor={undefined}
                         light={light}
                       />
                     </div>
@@ -219,8 +240,5 @@ class ReactBnbGallery extends Component {
     );
   }
 }
-
-ReactBnbGallery.propTypes = propTypes;
-ReactBnbGallery.defaultProps = defaultProps;
 
 export default ReactBnbGallery;

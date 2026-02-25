@@ -32,10 +32,15 @@ const defaultProps = {
   light: false,
 };
 
+interface CloseButtonProps {
+  onPress?: () => void;
+  light?: boolean;
+}
+
 const CloseButton = ({
-  onPress,
-  light,
-}) => (
+  onPress = noop,
+  light = false,
+}: CloseButtonProps) => (
   <button
     onClick={onPress}
     className="gallery-close"

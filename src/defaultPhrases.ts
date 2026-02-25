@@ -2,8 +2,10 @@ const noPhotosProvided = 'No photos to show';
 const showPhotoList = 'Show photo list';
 const hidePhotoList = 'Hide photo list';
 
-export default {
+const defaultPhrases = {
   noPhotosProvided,
   showPhotoList,
   hidePhotoList,
 };
+
+export default defaultPhrases;

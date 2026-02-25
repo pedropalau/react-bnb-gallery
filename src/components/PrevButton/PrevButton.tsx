@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Control from '../Control';
+import Control from '../Control/Control';
 
 import { forbidExtraProps } from '../../common/prop-types';
 import noop from '../../utils/noop';
 
-const NEXT_ARROW = 'm4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z';
+const PREV_ARROW = 'm13.7 16.29a1 1 0 1 1 -1.42 1.41l-8-8a1 1 0 0 1 0-1.41l8-8a1 1 0 1 1 1.42 1.41l-7.29 7.29z';
 
 const propTypes = forbidExtraProps({
   onPress: PropTypes.func,
@@ -20,7 +20,17 @@ const defaultProps = {
   light: false,
 };
 
-class NextButton extends PureComponent {
+interface PrevButtonProps {
+  onPress?: () => void;
+  disabled?: boolean;
+  light?: boolean;
+}
+
+class PrevButton extends PureComponent<PrevButtonProps> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
   render() {
     const {
       onPress,
@@ -30,9 +40,9 @@ class NextButton extends PureComponent {
 
     return (
       <Control
-        className="gallery-control--next"
+        className="gallery-control--prev"
         onPress={onPress}
-        arrow={NEXT_ARROW}
+        arrow={PREV_ARROW}
         disabled={disabled}
         light={light}
       />
@@ -40,7 +50,4 @@ class NextButton extends PureComponent {
   }
 }
 
-NextButton.propTypes = propTypes;
-NextButton.defaultProps = defaultProps;
-
-export default NextButton;
+export default PrevButton;
