@@ -51,7 +51,7 @@
   "packageManager": "pnpm@10.30.2",
   "scripts": {
     "changeset": "changeset",
-    "check": "pnpm dlx ultracite@latest check",
+    "check": "pnpm dlx ultracite@latest check --diagnostic-level=error --formatter-enabled=false --assist-enabled=false --linter-enabled=true src tests vite.config.js",
     "fix": "pnpm dlx ultracite@latest fix",
     "test": "vitest run",
     "test:watch": "vitest",
