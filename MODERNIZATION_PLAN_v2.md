@@ -327,6 +327,17 @@ Add decisions here as we align each phase:
   - Publish path requires GitHub secrets/env setup: `NPM_AUTH_TOKEN` secret and protected `npm-publish` environment approvals.
 - 2026-02-24: Phase 7 added to plan for explicit TypeScript migration sequencing.
 - 2026-02-24: Phase 8 added to plan for Sass/Biome/Babel modernization scope.
+- 2026-02-25: Phase 7 alignment approved.
+  - Migration strategy: incremental, file-by-file PR train.
+  - Strictness target: `strict: true` from day one, with temporary scoped `@ts-expect-error` only when necessary.
+  - Public typing source: generated declarations from TypeScript build.
+  - Mixed source policy: temporary JS/TS mix is allowed during migration.
+  - Release timing: schedule TypeScript migration work for `2.1.x` (post-`2.0.0` stabilization).
+- 2026-02-25: Phase 7 implementation started (PR scope: TypeScript scaffolding and CI gate).
+  - Added root TypeScript configuration (`tsconfig.json`) with strict mode and no-emit typechecking baseline.
+  - Added declaration-build scaffold (`tsconfig.build.json`) for future `.ts/.tsx` conversion batches.
+  - Upgraded repository TypeScript toolchain to `typescript@^5.9.3`.
+  - Added `typecheck` workflow coverage in CI and release preflight validation.
 
 ## Execution Loop We Will Follow
 

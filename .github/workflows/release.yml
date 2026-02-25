@@ -43,6 +43,7 @@ jobs:
 
       - name: Validate before release
         run: |
+          pnpm typecheck
           pnpm lint
           pnpm test
           pnpm build
