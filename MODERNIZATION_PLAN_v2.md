@@ -173,6 +173,15 @@ Questions to answer before implementation:
 5. Release timing: target this modernization work for `2.0.0` completion, or schedule for `2.1.x` hardening?
 6. Skill-assisted implementation policy: should we standardize Phase 9 React work using external skills guidance (`frontend-design`, `vercel-react-best-practices`) for implementation/review checklists?
 
+Approved answers (2026-02-25):
+
+1. Class-component migration scope: convert all remaining class components in this phase.
+2. Runtime prop validation policy: remove `propTypes` and rely on TypeScript-only API contracts.
+3. Legacy helper policy: remove `airbnb-prop-types` usage in this phase.
+4. Compatibility policy: small behavior changes are acceptable during lifecycle-to-hooks refactors, provided public props remain stable.
+5. Release timing: schedule React surface modernization for `2.1.x` hardening (post-`2.0.0`).
+6. Skill-assisted implementation policy: yes, standardize implementation/review using `frontend-design` and `vercel-react-best-practices`.
+
 ## Known High-Priority Technical Risks to Address
 
 1. Legacy dependency stack pinned to 2020-2021 era packages.
@@ -276,6 +285,7 @@ Add decisions here as we align each phase:
 - 2026-02-24: Initial plan created.
 - 2026-02-25: Phase 7 alignment approved (one-shot migration, strict TS, generated declarations, TS-only source, target `2.1.x`).
 - 2026-02-25: Phase 8 alignment approved (Tailwind CSS, full Biome migration, remove Babel, one coordinated PR, target `2.1.x`).
+- 2026-02-25: Phase 9 alignment approved (convert all class components, TS-only contracts, remove runtime prop validators, allow small behavior changes with stable props, standardize with skills guidance, target `2.1.x`).
 - 2026-02-24: Plan renamed to `MODERNIZATION_PLAN_v2.md`.
 - 2026-02-24: Modernization target set to version `2.0.0`.
 - 2026-02-24: Phase 1 alignment approved.
