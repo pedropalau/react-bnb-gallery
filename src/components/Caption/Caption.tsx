@@ -19,6 +19,19 @@ import {
 } from '../../common/prop-types';
 
 import PhotosShape from '../../shapes/PhotosShape';
+import { GalleryPhrases, GalleryPhoto } from '../../types/gallery';
+
+interface CaptionProps {
+  current: number;
+  onPress: (index: number) => void;
+  photos: GalleryPhoto[];
+  phrases: GalleryPhrases;
+  showThumbnails: boolean;
+}
+
+interface CaptionState {
+  showThumbnails: boolean;
+}
 
 const propTypes = forbidExtraProps({
   showThumbnails: PropTypes.bool,
@@ -36,8 +49,16 @@ const defaultProps = {
   phrases: defaultPhrases,
 };
 
-class Caption extends PureComponent {
-  constructor(props) {
+class Caption extends PureComponent<CaptionProps, CaptionState> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
+  thumbnailsWrapperRef: HTMLDivElement | null;
+
+  thumbnailsListRef: HTMLUListElement | null;
+
+  constructor(props: CaptionProps) {
     super(props);
     const {
       showThumbnails,
@@ -55,41 +76,46 @@ class Caption extends PureComponent {
     this.toggleThumbnails = this.toggleThumbnails.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: CaptionProps) {
     const { current } = this.props;
     if (current !== prevProps.current) {
       this.setThumbnailsWrapperScrollLeft(current);
     }
   }
 
-  onThumbnailPress(event) {
+  onThumbnailPress(event: React.MouseEvent<HTMLElement>) {
     const {
       onPress,
       photos,
     } = this.props;
-    const index = parseInt(event.currentTarget.dataset.photoIndex, 10);
+    const index = parseInt(event.currentTarget.dataset.photoIndex || '-1', 10);
     if (index >= 0 && index <= photos.length - 1) {
       onPress(index);
     }
   }
 
-  setThumbnailsWrapperScrollLeft(current) {
+  setThumbnailsWrapperScrollLeft(current: number) {
     const { photos } = this.props;
+
+    if (!this.thumbnailsWrapperRef || !this.thumbnailsListRef) {
+      return;
+    }
+
     const bounding = this.thumbnailsWrapperRef.getBoundingClientRect();
     const scrollLeft = calculateThumbnailsLeftScroll(current, photos.length, bounding);
     this.thumbnailsListRef.style.marginLeft = `${scrollLeft}px`;
   }
 
-  getPhotoByIndex(index) {
+  getPhotoByIndex(index: number) {
     const { photos } = this.props;
     return photos[index];
   }
 
-  setGalleryFigcaptionRef(element) {
+  setGalleryFigcaptionRef(element: HTMLDivElement | null) {
     this.thumbnailsWrapperRef = element;
   }
 
-  setGalleryThubmanilsRef(element) {
+  setGalleryThubmanilsRef(element: HTMLUListElement | null) {
     this.thumbnailsListRef = element;
   }
 
@@ -99,7 +125,7 @@ class Caption extends PureComponent {
     }));
   }
 
-  renderThumbnail(photo, index, onPress) {
+  renderThumbnail(photo: GalleryPhoto, index: number, onPress: (event: React.MouseEvent<HTMLElement>) => void) {
     const { current } = this.props;
 
     return (
@@ -175,8 +201,8 @@ class Caption extends PureComponent {
                     className="thumbnails-list"
                     ref={this.setGalleryThubmanilsRef}
                   >
-                    {photos.map((photo, index) => (
-                      <li key={photo.photo}>
+                    {photos.map((photo: GalleryPhoto, index: number) => (
+                      <li key={photo.photo || `${index}`}>
                         {this.renderThumbnail(photo, index, this.onThumbnailPress)}
                       </li>
                     ))}
@@ -190,8 +216,5 @@ class Caption extends PureComponent {
     );
   }
 }
-
-Caption.propTypes = propTypes;
-Caption.defaultProps = defaultProps;
 
 export default Caption;

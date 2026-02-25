@@ -21,16 +21,28 @@ const defaultProps = {
   phrases: defaultPhrases,
 };
 
-class TogglePhotoList extends PureComponent {
+interface TogglePhotoListProps {
+  isOpened?: boolean;
+  onPress?: () => void;
+  phrases?: typeof defaultPhrases;
+}
+
+class TogglePhotoList extends PureComponent<TogglePhotoListProps> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
   render() {
     const {
-      isOpened,
-      onPress,
-      phrases: {
-        showPhotoList: showLabel,
-        hidePhotoList: hideLabel,
-      },
+      isOpened = true,
+      onPress = noop,
+      phrases = defaultPhrases,
     } = this.props;
+
+    const {
+      showPhotoList: showLabel,
+      hidePhotoList: hideLabel,
+    } = phrases;
 
     const label = isOpened ? hideLabel : showLabel;
 
@@ -50,8 +62,5 @@ class TogglePhotoList extends PureComponent {
     );
   }
 }
-
-TogglePhotoList.propTypes = propTypes;
-TogglePhotoList.defaultProps = defaultProps;
 
 export default TogglePhotoList;

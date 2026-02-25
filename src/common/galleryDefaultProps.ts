@@ -1,5 +1,4 @@
 import noop from '../utils/noop';
-// @ts-ignore - legacy JS module pending Phase 7 migration
 import defaultPhrases from '../defaultPhrases';
 
 import {

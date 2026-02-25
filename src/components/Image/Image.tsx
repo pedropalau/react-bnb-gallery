@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 import {
   imagePropTypes,
@@ -34,8 +34,27 @@ const defaultState = {
   withError: false,
 };
 
-class Image extends Component {
-  constructor(props) {
+interface ImageProps {
+  alt: string;
+  src: string;
+  style?: React.CSSProperties | null;
+  className?: string | string[] | null;
+  onLoad?: () => void;
+  onError?: () => void;
+}
+
+interface ImageState {
+  currentSrc: string;
+  loading: boolean;
+  withError: boolean;
+}
+
+class Image extends Component<ImageProps, ImageState> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
+  constructor(props: ImageProps) {
     super(props);
     const { src } = props;
     this.state = {
@@ -46,7 +65,7 @@ class Image extends Component {
     this.onError = this.onError.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps: ImageProps, prevState: ImageState) {
     const { src } = nextProps;
     const { currentSrc } = prevState;
 
@@ -61,7 +80,7 @@ class Image extends Component {
   }
 
   onLoad() {
-    const { onLoad } = this.props;
+    const { onLoad = () => {} } = this.props;
 
     onLoad();
 
@@ -72,7 +91,7 @@ class Image extends Component {
   }
 
   onError() {
-    const { onError } = this.props;
+    const { onError = () => {} } = this.props;
 
     onError();
 
@@ -102,14 +121,10 @@ class Image extends Component {
 
     const components = [];
 
-    // the loading spinner
-    // TODO: make this 'LoadingSpinner' component customizable
     if (loading) {
       components.push(<LoadingSpinner key=".pictureLoadingSpinner" />);
     }
 
-    // if no loading, then return the
-    // picture only if no error ocurred
     if (!withError) {
       components.push(<img
         alt={alt}
@@ -118,12 +133,9 @@ class Image extends Component {
         onLoad={this.onLoad}
         onError={this.onError}
         src={src}
-        style={style}
+        style={style || undefined}
       />);
     }
-
-    // TODO: show a custom message indicating the
-    // error ocurred while loading the picture
 
     return components;
   }
@@ -138,7 +150,6 @@ class Image extends Component {
       loading && 'loading',
     ];
 
-    // render the picture element
     const picture = this.renderImage();
 
     return (
@@ -148,8 +159,5 @@ class Image extends Component {
     );
   }
 }
-
-Image.propTypes = propTypes;
-Image.defaultProps = defaultProps;
 
 export default Image;
