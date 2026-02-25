@@ -86,5 +86,20 @@ describe('Gallery', () => {
 				container.querySelector('.gallery-control--next'),
 			).not.toBeInTheDocument();
 		});
+
+		it('renders accessible labels on navigation controls', () => {
+			const { container } = render(
+				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
+			);
+
+			expect(container.querySelector('.gallery-control--prev')).toHaveAttribute(
+				'aria-label',
+				'Previous photo',
+			);
+			expect(container.querySelector('.gallery-control--next')).toHaveAttribute(
+				'aria-label',
+				'Next photo',
+			);
+		});
 	});
 });

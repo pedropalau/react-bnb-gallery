@@ -107,25 +107,32 @@ class ReactBnbGallery extends Component<
 
 	onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
 		const target = event.target as HTMLElement;
+		const { leftKeyPressed = noop, rightKeyPressed = noop } = this.props;
+		const key = event.key;
 
 		if (/input|textarea/i.test(target.tagName)) {
 			return;
 		}
 
-		switch (event.which) {
+		switch (key || event.which) {
+			case 'Escape':
 			case ESC_KEYCODE:
 				event.preventDefault();
 				this.close();
 				break;
 
+			case 'ArrowLeft':
 			case ARROW_LEFT_KEYCODE:
 				event.preventDefault();
 				this.gallery.current?.prev();
+				leftKeyPressed();
 				break;
 
+			case 'ArrowRight':
 			case ARROW_RIGHT_KEYCODE:
 				event.preventDefault();
 				this.gallery.current?.next();
+				rightKeyPressed();
 				break;
 
 			default:
@@ -184,6 +191,7 @@ class ReactBnbGallery extends Component<
 						onKeyDown={keyboard ? this.onKeyDown : undefined}
 						tabIndex={-1}
 						role="dialog"
+						aria-modal="true"
 						style={modalStyle}
 					>
 						<div

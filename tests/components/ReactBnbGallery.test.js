@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { vi } from 'vitest';
 
@@ -20,6 +20,37 @@ describe('ReactBnbGallery', () => {
 		it('renders <Gallery />', () => {
 			render(<ReactBnbGallery photos={photos} show />);
 			expect(document.body.querySelector('.gallery')).toBeInTheDocument();
+		});
+
+		it('invokes keyboard callbacks on arrow keys', () => {
+			const leftKeyPressed = vi.fn();
+			const rightKeyPressed = vi.fn();
+
+			render(
+				<ReactBnbGallery
+					photos={photos}
+					show
+					leftKeyPressed={leftKeyPressed}
+					rightKeyPressed={rightKeyPressed}
+				/>,
+			);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			expect(modal).toBeInTheDocument();
+
+			fireEvent.keyDown(modal, { key: 'ArrowLeft' });
+			fireEvent.keyDown(modal, { key: 'ArrowRight' });
+
+			expect(leftKeyPressed).toHaveBeenCalledTimes(1);
+			expect(rightKeyPressed).toHaveBeenCalledTimes(1);
+		});
+
+		it('renders dialog as modal for assistive tech', () => {
+			render(<ReactBnbGallery photos={photos} show />);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			expect(modal).toHaveAttribute('role', 'dialog');
+			expect(modal).toHaveAttribute('aria-modal', 'true');
 		});
 	});
 });

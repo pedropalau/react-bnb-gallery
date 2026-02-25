@@ -38,6 +38,7 @@ class PrevButton extends PureComponent<PrevButtonProps> {
 				className="gallery-control--prev"
 				onPress={onPress}
 				arrow={PREV_ARROW}
+				label="Previous photo"
 				disabled={disabled}
 				light={light}
 			/>
