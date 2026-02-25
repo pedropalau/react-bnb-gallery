@@ -67,6 +67,8 @@
     "lint": "pnpm lint:scripts && pnpm lint:css && pnpm typecheck",
     "lint:scripts": "eslint --no-error-on-unmatched-pattern --ext js src tests",
     "lint:css": "stylelint \"src/css/**/*.css\"",
+    "lint:biome": "biome lint --diagnostic-level=error src tests vite.config.js",
+    "format:biome": "biome format --write src tests vite.config.js",
     "preview": "pnpm docs:build"
   },
   "peerDependencies": {
@@ -74,6 +76,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
     "@changesets/cli": "^2.29.7",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
@@ -86,6 +89,7 @@
     "@vitejs/plugin-react": "^5.1.0",
     "@vitest/coverage-v8": "^3.2.4",
     "@welldone-software/why-did-you-render": "^4.2.5",
+    "autoprefixer": "^10.4.21",
     "eslint": "^7.4.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
@@ -94,16 +98,15 @@
     "eslint-plugin-react-hooks": "^4.0.6",
     "identity-obj-proxy": "^3.0.0",
     "jsdom": "^27.0.0",
+    "postcss": "^8.5.3",
     "prettier": "^2.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.3",
     "stylelint": "^13.6.1",
     "stylelint-config-standard": "^20.0.0",
+    "typescript": "^5.9.3",
     "vite": "^7.1.5",
-    "vitest": "^3.2.4",
-    "typescript": "^5.9.3"
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "airbnb-prop-types": "^2.16.0",

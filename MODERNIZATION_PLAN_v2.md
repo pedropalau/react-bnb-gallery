@@ -342,6 +342,14 @@ Add decisions here as we align each phase:
   - Final entrypoint conversion completed (`src/index.ts`) and declaration surface reconciled to generated `dist/types/index.d.ts`.
   - Phase 7 PR train merged in sequence to `master`: `#147`, `#148`, `#149`, `#150`, `#151`, `#152`, and final cleanup `#153`.
   - Full local validation completed on final batch: `pnpm typecheck`, `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+- 2026-02-25: Phase 8 implementation started (PR scope: Biome parallel introduction).
+  - Added baseline Biome configuration via `biome.json` scoped to source/tests and Vite config.
+  - Added `@biomejs/biome` to root development tooling and lockfile.
+  - Added parallel scripts: `pnpm lint:biome` (error-only diagnostics) and `pnpm format:biome` (opt-in formatter write).
+  - Existing lint/test/build gates remain unchanged (`eslint` + `stylelint` + `tsc`) during this PR.
+- 2026-02-25: Phase 8 PR-3 implementation validated as complete.
+  - Local validation completed: `pnpm lint:biome`, `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
+  - Transitional follow-up locked for next PR: Biome cutover and removal of legacy lint/format stack after parity sign-off.
 
 ## Execution Loop We Will Follow
 
