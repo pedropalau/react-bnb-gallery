@@ -1,6 +1,6 @@
 # React BnB Gallery v2 Modernization Plan
 
-Last updated: 2026-02-24
+Last updated: 2026-02-25
 Plan ID: v2
 Target release version: 2.0.0
 Current released baseline: 1.4.4
@@ -338,6 +338,10 @@ Add decisions here as we align each phase:
   - Added declaration-build scaffold (`tsconfig.build.json`) for future `.ts/.tsx` conversion batches.
   - Upgraded repository TypeScript toolchain to `typescript@^5.9.3`.
   - Added `typecheck` workflow coverage in CI and release preflight validation.
+- 2026-02-25: Phase 7 implementation validated as complete.
+  - Final entrypoint conversion completed (`src/index.ts`) and declaration surface reconciled to generated `dist/types/index.d.ts`.
+  - Phase 7 PR train merged in sequence to `master`: `#147`, `#148`, `#149`, `#150`, `#151`, `#152`, and final cleanup `#153`.
+  - Full local validation completed on final batch: `pnpm typecheck`, `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
 
 ## Execution Loop We Will Follow
 
