@@ -9,7 +9,6 @@
 			"docs/app/**/*.{js,jsx,ts,tsx}",
 			"docs/app/**/*.css",
 			"docs/components/**/*.{js,jsx,ts,tsx}",
-			"docs/constants/**/*.{js,jsx,ts,tsx}",
 			"docs/data/**/*.{js,jsx,ts,tsx}",
 			"docs/lib/**/*.{js,jsx,ts,tsx}",
 			"docs/*.config.{js,ts}",

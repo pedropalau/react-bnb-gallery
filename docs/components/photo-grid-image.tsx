@@ -1,53 +1,52 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import Image from 'next/image';
+import { memo, useCallback, useRef, useState } from 'react';
+
+import type { Photo } from '@/components/photo-grid-types';
 import { cn } from '@/lib/utils';
 
-export function GridImage({
-	src,
-	width = 100,
-	height = 100,
-	alt = 'bnbgallery',
-	onPress,
-}: {
-	src: string;
-	width?: number;
-	height?: number;
-	alt?: string;
+type GridImageProps = {
+	photo: Photo;
+	sizes: string;
 	onPress?: (src: string) => void;
-}) {
-	const [loading, setLoading] = useState(true);
+};
+
+export const GridImage = memo(function GridImage({
+	photo,
+	sizes,
+	onPress,
+}: GridImageProps) {
+	const [loaded, setLoaded] = useState(false);
+	const delay = useRef(Math.random() * 800);
 
 	const handleClick = useCallback(() => {
-		onPress?.(src);
-	}, [onPress, src]);
+		onPress?.(photo.src);
+	}, [onPress, photo.src]);
 
 	return (
 		<button
-			className="block w-full focus:outline-none"
+			className="block h-full w-full focus-visible:outline-none overflow-hidden rounded-lg lg:rounded-xl xl:rounded-2xl relative bg-muted"
 			onClick={handleClick}
 			type="button"
 		>
-			<figure className="relative max-h-full min-w-full max-w-full cursor-pointer overflow-hidden">
-				<div className="w-full bg-green-500">
-					<img
-						alt={alt}
-						className={cn(
-							'block h-auto w-full object-cover',
-							loading && 'opacity-0',
-							!loading &&
-								'opacity-1 transition-opacity duration-1000 ease-in-out',
-						)}
-						width={width}
-						height={height}
-						src={src}
-						onLoad={() => setLoading(false)}
-						onError={() => setLoading(false)}
-					/>
-				</div>
+			<figure className="relative h-full">
+				<Image
+					alt={photo.alt}
+					className={cn(
+						'object-cover',
+						!loaded && 'opacity-0',
+						loaded &&
+							'opacity-100 transition-opacity duration-1000 ease-in-out',
+					)}
+					fill
+					onError={() => setLoaded(true)}
+					onLoad={() => setLoaded(true)}
+					sizes={sizes}
+					src={photo.src}
+					style={loaded ? { transitionDelay: `${delay.current}ms` } : undefined}
+				/>
 			</figure>
 		</button>
 	);
-}
-
-export default GridImage;
+});

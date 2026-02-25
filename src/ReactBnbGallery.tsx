@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 
 import classnames from 'classnames';
-import FocusTrap from 'focus-trap-react';
+import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Portal } from 'react-portal';
@@ -26,7 +26,7 @@ import noop from './utils/noop';
 
 import './css/style.css';
 
-interface ReactBnbGalleryProps {
+export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
 	backgroundColor?: string;
@@ -70,6 +70,7 @@ function ReactBnbGallery({
 	zIndex = DEFAULT_Z_INDEX,
 }: ReactBnbGalleryProps) {
 	const gallery = useRef<GalleryController | null>(null);
+	const modalRef = useRef<HTMLDivElement | null>(null);
 	const previousPropsRef = useRef<{
 		photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
 		direction?: string;
@@ -158,8 +159,13 @@ function ReactBnbGallery({
 
 	return (
 		<Portal>
-			<FocusTrap>
+			<FocusTrap
+				focusTrapOptions={{
+					fallbackFocus: () => modalRef.current || document.body,
+				}}
+			>
 				<div
+					ref={modalRef}
 					className={classnames(['gallery-modal', light && 'mode-light'])}
 					onKeyDown={keyboard ? onKeyDown : undefined}
 					tabIndex={-1}
