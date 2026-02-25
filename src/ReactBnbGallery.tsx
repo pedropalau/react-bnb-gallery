@@ -22,8 +22,6 @@ import type {
 } from './types/gallery';
 import { getPhotos } from './utils/getPhotos';
 
-import './css/style.css';
-
 export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
