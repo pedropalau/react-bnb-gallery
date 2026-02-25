@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "pnpm --filter react-bnb-gallery build && next dev",
     "prebuild": "pnpm --filter react-bnb-gallery build",
     "build": "next build",
     "start": "next start",
@@ -12,15 +12,18 @@
   "dependencies": {
     "next": "16.1.6",
     "classnames": "^2.2.6",
-    "prop-types": "^15.7.2",
     "react": "^18.3.1",
     "react-bnb-gallery": "workspace:*",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.3"
   }
 }

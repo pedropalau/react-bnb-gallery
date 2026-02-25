@@ -12,6 +12,8 @@ const pkg = JSON.parse(
 const external = [
 	...Object.keys(pkg.peerDependencies || {}),
 	...Object.keys(pkg.dependencies || {}),
+	'react/jsx-runtime',
+	'react/jsx-dev-runtime',
 ];
 
 export default defineConfig({

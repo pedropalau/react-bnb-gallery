@@ -105,9 +105,6 @@ importers:
       next:
         specifier: 16.1.6
         version: 16.1.6(@babel/core@7.29.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.97.3)
-      prop-types:
-        specifier: ^15.7.2
-        version: 15.8.1
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -121,6 +118,15 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.15
         version: 0.5.19(tailwindcss@3.4.19)
+      '@types/node':
+        specifier: ^24.3.1
+        version: 24.10.13
+      '@types/react':
+        specifier: ^19.1.13
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.1.9
+        version: 19.2.3(@types/react@19.2.14)
       autoprefixer:
         specifier: ^10.4.21
         version: 10.4.24(postcss@8.5.6)
@@ -130,6 +136,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.19
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
 packages:
 
