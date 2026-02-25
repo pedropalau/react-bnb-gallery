@@ -33,7 +33,7 @@ import {
 } from './common/prop-types';
 import { GalleryPhoto, GalleryPhrases } from './types/gallery';
 
-import './scss/style.scss';
+import './css/style.css';
 
 interface ReactBnbGalleryProps {
   activePhotoIndex?: number;
