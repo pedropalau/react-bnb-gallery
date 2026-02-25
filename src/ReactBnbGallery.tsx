@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { Portal } from 'react-portal';
+import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
 import {
@@ -177,59 +177,59 @@ export function ReactBnbGallery({
 		return null;
 	}
 
-	return (
-		<Portal>
-			<FocusTrap
-				focusTrapOptions={{
-					fallbackFocus: () => modalRef.current || document.body,
-				}}
+	if (typeof document === 'undefined') {
+		return null;
+	}
+
+	return createPortal(
+		<FocusTrap
+			focusTrapOptions={{
+				fallbackFocus: () => modalRef.current || document.body,
+			}}
+		>
+			<div
+				ref={modalRef}
+				className={classnames(['gallery-modal', light && 'mode-light'])}
+				onKeyDown={keyboard ? onKeyDown : undefined}
+				tabIndex={-1}
+				role="dialog"
+				aria-modal="true"
+				style={{ zIndex }}
 			>
-				<div
-					ref={modalRef}
-					className={classnames(['gallery-modal', light && 'mode-light'])}
-					onKeyDown={keyboard ? onKeyDown : undefined}
-					tabIndex={-1}
-					role="dialog"
-					aria-modal="true"
-					style={{ zIndex }}
-				>
-					<div
-						style={galleryModalOverlayStyles}
-						className="gallery-modal--overlay"
-					/>
-					<div className="gallery-modal--container">
-						<div className="gallery-modal--table">
-							<div className="gallery-modal--cell">
-								<div className="gallery-modal--content">
-									<div className="gallery-modal--close">
-										<CloseButton onPress={close} light={light} />
+				<div style={galleryModalOverlayStyles} className="gallery-modal--overlay" />
+				<div className="gallery-modal--container">
+					<div className="gallery-modal--table">
+						<div className="gallery-modal--cell">
+							<div className="gallery-modal--content">
+								<div className="gallery-modal--close">
+									<CloseButton onPress={close} light={light} />
+								</div>
+								<div className="gallery-content">
+									<div className="gallery-top">
+										<div className="gallery-top--inner" />
 									</div>
-									<div className="gallery-content">
-										<div className="gallery-top">
-											<div className="gallery-top--inner" />
-										</div>
-										<Gallery
-											phrases={phrases}
-											ref={gallery}
-											photos={photos}
-											light={light}
-											wrap={wrap}
-											activePhotoIndex={activePhotoIndex}
-											activePhotoPressed={activePhotoPressed}
-											direction={direction}
-											nextButtonPressed={nextButtonPressed}
-											prevButtonPressed={prevButtonPressed}
-											showThumbnails={showThumbnails}
-											preloadSize={preloadSize}
-										/>
-									</div>
+									<Gallery
+										phrases={phrases}
+										ref={gallery}
+										photos={photos}
+										light={light}
+										wrap={wrap}
+										activePhotoIndex={activePhotoIndex}
+										activePhotoPressed={activePhotoPressed}
+										direction={direction}
+										nextButtonPressed={nextButtonPressed}
+										prevButtonPressed={prevButtonPressed}
+										showThumbnails={showThumbnails}
+										preloadSize={preloadSize}
+									/>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</FocusTrap>
-		</Portal>
+			</div>
+		</FocusTrap>,
+		document.body,
 	);
 }
 

@@ -7,6 +7,7 @@ import photos from '../test-photos';
 
 vi.mock('focus-trap-react', () => ({
 	default: ({ children }) => children,
+	FocusTrap: ({ children }) => children,
 }));
 
 describe('ReactBnbGallery', () => {

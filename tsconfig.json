@@ -17,8 +17,7 @@
       "node",
       "vitest/globals",
       "react",
-      "react-dom",
-      "react-portal"
+      "react-dom"
     ]
   },
   "include": [
