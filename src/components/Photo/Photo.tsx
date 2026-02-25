@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import omit from 'lodash/omit';
 import classnames from 'classnames';
 
 import Image from '../Image/Image';
@@ -13,6 +12,7 @@ import {
 } from '../../common';
 import { forbidExtraProps } from '../../common/prop-types';
 import noop from '../../utils/noop';
+import { GalleryPhoto } from '../../types/gallery';
 
 const propTypes = forbidExtraProps({
   ...imagePropTypes,
@@ -33,7 +33,7 @@ const defaultProps = {
 };
 
 interface PhotoProps {
-  photo?: any;
+  photo?: GalleryPhoto | null;
   onPress?: () => void;
   onTouchStart?: (event: React.TouchEvent<HTMLButtonElement>) => void;
   onTouchMove?: (event: React.TouchEvent<HTMLButtonElement>) => void;
@@ -64,20 +64,14 @@ class Photo extends PureComponent<PhotoProps> {
       onTouchStart,
       onTouchMove,
       onTouchEnd,
-      ...rest
+      onLoad,
+      onError,
+      style,
     } = this.props;
 
     if (!photo) {
       return null;
     }
-
-    const {
-      onLoad,
-      onError,
-      style,
-    } = omit(rest, [
-      'onPress',
-    ]);
 
     return (
       <button
@@ -91,7 +85,7 @@ class Photo extends PureComponent<PhotoProps> {
         <Image
           alt={photo.caption || ''}
           className="photo"
-          src={photo.photo}
+          src={photo.photo || ''}
           onLoad={onLoad}
           onError={onError}
           style={style}

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import FocusTrap from 'focus-trap-react';
 import { Portal } from 'react-portal';
 
-import omit from 'lodash/omit';
 import classnames from 'classnames';
 
 import Gallery from './components/Gallery';
@@ -161,15 +160,6 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
       keyboard,
       light = false,
       zIndex,
-    } = this.props;
-
-    const { photos } = this.state;
-
-    if (!show) {
-      return null; // nothing to return
-    }
-
-    const {
       wrap,
       activePhotoIndex,
       activePhotoPressed,
@@ -178,17 +168,13 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
       prevButtonPressed,
       showThumbnails,
       preloadSize,
-    } = omit(this.props, [
-      'onClose',
-      'leftKeyPressed',
-      'rightKeyPressed',
-      'show',
-      'photos',
-      'opacity',
-      'backgroundColor',
-      'zIndex',
-      'keyboard',
-    ]);
+    } = this.props;
+
+    const { photos } = this.state;
+
+    if (!show) {
+      return null; // nothing to return
+    }
 
     // modal overlay customization styles
     const galleryModalOverlayStyles = this.getModalOverlayStyles();

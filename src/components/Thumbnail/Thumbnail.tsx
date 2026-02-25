@@ -11,6 +11,7 @@ import {
   nonNegativeInteger,
 } from '../../common/prop-types';
 import noop from '../../utils/noop';
+import { GalleryPhoto } from '../../types/gallery';
 
 import {
   THUMBNAIL_WIDTH,
@@ -38,7 +39,7 @@ const defaultProps = {
 
 interface ThumbnailProps {
   active?: boolean;
-  photo?: any;
+  photo?: GalleryPhoto | null;
   onPress?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   number?: number;
 }
@@ -75,8 +76,8 @@ class Thumbnail extends PureComponent<ThumbnailProps> {
         disabled={false}
       >
         <Image
-          alt={photo.caption}
-          src={photo.thumbnail || photo.photo}
+          alt={photo.caption || ''}
+          src={photo.thumbnail || photo.photo || ''}
           className="thumbnail"
           style={thumbnailStyle}
         />
