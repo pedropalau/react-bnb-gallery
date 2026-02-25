@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-
 import classnames from 'classnames';
 import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';

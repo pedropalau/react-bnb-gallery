@@ -9,8 +9,8 @@ import {
 	useState,
 } from 'react';
 
-import { galleryDefaultProps } from '../../common';
-import { DIRECTION_NEXT, DIRECTION_PREV } from '../../constants';
+import { DEFAULT_COLOR, DIRECTION_NEXT, DIRECTION_PREV } from '../../constants';
+import defaultPhrases from '../../defaultPhrases';
 import type {
 	GalleryController,
 	GalleryPhoto,
@@ -50,6 +50,8 @@ interface GalleryState {
 	touchMoved: boolean;
 }
 
+const EMPTY_PHOTOS: GalleryPhoto[] = [];
+
 function getNormalizedActivePhotoIndex(
 	activePhotoIndex: number,
 	totalPhotos: number,
@@ -81,17 +83,17 @@ function getWrapControlState(
 
 const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
-		activePhotoIndex = galleryDefaultProps.activePhotoIndex,
+		activePhotoIndex = 0,
 		activePhotoPressed,
-		backgroundColor = galleryDefaultProps.backgroundColor,
-		light = galleryDefaultProps.light,
+		backgroundColor = DEFAULT_COLOR,
+		light = false,
 		nextButtonPressed,
-		phrases = galleryDefaultProps.phrases,
-		photos = galleryDefaultProps.photos,
-		preloadSize = galleryDefaultProps.preloadSize,
+		phrases = defaultPhrases,
+		photos = EMPTY_PHOTOS,
+		preloadSize = 5,
 		prevButtonPressed,
-		showThumbnails = galleryDefaultProps.showThumbnails,
-		wrap = galleryDefaultProps.wrap,
+		showThumbnails = true,
+		wrap = false,
 	},
 	ref,
 ) {
