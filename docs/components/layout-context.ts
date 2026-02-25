@@ -3,17 +3,17 @@
 import { createContext, useContext } from 'react';
 
 interface LayoutContextValue {
-  navigationOpened: boolean;
-  setNavigationOpened: (open: boolean) => void;
+	navigationOpened: boolean;
+	setNavigationOpened: (open: boolean) => void;
 }
 
 const LayoutContext = createContext<LayoutContextValue>({
-  navigationOpened: false,
-  setNavigationOpened: () => {},
+	navigationOpened: false,
+	setNavigationOpened: () => {},
 });
 
 export function useLayoutContext(): LayoutContextValue {
-  return useContext(LayoutContext);
+	return useContext(LayoutContext);
 }
 
 export default LayoutContext;

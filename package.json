@@ -63,6 +63,8 @@
     "docs:dev": "pnpm --dir docs dev",
     "docs:build": "pnpm --dir docs build",
     "docs:start": "pnpm --dir docs start",
+    "docs:lint": "pnpm --dir docs lint",
+    "docs:format": "pnpm --dir docs format",
     "prepublishOnly": "pnpm build",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish --provenance --access public",

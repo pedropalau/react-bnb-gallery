@@ -4,51 +4,58 @@ import { createPageMetadata } from '../../../lib/metadata';
 export const metadata = createPageMetadata('Installation');
 
 export default function InstallationPage() {
-  return (
-    <DocsPage title="Installation" path="installation">
-      <div className="heading mt-0">
-        <h3 className="m-0 flex items-center text-2xl">
-          <span className="mr-3 mt-px inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-base text-gray-700">
-            1
-          </span>
-          Install the library
-        </h3>
-      </div>
-      <p>
-        You can install <a href="https://www.npmjs.com/package/react-bnb-gallery">react-bnb-gallery</a> from <a href="https://www.npmjs.com/">npm</a>.
-      </p>
-      <pre>
-        <code>{`# Using npm
+	return (
+		<DocsPage title="Installation" path="installation">
+			<div className="heading mt-0">
+				<h3 className="m-0 flex items-center text-2xl">
+					<span className="mr-3 mt-px inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-base text-gray-700">
+						1
+					</span>
+					Install the library
+				</h3>
+			</div>
+			<p>
+				You can install{' '}
+				<a href="https://www.npmjs.com/package/react-bnb-gallery">
+					react-bnb-gallery
+				</a>{' '}
+				from <a href="https://www.npmjs.com/">npm</a>.
+			</p>
+			<pre>
+				<code>{`# Using npm
 npm install react-bnb-gallery
 
 # Using Yarn
 yarn add react-bnb-gallery`}</code>
-      </pre>
+			</pre>
 
-      <div className="heading mt-0">
-        <h3 className="m-0 flex items-center text-2xl">
-          <span className="mr-3 mt-px inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-base text-gray-700">
-            2
-          </span>
-          Import compiled CSS
-        </h3>
-      </div>
-      <p>Alternatively, you may use the library CSS by simply adding this line to your project&apos;s entry point:</p>
-      <pre>
-        <code>import &apos;react-bnb-gallery/dist/style.css&apos;</code>
-      </pre>
+			<div className="heading mt-0">
+				<h3 className="m-0 flex items-center text-2xl">
+					<span className="mr-3 mt-px inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-base text-gray-700">
+						2
+					</span>
+					Import compiled CSS
+				</h3>
+			</div>
+			<p>
+				Alternatively, you may use the library CSS by simply adding this line to
+				your project&apos;s entry point:
+			</p>
+			<pre>
+				<code>import &apos;react-bnb-gallery/dist/style.css&apos;</code>
+			</pre>
 
-      <div className="heading mt-0">
-        <h3 className="m-0 flex items-center text-2xl">
-          <span className="mr-3 mt-px inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-base text-gray-700">
-            3
-          </span>
-          Start using the library
-        </h3>
-      </div>
-      <p>Following code is simplest usage:</p>
-      <pre>
-        <code>{`import React, { useState } from 'react';
+			<div className="heading mt-0">
+				<h3 className="m-0 flex items-center text-2xl">
+					<span className="mr-3 mt-px inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-base text-gray-700">
+						3
+					</span>
+					Start using the library
+				</h3>
+			</div>
+			<p>Following code is simplest usage:</p>
+			<pre>
+				<code>{`import React, { useState } from 'react';
 import ReactBnbGallery from 'react-bnb-gallery';
 
 const PHOTOS = [
@@ -73,7 +80,7 @@ const GalleryExample = () => {
     </>
   );
 };`}</code>
-      </pre>
-    </DocsPage>
-  );
+			</pre>
+		</DocsPage>
+	);
 }

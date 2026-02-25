@@ -4,16 +4,20 @@ import { createPageMetadata } from '../../../lib/metadata';
 export const metadata = createPageMetadata('License');
 
 export default function LicensePage() {
-  return (
-    <DocsPage title="License" path="license">
-      <p>
-        <strong>BnbGallery</strong> is free to use for personal and commercial projects under the{' '}
-        <a href="https://github.com/peterpalau/react-bnb-gallery/blob/master/LICENSE">MIT license</a>.
-      </p>
-      <p>Attribution is not required, but greatly appreciated.</p>
-      <p>It does not have to be user-facing and can remain within the code.</p>
-      <pre>
-        <code>{`The MIT License (MIT)
+	return (
+		<DocsPage title="License" path="license">
+			<p>
+				<strong>BnbGallery</strong> is free to use for personal and commercial
+				projects under the{' '}
+				<a href="https://github.com/peterpalau/react-bnb-gallery/blob/master/LICENSE">
+					MIT license
+				</a>
+				.
+			</p>
+			<p>Attribution is not required, but greatly appreciated.</p>
+			<p>It does not have to be user-facing and can remain within the code.</p>
+			<pre>
+				<code>{`The MIT License (MIT)
 
 Copyright (c) Pedro Enrique Palau <pepalauisaac@gmail.com>
 
@@ -34,7 +38,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`}</code>
-      </pre>
-    </DocsPage>
-  );
+			</pre>
+		</DocsPage>
+	);
 }

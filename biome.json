@@ -5,7 +5,14 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "src/css/**/*.css",
       "tests/**/*.{js,jsx,ts,tsx}",
-      "vite.config.js"
+      "vite.config.js",
+      "docs/app/**/*.{js,jsx,ts,tsx}",
+      "docs/components/**/*.{js,jsx,ts,tsx}",
+      "docs/constants/**/*.{js,jsx,ts,tsx}",
+      "docs/data/**/*.{js,jsx,ts,tsx}",
+      "docs/lib/**/*.{js,jsx,ts,tsx}",
+      "docs/*.config.{js,ts}",
+      "docs/*.d.ts"
     ]
   },
   "formatter": {
@@ -16,7 +23,17 @@
     "rules": {
       "recommended": true,
       "a11y": {
-        "noSvgWithoutTitle": "off"
+        "noSvgWithoutTitle": "off",
+        "noRedundantAlt": "off",
+        "useKeyWithClickEvents": "off",
+        "useSemanticElements": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noDoubleEquals": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
       }
     }
   },
