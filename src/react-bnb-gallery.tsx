@@ -14,7 +14,7 @@ import {
 	ESC_KEYCODE,
 	FORWARDS,
 } from './constants';
-import { defaultPhrases } from './defaultPhrases';
+import { defaultPhrases } from './default-phrases';
 import type {
 	GalleryController,
 	GalleryPhoto,

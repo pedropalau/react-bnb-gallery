@@ -10,7 +10,7 @@ import {
 } from 'react';
 
 import { DEFAULT_COLOR, DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
-import { defaultPhrases } from '../defaultPhrases';
+import { defaultPhrases } from '../default-phrases';
 import type {
 	GalleryController,
 	GalleryPhoto,

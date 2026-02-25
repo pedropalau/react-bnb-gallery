@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { memo } from 'react';
-import { defaultPhrases } from '../defaultPhrases';
+import { defaultPhrases } from '../default-phrases';
 
 /**
  * Props for the thumbnail list visibility toggle.

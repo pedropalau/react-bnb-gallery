@@ -1,4 +1,4 @@
-import type { DefaultPhrases } from '../defaultPhrases';
+import type { DefaultPhrases } from '../default-phrases';
 
 /** Localization strings used throughout the gallery UI. */
 export type GalleryPhrases = DefaultPhrases;

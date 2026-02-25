@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
-import { defaultPhrases } from '../defaultPhrases';
+import { defaultPhrases } from '../default-phrases';
 import type { GalleryPhoto, GalleryPhrases } from '../types/gallery';
 import { calculateThumbnailsContainerDimension } from '../utils/calculateThumbnailsContainerDimension';
 import { calculateThumbnailsLeftScroll } from '../utils/calculateThumbnailsLeftScroll';
