@@ -8,7 +8,7 @@ export function GridImage({
 	width = 100,
 	height = 100,
 	alt = 'bnbgallery',
-	onPress = () => {},
+	onPress,
 }: {
 	src: string;
 	width?: number;
@@ -19,7 +19,7 @@ export function GridImage({
 	const [loading, setLoading] = useState(true);
 
 	const handleClick = useCallback(() => {
-		onPress(src);
+		onPress?.(src);
 	}, [onPress, src]);
 
 	return (

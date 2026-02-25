@@ -10,8 +10,8 @@ export function SiteHeader({
 	menuOpened = false,
 	showMenuControls = true,
 	fixed = false,
-	onMenuOpen = () => {},
-	onMenuClose = () => {},
+	onMenuOpen,
+	onMenuClose,
 }: {
 	menuOpened?: boolean;
 	showMenuControls?: boolean;
@@ -39,7 +39,7 @@ export function SiteHeader({
 						<div className="flex">
 							{!menuOpened ? (
 								<button
-									onClick={onMenuOpen}
+									onClick={() => onMenuOpen?.()}
 									className="flex items-center p-6 text-gray-500 focus:text-gray-700 focus:outline-none lg:hidden"
 									type="button"
 								>
@@ -53,7 +53,7 @@ export function SiteHeader({
 								</button>
 							) : (
 								<button
-									onClick={onMenuClose}
+									onClick={() => onMenuClose?.()}
 									className="flex items-center p-6 text-gray-500 focus:text-gray-700 focus:outline-none lg:hidden"
 									type="button"
 								>

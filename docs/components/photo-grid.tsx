@@ -7,7 +7,7 @@ import type { GridPhoto } from './photo-grid-types';
 
 export function PhotoGrid({
 	photosPerColumn = 3,
-	onPhotoPress = () => {},
+	onPhotoPress,
 }: {
 	photosPerColumn?: number;
 	onPhotoPress?: (src: string) => void;
