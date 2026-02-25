@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import noop from '../../utils/noop';
 
-import Thumbnail from '../Thumbnail';
-import TogglePhotoList from '../TogglePhotoList';
+import Thumbnail from '../Thumbnail/Thumbnail';
+import TogglePhotoList from '../TogglePhotoList/TogglePhotoList';
 
 import calculateThumbnailsContainerDimension from '../../utils/calculateThumbnailsContainerDimension';
 import calculateThumbnailsLeftScroll from '../../utils/calculateThumbnailsLeftScroll';

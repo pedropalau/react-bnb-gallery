@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import classnames from 'classnames';
 
-import Image from '../Image';
+import Image from '../Image/Image';
 import PhotoShape from '../../shapes/PhotoShape';
 
 import {
@@ -32,14 +32,29 @@ const defaultProps = {
   onTouchEnd: noop,
 };
 
-class Photo extends PureComponent {
-  constructor(props) {
+interface PhotoProps {
+  photo?: any;
+  onPress?: () => void;
+  onTouchStart?: (event: React.TouchEvent<HTMLButtonElement>) => void;
+  onTouchMove?: (event: React.TouchEvent<HTMLButtonElement>) => void;
+  onTouchEnd?: (event: React.TouchEvent<HTMLButtonElement>) => void;
+  onLoad?: () => void;
+  onError?: () => void;
+  style?: React.CSSProperties;
+}
+
+class Photo extends PureComponent<PhotoProps> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
+  constructor(props: PhotoProps) {
     super(props);
     this.onPress = this.onPress.bind(this);
   }
 
   onPress() {
-    const { onPress } = this.props;
+    const { onPress = noop } = this.props;
     onPress();
   }
 
@@ -103,8 +118,5 @@ class Photo extends PureComponent {
     );
   }
 }
-
-Photo.propTypes = propTypes;
-Photo.defaultProps = defaultProps;
 
 export default Photo;

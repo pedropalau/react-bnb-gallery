@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import Image from '../Image';
+import Image from '../Image/Image';
 import PhotoShape from '../../shapes/PhotoShape';
 
 import {
@@ -36,14 +36,29 @@ const defaultProps = {
   number: 0,
 };
 
-class Thumbnail extends PureComponent {
+interface ThumbnailProps {
+  active?: boolean;
+  photo?: any;
+  onPress?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  number?: number;
+}
+
+class Thumbnail extends PureComponent<ThumbnailProps> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
   render() {
     const {
-      active,
+      active = false,
       photo,
-      onPress,
-      number,
+      onPress = noop,
+      number = 0,
     } = this.props;
+
+    if (!photo) {
+      return null;
+    }
 
     const className = classnames(
       'thumbnail-button',
@@ -69,8 +84,5 @@ class Thumbnail extends PureComponent {
     );
   }
 }
-
-Thumbnail.propTypes = propTypes;
-Thumbnail.defaultProps = defaultProps;
 
 export default Thumbnail;

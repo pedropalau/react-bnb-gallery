@@ -5,10 +5,10 @@ import {
   galleryDefaultProps,
 } from '../../common';
 
-import Photo from '../Photo';
+import Photo from '../Photo/Photo';
 import Caption from '../Caption/Caption';
-import PrevButton from '../PrevButton';
-import NextButton from '../NextButton';
+import PrevButton from '../PrevButton/PrevButton';
+import NextButton from '../NextButton/NextButton';
 
 import {
   DIRECTION_NEXT,
