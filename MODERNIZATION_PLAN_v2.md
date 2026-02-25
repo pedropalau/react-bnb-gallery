@@ -29,7 +29,7 @@ Modernize the repository safely in phases, keep compatibility decisions explicit
 | 7 | TypeScript migration | Convert source to TypeScript with declaration-first compatibility | 3-6 |
 | 8 | Toolchain simplification | Replace Sass, ESLint/Prettier, and Babel with a leaner stack | 3-6 |
 | 9 | React surface modernization | Remove legacy React patterns and align component architecture to modern React + TS conventions | 2-5 |
-| 10 | 2.1.x release execution | Manual verification, release notes, changesets release PR, publish gate | 2-4 |
+| 10 | 2.1.x release execution | Manual verification, branding/docs refresh, release notes, changesets release PR, publish gate | 2-4 |
 
 ## Mandatory Alignment Questions Per Phase
 
@@ -192,14 +192,16 @@ Questions to answer before implementation:
 3. Should release notes emphasize migration impact first (`propTypes` removal, TS-only contracts), or list by phase chronology?
 4. Do you want one combined changeset/release PR for all merged `2.1.x` work, or split if more fixes land during QA?
 5. If manual QA finds regressions, should we block release until fixes merge, or allow release with known-issues notes?
+6. Should Phase 10 include a branding/documentation refresh track (logo updates + README/docs polish) before release PR generation?
 
 Proposed execution checklist (after alignment approval):
 
 1. Build a manual QA checklist from critical user flows (open/close, keyboard, touch, thumbnail toggle, light mode controls).
 2. Run manual QA and log outcomes/issues in a dedicated Phase 10 tracking PR.
-3. Finalize changelog/release notes for `2.1.x` migration guidance.
-4. Generate/merge changeset release PR.
-5. Publish through protected `npm-publish` environment approvals.
+3. Deliver branding/documentation refresh updates (logo assets, README/docs wording) in scoped docs PRs.
+4. Finalize changelog/release notes for `2.1.x` migration guidance.
+5. Generate/merge changeset release PR.
+6. Publish through protected `npm-publish` environment approvals.
 
 ## Known High-Priority Technical Risks to Address
 
@@ -460,6 +462,9 @@ Add decisions here as we align each phase:
   - Merged Phase 9 PR train: `#160` and `#161`.
   - Phase goals completed: class-component migration, TypeScript-only runtime contracts, legacy runtime validator removal, behavior-parity hardening tests, and migration/docs alignment.
 - 2026-02-25: Phase 10 is now the active next phase (alignment questions pending approval before implementation).
+- 2026-02-25: Phase 10 implementation started (PR-1 scope: release-plan + branding/docs kickoff).
+  - Added explicit branding/documentation refresh scope to Phase 10 release execution track.
+  - Replaced root logo asset usage from `rbg-logo.png` to `logo.svg` and updated README reference.
 
 ## Execution Loop We Will Follow
 
