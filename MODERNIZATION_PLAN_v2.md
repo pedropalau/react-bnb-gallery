@@ -356,6 +356,14 @@ Add decisions here as we align each phase:
   - Biome scope expanded to include `src/css/**/*.css`; legacy `alpha(opacity=...)` declarations replaced with standards-based `filter: opacity(...)` for parser compatibility.
   - CI/release workflow lint invocations remain canonical through `pnpm lint` (no command divergence introduced).
   - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
+- 2026-02-25: Phase 8 PR-5 implementation validated as complete (Ultracite wrapper pinning).
+  - Reintroduced optional wrapper scripts with pinned Ultracite version for operator convenience: `check`/`fix` now use `ultracite@7.2.3`.
+  - Canonical CI lint path remains direct Biome via `pnpm lint`.
+  - Local validation completed: `pnpm check` and `pnpm lint` pass.
+- 2026-02-25: Phase 8 PR-6 implementation validated as complete (legacy example retirement).
+  - Removed deprecated standalone CRA-based `example/` app sources and configuration (`react-scripts`-based scaffold no longer maintained).
+  - Replaced `example/README.md` with a migration pointer to unified docs/demo usage (`pnpm docs:dev`).
+  - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
 
 ## Execution Loop We Will Follow
 
