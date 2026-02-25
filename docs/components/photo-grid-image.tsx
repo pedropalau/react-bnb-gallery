@@ -1,7 +1,7 @@
 'use client';
 
-import classnames from 'classnames';
 import { useCallback, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export function GridImage({
 	src,
@@ -32,7 +32,7 @@ export function GridImage({
 				<div className="w-full bg-green-500">
 					<img
 						alt={alt}
-						className={classnames(
+						className={cn(
 							'block h-auto w-full object-cover',
 							loading && 'opacity-0',
 							!loading &&

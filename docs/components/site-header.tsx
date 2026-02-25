@@ -1,7 +1,7 @@
 'use client';
 
-import classnames from 'classnames';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 import Logo from './logo';
 import Social from './social';
@@ -21,7 +21,7 @@ export function SiteHeader({
 }) {
 	return (
 		<header
-			className={classnames(
+			className={cn(
 				'h-16 w-full overflow-hidden border-b border-gray-200 bg-white lg:h-20 lg:py-6',
 				!fixed && 'relative',
 				fixed && 'fixed left-0 top-0',

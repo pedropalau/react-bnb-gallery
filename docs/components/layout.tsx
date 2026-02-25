@@ -1,7 +1,7 @@
 'use client';
 
-import classnames from 'classnames';
 import { type ReactNode, useMemo, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 import SiteFooter from './site-footer';
 import SiteHeader from './site-header';
@@ -29,7 +29,7 @@ export function Layout({
 	return (
 		<LayoutContext.Provider value={contextValue}>
 			<div
-				className={classnames(
+				className={cn(
 					'flex min-h-screen flex-col',
 					navigationOpened && 'overflow-y-hidden',
 				)}
