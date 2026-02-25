@@ -16,13 +16,14 @@
 You can install [react-bnb-gallery](https://www.npmjs.com/package/react-bnb-gallery) from [npm](https://www.npmjs.com/).
 
 ```bash
-# npm
 npm install react-bnb-gallery
+```
 
-# yarn
+```bash
 yarn add react-bnb-gallery
+```
 
-# pnpm
+```bash
 pnpm add react-bnb-gallery
 ```
 
