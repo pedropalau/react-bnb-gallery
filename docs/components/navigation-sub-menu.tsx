@@ -2,11 +2,7 @@ import Link from 'next/link';
 
 import type { DocsSubItem } from '@/data/getDocsPages';
 
-interface SubMenuProps {
-	items?: DocsSubItem[];
-}
-
-export default function SubMenu({ items = [] }: SubMenuProps) {
+export function SubMenu({ items = [] }: { items?: DocsSubItem[] }) {
 	if (items.length === 0) {
 		return null;
 	}
@@ -26,3 +22,5 @@ export default function SubMenu({ items = [] }: SubMenuProps) {
 		</ul>
 	);
 }
+
+export default SubMenu;

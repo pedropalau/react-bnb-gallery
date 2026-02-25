@@ -1,7 +1,9 @@
 @import "tailwindcss";
-@import "@tailwindcss/typography";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "react-bnb-gallery/dist/style.css";
+
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 

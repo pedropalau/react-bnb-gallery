@@ -1,13 +1,11 @@
 import type { ReactNode } from 'react';
 
-interface MainProps {
-	children: ReactNode;
-}
-
-export default function Main({ children }: MainProps) {
+export function Main({ children }: { children: ReactNode }) {
 	return (
 		<div className="flex-1" role="main">
 			{children}
 		</div>
 	);
 }
+
+export default Main;

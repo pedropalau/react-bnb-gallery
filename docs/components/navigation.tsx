@@ -3,11 +3,7 @@ import Link from 'next/link';
 import type { DocsNavItem } from '@/data/getDocsPages';
 import SubMenu from './navigation-sub-menu';
 
-interface NavigationProps {
-	menu?: DocsNavItem[];
-}
-
-export default function Navigation({ menu = [] }: NavigationProps) {
+export function Navigation({ menu = [] }: { menu?: DocsNavItem[] }) {
 	return (
 		<nav className="overflow-y-auto px-6 pt-6 text-base lg:py-14 lg:pl-6 lg:pr-8">
 			<ul className="space-y-2">
@@ -32,3 +28,5 @@ export default function Navigation({ menu = [] }: NavigationProps) {
 		</nav>
 	);
 }
+
+export default Navigation;

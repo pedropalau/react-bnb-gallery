@@ -5,11 +5,7 @@ import classnames from 'classnames';
 import docsPages from '@/data/getDocsPages';
 import Sidebar from './sidebar';
 
-interface SidebarDocsProps {
-	isOpen?: boolean;
-}
-
-export default function SidebarDocs({ isOpen = false }: SidebarDocsProps) {
+export function SidebarDocs({ isOpen = false }: { isOpen?: boolean }) {
 	return (
 		<div
 			className={classnames(
@@ -21,3 +17,5 @@ export default function SidebarDocs({ isOpen = false }: SidebarDocsProps) {
 		</div>
 	);
 }
+
+export default SidebarDocs;

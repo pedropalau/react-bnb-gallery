@@ -1,11 +1,7 @@
 import type { DocsNavItem } from '@/data/getDocsPages';
 import Navigation from './navigation';
 
-interface SidebarProps {
-	menu?: DocsNavItem[] | null;
-}
-
-export default function Sidebar({ menu = null }: SidebarProps) {
+export function Sidebar({ menu = null }: { menu?: DocsNavItem[] | null }) {
 	if (!menu) {
 		return null;
 	}
@@ -16,3 +12,5 @@ export default function Sidebar({ menu = null }: SidebarProps) {
 		</div>
 	);
 }
+
+export default Sidebar;

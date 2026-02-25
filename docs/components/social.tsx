@@ -1,4 +1,4 @@
-export default function Social() {
+export function Social() {
 	return (
 		<div className="flex items-center justify-start text-gray-400">
 			<a
@@ -34,3 +34,5 @@ export default function Social() {
 		</div>
 	);
 }
+
+export default Social;

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Instrument_Sans as FontSans } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-import 'react-bnb-gallery/styles.css';
-import './styles.css';
 import { cn } from '@/lib/utils';
+
+import './styles.css';
 
 const sans = FontSans({
 	subsets: ['latin'],
@@ -22,14 +22,15 @@ export default function RootLayout({
 	children,
 }: Readonly<{ children: ReactNode }>) {
 	return (
-		<html
-			className={cn(
-				'bg-background text-foreground antialiased text-base font-sans',
-				sans.variable,
-			)}
-			lang="en"
-		>
-			<body>{children}</body>
+		<html lang="en">
+			<body
+				className={cn(
+					'bg-background text-foreground antialiased text-base font-sans overscroll-none',
+					sans.variable,
+				)}
+			>
+				{children}
+			</body>
 		</html>
 	);
 }

@@ -5,15 +5,13 @@ import GridImage from './photo-grid-image';
 import photos from './photo-grid-photos';
 import type { GridPhoto } from './photo-grid-types';
 
-interface PhotoGridProps {
-	photosPerColumn?: number;
-	onPhotoPress?: (src: string) => void;
-}
-
-export default function PhotoGrid({
+export function PhotoGrid({
 	photosPerColumn = 3,
 	onPhotoPress = () => {},
-}: PhotoGridProps) {
+}: {
+	photosPerColumn?: number;
+	onPhotoPress?: (src: string) => void;
+}) {
 	const columns = useMemo(() => {
 		return photos.reduce<GridPhoto[][]>((acc, photo, index) => {
 			const columnIndex = index % photosPerColumn;
@@ -45,3 +43,5 @@ export default function PhotoGrid({
 		</div>
 	);
 }
+
+export default PhotoGrid;

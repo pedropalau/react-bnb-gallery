@@ -6,21 +6,19 @@ import Link from 'next/link';
 import Logo from './logo';
 import Social from './social';
 
-interface HeaderProps {
-	menuOpened?: boolean;
-	showMenuControls?: boolean;
-	fixed?: boolean;
-	onMenuOpen?: () => void;
-	onMenuClose?: () => void;
-}
-
-export default function Header({
+export function SiteHeader({
 	menuOpened = false,
 	showMenuControls = true,
 	fixed = false,
 	onMenuOpen = () => {},
 	onMenuClose = () => {},
-}: HeaderProps) {
+}: {
+	menuOpened?: boolean;
+	showMenuControls?: boolean;
+	fixed?: boolean;
+	onMenuOpen?: () => void;
+	onMenuClose?: () => void;
+}) {
 	return (
 		<header
 			className={classnames(
@@ -75,3 +73,5 @@ export default function Header({
 		</header>
 	);
 }
+
+export default SiteHeader;

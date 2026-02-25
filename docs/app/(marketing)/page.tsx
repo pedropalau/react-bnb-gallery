@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import ReactBnbGallery from 'react-bnb-gallery';
 
-import Layout from '@/components/layout';
 import PhotoGrid from '@/components/photo-grid';
 import photos from '@/constants/photos';
 
@@ -16,7 +15,7 @@ export default function HomePage() {
 	}, []);
 
 	return (
-		<Layout showMenuControls={false}>
+		<>
 			<div className="container mx-auto flex max-w-5xl flex-col items-start px-6 py-10 md:px-10 lg:pb-32 lg:pt-20">
 				<div className="lg:w-2/3">
 					<h1 className="text-3xl font-light leading-snug text-black md:text-4xl">
@@ -47,6 +46,6 @@ export default function HomePage() {
 				backgroundColor="rgba(0,0,0,0.9)"
 				onClose={toggleGallery}
 			/>
-		</Layout>
+		</>
 	);
 }

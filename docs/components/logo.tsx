@@ -1,10 +1,6 @@
 import classnames from 'classnames';
 
-interface LogoProps {
-	responsive?: boolean;
-}
-
-export default function Logo({ responsive = true }: LogoProps) {
+export function Logo({ responsive = true }: { responsive?: boolean }) {
 	return (
 		<div className="flex items-center">
 			<img
@@ -25,3 +21,5 @@ export default function Logo({ responsive = true }: LogoProps) {
 		</div>
 	);
 }
+
+export default Logo;

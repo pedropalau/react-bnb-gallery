@@ -4,23 +4,21 @@ import classnames from 'classnames';
 import { type ReactNode, useMemo, useState } from 'react';
 
 import Footer from './footer';
-import Header from './header';
+import SiteHeader from './header';
 import LayoutContext from './layout-context';
 import Main from './main';
 
-interface LayoutProps {
-	showHeader?: boolean;
-	showHeaderFixed?: boolean;
-	showMenuControls?: boolean;
-	children: ReactNode;
-}
-
-export default function Layout({
+export function Layout({
 	showHeader = true,
 	showHeaderFixed = false,
 	showMenuControls = true,
 	children,
-}: LayoutProps) {
+}: {
+	showHeader?: boolean;
+	showHeaderFixed?: boolean;
+	showMenuControls?: boolean;
+	children: ReactNode;
+}) {
 	const [navigationOpened, setNavigationOpened] = useState(false);
 
 	const contextValue = useMemo(
@@ -37,7 +35,7 @@ export default function Layout({
 				)}
 			>
 				{showHeader ? (
-					<Header
+					<SiteHeader
 						menuOpened={navigationOpened}
 						onMenuOpen={() => setNavigationOpened(true)}
 						onMenuClose={() => setNavigationOpened(false)}
@@ -51,3 +49,5 @@ export default function Layout({
 		</LayoutContext.Provider>
 	);
 }
+
+export default Layout;

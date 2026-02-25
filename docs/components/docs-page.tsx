@@ -6,13 +6,15 @@ import Layout from './layout';
 import { useLayoutContext } from './layout-context';
 import SidebarDocs from './sidebar-docs';
 
-interface DocsPageProps {
+function DocsContent({
+	title,
+	path,
+	children,
+}: {
 	title: string;
 	path: string;
 	children: ReactNode;
-}
-
-function DocsContent({ title, path, children }: DocsPageProps) {
+}) {
 	const { navigationOpened } = useLayoutContext();
 
 	return (
@@ -44,7 +46,15 @@ function DocsContent({ title, path, children }: DocsPageProps) {
 	);
 }
 
-export default function DocsPage({ title, path, children }: DocsPageProps) {
+export function DocsPage({
+	title,
+	path,
+	children,
+}: {
+	title: string;
+	path: string;
+	children: ReactNode;
+}) {
 	return (
 		<Layout showHeaderFixed>
 			<DocsContent title={title} path={path}>
@@ -53,3 +63,5 @@ export default function DocsPage({ title, path, children }: DocsPageProps) {
 		</Layout>
 	);
 }
+
+export default DocsPage;

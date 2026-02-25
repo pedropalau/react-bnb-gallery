@@ -3,21 +3,19 @@
 import classnames from 'classnames';
 import { useCallback, useState } from 'react';
 
-interface GridImageProps {
-	src: string;
-	width?: number;
-	height?: number;
-	alt?: string;
-	onPress?: (src: string) => void;
-}
-
-export default function GridImage({
+export function GridImage({
 	src,
 	width = 100,
 	height = 100,
 	alt = 'bnbgallery',
 	onPress = () => {},
-}: GridImageProps) {
+}: {
+	src: string;
+	width?: number;
+	height?: number;
+	alt?: string;
+	onPress?: (src: string) => void;
+}) {
 	const [loading, setLoading] = useState(true);
 
 	const handleClick = useCallback(() => {
@@ -51,3 +49,5 @@ export default function GridImage({
 		</button>
 	);
 }
+
+export default GridImage;
