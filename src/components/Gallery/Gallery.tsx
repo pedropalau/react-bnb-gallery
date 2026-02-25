@@ -5,18 +5,30 @@ import {
   galleryDefaultProps,
 } from '../../common';
 
-import Photo from '../Photo/Photo';
-import Caption from '../Caption/Caption';
-import PrevButton from '../PrevButton/PrevButton';
-import NextButton from '../NextButton/NextButton';
+import Photo from '../Photo';
+import Caption from '../Caption';
+import PrevButton from '../PrevButton';
+import NextButton from '../NextButton';
 
 import {
   DIRECTION_NEXT,
   DIRECTION_PREV,
 } from '../../constants';
+import { GalleryPhrases, GalleryPhoto } from '../../types/gallery';
 
 interface GalleryProps {
-  [key: string]: any;
+  activePhotoIndex: number;
+  activePhotoPressed: () => void;
+  backgroundColor: string;
+  direction: string;
+  light: boolean;
+  nextButtonPressed: () => void;
+  phrases: GalleryPhrases;
+  photos: GalleryPhoto[];
+  preloadSize: number;
+  prevButtonPressed: () => void;
+  showThumbnails: boolean;
+  wrap: boolean;
 }
 
 interface TouchInfo {
@@ -48,7 +60,7 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
 
   lastPreloadIndex: number;
 
-  preloadedPhotos: any[];
+  preloadedPhotos: GalleryPhoto[];
 
   constructor(props: GalleryProps) {
     super(props);
@@ -268,7 +280,7 @@ class Gallery extends PureComponent<GalleryProps, GalleryState> {
     const { photos, preloadSize } = this.props;
     let counter = 1;
     let index = current;
-    let photo = null;
+    let photo: GalleryPhoto | null = null;
     const preloadPhotos = [];
 
     while (index < photos.length && counter <= preloadSize) {

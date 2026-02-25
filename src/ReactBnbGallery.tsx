@@ -8,8 +8,8 @@ import { Portal } from 'react-portal';
 import omit from 'lodash/omit';
 import classnames from 'classnames';
 
-import Gallery from './components/Gallery/Gallery';
-import CloseButton from './components/CloseButton/CloseButton';
+import Gallery from './components/Gallery';
+import CloseButton from './components/CloseButton';
 
 import opacityValidation from './common/opacityValidation';
 import noop from './utils/noop';
@@ -32,15 +32,34 @@ import {
   forbidExtraProps,
   nonNegativeInteger,
 } from './common/prop-types';
+import { GalleryPhoto, GalleryPhrases } from './types/gallery';
 
 import './scss/style.scss';
 
 interface ReactBnbGalleryProps {
-  [key: string]: any;
+  activePhotoIndex?: number;
+  activePhotoPressed?: () => void;
+  backgroundColor?: string;
+  direction?: string;
+  keyboard?: boolean;
+  leftKeyPressed?: () => void;
+  light?: boolean;
+  nextButtonPressed?: () => void;
+  onClose?: () => void;
+  opacity?: number;
+  photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
+  phrases?: GalleryPhrases;
+  preloadSize?: number;
+  prevButtonPressed?: () => void;
+  rightKeyPressed?: () => void;
+  show?: boolean;
+  showThumbnails?: boolean;
+  wrap?: boolean;
+  zIndex?: number;
 }
 
 interface ReactBnbGalleryState {
-  photos: any[] | null;
+  photos: GalleryPhoto[] | null;
 }
 
 const propTypes = forbidExtraProps({
@@ -70,14 +89,14 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
 
   static defaultProps = defaultProps;
 
-  gallery: React.RefObject<any>;
+  gallery: React.RefObject<Gallery | null>;
 
   constructor(props: ReactBnbGalleryProps) {
     super(props);
     this.state = {
       photos: null,
     };
-    this.gallery = React.createRef<any>();
+    this.gallery = React.createRef<Gallery | null>();
     this.close = this.close.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
@@ -85,7 +104,7 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
   static getDerivedStateFromProps(props: ReactBnbGalleryProps, state: ReactBnbGalleryState) {
     if (props.photos !== state.photos) {
       return {
-        photos: getPhotos(props.photos),
+        photos: getPhotos(props.photos || []),
       };
     }
     return null;
@@ -131,7 +150,7 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
   }
 
   close() {
-    const { onClose } = this.props;
+    const { onClose = noop } = this.props;
     onClose();
   }
 
@@ -140,7 +159,7 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
       show,
       phrases,
       keyboard,
-      light,
+      light = false,
       zIndex,
     } = this.props;
 
@@ -212,7 +231,7 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
                       <Gallery
                         phrases={phrases}
                         ref={this.gallery}
-                        photos={photos}
+                        photos={photos || []}
                         wrap={wrap}
                         activePhotoIndex={activePhotoIndex}
                         activePhotoPressed={activePhotoPressed}
@@ -221,7 +240,7 @@ class ReactBnbGallery extends Component<ReactBnbGalleryProps, ReactBnbGallerySta
                         prevButtonPressed={prevButtonPressed}
                         showThumbnails={showThumbnails}
                         preloadSize={preloadSize}
-                        backgroundColor={null}
+                        backgroundColor={undefined}
                         light={light}
                       />
                     </div>
