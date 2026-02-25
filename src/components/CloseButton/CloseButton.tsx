@@ -24,11 +24,6 @@ const propTypes = forbidExtraProps({
 	light: PropTypes.bool,
 });
 
-const defaultProps = {
-	onPress: noop,
-	light: false,
-};
-
 interface CloseButtonProps {
 	onPress?: () => void;
 	light?: boolean;
@@ -57,6 +52,5 @@ const CloseButton = ({ onPress = noop, light = false }: CloseButtonProps) => (
 );
 
 CloseButton.propTypes = propTypes;
-CloseButton.defaultProps = defaultProps;
 
 export default CloseButton;

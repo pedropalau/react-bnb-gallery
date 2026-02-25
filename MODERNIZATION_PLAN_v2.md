@@ -296,6 +296,9 @@ Add decisions here as we align each phase:
   - Local validation completed: `pnpm lint`, `pnpm test`, `pnpm test:coverage`, and `pnpm build` all pass.
   - Coverage gate verified with V8 provider: statements `85.86%`, lines `85.86%` (>= `80%` threshold).
   - Transitional warning accepted for follow-up: React runtime warns on function-component `defaultProps` usage.
+- 2026-02-25: Post-Phase-4 warning follow-up completed.
+  - Removed function-component `defaultProps` assignments in `CloseButton` and `LoadingSpinner`, relying on JS default parameters.
+  - Local validation completed: `pnpm lint` and `pnpm test` pass with warning-free test output.
 - 2026-02-24: Phase 5 is now the active next phase (alignment questions pending approval before implementation).
 - 2026-02-24: Phase 5 alignment approved.
   - Keep and modernize `Next.js` for docs.
