@@ -2,8 +2,7 @@
   "root": true,
   "parser": "babel-eslint",
   "extends": [
-    "airbnb",
-    "plugin:jest/recommended"
+    "airbnb"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -19,14 +18,22 @@
   "plugins": [
     "import",
     "react",
-    "jsx-a11y",
-    "jest"
+    "jsx-a11y"
   ],
   "env": {
     "browser": true,
-    "node": true,
-    "jest/globals": true
+    "node": true
   },
+  "overrides": [
+    {
+      "files": [
+        "tests/**/*.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
   "rules": {
     "linebreak-style": 0,
     "class-methods-use-this": [2, { "exceptMethods": ["processPhoto"] }],
