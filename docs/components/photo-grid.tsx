@@ -2,9 +2,9 @@
 
 import { useMemo } from 'react';
 
-import photos from './photos';
-import type { GridPhoto } from './types';
-import GridImage from './Image';
+import photos from './photo-grid-photos';
+import type { GridPhoto } from './photo-grid-types';
+import GridImage from './photo-grid-image';
 
 interface PhotoGridProps {
   photosPerColumn?: number;

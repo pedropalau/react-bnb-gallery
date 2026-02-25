@@ -4,8 +4,8 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useCallback, useState } from 'react';
 
-import Layout from '../components/Layout/Layout';
-import PhotoGrid from '../components/PhotoGrid/PhotoGrid';
+import Layout from '../components/layout';
+import PhotoGrid from '../components/photo-grid';
 import photos from '../constants/photos';
 
 const ReactBnbGallery = dynamic(() => import('react-bnb-gallery'), { ssr: false });

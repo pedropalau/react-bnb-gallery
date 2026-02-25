@@ -2,8 +2,8 @@
 
 import classnames from 'classnames';
 
-import docsPages from '../../data/getDocsPages';
-import Sidebar from '../Sidebar/Sidebar';
+import docsPages from '../data/getDocsPages';
+import Sidebar from './sidebar';
 
 interface SidebarDocsProps {
   isOpen?: boolean;

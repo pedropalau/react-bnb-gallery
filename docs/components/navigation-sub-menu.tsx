@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import type { DocsSubItem } from '../../data/getDocsPages';
+import type { DocsSubItem } from '../data/getDocsPages';
 
 interface SubMenuProps {
   items?: DocsSubItem[];

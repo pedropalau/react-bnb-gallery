@@ -1,5 +1,5 @@
-import type { DocsNavItem } from '../../data/getDocsPages';
-import Navigation from '../Navigation/Navigation';
+import type { DocsNavItem } from '../data/getDocsPages';
+import Navigation from './navigation';
 
 interface SidebarProps {
   menu?: DocsNavItem[] | null;

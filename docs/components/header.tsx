@@ -3,8 +3,8 @@
 import classnames from 'classnames';
 import Link from 'next/link';
 
-import Logo from '../Logo/Logo';
-import Social from '../Social/Social';
+import Logo from './logo';
+import Social from './social';
 
 interface HeaderProps {
   menuOpened?: boolean;

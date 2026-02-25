@@ -3,10 +3,10 @@
 import classnames from 'classnames';
 import { useMemo, useState, type ReactNode } from 'react';
 
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import Main from '../Main/Main';
-import LayoutContext from './context';
+import Footer from './footer';
+import Header from './header';
+import Main from './main';
+import LayoutContext from './layout-context';
 
 interface LayoutProps {
   showHeader?: boolean;

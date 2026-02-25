@@ -2,9 +2,9 @@
 
 import type { ReactNode } from 'react';
 
-import Layout from '../Layout/Layout';
-import { useLayoutContext } from '../Layout/context';
-import SidebarDocs from '../SidebarDocs/SidebarDocs';
+import Layout from './layout';
+import { useLayoutContext } from './layout-context';
+import SidebarDocs from './sidebar-docs';
 
 interface DocsPageProps {
   title: string;

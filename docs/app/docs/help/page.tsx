@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import DocsPage from '../../../components/DocsPage/DocsPage';
+import DocsPage from '../../../components/docs-page';
 import { createPageMetadata } from '../../../lib/metadata';
 
 export const metadata = createPageMetadata('Help');

@@ -1,4 +1,4 @@
-import type { GridPhoto } from './types';
+import type { GridPhoto } from './photo-grid-types';
 
 const photos: GridPhoto[] = [
   { src: 'https://source.unsplash.com/random/502x502', width: 502, height: 502 },
