@@ -14,8 +14,8 @@ const external = [
 
 export default defineConfig({
   esbuild: {
-    loader: 'jsx',
-    include: /(src|tests)\/.*\.js$/,
+    loader: 'tsx',
+    include: /(src|tests)\/.*\.[jt]sx?$/,
     exclude: [],
   },
   plugins: [

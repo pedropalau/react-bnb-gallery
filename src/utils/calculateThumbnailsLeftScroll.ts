@@ -5,7 +5,15 @@ import {
   THUMBNAIL_OFFSET,
 } from '../constants';
 
-export default function calculateThumbnailsLeftScroll(current, total, bounding) {
+interface Bounding {
+  width: number;
+}
+
+export default function calculateThumbnailsLeftScroll(
+  current: number,
+  total: number,
+  bounding: Bounding,
+): number {
   const half = (bounding.width / 2) - (THUMBNAIL_WIDTH / 2);
   const thumbnailsOffset = ((current * THUMBNAIL_WIDTH) + (current * THUMBNAIL_OFFSET)) - half;
   let calculatedScrollLeft = 0;

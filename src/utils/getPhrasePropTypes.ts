@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export default function getPhrasePropTypes(phrasesMap) {
+export default function getPhrasePropTypes(phrasesMap: Record<string, unknown>) {
   return Object.keys(phrasesMap)
     .reduce((phrases, key) => ({
       ...phrases,

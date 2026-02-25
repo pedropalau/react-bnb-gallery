@@ -14,6 +14,36 @@ import {
   DIRECTION_NEXT,
   DIRECTION_PREV,
 } from '../../constants';
+import { GalleryPhrases, GalleryPhoto } from '../../types/gallery';
+
+interface GalleryProps {
+  activePhotoIndex: number;
+  activePhotoPressed: () => void;
+  backgroundColor: string;
+  direction: string;
+  light: boolean;
+  nextButtonPressed: () => void;
+  phrases: GalleryPhrases;
+  photos: GalleryPhoto[];
+  preloadSize: number;
+  prevButtonPressed: () => void;
+  showThumbnails: boolean;
+  wrap: boolean;
+}
+
+interface TouchInfo {
+  screenX: number;
+}
+
+interface GalleryState {
+  activePhotoIndex: number;
+  hidePrevButton: boolean;
+  hideNextButton: boolean;
+  controlsDisabled: boolean;
+  touchStartInfo: TouchInfo | null;
+  touchEndInfo: TouchInfo | null;
+  touchMoved: boolean;
+}
 
 const propTypes = {
   ...galleryPropTypes,
@@ -23,8 +53,16 @@ const defaultProps = {
   ...galleryDefaultProps,
 };
 
-class Gallery extends PureComponent {
-  constructor(props) {
+class Gallery extends PureComponent<GalleryProps, GalleryState> {
+  static propTypes = propTypes;
+
+  static defaultProps = defaultProps;
+
+  lastPreloadIndex: number;
+
+  preloadedPhotos: GalleryPhoto[];
+
+  constructor(props: GalleryProps) {
     super(props);
     const {
       activePhotoIndex,
@@ -82,13 +120,13 @@ class Gallery extends PureComponent {
     activePhotoPressed();
   }
 
-  onTouchStart(event) {
+  onTouchStart(event: React.TouchEvent) {
     this.setState({
       touchStartInfo: event.targetTouches[0],
     });
   }
 
-  onTouchMove(event) {
+  onTouchMove(event: React.TouchEvent) {
     this.setState({
       touchMoved: true,
       touchEndInfo: event.targetTouches[0],
@@ -98,7 +136,7 @@ class Gallery extends PureComponent {
   onTouchEnd() {
     const { touchStartInfo, touchEndInfo, touchMoved } = this.state;
 
-    if (touchMoved) {
+    if (touchMoved && touchStartInfo && touchEndInfo) {
       if (touchStartInfo.screenX < touchEndInfo.screenX) {
         this.onPrevButtonPress();
       } else if (touchStartInfo.screenX > touchEndInfo.screenX) {
@@ -109,16 +147,16 @@ class Gallery extends PureComponent {
     this.setState({ touchMoved: false });
   }
 
-  onThumbnailPress(index) {
+  onThumbnailPress(index: number) {
     this.to(index);
   }
 
-  getPhotoByIndex(index) {
+  getPhotoByIndex(index: number) {
     const { photos } = this.props;
     return photos[index];
   }
 
-  getItemByDirection(direction, activeIndex) {
+  getItemByDirection(direction: string, activeIndex: number) {
     const { photos, wrap } = this.props;
 
     const isNextDirection = direction === DIRECTION_NEXT;
@@ -153,7 +191,7 @@ class Gallery extends PureComponent {
     return this.move(DIRECTION_NEXT);
   }
 
-  move(direction, index = false) {
+  move(direction: string, index: number | false = false) {
     const { activePhotoIndex } = this.state;
 
     const nextElementIndex = index !== false
@@ -167,7 +205,7 @@ class Gallery extends PureComponent {
     });
   }
 
-  to(index) {
+  to(index: number) {
     const { photos } = this.props;
     const { activePhotoIndex } = this.state;
 
@@ -180,7 +218,7 @@ class Gallery extends PureComponent {
     this.move(direction, index);
   }
 
-  wrapCheck(direction, nextElementIndex) {
+  wrapCheck(direction: string, nextElementIndex: number) {
     const {
       photos,
       wrap,
@@ -238,11 +276,11 @@ class Gallery extends PureComponent {
     return controls;
   }
 
-  renderPreloadPhotos(current) {
+  renderPreloadPhotos(current: number) {
     const { photos, preloadSize } = this.props;
     let counter = 1;
     let index = current;
-    let photo = null;
+    let photo: GalleryPhoto | null = null;
     const preloadPhotos = [];
 
     while (index < photos.length && counter <= preloadSize) {
@@ -327,8 +365,5 @@ class Gallery extends PureComponent {
     );
   }
 }
-
-Gallery.propTypes = propTypes;
-Gallery.defaultProps = defaultProps;
 
 export default Gallery;
