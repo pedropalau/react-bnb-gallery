@@ -3,8 +3,8 @@
 import classnames from 'classnames';
 import { type ReactNode, useMemo, useState } from 'react';
 
-import Footer from './footer';
-import SiteHeader from './header';
+import SiteFooter from './site-footer';
+import SiteHeader from './site-header';
 import LayoutContext from './layout-context';
 import Main from './main';
 
@@ -44,7 +44,7 @@ export function Layout({
 					/>
 				) : null}
 				<Main>{children}</Main>
-				<Footer />
+				<SiteFooter />
 			</div>
 		</LayoutContext.Provider>
 	);

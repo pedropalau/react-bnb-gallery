@@ -1,4 +1,4 @@
-import { SiteHeader } from '@/components/header';
+import { SiteHeader } from '@/components/site-header';
 
 export default function MarketingLayout({
 	children,
