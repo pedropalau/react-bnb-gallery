@@ -57,7 +57,7 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 - [x] Light mode controls render correctly.
 - [x] Caption and counter update correctly on navigation.
-- [ ] Loading state and transitions remain usable.
+- [x] Loading state and transitions remain usable.
 
 ## Migration-Specific Verification (2.1.x)
 
@@ -73,7 +73,7 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 | Keyboard | PASS | Keyboard interactions verified on 2026-02-26. |
 | Touch / Swipe | PASS | Touch/swipe behavior verified on 2026-02-26. |
 | Thumbnail Toggle | PASS | Thumbnail tray toggle/sync/positioning verified on 2026-02-26. |
-| Light Controls / Visual | Pending | Light mode + caption/counter navigation verified on 2026-02-26; loading/transitions still pending. |
+| Light Controls / Visual | PASS | Light mode controls, caption/counter sync, and loading/transitions verified on 2026-02-26. |
 | Migration-Specific Verification | Pending | |
 
 ## Release Gate Decision
