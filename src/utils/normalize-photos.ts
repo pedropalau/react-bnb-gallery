@@ -24,7 +24,7 @@ export function processPhoto(
  *   or an array of either. A non-array value is wrapped in an array before processing.
  * @returns An array of `GalleryPhoto` objects with sequential `number` fields.
  */
-export function getPhotos(
+export function normalizePhotos(
 	photos: string | GalleryPhoto | Array<string | GalleryPhoto>,
 ): GalleryPhoto[] {
 	const photosToProcess = Array.isArray(photos) ? photos : [photos];
@@ -32,7 +32,8 @@ export function getPhotos(
 }
 
 /**
- * @deprecated Use named import instead: `import { getPhotos } from './getPhotos'`.
+ * @deprecated Use named import instead:
+ * `import { normalizePhotos } from './normalize-photos'`.
  * Default export will be removed in the next major version.
  */
-export default getPhotos;
+export default normalizePhotos;

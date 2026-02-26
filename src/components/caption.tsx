@@ -3,8 +3,10 @@ import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { defaultPhrases } from '../default-phrases';
 import type { GalleryPhoto, GalleryPhrases } from '../types/gallery';
-import { calculateThumbnailsContainerDimension } from '../utils/calculateThumbnailsContainerDimension';
-import { calculateThumbnailsLeftScroll } from '../utils/calculateThumbnailsLeftScroll';
+import {
+	calculateThumbnailsContainerDimension,
+	calculateThumbnailsLeftScroll,
+} from '../utils/thumbnail-layout';
 import { Thumbnail } from './thumbnail';
 import { TogglePhotoList } from './toggle-photo-list';
 

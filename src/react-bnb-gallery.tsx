@@ -20,7 +20,7 @@ import type {
 	GalleryPhoto,
 	GalleryPhrases,
 } from './types/gallery';
-import { getPhotos } from './utils/getPhotos';
+import { normalizePhotos } from './utils/normalize-photos';
 
 export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
@@ -131,7 +131,7 @@ export function ReactBnbGallery({
 		};
 	}, [photosInput, direction]);
 
-	const photos = useMemo(() => getPhotos(photosInput || []), [photosInput]);
+	const photos = useMemo(() => normalizePhotos(photosInput || []), [photosInput]);
 
 	const close = useCallback(() => {
 		onClose?.();

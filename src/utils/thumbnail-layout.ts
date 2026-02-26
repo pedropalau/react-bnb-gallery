@@ -1,25 +1,47 @@
 import { THUMBNAIL_OFFSET, THUMBNAIL_WIDTH } from '../constants';
-import { calculateThumbnailsContainerDimension } from './calculateThumbnailsContainerDimension';
 
 interface Bounding {
 	width: number;
 }
 
 /**
+ * Calculates the total width of the thumbnails container based on the number of thumbnails.
+ *
+ * Formula: `THUMBNAIL_WIDTH * total + THUMBNAIL_OFFSET * (total - 1)`.
+ *
+ * @param total - The number of thumbnails to display.
+ * @returns The total width in pixels for the thumbnails container.
+ */
+export function calculateThumbnailsContainerDimension(total: number): number {
+	return (
+		THUMBNAIL_WIDTH * total + (THUMBNAIL_OFFSET * total - THUMBNAIL_OFFSET)
+	);
+}
+
+/**
+ * Calculates the CSS translation offset needed to center the active thumbnail
+ * within the thumbnails container.
+ *
+ * @param current - Zero-based index of the active thumbnail.
+ * @param bounding - The bounding rect of the thumbnails container (only `width` is used).
+ * @returns The translation offset in pixels (negative = shift left, positive = shift right).
+ */
+export function calculateThumbnailsOffset(
+	current: number,
+	bounding: Bounding,
+): number {
+	const half = bounding.width / 2 - THUMBNAIL_WIDTH / 2;
+	const offset = current * THUMBNAIL_WIDTH + current * THUMBNAIL_OFFSET - half;
+	return offset <= 0 ? Math.abs(offset) : offset * -1;
+}
+
+/**
  * Calculates the horizontal scroll offset (as a negative CSS `left` value) needed
  * to keep the active thumbnail centered within the thumbnail strip.
- *
- * The scroll is clamped so that:
- * - It never scrolls before the beginning of the strip (returns `0` when the
- *   active thumbnail is near the start).
- * - It never scrolls past the end of the strip (snaps to the maximum scroll
- *   position when fewer than half a row of thumbnails remain after the active one).
- * - Otherwise it centers the active thumbnail within the visible area.
  *
  * @param current - Zero-based index of the currently active thumbnail.
  * @param total - Total number of thumbnails in the strip.
  * @param bounding - The bounding dimensions of the visible thumbnail container.
- * @param bounding.width - Width of the visible container in pixels.
  * @returns A negative pixel offset to apply as the `left` CSS property, or `0`
  *   when no scrolling is needed.
  */
@@ -51,10 +73,3 @@ export function calculateThumbnailsLeftScroll(
 
 	return -Math.abs(calculatedScrollLeft);
 }
-
-/**
- * @deprecated Use named import instead:
- * `import { calculateThumbnailsLeftScroll } from './calculateThumbnailsLeftScroll'`.
- * Default export will be removed in the next major version.
- */
-export default calculateThumbnailsLeftScroll;

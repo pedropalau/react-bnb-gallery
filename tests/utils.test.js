@@ -1,6 +1,8 @@
 import { THUMBNAIL_WIDTH } from '../src/constants';
-import calculateThumbnailsContainerDimension from '../src/utils/calculateThumbnailsContainerDimension';
-import calculateThumbnailsOffset from '../src/utils/calculateThumbnailsOffset';
+import {
+	calculateThumbnailsContainerDimension,
+	calculateThumbnailsOffset,
+} from '../src/utils/thumbnail-layout';
 
 describe('the calculateThumbnailsOffset function', () => {
 	it('offset with current 0 and width of 100', () => {

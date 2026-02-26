@@ -7,7 +7,7 @@
  * @param args - Arguments forwarded to `phrase` when it is a function.
  * @returns The resolved string, or an empty string if `phrase` is neither a string nor a function.
  */
-export default function getPhrase<T = unknown>(
+export function resolvePhrase<T = unknown>(
 	phrase: string | ((args: T) => string) | unknown,
 	args: T,
 ): string {
@@ -19,3 +19,10 @@ export default function getPhrase<T = unknown>(
 
 	return '';
 }
+
+/**
+ * @deprecated Use named import instead:
+ * `import { resolvePhrase } from './resolve-phrase'`.
+ * Default export will be removed in the next major version.
+ */
+export default resolvePhrase;
