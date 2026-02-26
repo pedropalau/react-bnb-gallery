@@ -9,6 +9,7 @@
   - TypeScript migration finalized with strict typing and generated declarations.
   - Runtime `propTypes` and `airbnb-prop-types` validation removed in favor of TS-only contracts.
   - React surface modernization completed via hooks-based internals while keeping the public API stable.
+  - Fixed thumbnail strip synchronization when opening the gallery at a non-zero `activePhotoIndex`.
   - Docs and migration guidance updated for `2.1.x` adoption.
 
 ## 2.0.0
