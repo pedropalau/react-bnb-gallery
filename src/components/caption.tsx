@@ -34,18 +34,12 @@ function Caption({
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
 	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
 	const thumbnailsListRef = useRef<HTMLUListElement | null>(null);
-	const previousCurrentRef = useRef(current);
 
 	useEffect(() => {
 		setShowThumbnails(showThumbnailsProp);
 	}, [showThumbnailsProp]);
 
 	useEffect(() => {
-		if (current === previousCurrentRef.current) {
-			return;
-		}
-
-		previousCurrentRef.current = current;
 		if (!thumbnailsWrapperRef.current || !thumbnailsListRef.current) {
 			return;
 		}

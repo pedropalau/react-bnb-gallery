@@ -1,6 +1,7 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import Caption from '../../src/components/caption';
+import { calculateThumbnailsLeftScroll } from '../../src/utils/thumbnail-layout';
 
 import photos from '../test-photos';
 
@@ -40,6 +41,43 @@ describe('Caption', () => {
 			);
 
 			expect(container.querySelector('figcaption.hide')).toBeInTheDocument();
+		});
+
+		it('keeps photo-list toggle visible after collapsing thumbnails', () => {
+			render(
+				<Caption current={0} photos={photos.slice(0, 2)} showThumbnails />,
+			);
+
+			const hideToggle = screen.getByRole('button', {
+				name: /hide photo list/i,
+			});
+			fireEvent.click(hideToggle);
+
+			expect(
+				screen.getByRole('button', { name: /show photo list/i }),
+			).toBeInTheDocument();
+		});
+
+		it('syncs thumbnail list position on initial non-zero current index', async () => {
+			const current = 5;
+			const galleryPhotos = photos.slice(0, 8);
+			const { container } = render(
+				<Caption current={current} photos={galleryPhotos} showThumbnails />,
+			);
+			const thumbnailsWrapper = container.querySelector(
+				'.gallery-figcaption--thumbnails',
+			);
+			const expectedMarginLeft = `${calculateThumbnailsLeftScroll(
+				current,
+				galleryPhotos.length,
+				thumbnailsWrapper.getBoundingClientRect(),
+			)}px`;
+
+			await waitFor(() => {
+				expect(container.querySelector('.thumbnails-list')).toHaveStyle({
+					marginLeft: expectedMarginLeft,
+				});
+			});
 		});
 	});
 });

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
@@ -13,6 +13,7 @@ import {
 	DEFAULT_Z_INDEX,
 	ESC_KEYCODE,
 	FORWARDS,
+	NORMAL_COLOR,
 } from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
@@ -21,6 +22,14 @@ import type {
 	GalleryPhrases,
 } from './types/gallery';
 import { normalizePhotos } from './utils/normalize-photos';
+
+function normalizeActivePhotoIndex(index: number, totalPhotos: number): number {
+	if (totalPhotos === 0) {
+		return 0;
+	}
+
+	return Math.min(Math.max(index, 0), totalPhotos - 1);
+}
 
 export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
@@ -50,7 +59,7 @@ export interface ReactBnbGalleryProps {
  *
  * @param activePhotoIndex - Index of the currently displayed photo (default: `0`)
  * @param activePhotoPressed - Callback fired when the active photo is pressed
- * @param backgroundColor - Overlay background color (default: `'#000'`)
+ * @param backgroundColor - Overlay background color (default: dark in standard mode, light in `light` mode)
  * @param direction - Navigation direction; deprecated in 2.x — use `activePhotoIndex` with callbacks instead
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
@@ -71,7 +80,7 @@ export interface ReactBnbGalleryProps {
 export function ReactBnbGallery({
 	activePhotoIndex = 0,
 	activePhotoPressed,
-	backgroundColor = DEFAULT_COLOR,
+	backgroundColor: backgroundColorProp,
 	direction = FORWARDS,
 	keyboard = true,
 	leftKeyPressed,
@@ -95,6 +104,8 @@ export function ReactBnbGallery({
 		photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
 		direction?: string;
 	} | null>(null);
+	const overlayBackgroundColor =
+		backgroundColorProp ?? (light ? NORMAL_COLOR : DEFAULT_COLOR);
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === 'production') {
@@ -135,6 +146,15 @@ export function ReactBnbGallery({
 		() => normalizePhotos(photosInput || []),
 		[photosInput],
 	);
+	const [displayedPhotoIndex, setDisplayedPhotoIndex] = useState(() =>
+		normalizeActivePhotoIndex(activePhotoIndex, photos.length),
+	);
+
+	useEffect(() => {
+		setDisplayedPhotoIndex(
+			normalizeActivePhotoIndex(activePhotoIndex, photos.length),
+		);
+	}, [activePhotoIndex, photos.length]);
 
 	const close = useCallback(() => {
 		onClose?.();
@@ -172,9 +192,11 @@ export function ReactBnbGallery({
 	);
 
 	const galleryModalOverlayStyles = useMemo(
-		() => ({ opacity, backgroundColor }),
-		[backgroundColor, opacity],
+		() => ({ opacity, backgroundColor: overlayBackgroundColor }),
+		[opacity, overlayBackgroundColor],
 	);
+	const hasMoreThanOnePhoto = photos.length > 1;
+	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
 
 	if (!show) {
 		return null;
@@ -192,7 +214,7 @@ export function ReactBnbGallery({
 		>
 			<div
 				ref={modalRef}
-				className={clsx(['gallery-modal', light && 'mode-light'])}
+				className={clsx('gallery-modal', light && 'mode-light')}
 				onKeyDown={keyboard ? onKeyDown : undefined}
 				tabIndex={-1}
 				role="dialog"
@@ -212,13 +234,20 @@ export function ReactBnbGallery({
 								</div>
 								<div className="gallery-content">
 									<div className="gallery-top">
-										<div className="gallery-top--inner" />
+										<div className="gallery-top--inner">
+											{hasMoreThanOnePhoto && (
+												<p className="gallery-photo-counter" aria-live="polite">
+													{photoCounterLabel}
+												</p>
+											)}
+										</div>
 									</div>
 									<Gallery
 										phrases={phrases}
 										ref={gallery}
 										photos={photos}
 										light={light}
+										backgroundColor={overlayBackgroundColor}
 										wrap={wrap}
 										activePhotoIndex={activePhotoIndex}
 										activePhotoPressed={activePhotoPressed}
@@ -227,6 +256,7 @@ export function ReactBnbGallery({
 										prevButtonPressed={prevButtonPressed}
 										showThumbnails={showThumbnails}
 										preloadSize={preloadSize}
+										onActivePhotoIndexChange={setDisplayedPhotoIndex}
 									/>
 								</div>
 							</div>

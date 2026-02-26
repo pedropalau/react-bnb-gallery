@@ -31,6 +31,7 @@ interface GalleryProps {
 	direction?: string;
 	light?: boolean;
 	nextButtonPressed?: () => void;
+	onActivePhotoIndexChange?: (index: number) => void;
 	phrases?: GalleryPhrases;
 	photos?: GalleryPhoto[];
 	preloadSize?: number;
@@ -100,6 +101,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		backgroundColor = DEFAULT_COLOR,
 		light = false,
 		nextButtonPressed,
+		onActivePhotoIndexChange,
 		phrases = defaultPhrases,
 		photos = EMPTY_PHOTOS,
 		preloadSize = 5,
@@ -158,6 +160,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			};
 		});
 	}, [activePhotoIndex, photos, wrap]);
+
+	useEffect(() => {
+		onActivePhotoIndexChange?.(state.activePhotoIndex);
+	}, [onActivePhotoIndexChange, state.activePhotoIndex]);
 
 	const getItemByDirection = useCallback(
 		(direction: string, activeIndex: number) => {
@@ -306,8 +312,8 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	);
 
 	const controls = useMemo(() => {
-		const hasMoreThanOnePhoto = photos.length > 1;
-		if (!hasMoreThanOnePhoto) {
+		const hasMultiplePhotos = photos.length > 1;
+		if (!hasMultiplePhotos) {
 			return null;
 		}
 

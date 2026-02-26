@@ -2,7 +2,7 @@
 
 Date: 2026-02-26
 Owner: Release track (`chore/phase-10-release-plan`)
-Status: In progress
+Status: Complete
 
 ## Scope
 
@@ -19,64 +19,64 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 ## Preflight
 
-- [ ] `pnpm install`
-- [ ] `pnpm lint`
-- [ ] `pnpm test`
-- [ ] `pnpm build`
-- [ ] `pnpm docs:build`
+- [x] `pnpm install`
+- [x] `pnpm lint`
+- [x] `pnpm test`
+- [x] `pnpm build`
+- [x] `pnpm docs:build`
 
 ## Critical Flows
 
 ### Open / Close
 
-- [ ] Open gallery from thumbnail click.
-- [ ] Close via close button.
-- [ ] Close via overlay click (if enabled).
-- [ ] Re-open after close without stale state.
+- [x] Open gallery from thumbnail click.
+- [x] Close via close button.
+- [x] Close via overlay click (if enabled).
+- [x] Re-open after close without stale state.
 
 ### Keyboard
 
-- [ ] Left/Right arrows navigate photos.
-- [ ] Escape closes gallery.
-- [ ] Keydown events from inputs are ignored.
-- [ ] Focus returns to prior element after close.
+- [x] Left/Right arrows navigate photos.
+- [x] Escape closes gallery.
+- [x] Keydown events from inputs are ignored.
+- [x] Focus returns to prior element after close.
 
 ### Touch / Swipe
 
-- [ ] Swipe left/right changes photo index.
-- [ ] Swipe does not trigger unintended close.
-- [ ] Touch callbacks fire in expected order.
+- [x] Swipe left/right changes photo index.
+- [x] Swipe does not trigger unintended close.
+- [x] Touch callbacks fire in expected order.
 
 ### Thumbnail Toggle
 
-- [ ] Toggle thumbnail tray open/closed.
-- [ ] Active thumbnail stays synchronized with active photo.
-- [ ] Scroll/positioning remains correct after multiple navigations.
+- [x] Toggle thumbnail tray open/closed.
+- [x] Active thumbnail stays synchronized with active photo.
+- [x] Scroll/positioning remains correct after multiple navigations.
 
 ### Light Controls / Visual
 
-- [ ] Light mode controls render correctly.
-- [ ] Caption and counter update correctly on navigation.
-- [ ] Loading state and transitions remain usable.
+- [x] Light mode controls render correctly.
+- [x] Caption and counter update correctly on navigation.
+- [x] Loading state and transitions remain usable.
 
 ## Migration-Specific Verification (2.1.x)
 
-- [ ] No runtime `propTypes` warnings expected in consumer usage.
-- [ ] TypeScript-only contract usage validated in docs/examples.
-- [ ] Existing public prop names and imperative controls remain functional.
+- [x] No runtime `propTypes` warnings expected in consumer usage.
+- [x] TypeScript-only contract usage validated in docs/examples.
+- [x] Existing public prop names and imperative controls remain functional.
 
 ## Results Log
 
 | Area | Result | Notes |
 | --- | --- | --- |
-| Open / Close | Pending | |
-| Keyboard | Pending | |
-| Touch / Swipe | Pending | |
-| Thumbnail Toggle | Pending | |
-| Light Controls / Visual | Pending | |
-| Migration-Specific Verification | Pending | |
+| Open / Close | PASS | Open/close/re-open flows verified on 2026-02-26. |
+| Keyboard | PASS | Keyboard interactions verified on 2026-02-26. |
+| Touch / Swipe | PASS | Touch/swipe behavior verified on 2026-02-26. |
+| Thumbnail Toggle | PASS | Thumbnail tray toggle/sync/positioning verified on 2026-02-26. |
+| Light Controls / Visual | PASS | Light mode controls, caption/counter sync, and loading/transitions verified on 2026-02-26. |
+| Migration-Specific Verification | PASS | Verified on 2026-02-26 via `rg -n "propTypes|PropTypes" src tests docs` (no runtime PropTypes usage), `pnpm install`, `pnpm lint`, `pnpm test` (38/38 passing), `pnpm build`, and `pnpm docs:build` (all passing). |
 
 ## Release Gate Decision
 
-- [ ] PASS: All critical flows verified with no blocking regressions.
+- [x] PASS: All critical flows verified with no blocking regressions.
 - [ ] BLOCKED: Regressions found; release waits for fixes.

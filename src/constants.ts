@@ -36,6 +36,8 @@ export const SWIPE_THRESHOLD = 40;
 export const THUMBNAIL_WIDTH = 58;
 /** Default height of a thumbnail image in pixels. */
 export const THUMBNAIL_HEIGHT = 50;
+/** Border width applied on each side of the thumbnail frame in pixels. */
+export const THUMBNAIL_BORDER_WIDTH = 4;
 /** Gap between adjacent thumbnails in pixels. */
 export const THUMBNAIL_OFFSET = 8;
 
