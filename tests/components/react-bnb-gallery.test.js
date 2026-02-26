@@ -135,6 +135,21 @@ describe('ReactBnbGallery', () => {
 			expect(overlay).toHaveStyle({ backgroundColor: 'rgb(240, 240, 240)' });
 		});
 
+		it('renders counter above the image and updates it on navigation', () => {
+			render(<ReactBnbGallery photos={photos.slice(0, 3)} show />);
+
+			expect(document.body.querySelector('.gallery-photo-counter')).toHaveTextContent(
+				'1 / 3',
+			);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			fireEvent.keyDown(modal, { key: 'ArrowRight' });
+
+			expect(document.body.querySelector('.gallery-photo-counter')).toHaveTextContent(
+				'2 / 3',
+			);
+		});
+
 		it('warns when photos is passed as a single string', () => {
 			render(<ReactBnbGallery photos="https://example.com/photo.jpg" show />);
 

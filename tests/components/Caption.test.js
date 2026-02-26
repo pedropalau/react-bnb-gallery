@@ -56,5 +56,6 @@ describe('Caption', () => {
 				screen.getByRole('button', { name: /show photo list/i }),
 			).toBeInTheDocument();
 		});
+
 	});
 });
