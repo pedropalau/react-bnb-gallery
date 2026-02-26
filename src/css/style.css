@@ -376,7 +376,7 @@
 	ul.thumbnails-list
 	li
 	+ li {
-	margin-left: 10;
+	margin-left: 8px;
 }
 
 .gallery-figcaption

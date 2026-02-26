@@ -1,20 +1,28 @@
-import { THUMBNAIL_OFFSET, THUMBNAIL_WIDTH } from '../constants';
+import {
+	THUMBNAIL_BORDER_WIDTH,
+	THUMBNAIL_OFFSET,
+	THUMBNAIL_WIDTH,
+} from '../constants';
 
 interface Bounding {
 	width: number;
 }
 
+const THUMBNAIL_FRAME_WIDTH = THUMBNAIL_WIDTH + THUMBNAIL_BORDER_WIDTH * 2;
+const THUMBNAIL_STEP = THUMBNAIL_FRAME_WIDTH + THUMBNAIL_OFFSET;
+
 /**
  * Calculates the total width of the thumbnails container based on the number of thumbnails.
  *
- * Formula: `THUMBNAIL_WIDTH * total + THUMBNAIL_OFFSET * (total - 1)`.
+ * Formula: `THUMBNAIL_FRAME_WIDTH * total + THUMBNAIL_OFFSET * (total - 1)`.
  *
  * @param total - The number of thumbnails to display.
  * @returns The total width in pixels for the thumbnails container.
  */
 export function calculateThumbnailsContainerDimension(total: number): number {
 	return (
-		THUMBNAIL_WIDTH * total + (THUMBNAIL_OFFSET * total - THUMBNAIL_OFFSET)
+		THUMBNAIL_FRAME_WIDTH * total +
+		(THUMBNAIL_OFFSET * total - THUMBNAIL_OFFSET)
 	);
 }
 
@@ -30,8 +38,8 @@ export function calculateThumbnailsOffset(
 	current: number,
 	bounding: Bounding,
 ): number {
-	const half = bounding.width / 2 - THUMBNAIL_WIDTH / 2;
-	const offset = current * THUMBNAIL_WIDTH + current * THUMBNAIL_OFFSET - half;
+	const half = bounding.width / 2 - THUMBNAIL_FRAME_WIDTH / 2;
+	const offset = current * THUMBNAIL_STEP - half;
 	return offset <= 0 ? Math.abs(offset) : offset * -1;
 }
 
@@ -50,17 +58,15 @@ export function calculateThumbnailsLeftScroll(
 	total: number,
 	bounding: Bounding,
 ): number {
-	const half = bounding.width / 2 - THUMBNAIL_WIDTH / 2;
-	const thumbnailsOffset =
-		current * THUMBNAIL_WIDTH + current * THUMBNAIL_OFFSET - half;
+	const half = bounding.width / 2 - THUMBNAIL_FRAME_WIDTH / 2;
+	const thumbnailsOffset = current * THUMBNAIL_STEP - half;
 	let calculatedScrollLeft = 0;
 
 	if (thumbnailsOffset < 0) {
 		return calculatedScrollLeft;
 	}
 
-	const thumbnailsPerRow =
-		bounding.width / (THUMBNAIL_WIDTH + THUMBNAIL_OFFSET);
+	const thumbnailsPerRow = bounding.width / THUMBNAIL_STEP;
 	const thumbnailsHalf = Math.round(thumbnailsPerRow / 2);
 	const thumbnailsLeft = total - (current + 1);
 
