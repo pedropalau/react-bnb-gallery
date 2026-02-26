@@ -481,14 +481,19 @@ Add decisions here as we align each phase:
   - Added combined `2.1.0` changeset for `react-bnb-gallery` at `.changeset/bright-hounds-relax.md`.
 - 2026-02-26: Phase 10 release preflight validated as passing.
   - Local validation completed: `pnpm changeset status`, `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
-  - Changeset status now reports a pending `minor` bump for `react-bnb-gallery` (release PR generation unblocked).
+- 2026-02-26: `2.1.3` release executed and published.
+  - Merged release PR: `#168` (`chore(release): version packages`).
+  - Published package/tag confirmed: `react-bnb-gallery@2.1.3`.
 
 ## v2.x Backlog (Post-2.1.0)
 
 - [#37](https://github.com/pedropalau/react-bnb-gallery/issues/37): add explicit image alt fields (for example `alt` and `thumbnailAlt`) while keeping `caption` as the default fallback for backward compatibility.
-  - Target scope: `2.1.3` patch delivery.
+  - Status: delivered in `2.1.3` (2026-02-26).
 - [#42](https://github.com/pedropalau/react-bnb-gallery/issues/42): fix `wrap` boundary behavior so runtime navigation semantics match documented expectations.
   - Status: delivered in `2.1.2` (2026-02-26).
+- [#25](https://github.com/pedropalau/react-bnb-gallery/issues/25): `activePhotoPressed` does not fire reliably in Firefox when clicking the active image.
+  - Status: in progress (branch: `fix/issue-25-firefox-active-photo-press`).
+  - Target scope: upcoming `v2.x.x` patch delivery after `2.1.3`.
 - [#43](https://github.com/pedropalau/react-bnb-gallery/pull/43) concept: support `ReactNode` values for `caption` and `subcaption`.
   - Target scope: upcoming `v2.x.x` patch/minor delivery after `2.1.0` release execution.
   - Delivery note: reimplement with current architecture/types/tests/docs; do not revive legacy PR code directly.
