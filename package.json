@@ -1,9 +1,9 @@
 {
   "name": "react-bnb-gallery",
   "version": "2.1.0",
-  "description": "Simple photo gallery based on React and Airbnb image gallery",
-  "author": "Pedro Enrique Palau <pepalauisaac@gmail.com>",
-  "homepage": "https://peterpalau.github.io/react-bnb-gallery/",
+  "description": "Accessible React lightbox and photo gallery component inspired by Airbnb’s image gallery.",
+  "author": "Pedro Palau <palauisaac@gmail.com>",
+  "homepage": "https://bnb-gallery.vercel.app",
   "keywords": [
     "react",
     "gallery",
@@ -23,7 +23,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:peterpalau/react-bnb-gallery.git"
+    "url": "git@github.com:pedropalau/react-bnb-gallery.git"
   },
   "license": "MIT",
   "main": "dist/index.js",
@@ -43,7 +43,7 @@
     "styles.css"
   ],
   "bugs": {
-    "url": "https://github.com/peterpalau/react-bnb-gallery/issues"
+    "url": "https://github.com/pedropalau/react-bnb-gallery/issues"
   },
   "engines": {
     "node": ">=22"
