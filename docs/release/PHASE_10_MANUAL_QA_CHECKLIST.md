@@ -36,10 +36,10 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 ### Keyboard
 
-- [ ] Left/Right arrows navigate photos.
-- [ ] Escape closes gallery.
-- [ ] Keydown events from inputs are ignored.
-- [ ] Focus returns to prior element after close.
+- [x] Left/Right arrows navigate photos.
+- [x] Escape closes gallery.
+- [x] Keydown events from inputs are ignored.
+- [x] Focus returns to prior element after close.
 
 ### Touch / Swipe
 
@@ -70,7 +70,7 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 | Area | Result | Notes |
 | --- | --- | --- |
 | Open / Close | PASS | Open/close/re-open flows verified on 2026-02-26. |
-| Keyboard | Pending | |
+| Keyboard | PASS | Keyboard interactions verified on 2026-02-26. |
 | Touch / Swipe | Pending | |
 | Thumbnail Toggle | Pending | |
 | Light Controls / Visual | Pending | |
