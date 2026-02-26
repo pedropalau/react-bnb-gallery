@@ -486,7 +486,7 @@ Add decisions here as we align each phase:
 ## v2.x Backlog (Post-2.1.0)
 
 - [#37](https://github.com/pedropalau/react-bnb-gallery/issues/37): add explicit image alt fields (for example `alt` and `thumbnailAlt`) while keeping `caption` as the default fallback for backward compatibility.
-  - Target scope: upcoming `v2.x.x` patch/minor delivery after `2.1.0` release execution.
+  - Target scope: `2.1.3` patch delivery.
 - [#42](https://github.com/pedropalau/react-bnb-gallery/issues/42): fix `wrap` boundary behavior so runtime navigation semantics match documented expectations.
   - Status: delivered in `2.1.2` (2026-02-26).
 - [#43](https://github.com/pedropalau/react-bnb-gallery/pull/43) concept: support `ReactNode` values for `caption` and `subcaption`.

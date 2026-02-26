@@ -29,6 +29,8 @@ const galleryProps = [
 const photoProps = [
 	{ prop: 'photo', type: 'string', default: 'undefined' },
 	{ prop: 'number', type: 'number', default: 'undefined' },
+	{ prop: 'alt', type: 'string', default: 'undefined' },
+	{ prop: 'thumbnailAlt', type: 'string', default: 'undefined' },
 	{ prop: 'caption', type: 'string', default: 'undefined' },
 	{ prop: 'subcaption', type: 'string', default: 'undefined' },
 	{ prop: 'thumbnail', type: 'string', default: 'undefined' },
@@ -742,6 +744,62 @@ export default function OptionsPage() {
 									<code>{`photos={[
   {
     photo: 'https://example.com/photo.jpg',
+    caption: 'Mountain sunrise in the Alps',
+  },
+]}`}</code>
+								</pre>
+							</CodeBlock>
+						</PropDetail>
+
+						<PropDetail name="alt">
+							<p>
+								Accessible text for the full-size image. When omitted, the
+								component falls back to <code>caption</code>.
+							</p>
+							<CodeBlock
+								__raw__={`photos={[
+  {
+    photo: 'https://example.com/photo.jpg',
+    alt: 'Mountain sunrise over a snowy ridge',
+    caption: 'Mountain sunrise in the Alps',
+  },
+]}`}
+							>
+								<pre>
+									<code>{`photos={[
+  {
+    photo: 'https://example.com/photo.jpg',
+    alt: 'Mountain sunrise over a snowy ridge',
+    caption: 'Mountain sunrise in the Alps',
+  },
+]}`}</code>
+								</pre>
+							</CodeBlock>
+						</PropDetail>
+
+						<PropDetail name="thumbnailAlt">
+							<p>
+								Accessible text for the thumbnail image. When omitted, it
+								falls back to <code>alt</code>, then <code>caption</code>.
+							</p>
+							<CodeBlock
+								__raw__={`photos={[
+  {
+    photo: 'https://example.com/photo-large.jpg',
+    thumbnail: 'https://example.com/photo-thumb.jpg',
+    alt: 'Mountain sunrise over a snowy ridge',
+    thumbnailAlt: 'Thumbnail preview of mountain sunrise',
+    caption: 'Mountain sunrise in the Alps',
+  },
+]}`}
+							>
+								<pre>
+									<code>{`photos={[
+  {
+    photo: 'https://example.com/photo-large.jpg',
+    thumbnail: 'https://example.com/photo-thumb.jpg',
+    alt: 'Mountain sunrise over a snowy ridge',
+    thumbnailAlt: 'Thumbnail preview of mountain sunrise',
     caption: 'Mountain sunrise in the Alps',
   },
 ]}`}</code>

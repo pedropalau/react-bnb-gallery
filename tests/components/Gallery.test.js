@@ -156,6 +156,62 @@ describe('Gallery', () => {
 			);
 		});
 
+		it('uses caption as fallback alt text when alt fields are not provided', () => {
+			const photoList = [
+				{
+					photo: 'https://example.com/photo-1.jpg',
+					thumbnail: 'https://example.com/photo-1-thumb.jpg',
+					caption: 'Fallback caption',
+				},
+				{
+					photo: 'https://example.com/photo-2.jpg',
+					thumbnail: 'https://example.com/photo-2-thumb.jpg',
+					caption: 'Second fallback caption',
+				},
+			];
+			const { container } = render(
+				<Gallery photos={photoList} showThumbnails />,
+			);
+
+			expect(container.querySelector('img.photo')).toHaveAttribute(
+				'alt',
+				'Fallback caption',
+			);
+			expect(container.querySelector('img.thumbnail')).toHaveAttribute(
+				'alt',
+				'Fallback caption',
+			);
+		});
+
+		it('uses explicit alt and thumbnailAlt values when provided', () => {
+			const photoList = [
+				{
+					photo: 'https://example.com/photo-1.jpg',
+					thumbnail: 'https://example.com/photo-1-thumb.jpg',
+					caption: 'Caption fallback',
+					alt: 'Main photo alt',
+					thumbnailAlt: 'Thumbnail alt text',
+				},
+				{
+					photo: 'https://example.com/photo-2.jpg',
+					thumbnail: 'https://example.com/photo-2-thumb.jpg',
+					caption: 'Second caption fallback',
+				},
+			];
+			const { container } = render(
+				<Gallery photos={photoList} showThumbnails />,
+			);
+
+			expect(container.querySelector('img.photo')).toHaveAttribute(
+				'alt',
+				'Main photo alt',
+			);
+			expect(container.querySelector('img.thumbnail')).toHaveAttribute(
+				'alt',
+				'Thumbnail alt text',
+			);
+		});
+
 		it('triggers next callback when swiping left on photo', () => {
 			const nextButtonPressed = vi.fn();
 			const { container } = render(
