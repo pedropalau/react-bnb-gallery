@@ -43,9 +43,9 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 ### Touch / Swipe
 
-- [ ] Swipe left/right changes photo index.
-- [ ] Swipe does not trigger unintended close.
-- [ ] Touch callbacks fire in expected order.
+- [x] Swipe left/right changes photo index.
+- [x] Swipe does not trigger unintended close.
+- [x] Touch callbacks fire in expected order.
 
 ### Thumbnail Toggle
 
@@ -71,7 +71,7 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 | --- | --- | --- |
 | Open / Close | PASS | Open/close/re-open flows verified on 2026-02-26. |
 | Keyboard | PASS | Keyboard interactions verified on 2026-02-26. |
-| Touch / Swipe | Pending | |
+| Touch / Swipe | PASS | Touch/swipe behavior verified on 2026-02-26. |
 | Thumbnail Toggle | Pending | |
 | Light Controls / Visual | Pending | |
 | Migration-Specific Verification | Pending | |
