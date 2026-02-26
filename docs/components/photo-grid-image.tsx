@@ -46,6 +46,14 @@ export const GridImage = memo(function GridImage({
 					src={photo.src}
 					style={loaded ? { transitionDelay: `${delay.current}ms` } : undefined}
 				/>
+				<figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-3 pb-2 pt-10 text-left">
+					<span className="block truncate text-[10px] uppercase tracking-[0.12em] text-white/70">
+						Photo by
+					</span>
+					<span className="block truncate text-xs font-medium text-white">
+						{photo.authorName}
+					</span>
+				</figcaption>
 			</figure>
 		</button>
 	);

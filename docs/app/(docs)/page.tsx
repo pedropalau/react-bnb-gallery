@@ -17,6 +17,7 @@ export default function HomePage() {
 			photoGridPhotos.map((photo) => ({
 				photo: photo.src,
 				caption: photo.alt,
+				subcaption: `Photo by ${photo.authorName}`,
 			})),
 		[],
 	);
