@@ -20,7 +20,7 @@ export function SiteHeader({
 			)}
 			{...rest}
 		>
-			<div className="container mx-auto max-w-screen-lg px-6 md:px-10">
+			<div className="container mx-auto max-w-5xl px-6 md:px-10">
 				<div className="flex items-center justify-between gap-4">
 					<div className="flex items-center">
 						<Button variant="ghost" size="icon">

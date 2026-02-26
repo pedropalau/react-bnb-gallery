@@ -1,25 +1,16 @@
-import DocsPage from '@/components/docs-page';
+import { CodeBlock } from '@/components/code-block';
+import {
+	DocsPage,
+	DocsPageAnchor,
+	DocsPageParagraph,
+} from '@/components/docs-page';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata = createPageMetadata('License');
 
-export default function LicensePage() {
-	return (
-		<DocsPage title="License" path="license">
-			<p>
-				<strong>BnbGallery</strong> is free to use for personal and commercial
-				projects under the{' '}
-				<a href="https://github.com/peterpalau/react-bnb-gallery/blob/master/LICENSE">
-					MIT license
-				</a>
-				.
-			</p>
-			<p>Attribution is not required, but greatly appreciated.</p>
-			<p>It does not have to be user-facing and can remain within the code.</p>
-			<pre>
-				<code>{`The MIT License (MIT)
+const LICENSE = `The MIT License (MIT)
 
-Copyright (c) Pedro Enrique Palau <pepalauisaac@gmail.com>
+Copyright (c) Pedro Palau <palauisaac@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,8 +28,33 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.`}</code>
-			</pre>
+SOFTWARE.`;
+
+export default function LicensePage() {
+	return (
+		<DocsPage
+			title="License"
+			description="react-bnb-gallery is open source software released under the MIT license."
+			path="license"
+		>
+			<DocsPageParagraph>
+				<strong>react-bnb-gallery</strong> is{' '}
+				<DocsPageAnchor href="https://github.com/pedropalau/react-bnb-gallery/blob/master/LICENSE">
+					MIT-licensed
+				</DocsPageAnchor>{' '}
+				and free to use in any project — personal or commercial.
+			</DocsPageParagraph>
+
+			<DocsPageParagraph>
+				Attribution is not required, but greatly appreciated — even a comment
+				in your code mentioning the library is enough.
+			</DocsPageParagraph>
+
+			<CodeBlock __raw__={LICENSE}>
+				<pre className="">
+					<code>{LICENSE}</code>
+				</pre>
+			</CodeBlock>
 		</DocsPage>
 	);
 }

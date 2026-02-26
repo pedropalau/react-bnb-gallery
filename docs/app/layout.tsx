@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
-import { Geist as FontSans } from 'next/font/google';
+import { Geist_Mono as FontMono, Geist as FontSans } from 'next/font/google';
 import type { ReactNode } from 'react';
 
+import './styles.css';
 import { cn } from '@/lib/utils';
 
-import './styles.css';
-
-const sans = FontSans({
+const fontSans = FontSans({
 	subsets: ['latin'],
 	variable: '--font-sans',
+});
+
+const fontMono = FontMono({
+	subsets: ['latin'],
+	variable: '--font-mono',
 });
 
 export const metadata: Metadata = {
@@ -22,7 +26,11 @@ export default function RootLayout({
 	children,
 }: Readonly<{ children: ReactNode }>) {
 	return (
-		<html lang="en" suppressHydrationWarning className={sans.variable}>
+		<html
+			lang="en"
+			suppressHydrationWarning
+			className={cn(fontSans.variable, fontMono.variable)}
+		>
 			<body className="bg-background text-foreground antialiased text-base font-sans overscroll-none">
 				{children}
 			</body>

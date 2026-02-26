@@ -1,67 +1,101 @@
 'use client';
 
+import { Edit04Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import type React from 'react';
 import type { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 
-import Layout from './layout';
-import { useLayoutContext } from './layout-context';
-import SidebarDocs from './sidebar-docs';
-
-function DocsContent({
-	title,
+export function DocsPage({
 	path,
+	title,
+	description,
+	className,
 	children,
-}: {
-	title: string;
+	...rest
+}: React.ComponentPropsWithRef<'div'> & {
 	path: string;
+	title: string;
+	description?: string;
 	children: ReactNode;
 }) {
-	const { navigationOpened } = useLayoutContext();
-
 	return (
-		<div className="container mx-auto max-w-screen-lg px-6 md:px-10">
-			<div className="-mx-6 flex flex-col lg:flex-row">
-				<SidebarDocs isOpen={navigationOpened} />
-				<div className="w-full px-6 py-10 pt-24 md:px-8 lg:w-2/3 lg:px-0 lg:pt-28">
-					<div className="mb-8 border-b border-gray-200 pb-8">
-						<h1 className="flex items-center text-3xl font-semibold">
+		<div
+			data-slot="docs-page"
+			className={cn('flex min-w-0 flex-1 flex-col', className)}
+			{...rest}
+		>
+			<div className="h-(--top-spacing) shrink-0" />
+			<div className="mx-auto flex w-full max-w-[40rem] min-w-0 flex-1 flex-col gap-6 px-4 py-6 text-neutral-800 md:px-0 lg:py-8 dark:text-neutral-300">
+				<div className="flex flex-col gap-2">
+					<div className="flex items-center justify-between md:items-start">
+						<h1 className="scroll-m-24 text-3xl font-semibold tracking-tight sm:text-3xl">
 							{title}
 						</h1>
 					</div>
-					<div className="prose">{children}</div>
-					<footer className="mt-10 border-t border-gray-200 pt-4 md:mt-4 lg:mt-10 lg:pt-6">
-						<div className="flex">
-							<a
-								className="text-green-500 underline"
-								href={`https://github.com/peterpalau/react-bnb-gallery/tree/master/docs/app/docs/${path}/page.tsx`}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								Edit this page on GitHub
-							</a>
-						</div>
-					</footer>
+					<p className="text-muted-foreground text-[1.05rem] sm:text-base sm:text-balance md:max-w-[80%]">
+						{description}
+					</p>
+				</div>
+				<div className="w-full flex-1 pb-16 *:data-[slot=alert]:first:mt-0 sm:pb-0">
+					{children}
+				</div>
+				<div className="hidden h-16 w-full items-center gap-2 px-4 sm:flex sm:px-0">
+					<Button variant="secondary" asChild>
+						<a
+							href={`https://github.com/pedropalau/react-bnb-gallery/tree/master/docs/app/docs/${path}/page.tsx`}
+							rel="noopener noreferrer"
+							target="_blank"
+						>
+							<HugeiconsIcon icon={Edit04Icon} />
+							Edit this page on GitHub
+						</a>
+					</Button>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export function DocsPage({
-	title,
-	path,
-	children,
-}: {
-	title: string;
-	path: string;
-	children: ReactNode;
-}) {
+export function DocsPageHeading2({
+	className,
+	...rest
+}: React.ComponentPropsWithRef<'h2'>) {
 	return (
-		<Layout showHeaderFixed>
-			<DocsContent title={title} path={path}>
-				{children}
-			</DocsContent>
-		</Layout>
+		<h2
+			data-slot="docs-page-h2"
+			className={cn(
+				'font-heading [&+]*:[code]:text-xl mt-10 scroll-m-28 text-xl font-medium tracking-tight first:mt-0 lg:mt-12 [&+.steps]:mt-0! [&+.steps>h3]:mt-4! [&+h3]:mt-6! [&+p]:mt-4!',
+				className,
+			)}
+			{...rest}
+		/>
 	);
 }
 
-export default DocsPage;
+export function DocsPageParagraph({
+	className,
+	...rest
+}: React.ComponentPropsWithRef<'p'>) {
+	return (
+		<p
+			data-slot="docs-page-p"
+			className={cn('leading-relaxed not-first:mt-6 text-base', className)}
+			{...rest}
+		/>
+	);
+}
+
+export function DocsPageAnchor({
+	className,
+	...rest
+}: React.ComponentPropsWithRef<'a'>) {
+	return (
+		<a
+			data-slot="docs-page-a"
+			className={cn('font-medium underline underline-offset-2', className)}
+			{...rest}
+		/>
+	);
+}
