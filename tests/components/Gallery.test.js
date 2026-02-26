@@ -52,7 +52,7 @@ describe('Gallery', () => {
 			).toBeInTheDocument();
 		});
 
-		it('syncs wrap controls when activePhotoIndex prop changes', () => {
+		it('keeps both controls visible when wrap is enabled', () => {
 			const photoList = photos.slice(0, 2);
 			const { container, rerender } = render(
 				<Gallery
@@ -65,7 +65,7 @@ describe('Gallery', () => {
 
 			expect(
 				container.querySelector('.gallery-control--prev'),
-			).not.toBeInTheDocument();
+			).toBeInTheDocument();
 			expect(
 				container.querySelector('.gallery-control--next'),
 			).toBeInTheDocument();
@@ -84,12 +84,47 @@ describe('Gallery', () => {
 			).toBeInTheDocument();
 			expect(
 				container.querySelector('.gallery-control--next'),
+			).toBeInTheDocument();
+		});
+
+		it('hides boundary controls when wrap is disabled', () => {
+			const photoList = photos.slice(0, 2);
+			const { container, rerender } = render(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					wrap={false}
+					activePhotoIndex={0}
+				/>,
+			);
+
+			expect(
+				container.querySelector('.gallery-control--prev'),
+			).not.toBeInTheDocument();
+			expect(
+				container.querySelector('.gallery-control--next'),
+			).toBeInTheDocument();
+
+			rerender(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					wrap={false}
+					activePhotoIndex={1}
+				/>,
+			);
+
+			expect(
+				container.querySelector('.gallery-control--prev'),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector('.gallery-control--next'),
 			).not.toBeInTheDocument();
 		});
 
 		it('renders accessible labels on navigation controls', () => {
 			const { container } = render(
-				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
+				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} wrap />,
 			);
 
 			expect(container.querySelector('.gallery-control--prev')).toHaveAttribute(

@@ -71,14 +71,14 @@ function getNormalizedActivePhotoIndex(
 }
 
 /**
- * Computes control visibility when wrap mode is enabled.
+ * Computes control visibility based on boundary and wrap mode.
  */
 function getWrapControlState(
 	activePhotoIndex: number,
 	totalPhotos: number,
 	wrap: boolean,
 ) {
-	if (!wrap || totalPhotos <= 1) {
+	if (wrap || totalPhotos <= 1) {
 		return {
 			hidePrevButton: false,
 			hideNextButton: false,
@@ -178,7 +178,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				(isPrevDirection && activeIndex === 0) ||
 				(isNextDirection && activeIndex === lastItemIndex);
 
-			if (isGoingToWrap && wrap) {
+			if (isGoingToWrap && !wrap) {
 				return activeIndex;
 			}
 

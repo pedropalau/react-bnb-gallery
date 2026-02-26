@@ -150,6 +150,42 @@ describe('ReactBnbGallery', () => {
 			).toHaveTextContent('2 / 3');
 		});
 
+		it('stops at the last photo when wrap is disabled', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 3)}
+					show
+					activePhotoIndex={2}
+					wrap={false}
+				/>,
+			);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			fireEvent.keyDown(modal, { key: 'ArrowRight' });
+
+			expect(
+				document.body.querySelector('.gallery-photo-counter'),
+			).toHaveTextContent('3 / 3');
+		});
+
+		it('wraps from last photo to first when wrap is enabled', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 3)}
+					show
+					activePhotoIndex={2}
+					wrap
+				/>,
+			);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			fireEvent.keyDown(modal, { key: 'ArrowRight' });
+
+			expect(
+				document.body.querySelector('.gallery-photo-counter'),
+			).toHaveTextContent('1 / 3');
+		});
+
 		it('warns when photos is passed as a single string', () => {
 			render(<ReactBnbGallery photos="https://example.com/photo.jpg" show />);
 
