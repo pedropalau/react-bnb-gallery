@@ -483,6 +483,16 @@ Add decisions here as we align each phase:
   - Local validation completed: `pnpm changeset status`, `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
   - Changeset status now reports a pending `minor` bump for `react-bnb-gallery` (release PR generation unblocked).
 
+## v2.x Backlog (Post-2.1.0)
+
+- [#37](https://github.com/pedropalau/react-bnb-gallery/issues/37): add explicit image alt fields (for example `alt` and `thumbnailAlt`) while keeping `caption` as the default fallback for backward compatibility.
+  - Target scope: upcoming `v2.x.x` patch/minor delivery after `2.1.0` release execution.
+- [#42](https://github.com/pedropalau/react-bnb-gallery/issues/42): fix `wrap` boundary behavior so runtime navigation semantics match documented expectations.
+  - Target scope: upcoming `v2.x.x` patch/minor delivery after `2.1.0` release execution.
+- [#43](https://github.com/pedropalau/react-bnb-gallery/pull/43) concept: support `ReactNode` values for `caption` and `subcaption`.
+  - Target scope: upcoming `v2.x.x` patch/minor delivery after `2.1.0` release execution.
+  - Delivery note: reimplement with current architecture/types/tests/docs; do not revive legacy PR code directly.
+
 ## Execution Loop We Will Follow
 
 1. Select phase.

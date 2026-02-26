@@ -152,6 +152,10 @@ pnpm build
   - non-array `photos` input
   - `direction` prop
 
+## Roadmap
+
+- v3 roadmap: [docs/release/V3_ROADMAP.md](docs/release/V3_ROADMAP.md)
+
 ## License
 
 MIT: [LICENSE](https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/LICENSE)
