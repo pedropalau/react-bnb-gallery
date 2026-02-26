@@ -487,6 +487,9 @@ Add decisions here as we align each phase:
 - 2026-02-26: `2.1.4` release executed and published.
   - Merged release PR: `#170` (`chore(release): version packages`).
   - Published package/tag confirmed: `react-bnb-gallery@2.1.4`.
+- 2026-02-26: `2.1.5` release executed and published.
+  - Merged release PR: `#172` (`chore(release): version packages`).
+  - Published package/tag confirmed: `react-bnb-gallery@2.1.5`.
 
 ## v2.x Backlog (Post-2.1.0)
 
@@ -497,8 +500,7 @@ Add decisions here as we align each phase:
 - [#25](https://github.com/pedropalau/react-bnb-gallery/issues/25): `activePhotoPressed` does not fire reliably in Firefox when clicking the active image.
   - Status: delivered in `2.1.4` (2026-02-26).
 - [#43](https://github.com/pedropalau/react-bnb-gallery/pull/43) concept: support `ReactNode` values for `caption` and `subcaption`.
-  - Status: in progress (branch: `feat/issue-43-reactnode-captions`).
-  - Target scope: upcoming `v2.x.x` patch/minor delivery after `2.1.4`.
+  - Status: delivered in `2.1.5` (2026-02-26).
   - Delivery note: reimplement with current architecture/types/tests/docs; do not revive legacy PR code directly.
 
 ## Execution Loop We Will Follow
