@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
-import ReactBnbGallery from '../../src/react-bnb-gallery';
+import { ReactBnbGallery } from '../../src/react-bnb-gallery';
 
 import photos from '../test-photos';
 

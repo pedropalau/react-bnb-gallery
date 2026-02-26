@@ -19,10 +19,3 @@ export function resolvePhrase<T = unknown>(
 
 	return '';
 }
-
-/**
- * @deprecated Use named import instead:
- * `import { resolvePhrase } from './resolve-phrase'`.
- * Default export will be removed in the next major version.
- */
-export default resolvePhrase;

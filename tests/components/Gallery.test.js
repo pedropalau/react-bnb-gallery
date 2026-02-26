@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import Gallery from '../../src/components/gallery';
+import { Gallery } from '../../src/components/gallery';
 
 import photos from '../test-photos';
 

@@ -41,9 +41,3 @@ function CloseButton({ onPress, light: _light = false }: CloseButtonProps) {
 }
 
 export { CloseButton };
-
-/**
- * @deprecated Use named import instead: `import { CloseButton } from './close-button'`.
- * Default export will be removed in the next major version.
- */
-export default CloseButton;

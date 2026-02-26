@@ -64,9 +64,3 @@ function Thumbnail({
 const MemoizedThumbnail = memo(Thumbnail);
 
 export { MemoizedThumbnail as Thumbnail };
-
-/**
- * @deprecated Use named import instead: `import { Thumbnail } from './thumbnail'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedThumbnail;
