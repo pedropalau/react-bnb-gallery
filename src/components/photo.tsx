@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import type { CSSProperties, TouchEvent } from 'react';
 import { memo, useCallback } from 'react';
 import type { GalleryPhoto } from '../types/gallery';
+import { getCaptionText } from '../utils/get-caption-text';
 import { Image } from './image';
 
 /**
@@ -39,6 +40,7 @@ function Photo({
 		return null;
 	}
 
+	const captionText = getCaptionText(photo.caption);
 	const className = clsx(
 		'gallery-media-photo',
 		'gallery-media-photo--block',
@@ -57,7 +59,7 @@ function Photo({
 					onTouchEnd={onTouchEnd}
 				>
 					<Image
-						alt={photo.alt || photo.caption || ''}
+						alt={photo.alt || captionText}
 						className="photo"
 						src={photo.photo || ''}
 						onLoad={onLoad}

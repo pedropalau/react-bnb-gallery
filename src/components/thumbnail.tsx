@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { memo } from 'react';
 import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
 import type { GalleryPhoto } from '../types/gallery';
+import { getCaptionText } from '../utils/get-caption-text';
 import { Image } from './image';
 
 const thumbnailStyle = {
@@ -32,19 +33,20 @@ function Thumbnail({
 		return null;
 	}
 
+	const captionText = getCaptionText(photo.caption);
 	const className = clsx('thumbnail-button', active && 'active');
 
 	return (
 		<button
 			type="button"
-			aria-label={photo.caption}
+			aria-label={captionText || undefined}
 			className={className}
 			data-photo-index={number}
 			onClick={onPress}
 			disabled={false}
 		>
 			<Image
-				alt={photo.thumbnailAlt || photo.alt || photo.caption || ''}
+				alt={photo.thumbnailAlt || photo.alt || captionText}
 				src={photo.thumbnail || photo.photo || ''}
 				className="thumbnail"
 				style={thumbnailStyle}

@@ -212,6 +212,30 @@ describe('Gallery', () => {
 			);
 		});
 
+		it('does not coerce ReactNode captions into alt attributes', () => {
+			const photoList = [
+				{
+					photo: 'https://example.com/photo-1.jpg',
+					thumbnail: 'https://example.com/photo-1-thumb.jpg',
+					caption: <span>Rich caption node</span>,
+				},
+				{
+					photo: 'https://example.com/photo-2.jpg',
+					thumbnail: 'https://example.com/photo-2-thumb.jpg',
+					caption: 'Second caption',
+				},
+			];
+			const { container } = render(
+				<Gallery photos={photoList} showThumbnails />,
+			);
+
+			expect(container.querySelector('img.photo')).toHaveAttribute('alt', '');
+			expect(container.querySelector('img.thumbnail')).toHaveAttribute(
+				'alt',
+				'',
+			);
+		});
+
 		it('triggers next callback when swiping left on photo', () => {
 			const nextButtonPressed = vi.fn();
 			const { container } = render(

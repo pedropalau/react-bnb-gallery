@@ -31,8 +31,8 @@ const photoProps = [
 	{ prop: 'number', type: 'number', default: 'undefined' },
 	{ prop: 'alt', type: 'string', default: 'undefined' },
 	{ prop: 'thumbnailAlt', type: 'string', default: 'undefined' },
-	{ prop: 'caption', type: 'string', default: 'undefined' },
-	{ prop: 'subcaption', type: 'string', default: 'undefined' },
+	{ prop: 'caption', type: 'ReactNode', default: 'undefined' },
+	{ prop: 'subcaption', type: 'ReactNode', default: 'undefined' },
 	{ prop: 'thumbnail', type: 'string', default: 'undefined' },
 ];
 
@@ -729,14 +729,19 @@ export default function OptionsPage() {
 
 						<PropDetail name="caption">
 							<p>
-								The main caption text shown below the photo. Use it for a title
-								or short description of the image.
+								The main caption content shown below the photo. Accepts plain
+								text or custom React content.
 							</p>
 							<CodeBlock
 								__raw__={`photos={[
   {
     photo: 'https://example.com/photo.jpg',
-    caption: 'Mountain sunrise in the Alps',
+    caption: (
+      <span>
+        Mountain sunrise in the Alps by{' '}
+        <a href="https://example.com/jane-doe">Jane Doe</a>
+      </span>
+    ),
   },
 ]}`}
 							>
@@ -744,7 +749,12 @@ export default function OptionsPage() {
 									<code>{`photos={[
   {
     photo: 'https://example.com/photo.jpg',
-    caption: 'Mountain sunrise in the Alps',
+    caption: (
+      <span>
+        Mountain sunrise in the Alps by{' '}
+        <a href="https://example.com/jane-doe">Jane Doe</a>
+      </span>
+    ),
   },
 ]}`}</code>
 								</pre>
@@ -809,15 +819,19 @@ export default function OptionsPage() {
 
 						<PropDetail name="subcaption">
 							<p>
-								A secondary line of text rendered below the caption. Commonly
-								used for the photographer's name, location, or date.
+								A secondary line rendered below the caption. Accepts plain text
+								or React content.
 							</p>
 							<CodeBlock
 								__raw__={`photos={[
   {
     photo: 'https://example.com/photo.jpg',
     caption: 'Mountain sunrise in the Alps',
-    subcaption: 'Photo by Jane Doe · Zermatt, Switzerland',
+    subcaption: (
+      <span>
+        Photo by <strong>Jane Doe</strong> · Zermatt, Switzerland
+      </span>
+    ),
   },
 ]}`}
 							>
@@ -826,7 +840,11 @@ export default function OptionsPage() {
   {
     photo: 'https://example.com/photo.jpg',
     caption: 'Mountain sunrise in the Alps',
-    subcaption: 'Photo by Jane Doe · Zermatt, Switzerland',
+    subcaption: (
+      <span>
+        Photo by <strong>Jane Doe</strong> · Zermatt, Switzerland
+      </span>
+    ),
   },
 ]}`}</code>
 								</pre>
