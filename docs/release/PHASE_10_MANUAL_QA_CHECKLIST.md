@@ -2,7 +2,7 @@
 
 Date: 2026-02-26
 Owner: Release track (`chore/phase-10-release-plan`)
-Status: In progress
+Status: Complete
 
 ## Scope
 
@@ -19,11 +19,11 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 ## Preflight
 
-- [ ] `pnpm install`
-- [ ] `pnpm lint`
-- [ ] `pnpm test`
-- [ ] `pnpm build`
-- [ ] `pnpm docs:build`
+- [x] `pnpm install`
+- [x] `pnpm lint`
+- [x] `pnpm test`
+- [x] `pnpm build`
+- [x] `pnpm docs:build`
 
 ## Critical Flows
 
@@ -74,9 +74,9 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 | Touch / Swipe | PASS | Touch/swipe behavior verified on 2026-02-26. |
 | Thumbnail Toggle | PASS | Thumbnail tray toggle/sync/positioning verified on 2026-02-26. |
 | Light Controls / Visual | PASS | Light mode controls, caption/counter sync, and loading/transitions verified on 2026-02-26. |
-| Migration-Specific Verification | PASS | Verified on 2026-02-26 via `rg -n "propTypes|PropTypes" src tests docs` (no runtime PropTypes usage), `pnpm test` (37/37 passing), `pnpm build` + `pnpm docs:build` (both passing); `pnpm lint` failed only on pre-existing test formatting drift. |
+| Migration-Specific Verification | PASS | Verified on 2026-02-26 via `rg -n "propTypes|PropTypes" src tests docs` (no runtime PropTypes usage), `pnpm install`, `pnpm lint`, `pnpm test` (38/38 passing), `pnpm build`, and `pnpm docs:build` (all passing). |
 
 ## Release Gate Decision
 
-- [ ] PASS: All critical flows verified with no blocking regressions.
+- [x] PASS: All critical flows verified with no blocking regressions.
 - [ ] BLOCKED: Regressions found; release waits for fixes.
