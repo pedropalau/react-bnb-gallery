@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import Caption from '../../src/components/Caption';
+import Caption from '../../src/components/caption';
 
 import photos from '../test-photos';
 
