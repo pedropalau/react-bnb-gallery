@@ -194,6 +194,15 @@ Questions to answer before implementation:
 5. If manual QA finds regressions, should we block release until fixes merge, or allow release with known-issues notes?
 6. Should Phase 10 include a branding/documentation refresh track (logo updates + README/docs polish) before release PR generation?
 
+Approved answers (2026-02-26):
+
+1. Target release version: `2.1.0` now.
+2. Manual QA: required as an explicit release gate before merging the release PR.
+3. Release notes structure: migration-impact first (including `propTypes` removal and TS-only contracts), followed by phase chronology.
+4. Release PR strategy: one combined changeset/release PR for all merged `2.1.x` work.
+5. Regression policy: block release until fixes merge (do not publish with known regressions).
+6. Branding/docs scope: include branding and documentation refresh before release PR generation.
+
 Proposed execution checklist (after alignment approval):
 
 1. Build a manual QA checklist from critical user flows (open/close, keyboard, touch, thumbnail toggle, light mode controls).
@@ -304,6 +313,7 @@ If `gh` is unavailable, create PR manually using the same template content.
 Add decisions here as we align each phase:
 
 - 2026-02-24: Initial plan created.
+- 2026-02-26: Phase 10 alignment approved (`2.1.0` target, required manual QA gate, migration-impact-first release notes, single combined release PR, block on regressions, branding/docs refresh included pre-release PR).
 - 2026-02-25: Phase 10 added to plan for `2.1.x` release execution sequencing; alignment answers pending.
 - 2026-02-25: Phase 7 alignment approved (one-shot migration, strict TS, generated declarations, TS-only source, target `2.1.x`).
 - 2026-02-25: Phase 8 alignment approved (Tailwind CSS, full Biome migration, remove Babel, one coordinated PR, target `2.1.x`).
@@ -462,9 +472,16 @@ Add decisions here as we align each phase:
   - Merged Phase 9 PR train: `#160` and `#161`.
   - Phase goals completed: class-component migration, TypeScript-only runtime contracts, legacy runtime validator removal, behavior-parity hardening tests, and migration/docs alignment.
 - 2026-02-25: Phase 10 is now the active next phase (alignment questions pending approval before implementation).
+- 2026-02-26: Phase 10 alignment closure completed; release execution checklist is now unblocked.
 - 2026-02-25: Phase 10 implementation started (PR-1 scope: release-plan + branding/docs kickoff).
   - Added explicit branding/documentation refresh scope to Phase 10 release execution track.
   - Replaced root logo asset usage from `rbg-logo.png` to `logo.svg` and updated README reference.
+- 2026-02-26: Phase 10 implementation continued (PR-2 scope: QA gate + release PR preparation).
+  - Added manual QA gate document for critical user flows at `docs/release/PHASE_10_MANUAL_QA_CHECKLIST.md`.
+  - Added combined `2.1.0` changeset for `react-bnb-gallery` at `.changeset/bright-hounds-relax.md`.
+- 2026-02-26: Phase 10 release preflight validated as passing.
+  - Local validation completed: `pnpm changeset status`, `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
+  - Changeset status now reports a pending `minor` bump for `react-bnb-gallery` (release PR generation unblocked).
 
 ## Execution Loop We Will Follow
 
