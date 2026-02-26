@@ -13,9 +13,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/react-bnb-gallery"><img src="https://img.shields.io/npm/v/react-bnb-gallery.svg" alt="NPM"></a>
+  <a href="https://github.com/peterpalau/react-bnb-gallery/actions"><img src="https://img.shields.io/github/actions/workflow/status/pedropalau/react-bnb-gallery/ci.yml?branch=master" alt="Build Status" /></a>
   <a href="http://www.npmjs.com/package/react-bnb-gallery"><img src="http://img.shields.io/npm/dm/react-bnb-gallery.svg?style=flat" alt="Download Count" /></a>
-  <a href="https://github.com/peterpalau/react-bnb-gallery/actions"><img src="https://github.com/pedropalau/react-bnb-gallery/actions/workflows/ci.yml/badge.svg" alt="Build Status" /></a>
+  <a href="https://www.npmjs.com/package/react-bnb-gallery"><img src="https://img.shields.io/npm/v/react-bnb-gallery.svg" alt="NPM"></a>
   <a href="https://github.com/pedropalau/react-bnb-gallery/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/react-bnb-gallery.svg" alt="License"></a>
 </p>
 
