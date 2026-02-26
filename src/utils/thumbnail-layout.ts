@@ -10,6 +10,7 @@ interface Bounding {
 
 const THUMBNAIL_FRAME_WIDTH = THUMBNAIL_WIDTH + THUMBNAIL_BORDER_WIDTH * 2;
 const THUMBNAIL_STEP = THUMBNAIL_FRAME_WIDTH + THUMBNAIL_OFFSET;
+const THUMBNAIL_VIEWPORT_INSET = THUMBNAIL_BORDER_WIDTH * 2;
 
 /**
  * Calculates the total width of the thumbnails container based on the number of thumbnails.
@@ -72,7 +73,8 @@ export function calculateThumbnailsLeftScroll(
 
 	if (thumbnailsLeft < thumbnailsHalf) {
 		calculatedScrollLeft =
-			calculateThumbnailsContainerDimension(total) - bounding.width;
+			calculateThumbnailsContainerDimension(total) -
+			(bounding.width + THUMBNAIL_VIEWPORT_INSET);
 	} else {
 		calculatedScrollLeft = thumbnailsOffset;
 	}

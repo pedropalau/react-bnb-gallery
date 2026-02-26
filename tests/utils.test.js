@@ -49,6 +49,6 @@ describe('the calculateThumbnailsLeftScroll function', () => {
 	});
 
 	it('clamps to the maximum scroll near the end of the list', () => {
-		expect(calculateThumbnailsLeftScroll(9, 10, { width: 320 })).toBe(-412);
+		expect(calculateThumbnailsLeftScroll(9, 10, { width: 320 })).toBe(-404);
 	});
 });
