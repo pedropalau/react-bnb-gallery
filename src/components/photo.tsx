@@ -57,7 +57,7 @@ function Photo({
 					onTouchEnd={onTouchEnd}
 				>
 					<Image
-						alt={photo.caption || ''}
+						alt={photo.alt || photo.caption || ''}
 						className="photo"
 						src={photo.photo || ''}
 						onLoad={onLoad}

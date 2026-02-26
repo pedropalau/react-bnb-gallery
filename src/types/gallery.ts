@@ -9,6 +9,10 @@ export interface GalleryPhoto {
 	photo?: string;
 	/** Display number shown in the lightbox. */
 	number?: number;
+	/** Accessible alt text for the full-size photo image. */
+	alt?: string;
+	/** Accessible alt text for the thumbnail image. */
+	thumbnailAlt?: string;
 	/** Primary caption displayed below the photo. */
 	caption?: string;
 	/** Secondary caption displayed below the primary caption. */

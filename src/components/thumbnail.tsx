@@ -44,7 +44,7 @@ function Thumbnail({
 			disabled={false}
 		>
 			<Image
-				alt={photo.caption || ''}
+				alt={photo.thumbnailAlt || photo.alt || photo.caption || ''}
 				src={photo.thumbnail || photo.photo || ''}
 				className="thumbnail"
 				style={thumbnailStyle}

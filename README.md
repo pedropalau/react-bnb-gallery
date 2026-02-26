@@ -52,6 +52,8 @@ const PHOTOS = [
   {
     photo: 'https://example.com/photo1.jpg',
     thumbnail: 'https://example.com/photo1-thumb.jpg',
+    alt: 'Sunset over mountain ridge',
+    thumbnailAlt: 'Small preview of mountain sunset',
     caption: 'Photo 1',
     subcaption: 'Author name or location',
   },
@@ -118,6 +120,8 @@ export default function App() {
 |---|---|---|
 | `photo` | `string` | URL of the full-size image. |
 | `thumbnail` | `string` | URL of the thumbnail image. |
+| `alt` | `string` | Alt text for the full-size image. Falls back to `caption` when omitted. |
+| `thumbnailAlt` | `string` | Alt text for the thumbnail image. Falls back to `alt`, then `caption`. |
 | `caption` | `string` | Primary caption shown below the photo. |
 | `subcaption` | `string` | Secondary caption (author/location, etc.). |
 | `number` | `number` | Override the displayed photo number. |
@@ -158,6 +162,7 @@ pnpm build
 ### `2.1.x`
 
 - Runtime `propTypes` and `airbnb-prop-types` validation were removed.
+- Added `GalleryPhoto.alt` and `GalleryPhoto.thumbnailAlt` with backward-compatible fallback to `caption`.
 - Deprecated (planned removal next major):
   - non-array `photos` input
   - `direction` prop
