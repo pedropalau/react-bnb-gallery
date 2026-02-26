@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import Caption from '../../src/components/caption';
+import { calculateThumbnailsLeftScroll } from '../../src/utils/thumbnail-layout';
 
 import photos from '../test-photos';
 
@@ -57,5 +58,26 @@ describe('Caption', () => {
 			).toBeInTheDocument();
 		});
 
+		it('syncs thumbnail list position on initial non-zero current index', async () => {
+			const current = 5;
+			const galleryPhotos = photos.slice(0, 8);
+			const { container } = render(
+				<Caption current={current} photos={galleryPhotos} showThumbnails />,
+			);
+			const thumbnailsWrapper = container.querySelector(
+				'.gallery-figcaption--thumbnails',
+			);
+			const expectedMarginLeft = `${calculateThumbnailsLeftScroll(
+				current,
+				galleryPhotos.length,
+				thumbnailsWrapper.getBoundingClientRect(),
+			)}px`;
+
+			await waitFor(() => {
+				expect(container.querySelector('.thumbnails-list')).toHaveStyle({
+					marginLeft: expectedMarginLeft,
+				});
+			});
+		});
 	});
 });

@@ -61,9 +61,9 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 ## Migration-Specific Verification (2.1.x)
 
-- [ ] No runtime `propTypes` warnings expected in consumer usage.
-- [ ] TypeScript-only contract usage validated in docs/examples.
-- [ ] Existing public prop names and imperative controls remain functional.
+- [x] No runtime `propTypes` warnings expected in consumer usage.
+- [x] TypeScript-only contract usage validated in docs/examples.
+- [x] Existing public prop names and imperative controls remain functional.
 
 ## Results Log
 
@@ -74,7 +74,7 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 | Touch / Swipe | PASS | Touch/swipe behavior verified on 2026-02-26. |
 | Thumbnail Toggle | PASS | Thumbnail tray toggle/sync/positioning verified on 2026-02-26. |
 | Light Controls / Visual | PASS | Light mode controls, caption/counter sync, and loading/transitions verified on 2026-02-26. |
-| Migration-Specific Verification | Pending | |
+| Migration-Specific Verification | PASS | Verified on 2026-02-26 via `rg -n "propTypes|PropTypes" src tests docs` (no runtime PropTypes usage), `pnpm test` (37/37 passing), `pnpm build` + `pnpm docs:build` (both passing); `pnpm lint` failed only on pre-existing test formatting drift. |
 
 ## Release Gate Decision
 
