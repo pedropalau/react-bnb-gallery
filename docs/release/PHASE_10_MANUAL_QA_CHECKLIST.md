@@ -29,10 +29,10 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 ### Open / Close
 
-- [ ] Open gallery from thumbnail click.
-- [ ] Close via close button.
-- [ ] Close via overlay click (if enabled).
-- [ ] Re-open after close without stale state.
+- [x] Open gallery from thumbnail click.
+- [x] Close via close button.
+- [x] Close via overlay click (if enabled).
+- [x] Re-open after close without stale state.
 
 ### Keyboard
 
@@ -69,7 +69,7 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 | Area | Result | Notes |
 | --- | --- | --- |
-| Open / Close | Pending | |
+| Open / Close | PASS | Open/close/re-open flows verified on 2026-02-26. |
 | Keyboard | Pending | |
 | Touch / Swipe | Pending | |
 | Thumbnail Toggle | Pending | |
