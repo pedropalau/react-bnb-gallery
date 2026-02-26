@@ -8,6 +8,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+	--brand: oklch(0.5769 0.2277 18.5);
+	--brand-foreground: oklch(1 0 0);
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
@@ -43,6 +45,8 @@
 }
 
 .dark {
+	--brand: oklch(0.5769 0.2277 18.5);
+	--brand-foreground: oklch(1 0 0);
 	--background: oklch(0.145 0 0);
 	--foreground: oklch(0.985 0 0);
 	--card: oklch(0.205 0 0);
@@ -83,6 +87,8 @@
 	--breakpoint-3xl: 1600px;
 	--breakpoint-4xl: 2000px;
 
+	--color-brand: var(--brand);
+	--color-brand-foreground: var(--brand-foreground);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
