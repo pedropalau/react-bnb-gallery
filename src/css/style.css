@@ -533,10 +533,6 @@
 		transform 0.2s ease-out 0s;
 }
 
-.hide .gallery-figcaption--inner {
-	transform: translateY(70);
-}
-
 .gallery-figcaption--info {
 	display: table;
 	width: 100%;

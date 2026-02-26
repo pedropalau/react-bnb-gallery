@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import Caption from '../../src/components/caption';
 
@@ -40,6 +40,21 @@ describe('Caption', () => {
 			);
 
 			expect(container.querySelector('figcaption.hide')).toBeInTheDocument();
+		});
+
+		it('keeps photo-list toggle visible after collapsing thumbnails', () => {
+			render(
+				<Caption current={0} photos={photos.slice(0, 2)} showThumbnails />,
+			);
+
+			const hideToggle = screen.getByRole('button', {
+				name: /hide photo list/i,
+			});
+			fireEvent.click(hideToggle);
+
+			expect(
+				screen.getByRole('button', { name: /show photo list/i }),
+			).toBeInTheDocument();
 		});
 	});
 });
