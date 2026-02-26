@@ -59,10 +59,13 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "build:types": "tsc -p tsconfig.build.json",
     "build": "vite build && pnpm build:types",
+    "dev": "vite build --watch",
     "start": "vite build --watch",
-    "docs:dev": "pnpm --dir docs dev",
+    "docs:dev": "pnpm --filter react-bnb-gallery build && pnpm --parallel -F react-bnb-gallery -F @react-bnb-gallery/docs dev",
     "docs:build": "pnpm --dir docs build",
     "docs:start": "pnpm --dir docs start",
+    "docs:lint": "pnpm --dir docs lint",
+    "docs:format": "pnpm --dir docs format",
     "prepublishOnly": "pnpm build",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish --provenance --access public",
@@ -81,16 +84,12 @@
     "@changesets/cli": "^2.29.7",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
-    "@types/lodash": "^4.17.20",
     "@types/node": "^24.3.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "@types/react-portal": "^4.0.7",
     "@vitejs/plugin-react": "^5.1.0",
     "@vitest/coverage-v8": "^3.2.4",
-    "@welldone-software/why-did-you-render": "^4.2.5",
     "autoprefixer": "^10.4.21",
-    "identity-obj-proxy": "^3.0.0",
     "jsdom": "^27.0.0",
     "postcss": "^8.5.3",
     "react": "^18.3.1",
@@ -100,13 +99,8 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "ajv": "^6.12.3",
-    "classnames": "^2.2.6",
-    "focus-trap-react": "^7.0.1",
-    "lodash": "^4.17.19",
-    "object.assign": "^4.1.0",
-    "object.values": "^1.1.1",
-    "react-portal": "^4.2.1"
+    "clsx": "^2.1.1",
+    "focus-trap-react": "^12.0.0"
   },
   "pnpm": {
     "overrides": {

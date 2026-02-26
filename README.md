@@ -1,5 +1,5 @@
 <p>
-  <img alt="react-bnb-gallery" width="250" src="https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/rbg-logo.png" /><br />
+  <img alt="react-bnb-gallery" width="250" src="https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/logo.svg" /><br />
   Friendly, customizable and accessible-ready simple photo gallery based on React.
 </p>
 

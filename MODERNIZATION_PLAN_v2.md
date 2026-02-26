@@ -29,6 +29,7 @@ Modernize the repository safely in phases, keep compatibility decisions explicit
 | 7 | TypeScript migration | Convert source to TypeScript with declaration-first compatibility | 3-6 |
 | 8 | Toolchain simplification | Replace Sass, ESLint/Prettier, and Babel with a leaner stack | 3-6 |
 | 9 | React surface modernization | Remove legacy React patterns and align component architecture to modern React + TS conventions | 2-5 |
+| 10 | 2.1.x release execution | Manual verification, branding/docs refresh, release notes, changesets release PR, publish gate | 2-4 |
 
 ## Mandatory Alignment Questions Per Phase
 
@@ -182,6 +183,35 @@ Approved answers (2026-02-25):
 5. Release timing: schedule React surface modernization for `2.1.x` hardening (post-`2.0.0`).
 6. Skill-assisted implementation policy: yes, standardize implementation/review using `frontend-design` and `vercel-react-best-practices`.
 
+### Phase 10: 2.1.x Release Execution
+
+Questions to answer before implementation:
+
+1. Confirm target release version: `2.1.0` now, or another `2.1.x` patch first?
+2. Should manual QA be required as an explicit release gate before merging the release PR?
+3. Should release notes emphasize migration impact first (`propTypes` removal, TS-only contracts), or list by phase chronology?
+4. Do you want one combined changeset/release PR for all merged `2.1.x` work, or split if more fixes land during QA?
+5. If manual QA finds regressions, should we block release until fixes merge, or allow release with known-issues notes?
+6. Should Phase 10 include a branding/documentation refresh track (logo updates + README/docs polish) before release PR generation?
+
+Approved answers (2026-02-26):
+
+1. Target release version: `2.1.0` now.
+2. Manual QA: required as an explicit release gate before merging the release PR.
+3. Release notes structure: migration-impact first (including `propTypes` removal and TS-only contracts), followed by phase chronology.
+4. Release PR strategy: one combined changeset/release PR for all merged `2.1.x` work.
+5. Regression policy: block release until fixes merge (do not publish with known regressions).
+6. Branding/docs scope: include branding and documentation refresh before release PR generation.
+
+Proposed execution checklist (after alignment approval):
+
+1. Build a manual QA checklist from critical user flows (open/close, keyboard, touch, thumbnail toggle, light mode controls).
+2. Run manual QA and log outcomes/issues in a dedicated Phase 10 tracking PR.
+3. Deliver branding/documentation refresh updates (logo assets, README/docs wording) in scoped docs PRs.
+4. Finalize changelog/release notes for `2.1.x` migration guidance.
+5. Generate/merge changeset release PR.
+6. Publish through protected `npm-publish` environment approvals.
+
 ## Known High-Priority Technical Risks to Address
 
 1. Legacy dependency stack pinned to 2020-2021 era packages.
@@ -283,6 +313,8 @@ If `gh` is unavailable, create PR manually using the same template content.
 Add decisions here as we align each phase:
 
 - 2026-02-24: Initial plan created.
+- 2026-02-26: Phase 10 alignment approved (`2.1.0` target, required manual QA gate, migration-impact-first release notes, single combined release PR, block on regressions, branding/docs refresh included pre-release PR).
+- 2026-02-25: Phase 10 added to plan for `2.1.x` release execution sequencing; alignment answers pending.
 - 2026-02-25: Phase 7 alignment approved (one-shot migration, strict TS, generated declarations, TS-only source, target `2.1.x`).
 - 2026-02-25: Phase 8 alignment approved (Tailwind CSS, full Biome migration, remove Babel, one coordinated PR, target `2.1.x`).
 - 2026-02-25: Phase 9 alignment approved (convert all class components, TS-only contracts, remove runtime prop validators, allow small behavior changes with stable props, standardize with skills guidance, target `2.1.x`).
@@ -439,6 +471,17 @@ Add decisions here as we align each phase:
 - 2026-02-25: Phase 9 implementation finalized on `master`.
   - Merged Phase 9 PR train: `#160` and `#161`.
   - Phase goals completed: class-component migration, TypeScript-only runtime contracts, legacy runtime validator removal, behavior-parity hardening tests, and migration/docs alignment.
+- 2026-02-25: Phase 10 is now the active next phase (alignment questions pending approval before implementation).
+- 2026-02-26: Phase 10 alignment closure completed; release execution checklist is now unblocked.
+- 2026-02-25: Phase 10 implementation started (PR-1 scope: release-plan + branding/docs kickoff).
+  - Added explicit branding/documentation refresh scope to Phase 10 release execution track.
+  - Replaced root logo asset usage from `rbg-logo.png` to `logo.svg` and updated README reference.
+- 2026-02-26: Phase 10 implementation continued (PR-2 scope: QA gate + release PR preparation).
+  - Added manual QA gate document for critical user flows at `docs/release/PHASE_10_MANUAL_QA_CHECKLIST.md`.
+  - Added combined `2.1.0` changeset for `react-bnb-gallery` at `.changeset/bright-hounds-relax.md`.
+- 2026-02-26: Phase 10 release preflight validated as passing.
+  - Local validation completed: `pnpm changeset status`, `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm docs:build` all pass.
+  - Changeset status now reports a pending `minor` bump for `react-bnb-gallery` (release PR generation unblocked).
 
 ## Execution Loop We Will Follow
 

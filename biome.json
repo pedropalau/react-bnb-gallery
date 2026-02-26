@@ -1,28 +1,57 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
-  "files": {
-    "includes": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "src/css/**/*.css",
-      "tests/**/*.{js,jsx,ts,tsx}",
-      "vite.config.js"
-    ]
-  },
-  "formatter": {
-    "enabled": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "a11y": {
-        "noSvgWithoutTitle": "off"
-      }
-    }
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single"
-    }
-  }
+	"$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
+	"files": {
+		"includes": [
+			"src/**/*.{js,jsx,ts,tsx}",
+			"src/css/**/*.css",
+			"tests/**/*.{js,jsx,ts,tsx}",
+			"vite.config.js",
+			"docs/app/**/*.{js,jsx,ts,tsx}",
+			"docs/app/**/*.css",
+			"docs/components/**/*.{js,jsx,ts,tsx}",
+			"docs/data/**/*.{js,jsx,ts,tsx}",
+			"docs/lib/**/*.{js,jsx,ts,tsx}",
+			"docs/*.config.{js,ts}",
+			"docs/*.d.ts"
+		]
+	},
+	"formatter": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"a11y": {
+				"noSvgWithoutTitle": "off",
+				"noRedundantAlt": "off",
+				"useKeyWithClickEvents": "off",
+				"useSemanticElements": "off"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "off",
+				"noDoubleEquals": "off"
+			},
+			"performance": {
+				"noImgElement": "off"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
 }
