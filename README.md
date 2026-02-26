@@ -1,15 +1,25 @@
-<p>
-  <img alt="react-bnb-gallery" width="250" src="https://raw.githubusercontent.com/peterpalau/react-bnb-gallery/master/logo.svg" /><br />
-  Friendly, customizable and accessible-ready simple photo gallery based on React.
+<p align="center">
+  <a href="https://bnb-gallery.vercel.app" target="_blank">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pedropalau/react-bnb-gallery/HEAD/.github/logo-dark.svg" />
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/pedropalau/react-bnb-gallery/HEAD/.github/logo-light.svg" />
+      <img alt="react-bnb-gallery" src="https://raw.githubusercontent.com/pedropalau/react-bnb-gallery/HEAD/.github/logo-dark.svg" width="590" height="120" style="max-width: 100%;">
+    </picture>
+  </a>
 </p>
 
-<p>
-  <a href="https://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="https://img.shields.io/npm/v/react-bnb-gallery.svg" alt="NPM"></a>
-  <a href="http://www.npmjs.com/package/react-bnb-gallery" target="_blank"><img src="http://img.shields.io/npm/dm/react-bnb-gallery.svg?style=flat" alt="Download Count" /></a>
-  <a href="https://github.com/peterpalau/react-bnb-gallery/actions" target="_blank"><img src="https://github.com/peterpalau/react-bnb-gallery/actions/workflows/ci.yml/badge.svg" alt="Build Status" /></a>
+<p align="center">
+  Friendly, customizable and accessible-ready simple photo gallery based on React, inspired by Airbnb.
 </p>
 
-------
+<p align="center">
+  <a href="https://www.npmjs.com/package/react-bnb-gallery"><img src="https://img.shields.io/npm/v/react-bnb-gallery.svg" alt="NPM"></a>
+  <a href="http://www.npmjs.com/package/react-bnb-gallery"><img src="http://img.shields.io/npm/dm/react-bnb-gallery.svg?style=flat" alt="Download Count" /></a>
+  <a href="https://github.com/peterpalau/react-bnb-gallery/actions"><img src="https://github.com/pedropalau/react-bnb-gallery/actions/workflows/ci.yml/badge.svg" alt="Build Status" /></a>
+  <a href="https://github.com/pedropalau/react-bnb-gallery/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/react-bnb-gallery.svg" alt="License"></a>
+</p>
+
+---
 
 ## Install
 
