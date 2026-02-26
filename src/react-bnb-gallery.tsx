@@ -131,7 +131,10 @@ export function ReactBnbGallery({
 		};
 	}, [photosInput, direction]);
 
-	const photos = useMemo(() => normalizePhotos(photosInput || []), [photosInput]);
+	const photos = useMemo(
+		() => normalizePhotos(photosInput || []),
+		[photosInput],
+	);
 
 	const close = useCallback(() => {
 		onClose?.();
@@ -196,7 +199,10 @@ export function ReactBnbGallery({
 				aria-modal="true"
 				style={{ zIndex }}
 			>
-				<div style={galleryModalOverlayStyles} className="gallery-modal--overlay" />
+				<div
+					style={galleryModalOverlayStyles}
+					className="gallery-modal--overlay"
+				/>
 				<div className="gallery-modal--container">
 					<div className="gallery-modal--table">
 						<div className="gallery-modal--cell">
