@@ -79,5 +79,34 @@ describe('Caption', () => {
 				});
 			});
 		});
+
+		it('renders caption and subcaption when they are React nodes', () => {
+			render(
+				<Caption
+					current={0}
+					photos={[
+						{
+							photo: 'https://example.com/photo.jpg',
+							caption: (
+								<span>
+									Mountain sunrise by{' '}
+									<a href="https://example.com/jane-doe">Jane Doe</a>
+								</span>
+							),
+							subcaption: (
+								<span>
+									Photo by <strong>Jane Doe</strong>
+								</span>
+							),
+						},
+					]}
+				/>,
+			);
+
+			expect(
+				screen.getByRole('link', { name: 'Jane Doe' }),
+			).toBeInTheDocument();
+			expect(screen.getByText('Photo by')).toBeInTheDocument();
+		});
 	});
 });

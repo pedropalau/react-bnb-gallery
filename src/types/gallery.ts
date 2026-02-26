@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { DefaultPhrases } from '../default-phrases';
 
 /** Localization strings used throughout the gallery UI. */
@@ -14,9 +15,9 @@ export interface GalleryPhoto {
 	/** Accessible alt text for the thumbnail image. */
 	thumbnailAlt?: string;
 	/** Primary caption displayed below the photo. */
-	caption?: string;
+	caption?: ReactNode;
 	/** Secondary caption displayed below the primary caption. */
-	subcaption?: string;
+	subcaption?: ReactNode;
 	/** URL of the thumbnail image used in the thumbnail strip. */
 	thumbnail?: string;
 	[key: string]: unknown;
