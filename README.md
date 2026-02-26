@@ -85,6 +85,26 @@ export default function App() {
 }
 ```
 
+## Styling Tokens
+
+The distributed stylesheet now uses CSS custom properties for core design tokens (similar to shadcn-style theming). The contract is semantic-first (`--rbg-background`, `--rbg-foreground`, `--rbg-radius`), and internal aliases (`--rbg-color-*`) are derived from those values.
+
+You can override tokens anywhere above the gallery in your cascade:
+
+```css
+:root {
+  --rbg-radius: 0.5rem;
+  --rbg-background: rgb(8, 10, 14);
+  --rbg-foreground: #f8fafc;
+  --rbg-foreground-muted: rgba(248, 250, 252, 0.72);
+  --rbg-overlay: rgb(8, 10, 14);
+  --rbg-space-15: 12px;
+  --rbg-space-20: 18px;
+}
+```
+
+Default light-mode token overrides are applied via `.mode-light` (or `.rbg-light`).
+
 ## Exports
 
 - `ReactBnbGallery` (recommended)
