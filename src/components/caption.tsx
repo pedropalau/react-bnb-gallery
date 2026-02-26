@@ -130,9 +130,3 @@ function Caption({
 const MemoizedCaption = memo(Caption);
 
 export { MemoizedCaption as Caption };
-
-/**
- * @deprecated Use named import instead: `import { Caption } from './caption'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedCaption;

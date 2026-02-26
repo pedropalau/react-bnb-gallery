@@ -75,9 +75,3 @@ function Photo({
 const MemoizedPhoto = memo(Photo);
 
 export { MemoizedPhoto as Photo };
-
-/**
- * @deprecated Use named import instead: `import { Photo } from './photo'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedPhoto;

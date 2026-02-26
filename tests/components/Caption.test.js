@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import Caption from '../../src/components/caption';
+import { Caption } from '../../src/components/caption';
 import { calculateThumbnailsLeftScroll } from '../../src/utils/thumbnail-layout';
 
 import photos from '../test-photos';

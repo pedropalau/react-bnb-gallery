@@ -36,9 +36,3 @@ function TogglePhotoList({
 const MemoizedTogglePhotoList = memo(TogglePhotoList);
 
 export { MemoizedTogglePhotoList as TogglePhotoList };
-
-/**
- * @deprecated Use named import instead: `import { TogglePhotoList } from './toggle-photo-list'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedTogglePhotoList;

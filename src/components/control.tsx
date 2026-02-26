@@ -67,9 +67,3 @@ function Control({
 const MemoizedControl = memo(Control);
 
 export { MemoizedControl as Control };
-
-/**
- * @deprecated Use named import instead: `import { Control } from './control'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedControl;

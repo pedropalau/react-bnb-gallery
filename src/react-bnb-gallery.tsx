@@ -268,9 +268,3 @@ export function ReactBnbGallery({
 		document.body,
 	);
 }
-
-/**
- * @deprecated Use named import instead: `import { ReactBnbGallery } from 'react-bnb-gallery'`.
- * Default export will be removed in the next major version.
- */
-export default ReactBnbGallery;

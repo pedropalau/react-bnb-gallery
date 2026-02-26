@@ -17,9 +17,3 @@ function LoadingSpinner({ show = true }: LoadingSpinnerProps) {
 }
 
 export { LoadingSpinner };
-
-/**
- * @deprecated Use named import instead: `import { LoadingSpinner } from './loading-spinner'`.
- * Default export will be removed in the next major version.
- */
-export default LoadingSpinner;

@@ -411,9 +411,3 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 const MemoizedGallery = memo(Gallery);
 
 export { MemoizedGallery as Gallery };
-
-/**
- * @deprecated Use named import instead: `import { Gallery } from './gallery'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedGallery;

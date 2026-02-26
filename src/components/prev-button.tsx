@@ -36,9 +36,3 @@ function PrevButton({
 const MemoizedPrevButton = memo(PrevButton);
 
 export { MemoizedPrevButton as PrevButton };
-
-/**
- * @deprecated Use named import instead: `import { PrevButton } from './prev-button'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedPrevButton;
