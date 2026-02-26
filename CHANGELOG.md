@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.1.2
+
+### Patch Changes
+
+- Fix `wrap` boundary navigation semantics so:
+
+  - `wrap={false}` stops at the first/last photo.
+  - `wrap={true}` loops across boundaries as documented.
+
+  Also adds behavior tests for keyboard navigation at boundaries and control visibility in both wrap modes.
+
 ## 2.1.0
 
 ### Minor Changes

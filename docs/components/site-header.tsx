@@ -24,7 +24,7 @@ export function SiteHeader({
 					<div className="flex items-center">
 						<Link
 							href="/"
-							className="inline-flex items-center justify-center hover:bg-accent w-12 h-10 rounded-md"
+							className="inline-flex items-center justify-center hover:text-brand size-10"
 						>
 							<Logo />
 						</Link>
