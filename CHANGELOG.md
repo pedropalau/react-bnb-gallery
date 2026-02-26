@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.1.0
+
+### Minor Changes
+
+- 6fd8b74: Prepare the `2.1.0` release train with the post-`2.0.0` modernization work:
+
+  - TypeScript migration finalized with strict typing and generated declarations.
+  - Runtime `propTypes` and `airbnb-prop-types` validation removed in favor of TS-only contracts.
+  - React surface modernization completed via hooks-based internals while keeping the public API stable.
+  - Fixed thumbnail strip synchronization when opening the gallery at a non-zero `activePhotoIndex`.
+  - Docs and migration guidance updated for `2.1.x` adoption.
+
 ## 2.0.0
 
 ### Major Changes
