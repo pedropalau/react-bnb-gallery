@@ -90,8 +90,7 @@ export default function App() {
 - `ReactBnbGallery` (recommended)
 - `Gallery`
 - Types: `ReactBnbGalleryProps`, `GalleryPhoto`, `GalleryPhrases`, `GalleryController`
-
-> `default` export is deprecated in `2.x` and will be removed in the next major version.
+- No package `default` export. Use named imports only.
 
 ## Props
 
@@ -167,6 +166,7 @@ pnpm build
 ### `2.1.x`
 
 - Runtime `propTypes` and `airbnb-prop-types` validation were removed.
+- Deprecated default exports were removed. Use named imports only.
 - Added `GalleryPhoto.alt` and `GalleryPhoto.thumbnailAlt` with backward-compatible fallback to `caption`.
 - Added `GalleryPhoto.caption` and `GalleryPhoto.subcaption` support for `ReactNode` content.
 - Deprecated (planned removal next major):

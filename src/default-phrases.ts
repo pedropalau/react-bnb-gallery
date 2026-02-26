@@ -14,9 +14,3 @@ export const defaultPhrases = {
 };
 
 export type DefaultPhrases = typeof defaultPhrases;
-
-/**
- * @deprecated Use named import instead: `import { defaultPhrases } from './default-phrases'`.
- * Default export will be removed in the next major version.
- */
-export default defaultPhrases;

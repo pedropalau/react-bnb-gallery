@@ -30,10 +30,3 @@ export function normalizePhotos(
 	const photosToProcess = Array.isArray(photos) ? photos : [photos];
 	return photosToProcess.map(processPhoto);
 }
-
-/**
- * @deprecated Use named import instead:
- * `import { normalizePhotos } from './normalize-photos'`.
- * Default export will be removed in the next major version.
- */
-export default normalizePhotos;

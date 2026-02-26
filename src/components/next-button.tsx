@@ -36,9 +36,3 @@ function NextButton({
 const MemoizedNextButton = memo(NextButton);
 
 export { MemoizedNextButton as NextButton };
-
-/**
- * @deprecated Use named import instead: `import { NextButton } from './next-button'`.
- * Default export will be removed in the next major version.
- */
-export default MemoizedNextButton;

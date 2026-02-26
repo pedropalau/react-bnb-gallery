@@ -11,10 +11,3 @@ export function getCaptionText(caption: ReactNode): string {
 
 	return '';
 }
-
-/**
- * @deprecated Use named import instead:
- * `import { getCaptionText } from './get-caption-text'`.
- * Default export will be removed in the next major version.
- */
-export default getCaptionText;

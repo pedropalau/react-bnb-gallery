@@ -98,9 +98,3 @@ function Image({
 }
 
 export { Image };
-
-/**
- * @deprecated Use named import instead: `import { Image } from './image'`.
- * Default export will be removed in the next major version.
- */
-export default Image;
