@@ -259,5 +259,23 @@ describe('Gallery', () => {
 
 			expect(prevButtonPressed).toHaveBeenCalledTimes(1);
 		});
+
+		it('fires activePhotoPressed when clicking on the active image', () => {
+			const activePhotoPressed = vi.fn();
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					activePhotoPressed={activePhotoPressed}
+				/>,
+			);
+
+			const activeImage = container.querySelector('img.photo');
+			expect(activeImage).toBeInTheDocument();
+
+			fireEvent.click(activeImage);
+
+			expect(activePhotoPressed).toHaveBeenCalledTimes(1);
+		});
 	});
 });
