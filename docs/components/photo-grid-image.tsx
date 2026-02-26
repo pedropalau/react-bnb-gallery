@@ -26,7 +26,7 @@ export const GridImage = memo(function GridImage({
 
 	return (
 		<button
-			className="block h-full w-full focus-visible:outline-none overflow-hidden rounded-lg lg:rounded-xl xl:rounded-2xl relative bg-muted"
+			className="block h-full w-full focus-visible:outline-none overflow-hidden rounded-lg lg:rounded-xl xl:rounded-2xl relative bg-muted hover:opacity-90 transition-opacity cursor-pointer ease-in-out duration-300"
 			onClick={handleClick}
 			type="button"
 		>
@@ -46,14 +46,6 @@ export const GridImage = memo(function GridImage({
 					src={photo.src}
 					style={loaded ? { transitionDelay: `${delay.current}ms` } : undefined}
 				/>
-				<figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-3 pb-2 pt-10 text-left">
-					<span className="block truncate text-[10px] uppercase tracking-[0.12em] text-white/70">
-						Photo by
-					</span>
-					<span className="block truncate text-xs font-medium text-white">
-						{photo.authorName}
-					</span>
-				</figcaption>
 			</figure>
 		</button>
 	);
