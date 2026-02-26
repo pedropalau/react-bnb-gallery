@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
-import { INVERSE_COLOR } from '../../src/constants';
+import { INVERSE_COLOR, NORMAL_COLOR } from '../../src/constants';
 import ReactBnbGallery from '../../src/react-bnb-gallery';
 
 import photos from '../test-photos';
@@ -105,6 +105,34 @@ describe('ReactBnbGallery', () => {
 				'.gallery-control--next svg',
 			);
 			expect(nextControlIcon).toHaveStyle({ fill: INVERSE_COLOR });
+		});
+
+		it('uses a light overlay background by default in light mode', () => {
+			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
+
+			const overlay = document.body.querySelector('.gallery-modal--overlay');
+			expect(overlay).toHaveStyle({ backgroundColor: NORMAL_COLOR });
+		});
+
+		it('uses a light gallery surface background by default in light mode', () => {
+			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
+
+			const gallerySurface = document.body.querySelector('.gallery');
+			expect(gallerySurface).toHaveStyle({ backgroundColor: NORMAL_COLOR });
+		});
+
+		it('keeps custom overlay background color in light mode when provided', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					light
+					backgroundColor="rgb(240, 240, 240)"
+				/>,
+			);
+
+			const overlay = document.body.querySelector('.gallery-modal--overlay');
+			expect(overlay).toHaveStyle({ backgroundColor: 'rgb(240, 240, 240)' });
 		});
 
 		it('warns when photos is passed as a single string', () => {
