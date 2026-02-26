@@ -49,9 +49,9 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 
 ### Thumbnail Toggle
 
-- [ ] Toggle thumbnail tray open/closed.
-- [ ] Active thumbnail stays synchronized with active photo.
-- [ ] Scroll/positioning remains correct after multiple navigations.
+- [x] Toggle thumbnail tray open/closed.
+- [x] Active thumbnail stays synchronized with active photo.
+- [x] Scroll/positioning remains correct after multiple navigations.
 
 ### Light Controls / Visual
 
@@ -72,7 +72,7 @@ Validate critical runtime flows before merging the `2.1.0` release PR.
 | Open / Close | PASS | Open/close/re-open flows verified on 2026-02-26. |
 | Keyboard | PASS | Keyboard interactions verified on 2026-02-26. |
 | Touch / Swipe | PASS | Touch/swipe behavior verified on 2026-02-26. |
-| Thumbnail Toggle | Pending | |
+| Thumbnail Toggle | PASS | Thumbnail tray toggle/sync/positioning verified on 2026-02-26. |
 | Light Controls / Visual | Pending | |
 | Migration-Specific Verification | Pending | |
 
