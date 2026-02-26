@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.4
+
+### Patch Changes
+
+- 3465f6a: Fix Firefox click handling for the active gallery image by ensuring the active photo button consistently occupies the full photo area, restoring reliable `activePhotoPressed` callback behavior when clicking the image.
+
 ## 2.1.3
 
 ### Patch Changes
