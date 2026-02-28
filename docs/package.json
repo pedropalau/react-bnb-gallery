@@ -12,7 +12,7 @@
 		"lint:next": "next lint"
 	},
 	"dependencies": {
-		"@hugeicons/core-free-icons": "^3.1.1",
+		"@hugeicons/core-free-icons": "^3.3.0",
 		"@hugeicons/react": "^1.1.5",
 		"@tabler/icons-react": "^3.37.1",
 		"class-variance-authority": "^0.7.1",
