@@ -89,8 +89,6 @@ export default function App() {
 
 The distributed stylesheet uses semantic CSS custom properties (shadcn-style token contract). The gallery reads these tokens directly, so you can fully theme it from CSS:
 - `--rbg-radius`
-- `--rbg-background`
-- `--rbg-gallery-background`
 - `--rbg-foreground`
 - `--rbg-foreground-subtle`
 - `--rbg-foreground-muted`
@@ -106,8 +104,6 @@ You can override tokens anywhere above the gallery in your cascade:
 ```css
 :root {
   --rbg-radius: 0.5rem;
-  --rbg-background: rgb(8, 10, 14);
-  --rbg-gallery-background: var(--rbg-background);
   --rbg-foreground: #f8fafc;
   --rbg-foreground-subtle: rgba(248, 250, 252, 0.82);
   --rbg-foreground-muted: rgba(248, 250, 252, 0.72);

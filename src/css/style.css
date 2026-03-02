@@ -10,8 +10,6 @@
 		--rbg-radius: 0.375rem;
 
 		/* Color tokens (dark-mode defaults). */
-		--rbg-background: rgb(0, 0, 0);
-		--rbg-gallery-background: var(--rbg-background);
 		--rbg-foreground: #fff;
 		--rbg-foreground-subtle: rgba(255, 255, 255, 0.75);
 		--rbg-foreground-muted: rgba(255, 255, 255, 0.65);
@@ -31,8 +29,6 @@
 	/* Light-mode overrides — applied via the `light` prop (.mode-light) or manually via .rbg-light. */
 	.mode-light,
 	.rbg-light {
-		--rbg-background: rgb(255, 255, 255);
-		--rbg-gallery-background: var(--rbg-background);
 		--rbg-foreground: #111;
 		--rbg-foreground-subtle: rgba(0, 0, 0, 0.65);
 		--rbg-foreground-muted: rgba(0, 0, 0, 0.65);
@@ -192,7 +188,6 @@
 	vertical-align: middle;
 	font-size: 1rem;
 	width: 100%;
-	background-color: var(--rbg-gallery-background);
 }
 
 /* When embedded inside the modal the gallery fills the full table-cell height. */
