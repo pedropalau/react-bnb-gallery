@@ -87,7 +87,19 @@ export default function App() {
 
 ## Styling Tokens
 
-The distributed stylesheet now uses CSS custom properties for core design tokens (similar to shadcn-style theming). The contract is semantic-first (`--rbg-background`, `--rbg-foreground`, `--rbg-radius`), and internal aliases (`--rbg-color-*`) are derived from those values.
+The distributed stylesheet uses semantic CSS custom properties (shadcn-style token contract). The gallery reads these tokens directly, so you can fully theme it from CSS:
+- `--rbg-radius`
+- `--rbg-background`
+- `--rbg-gallery-background`
+- `--rbg-foreground`
+- `--rbg-foreground-subtle`
+- `--rbg-foreground-muted`
+- `--rbg-overlay`
+- `--rbg-icon`
+- `--rbg-spinner-track`
+- `--rbg-spinner-head`
+- `--rbg-photo-shadow`
+- `--rbg-z-modal`
 
 You can override tokens anywhere above the gallery in your cascade:
 
@@ -95,11 +107,15 @@ You can override tokens anywhere above the gallery in your cascade:
 :root {
   --rbg-radius: 0.5rem;
   --rbg-background: rgb(8, 10, 14);
+  --rbg-gallery-background: var(--rbg-background);
   --rbg-foreground: #f8fafc;
+  --rbg-foreground-subtle: rgba(248, 250, 252, 0.82);
   --rbg-foreground-muted: rgba(248, 250, 252, 0.72);
   --rbg-overlay: rgb(8, 10, 14);
-  --rbg-space-15: 12px;
-  --rbg-space-20: 18px;
+  --rbg-icon: var(--rbg-foreground);
+  --rbg-spinner-track: rgba(248, 250, 252, 0.2);
+  --rbg-spinner-head: var(--rbg-foreground);
+  --rbg-photo-shadow: 0 0.6rem 1rem rgba(0, 0, 0, 0.45);
 }
 ```
 
@@ -121,7 +137,7 @@ Default light-mode token overrides are applied via `.mode-light` (or `.rbg-light
 |---|---|---|---|
 | `activePhotoIndex` | `number` | `0` | Index of the photo shown on open. |
 | `activePhotoPressed` | `() => void` | `undefined` | Callback fired when the active photo is clicked. |
-| `backgroundColor` | `string` | `'rgba(0,0,0,1)'` | Background color of the gallery overlay. |
+| `backgroundColor` | `string` | `undefined` | Optional overlay color override. If omitted, CSS token `--rbg-overlay` is used. |
 | `direction` | `string` | `'forwards'` | Deprecated in `2.x`; planned for removal in next major. |
 | `keyboard` | `boolean` | `true` | Enable keyboard navigation (arrow keys, Escape). |
 | `leftKeyPressed` | `() => void` | `undefined` | Callback fired when the left arrow key is pressed. |

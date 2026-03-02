@@ -9,7 +9,7 @@ import {
 	useState,
 } from 'react';
 
-import { DEFAULT_COLOR, DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
+import { DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
 import { defaultPhrases } from '../default-phrases';
 import type {
 	GalleryController,
@@ -98,7 +98,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
 		activePhotoIndex = 0,
 		activePhotoPressed,
-		backgroundColor = DEFAULT_COLOR,
+		backgroundColor,
 		light = false,
 		nextButtonPressed,
 		onActivePhotoIndexChange,
@@ -368,7 +368,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 
 	const hasPhotos = photos.length > 0;
 	const current = photos[state.activePhotoIndex];
-	const galleryStyles = { backgroundColor };
+	const galleryStyles = backgroundColor ? { backgroundColor } : undefined;
 	const { noPhotosProvided: emptyMessage } = phrases;
 
 	return (

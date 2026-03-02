@@ -11,10 +11,12 @@
 
 		/* Color tokens (dark-mode defaults). */
 		--rbg-background: rgb(0, 0, 0);
+		--rbg-gallery-background: var(--rbg-background);
 		--rbg-foreground: #fff;
 		--rbg-foreground-subtle: rgba(255, 255, 255, 0.75);
 		--rbg-foreground-muted: rgba(255, 255, 255, 0.65);
-		--rbg-overlay: rgb(255, 0, 0);
+		--rbg-overlay: rgb(0, 0, 0);
+		--rbg-icon: var(--rbg-foreground);
 		--rbg-spinner-track: rgba(255, 255, 255, 0.2);
 		--rbg-spinner-head: var(--rbg-foreground);
 		--rbg-loading-mask: var(--rbg-overlay);
@@ -30,10 +32,12 @@
 	.mode-light,
 	.rbg-light {
 		--rbg-background: rgb(255, 255, 255);
+		--rbg-gallery-background: var(--rbg-background);
 		--rbg-foreground: #111;
 		--rbg-foreground-subtle: rgba(0, 0, 0, 0.65);
 		--rbg-foreground-muted: rgba(0, 0, 0, 0.65);
 		--rbg-overlay: rgb(255, 255, 255);
+		--rbg-icon: var(--rbg-foreground);
 		--rbg-spinner-track: rgba(0, 0, 0, 0.1);
 	}
 }
@@ -141,6 +145,12 @@
 	border: 0;
 	display: block;
 	padding: 0.5rem;
+	color: var(--rbg-icon);
+}
+
+.gallery-modal--close button.gallery-close .gallery-close-icon {
+	display: block;
+	fill: currentColor;
 }
 
 .gallery-modal--close button.gallery-close:active,
@@ -182,6 +192,7 @@
 	vertical-align: middle;
 	font-size: 1rem;
 	width: 100%;
+	background-color: var(--rbg-gallery-background);
 }
 
 /* When embedded inside the modal the gallery fills the full table-cell height. */
@@ -321,6 +332,12 @@
 	width: 20%;
 	background: none;
 	border: 0;
+	color: var(--rbg-icon);
+}
+
+.gallery .gallery-control .gallery-control-icon {
+	display: block;
+	fill: currentColor;
 }
 
 .gallery .gallery-control:focus,

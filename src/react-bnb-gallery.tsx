@@ -8,12 +8,10 @@ import { Gallery } from './components/gallery';
 import {
 	ARROW_LEFT_KEYCODE,
 	ARROW_RIGHT_KEYCODE,
-	DEFAULT_COLOR,
 	DEFAULT_OPACITY,
 	DEFAULT_Z_INDEX,
 	ESC_KEYCODE,
 	FORWARDS,
-	NORMAL_COLOR,
 } from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
@@ -59,7 +57,7 @@ export interface ReactBnbGalleryProps {
  *
  * @param activePhotoIndex - Index of the currently displayed photo (default: `0`)
  * @param activePhotoPressed - Callback fired when the active photo is pressed
- * @param backgroundColor - Overlay background color (default: dark in standard mode, light in `light` mode)
+ * @param backgroundColor - Overlay background color override (defaults to CSS token `--rbg-overlay`)
  * @param direction - Navigation direction; deprecated in 2.x — use `activePhotoIndex` with callbacks instead
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
@@ -104,8 +102,6 @@ export function ReactBnbGallery({
 		photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
 		direction?: string;
 	} | null>(null);
-	const overlayBackgroundColor =
-		backgroundColorProp ?? (light ? NORMAL_COLOR : DEFAULT_COLOR);
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === 'production') {
@@ -192,8 +188,11 @@ export function ReactBnbGallery({
 	);
 
 	const galleryModalOverlayStyles = useMemo(
-		() => ({ opacity, backgroundColor: overlayBackgroundColor }),
-		[opacity, overlayBackgroundColor],
+		() => ({
+			opacity,
+			...(backgroundColorProp ? { backgroundColor: backgroundColorProp } : {}),
+		}),
+		[opacity, backgroundColorProp],
 	);
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
@@ -247,7 +246,6 @@ export function ReactBnbGallery({
 										ref={gallery}
 										photos={photos}
 										light={light}
-										backgroundColor={overlayBackgroundColor}
 										wrap={wrap}
 										activePhotoIndex={activePhotoIndex}
 										activePhotoPressed={activePhotoPressed}
