@@ -23,7 +23,9 @@ function TogglePhotoList({
 	const label = isOpened ? hideLabel : showLabel;
 	const className = clsx(
 		'gallery-thumbnails--toggle',
+		// Legacy aliases kept for 2.x compatibility; use `is-open` / `is-collapsed` going forward.
 		isOpened ? 'hide' : 'open',
+		isOpened ? 'is-open' : 'is-collapsed',
 	);
 
 	return (

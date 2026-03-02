@@ -9,7 +9,7 @@ import {
 	useState,
 } from 'react';
 
-import { DEFAULT_COLOR, DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
+import { DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
 import { defaultPhrases } from '../default-phrases';
 import type {
 	GalleryController,
@@ -27,7 +27,6 @@ import { PrevButton } from './prev-button';
 interface GalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
-	backgroundColor?: string;
 	direction?: string;
 	light?: boolean;
 	nextButtonPressed?: () => void;
@@ -98,7 +97,6 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
 		activePhotoIndex = 0,
 		activePhotoPressed,
-		backgroundColor = DEFAULT_COLOR,
 		light = false,
 		nextButtonPressed,
 		onActivePhotoIndexChange,
@@ -368,11 +366,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 
 	const hasPhotos = photos.length > 0;
 	const current = photos[state.activePhotoIndex];
-	const galleryStyles = { backgroundColor };
 	const { noPhotosProvided: emptyMessage } = phrases;
 
 	return (
-		<div className="gallery" style={galleryStyles}>
+		<div className="gallery">
 			<div className="gallery-modal--preload">{galleryModalPreloadPhotos}</div>
 			<div className="gallery-main">
 				{controls}

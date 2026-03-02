@@ -77,8 +77,14 @@ function Image({
 	};
 
 	const { loading, withError } = state;
-	const wrapperClassNames = ['picture', loading && 'loading'];
-	const classNames = [className, 'media-image'];
+	const wrapperClassNames = [
+		'picture',
+		'gallery-image-wrapper',
+		// Legacy alias kept for 2.x compatibility; use `is-loading` going forward.
+		loading && 'loading',
+		loading && 'is-loading',
+	];
+	const classNames = [className, 'media-image', 'gallery-image'];
 
 	return (
 		<div className={clsx(wrapperClassNames)}>

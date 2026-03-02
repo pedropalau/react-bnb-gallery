@@ -30,7 +30,8 @@
 			},
 			"suspicious": {
 				"noArrayIndexKey": "off",
-				"noDoubleEquals": "off"
+				"noDoubleEquals": "off",
+				"noUnknownAtRules": "off"
 			},
 			"performance": {
 				"noImgElement": "off"

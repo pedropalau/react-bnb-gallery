@@ -85,6 +85,51 @@ export default function App() {
 }
 ```
 
+## Styling Tokens
+
+The distributed stylesheet uses semantic CSS custom properties (shadcn-style token contract). The gallery reads these tokens directly, so you can fully theme it from CSS:
+- `--rbg-radius`
+- `--rbg-foreground`
+- `--rbg-foreground-subtle`
+- `--rbg-foreground-muted`
+- `--rbg-overlay`
+- `--rbg-icon`
+- `--rbg-spinner-track`
+- `--rbg-spinner-head`
+- `--rbg-photo-shadow`
+- `--rbg-z-modal`
+
+You can override tokens anywhere above the gallery in your cascade:
+
+```css
+:root {
+  --rbg-radius: 0.5rem;
+  --rbg-foreground: #f8fafc;
+  --rbg-foreground-subtle: rgba(248, 250, 252, 0.82);
+  --rbg-foreground-muted: rgba(248, 250, 252, 0.72);
+  --rbg-overlay: rgb(8, 10, 14);
+  --rbg-icon: var(--rbg-foreground);
+  --rbg-spinner-track: rgba(248, 250, 252, 0.2);
+  --rbg-spinner-head: var(--rbg-foreground);
+  --rbg-photo-shadow: 0 0.6rem 1rem rgba(0, 0, 0, 0.45);
+}
+```
+
+Default light-mode token overrides are applied via `.mode-light` (or `.rbg-light`).
+
+## CSS Architecture
+
+- Namespace: all public classes are prefixed with `gallery-` to avoid collisions.
+- States: component state classes use `is-*` (`is-open`, `is-collapsed`, `is-active`).
+- Legacy state aliases (`hide`, `open`, `active`) are still emitted for backward compatibility in `2.x`.
+- Deprecated state aliases (removed next major):
+  - `loading` → `is-loading`
+  - `hide` → `is-thumbnails-collapsed` (figcaption state) or `is-open` (toggle state)
+  - `open` → `is-collapsed`
+  - `active` → `is-active`
+- Selector strategy: prefer direct element hooks (`gallery-photo-button`, `gallery-thumbnail-image`) instead of deep descendant selectors.
+- Theming contract: use `--rbg-*` tokens as the stable customization surface.
+
 ## Exports
 
 - `ReactBnbGallery` (recommended)
@@ -101,7 +146,7 @@ export default function App() {
 |---|---|---|---|
 | `activePhotoIndex` | `number` | `0` | Index of the photo shown on open. |
 | `activePhotoPressed` | `() => void` | `undefined` | Callback fired when the active photo is clicked. |
-| `backgroundColor` | `string` | `'rgba(0,0,0,1)'` | Background color of the gallery overlay. |
+| `backgroundColor` | `string` | `undefined` | Deprecated in `2.x`, ignored at runtime, and planned for removal in next major. Use CSS token `--rbg-overlay`. |
 | `direction` | `string` | `'forwards'` | Deprecated in `2.x`; planned for removal in next major. |
 | `keyboard` | `boolean` | `true` | Enable keyboard navigation (arrow keys, Escape). |
 | `leftKeyPressed` | `() => void` | `undefined` | Callback fired when the left arrow key is pressed. |

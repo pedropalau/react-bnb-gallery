@@ -1,16 +1,9 @@
 import clsx from 'clsx';
 import { memo, useCallback } from 'react';
 
-import { INVERSE_COLOR, NORMAL_COLOR } from '../constants';
-
 const controlStyle = {
 	height: '2.8em',
 	width: '2.8em',
-	fill: NORMAL_COLOR,
-};
-
-const controlStyleLight = {
-	fill: INVERSE_COLOR,
 };
 
 /**
@@ -34,7 +27,7 @@ function Control({
 	label = '',
 	className = null,
 	disabled = false,
-	light = false,
+	light: _light = false,
 }: ControlProps) {
 	const onButtonPress = useCallback(() => {
 		onPress?.();
@@ -53,10 +46,8 @@ function Control({
 				role="presentation"
 				focusable="false"
 				aria-hidden="true"
-				style={{
-					...controlStyle,
-					...(light && controlStyleLight),
-				}}
+				className="gallery-control-icon"
+				style={controlStyle}
 			>
 				<path d={arrow || ''} fillRule="evenodd" />
 			</svg>
