@@ -20,7 +20,7 @@
 		"jotai": "^2.18.0",
 		"next": "16.1.6",
 		"radix-ui": "^1.4.3",
-		"react": "^18.3.1",
+		"react": "^19.2.4",
 		"react-bnb-gallery": "workspace:*",
 		"react-dom": "^18.3.1",
 		"shadcn": "^3.8.5",
