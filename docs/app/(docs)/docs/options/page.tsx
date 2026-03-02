@@ -7,7 +7,12 @@ export const metadata = createPageMetadata('Options');
 const galleryProps = [
 	{ prop: 'activePhotoIndex', type: 'number', default: '0' },
 	{ prop: 'activePhotoPressed', type: '() => void', default: 'undefined' },
-	{ prop: 'backgroundColor', type: 'string', default: "'rgba(0,0,0,1)'" },
+	{
+		prop: 'backgroundColor',
+		type: 'string',
+		default: "'deprecated (ignored)'",
+		deprecated: true,
+	},
 	{ prop: 'direction', type: 'string', default: "'forwards'", deprecated: true },
 	{ prop: 'keyboard', type: 'boolean', default: 'true' },
 	{ prop: 'leftKeyPressed', type: '() => void', default: 'undefined' },
@@ -190,26 +195,24 @@ export default function OptionsPage() {
 							</CodeBlock>
 						</PropDetail>
 
-						<PropDetail name="backgroundColor">
+						<PropDetail name="backgroundColor" deprecated>
 							<p>
-								Sets the background color of the gallery overlay. Accepts any
-								valid CSS color value — hex, rgb, rgba, hsl, etc.
+								This prop is deprecated in <code>2.x</code>, ignored at
+								runtime, and will be removed in the next major version.
+								Customize the overlay with the CSS token{' '}
+								<code>--rbg-overlay</code> instead.
 							</p>
 							<CodeBlock
-								__raw__={`<ReactBnbGallery
-  show={open}
-  photos={photos}
-  backgroundColor="rgba(15, 15, 30, 0.95)"
-  onClose={() => setOpen(false)}
-/>`}
+								__raw__={`/* CSS token-based theming */
+:root {
+  --rbg-overlay: rgba(15, 15, 30, 0.95);
+}`}
 							>
 								<pre>
-									<code>{`<ReactBnbGallery
-  show={open}
-  photos={photos}
-  backgroundColor="rgba(15, 15, 30, 0.95)"
-  onClose={() => setOpen(false)}
-/>`}</code>
+									<code>{`/* CSS token-based theming */
+:root {
+  --rbg-overlay: rgba(15, 15, 30, 0.95);
+}`}</code>
 								</pre>
 							</CodeBlock>
 						</PropDetail>

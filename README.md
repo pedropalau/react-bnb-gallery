@@ -137,7 +137,7 @@ Default light-mode token overrides are applied via `.mode-light` (or `.rbg-light
 |---|---|---|---|
 | `activePhotoIndex` | `number` | `0` | Index of the photo shown on open. |
 | `activePhotoPressed` | `() => void` | `undefined` | Callback fired when the active photo is clicked. |
-| `backgroundColor` | `string` | `undefined` | Optional overlay color override. If omitted, CSS token `--rbg-overlay` is used. |
+| `backgroundColor` | `string` | `undefined` | Deprecated in `2.x`, ignored at runtime, and planned for removal in next major. Use CSS token `--rbg-overlay`. |
 | `direction` | `string` | `'forwards'` | Deprecated in `2.x`; planned for removal in next major. |
 | `keyboard` | `boolean` | `true` | Enable keyboard navigation (arrow keys, Escape). |
 | `leftKeyPressed` | `() => void` | `undefined` | Callback fired when the left arrow key is pressed. |

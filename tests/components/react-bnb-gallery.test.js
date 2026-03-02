@@ -1,6 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
-import { INVERSE_COLOR, NORMAL_COLOR } from '../../src/constants';
 import ReactBnbGallery from '../../src/react-bnb-gallery';
 
 import photos from '../test-photos';
@@ -98,41 +97,31 @@ describe('ReactBnbGallery', () => {
 			expect(modal).toHaveAttribute('aria-modal', 'true');
 		});
 
-		it('forwards light mode to gallery controls', () => {
+		it('applies light mode class to the modal', () => {
 			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
 
-			const nextControlIcon = document.body.querySelector(
-				'.gallery-control--next svg',
-			);
-			expect(nextControlIcon).toHaveStyle({ fill: INVERSE_COLOR });
+			const modal = document.body.querySelector('.gallery-modal');
+			expect(modal).toHaveClass('mode-light');
 		});
 
-		it('uses a light overlay background by default in light mode', () => {
+		it('sets overlay opacity via inline style', () => {
 			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
 
 			const overlay = document.body.querySelector('.gallery-modal--overlay');
-			expect(overlay).toHaveStyle({ backgroundColor: NORMAL_COLOR });
+			expect(overlay).toHaveStyle({ opacity: '1' });
 		});
 
-		it('uses a light gallery surface background by default in light mode', () => {
-			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
-
-			const gallerySurface = document.body.querySelector('.gallery');
-			expect(gallerySurface).toHaveStyle({ backgroundColor: NORMAL_COLOR });
-		});
-
-		it('keeps custom overlay background color in light mode when provided', () => {
+		it('ignores deprecated backgroundColor prop at runtime', () => {
 			render(
 				<ReactBnbGallery
 					photos={photos.slice(0, 2)}
 					show
-					light
 					backgroundColor="rgb(240, 240, 240)"
 				/>,
 			);
 
 			const overlay = document.body.querySelector('.gallery-modal--overlay');
-			expect(overlay).toHaveStyle({ backgroundColor: 'rgb(240, 240, 240)' });
+			expect(overlay.style.backgroundColor).toBe('');
 		});
 
 		it('renders counter above the image and updates it on navigation', () => {
@@ -201,6 +190,20 @@ describe('ReactBnbGallery', () => {
 
 			expect(warnSpy).toHaveBeenCalledWith(
 				expect.stringContaining('Deprecation: `direction` is deprecated'),
+			);
+		});
+
+		it('warns when deprecated backgroundColor prop is used', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					backgroundColor="rgb(240, 240, 240)"
+				/>,
+			);
+
+			expect(warnSpy).toHaveBeenCalledWith(
+				expect.stringContaining('Deprecation: `backgroundColor` is deprecated'),
 			);
 		});
 	});
