@@ -1,6 +1,6 @@
 {
   "name": "react-bnb-gallery",
-  "version": "2.1.5",
+  "version": "2.2.0",
   "description": "Accessible React lightbox and photo gallery component inspired by Airbnb’s image gallery.",
   "author": "Pedro Palau <palauisaac@gmail.com>",
   "homepage": "https://bnb-gallery.vercel.app",

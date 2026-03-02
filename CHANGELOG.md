@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.2.0
+
+### Minor Changes
+
+- Prepare `2.2.0` with styling and migration improvements while preserving 2.x compatibility:
+
+  - Keep `backgroundColor` deprecated, but restore it as a compatibility alias for overlay color in 2.x.
+  - Add and document stable `gallery-*` CSS hooks and `is-*` state classes.
+  - Expand token-based theming guidance around the `--rbg-*` contract.
+  - Document a clearer 2.x -> 3.0.0 deprecation and migration path.
+
 ## 2.1.5
 
 ### Patch Changes

@@ -10,7 +10,7 @@ const galleryProps = [
 	{
 		prop: 'backgroundColor',
 		type: 'string',
-		default: "'deprecated (ignored)'",
+		default: "'deprecated (compat alias)'",
 		deprecated: true,
 	},
 	{ prop: 'direction', type: 'string', default: "'forwards'", deprecated: true },
@@ -197,9 +197,9 @@ export default function OptionsPage() {
 
 						<PropDetail name="backgroundColor" deprecated>
 							<p>
-								This prop is deprecated in <code>2.x</code>, ignored at
-								runtime, and will be removed in the next major version.
-								Customize the overlay with the CSS token{' '}
+								This prop is deprecated in <code>2.x</code>, still works as a
+								backward-compatible alias for overlay color, and will be
+								removed in the next major version. Prefer the CSS token{' '}
 								<code>--rbg-overlay</code> instead.
 							</p>
 							<CodeBlock

@@ -33,8 +33,9 @@ export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
 	/**
-	 * @deprecated This prop is ignored in 2.x and will be removed in the next major release.
-	 * Customize overlay color via CSS token `--rbg-overlay`.
+	 * @deprecated This prop will be removed in the next major release.
+	 * In 2.x it still works as a compatibility alias for the overlay color.
+	 * Prefer CSS token `--rbg-overlay`.
 	 */
 	backgroundColor?: string;
 	direction?: string;
@@ -61,7 +62,7 @@ export interface ReactBnbGalleryProps {
  *
  * @param activePhotoIndex - Index of the currently displayed photo (default: `0`)
  * @param activePhotoPressed - Callback fired when the active photo is pressed
- * @param backgroundColor - Deprecated and ignored in 2.x; customize overlay with CSS token `--rbg-overlay`
+ * @param backgroundColor - Deprecated in 2.x; still supported as compatibility alias for overlay color. Prefer CSS token `--rbg-overlay`
  * @param direction - Navigation direction; deprecated in 2.x — use `activePhotoIndex` with callbacks instead
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
@@ -148,7 +149,7 @@ export function ReactBnbGallery({
 			!wasUsingDeprecatedBackgroundColorProp
 		) {
 			console.warn(
-				'[react-bnb-gallery] Deprecation: `backgroundColor` is deprecated in 2.x, ignored, and will be removed in the next major release. Customize `--rbg-overlay` in CSS instead.',
+				'[react-bnb-gallery] Deprecation: `backgroundColor` is deprecated in 2.x and will be removed in the next major release. Use CSS token `--rbg-overlay` instead.',
 			);
 		}
 
@@ -208,12 +209,18 @@ export function ReactBnbGallery({
 		[close, leftKeyPressed, rightKeyPressed],
 	);
 
-	const galleryModalOverlayStyles = useMemo(
-		() => ({
+	const galleryModalOverlayStyles = useMemo(() => {
+		const hasDeprecatedBackgroundColorOverride =
+			typeof backgroundColorProp === 'string' &&
+			backgroundColorProp.trim().length > 0;
+
+		return {
 			opacity,
-		}),
-		[opacity],
-	);
+			...(hasDeprecatedBackgroundColorOverride
+				? { backgroundColor: backgroundColorProp }
+				: {}),
+		};
+	}, [backgroundColorProp, opacity]);
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
 

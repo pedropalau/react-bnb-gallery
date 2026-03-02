@@ -130,6 +130,21 @@ Default light-mode token overrides are applied via `.mode-light` (or `.rbg-light
 - Selector strategy: prefer direct element hooks (`gallery-photo-button`, `gallery-thumbnail-image`) instead of deep descendant selectors.
 - Theming contract: use `--rbg-*` tokens as the stable customization surface.
 
+### Stable CSS Hooks
+
+Prefer these class hooks in custom CSS and tests:
+- `gallery-modal`
+- `gallery-overlay`
+- `gallery-main`
+- `gallery-photo-image`
+- `gallery-photo-button`
+- `gallery-thumbnails-list`
+- `gallery-thumbnail-item`
+- `gallery-thumbnail-button`
+- `gallery-thumbnail-image`
+- `gallery-control-icon`
+- `gallery-close-icon`
+
 ## Exports
 
 - `ReactBnbGallery` (recommended)
@@ -146,7 +161,7 @@ Default light-mode token overrides are applied via `.mode-light` (or `.rbg-light
 |---|---|---|---|
 | `activePhotoIndex` | `number` | `0` | Index of the photo shown on open. |
 | `activePhotoPressed` | `() => void` | `undefined` | Callback fired when the active photo is clicked. |
-| `backgroundColor` | `string` | `undefined` | Deprecated in `2.x`, ignored at runtime, and planned for removal in next major. Use CSS token `--rbg-overlay`. |
+| `backgroundColor` | `string` | `undefined` | Deprecated in `2.x` (still works as compatibility alias) and planned for removal in next major. Prefer CSS token `--rbg-overlay`. |
 | `direction` | `string` | `'forwards'` | Deprecated in `2.x`; planned for removal in next major. |
 | `keyboard` | `boolean` | `true` | Enable keyboard navigation (arrow keys, Escape). |
 | `leftKeyPressed` | `() => void` | `undefined` | Callback fired when the left arrow key is pressed. |
@@ -217,6 +232,32 @@ pnpm build
 - Deprecated (planned removal next major):
   - non-array `photos` input
   - `direction` prop
+
+### `2.2.x` (planned)
+
+- Tailwind/token-driven stylesheet architecture is now the default.
+- Introduced `--rbg-*` CSS tokens as the primary customization API.
+- Added explicit `gallery-*` element hooks and `is-*` state classes for safer styling overrides.
+- Continued 2.x deprecation path with runtime warnings/docs for APIs planned to be removed in `3.0.0`.
+
+## Deprecation Tracker (`2.x` -> `3.0.0`)
+
+| Deprecated in `2.x` | Status in `2.x` | Planned `3.0.0` action | Replacement |
+|---|---|---|---|
+| `default` export | Works with deprecation notice in docs | Remove | Named export: `ReactBnbGallery` |
+| `backgroundColor` prop | Backward-compatible alias for overlay color; warns in dev when used | Remove | CSS token: `--rbg-overlay` |
+| `direction` prop | Deprecated (backward compatible) | Remove | Use default navigation direction |
+| Non-array `photos` input | Deprecated (backward compatible) | Remove | Always pass `Array<string \| GalleryPhoto>` |
+| Legacy state classes (`loading`, `hide`, `open`, `active`) | Still emitted for compatibility | Remove aliases | `is-loading`, `is-thumbnails-collapsed`/`is-open`, `is-collapsed`, `is-active` |
+
+### `3.0.0` Prep Checklist
+
+- Replace default import with named import:
+  - `import { ReactBnbGallery } from 'react-bnb-gallery'`
+- Migrate `backgroundColor` prop usage to CSS token `--rbg-overlay`.
+- Replace deprecated class selectors with `gallery-*` hooks and `is-*` states.
+- Ensure `photos` is always passed as an array.
+- Remove any usage of the `direction` prop.
 
 ## Roadmap
 

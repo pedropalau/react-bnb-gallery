@@ -111,7 +111,7 @@ describe('ReactBnbGallery', () => {
 			expect(overlay).toHaveStyle({ opacity: '1' });
 		});
 
-		it('ignores deprecated backgroundColor prop at runtime', () => {
+		it('applies deprecated backgroundColor prop as compatibility alias', () => {
 			render(
 				<ReactBnbGallery
 					photos={photos.slice(0, 2)}
@@ -121,7 +121,7 @@ describe('ReactBnbGallery', () => {
 			);
 
 			const overlay = document.body.querySelector('.gallery-modal--overlay');
-			expect(overlay.style.backgroundColor).toBe('');
+			expect(overlay).toHaveStyle({ backgroundColor: 'rgb(240, 240, 240)' });
 		});
 
 		it('renders counter above the image and updates it on navigation', () => {
