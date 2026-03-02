@@ -34,7 +34,13 @@ function Thumbnail({
 	}
 
 	const captionText = getCaptionText(photo.caption);
-	const className = clsx('thumbnail-button', active && 'active');
+	const className = clsx(
+		'thumbnail-button',
+		'gallery-thumbnail-button',
+		// Legacy alias kept for 2.x compatibility; use `is-active` going forward.
+		active && 'active',
+		active && 'is-active',
+	);
 
 	return (
 		<button
@@ -48,7 +54,7 @@ function Thumbnail({
 			<Image
 				alt={photo.thumbnailAlt || photo.alt || captionText}
 				src={photo.thumbnail || photo.photo || ''}
-				className="thumbnail"
+				className="thumbnail gallery-thumbnail-image"
 				style={thumbnailStyle}
 			/>
 		</button>

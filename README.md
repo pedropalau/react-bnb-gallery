@@ -117,6 +117,19 @@ You can override tokens anywhere above the gallery in your cascade:
 
 Default light-mode token overrides are applied via `.mode-light` (or `.rbg-light`).
 
+## CSS Architecture
+
+- Namespace: all public classes are prefixed with `gallery-` to avoid collisions.
+- States: component state classes use `is-*` (`is-open`, `is-collapsed`, `is-active`).
+- Legacy state aliases (`hide`, `open`, `active`) are still emitted for backward compatibility in `2.x`.
+- Deprecated state aliases (removed next major):
+  - `loading` → `is-loading`
+  - `hide` → `is-thumbnails-collapsed` (figcaption state) or `is-open` (toggle state)
+  - `open` → `is-collapsed`
+  - `active` → `is-active`
+- Selector strategy: prefer direct element hooks (`gallery-photo-button`, `gallery-thumbnail-image`) instead of deep descendant selectors.
+- Theming contract: use `--rbg-*` tokens as the stable customization surface.
+
 ## Exports
 
 - `ReactBnbGallery` (recommended)

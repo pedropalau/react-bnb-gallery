@@ -48,19 +48,19 @@ function Photo({
 	);
 
 	return (
-		<ul className="gallery-images--ul">
-			<li className={className}>
+		<ul className="gallery-images--ul gallery-photo-list">
+			<li className={clsx(className, 'gallery-photo-item')}>
 				<button
 					type="button"
 					onClick={onPressHandler}
-					className="photo-button"
+					className="photo-button gallery-photo-button"
 					onTouchStart={onTouchStart}
 					onTouchMove={onTouchMove}
 					onTouchEnd={onTouchEnd}
 				>
 					<Image
 						alt={photo.alt || captionText}
-						className="photo"
+						className="photo gallery-photo-image"
 						src={photo.photo || ''}
 						onLoad={onLoad}
 						onError={onError}

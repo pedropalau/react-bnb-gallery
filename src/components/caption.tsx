@@ -64,7 +64,12 @@ function Caption({
 		setShowThumbnails((prevState) => !prevState);
 	};
 
-	const className = clsx('gallery-figcaption', !showThumbnails && 'hide');
+	const className = clsx(
+		'gallery-figcaption',
+		// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
+		!showThumbnails && 'hide',
+		!showThumbnails && 'is-thumbnails-collapsed',
+	);
 	const currentPhoto = photos[current];
 	const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(
 		photos.length,
@@ -106,9 +111,15 @@ function Caption({
 									width: captionThumbnailsWrapperWidth,
 								}}
 							>
-								<ul className="thumbnails-list" ref={thumbnailsListRef}>
+								<ul
+									className="thumbnails-list gallery-thumbnails-list"
+									ref={thumbnailsListRef}
+								>
 									{photos.map((photo: GalleryPhoto, index: number) => (
-										<li key={photo.photo || `${index}`}>
+										<li
+											key={photo.photo || `${index}`}
+											className="gallery-thumbnail-item"
+										>
 											<Thumbnail
 												active={index === current}
 												photo={photo}
