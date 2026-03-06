@@ -206,5 +206,19 @@ describe('ReactBnbGallery', () => {
 				expect.stringContaining('Deprecation: `backgroundColor` is deprecated'),
 			);
 		});
+
+		it('supports partial phrase overrides and keeps default zoom labels', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					phrases={{ noPhotosProvided: 'Sin fotos' }}
+				/>,
+			);
+
+			expect(
+				document.body.querySelector('button[aria-label="Zoom in"]'),
+			).toBeInTheDocument();
+		});
 	});
 });

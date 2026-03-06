@@ -301,5 +301,62 @@ describe('Gallery', () => {
 
 			expect(activePhotoPressed).toHaveBeenCalledTimes(1);
 		});
+
+		it('renders zoom controls by default', () => {
+			const { container } = render(
+				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
+			);
+
+			expect(
+				container.querySelector('button[aria-label="Zoom in"]'),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector('button[aria-label="Zoom out"]'),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector('button[aria-label="Reset zoom"]'),
+			).toBeInTheDocument();
+		});
+
+		it('does not render zoom controls when enableZoom is false', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					enableZoom={false}
+				/>,
+			);
+
+			expect(
+				container.querySelector('button[aria-label="Zoom in"]'),
+			).not.toBeInTheDocument();
+		});
+
+		it('disables swipe navigation while zoomed in', () => {
+			const nextButtonPressed = vi.fn();
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					nextButtonPressed={nextButtonPressed}
+				/>,
+			);
+
+			const zoomInButton = container.querySelector(
+				'button[aria-label="Zoom in"]',
+			);
+			const photoButton = container.querySelector('.photo-button');
+
+			fireEvent.click(zoomInButton);
+			fireEvent.touchStart(photoButton, {
+				targetTouches: [{ screenX: 200, clientX: 200, clientY: 200 }],
+			});
+			fireEvent.touchMove(photoButton, {
+				targetTouches: [{ screenX: 100, clientX: 100, clientY: 200 }],
+			});
+			fireEvent.touchEnd(photoButton);
+
+			expect(nextButtonPressed).toHaveBeenCalledTimes(0);
+		});
 	});
 });

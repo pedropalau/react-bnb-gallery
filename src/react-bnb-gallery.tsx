@@ -39,6 +39,7 @@ export interface ReactBnbGalleryProps {
 	 */
 	backgroundColor?: string;
 	direction?: string;
+	enableZoom?: boolean;
 	keyboard?: boolean;
 	leftKeyPressed?: () => void;
 	light?: boolean;
@@ -46,12 +47,14 @@ export interface ReactBnbGalleryProps {
 	onClose?: () => void;
 	opacity?: number;
 	photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
-	phrases?: GalleryPhrases;
+	phrases?: Partial<GalleryPhrases>;
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
 	rightKeyPressed?: () => void;
+	maxZoom?: number;
 	show?: boolean;
 	showThumbnails?: boolean;
+	zoomStep?: number;
 	wrap?: boolean;
 	zIndex?: number;
 }
@@ -64,6 +67,7 @@ export interface ReactBnbGalleryProps {
  * @param activePhotoPressed - Callback fired when the active photo is pressed
  * @param backgroundColor - Deprecated in 2.x; still supported as compatibility alias for overlay color. Prefer CSS token `--rbg-overlay`
  * @param direction - Navigation direction; deprecated in 2.x — use `activePhotoIndex` with callbacks instead
+ * @param enableZoom - Enables zoom controls and pan interactions in the active photo viewport (default: `true`)
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
  * @param light - Enables light mode styling (default: `false`)
@@ -75,8 +79,10 @@ export interface ReactBnbGalleryProps {
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
  * @param rightKeyPressed - Callback fired when the right arrow key is pressed
+ * @param maxZoom - Maximum zoom scale applied by controls (default: `3`)
  * @param show - Whether the gallery modal is visible (default: `false`)
  * @param showThumbnails - Whether the thumbnail strip is shown (default: `true`)
+ * @param zoomStep - Zoom increment/decrement per control press (default: `0.25`)
  * @param wrap - Whether navigation wraps around from the last photo to the first (default: `false`)
  * @param zIndex - CSS `z-index` of the modal (default: `1000`)
  */
@@ -85,6 +91,7 @@ export function ReactBnbGallery({
 	activePhotoPressed,
 	backgroundColor: backgroundColorProp,
 	direction = FORWARDS,
+	enableZoom = true,
 	keyboard = true,
 	leftKeyPressed,
 	light = false,
@@ -92,12 +99,14 @@ export function ReactBnbGallery({
 	onClose,
 	opacity = DEFAULT_OPACITY,
 	photos: photosInput = [],
-	phrases = defaultPhrases,
+	phrases: phrasesProp,
 	preloadSize = 5,
 	prevButtonPressed,
 	rightKeyPressed,
+	maxZoom = 3,
 	show = false,
 	showThumbnails = true,
+	zoomStep = 0.25,
 	wrap = false,
 	zIndex = DEFAULT_Z_INDEX,
 }: ReactBnbGalleryProps) {
@@ -163,6 +172,10 @@ export function ReactBnbGallery({
 	const photos = useMemo(
 		() => normalizePhotos(photosInput || []),
 		[photosInput],
+	);
+	const phrases = useMemo(
+		() => ({ ...defaultPhrases, ...(phrasesProp || {}) }),
+		[phrasesProp],
 	);
 	const [displayedPhotoIndex, setDisplayedPhotoIndex] = useState(() =>
 		normalizeActivePhotoIndex(activePhotoIndex, photos.length),
@@ -277,10 +290,13 @@ export function ReactBnbGallery({
 										activePhotoIndex={activePhotoIndex}
 										activePhotoPressed={activePhotoPressed}
 										direction={direction}
+										enableZoom={enableZoom}
 										nextButtonPressed={nextButtonPressed}
 										prevButtonPressed={prevButtonPressed}
 										showThumbnails={showThumbnails}
 										preloadSize={preloadSize}
+										maxZoom={maxZoom}
+										zoomStep={zoomStep}
 										onActivePhotoIndexChange={setDisplayedPhotoIndex}
 									/>
 								</div>

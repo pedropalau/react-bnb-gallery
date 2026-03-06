@@ -1,4 +1,4 @@
-import type { TouchEvent } from 'react';
+import type { CSSProperties, MouseEvent, TouchEvent } from 'react';
 import {
 	forwardRef,
 	memo,
@@ -6,6 +6,7 @@ import {
 	useEffect,
 	useImperativeHandle,
 	useMemo,
+	useRef,
 	useState,
 } from 'react';
 
@@ -28,7 +29,9 @@ interface GalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
 	direction?: string;
+	enableZoom?: boolean;
 	light?: boolean;
+	maxZoom?: number;
 	nextButtonPressed?: () => void;
 	onActivePhotoIndexChange?: (index: number) => void;
 	phrases?: GalleryPhrases;
@@ -36,6 +39,7 @@ interface GalleryProps {
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
 	showThumbnails?: boolean;
+	zoomStep?: number;
 	wrap?: boolean;
 }
 
@@ -48,12 +52,36 @@ interface GalleryState {
 	hidePrevButton: boolean;
 	hideNextButton: boolean;
 	controlsDisabled: boolean;
+	zoomScale: number;
+	zoomOffsetX: number;
+	zoomOffsetY: number;
+	isPanning: boolean;
 	touchStartInfo: TouchInfo | null;
 	touchEndInfo: TouchInfo | null;
 	touchMoved: boolean;
 }
 
 const EMPTY_PHOTOS: GalleryPhoto[] = [];
+const MIN_ZOOM = 1;
+
+function clampZoomOffset(
+	offsetX: number,
+	offsetY: number,
+	scale: number,
+	element: HTMLElement | null,
+) {
+	if (!element || scale <= MIN_ZOOM) {
+		return { x: 0, y: 0 };
+	}
+
+	const maxX = ((scale - 1) * element.clientWidth) / 2;
+	const maxY = ((scale - 1) * element.clientHeight) / 2;
+
+	return {
+		x: Math.min(Math.max(offsetX, -maxX), maxX),
+		y: Math.min(Math.max(offsetY, -maxY), maxY),
+	};
+}
 
 /**
  * Clamps a requested active index to available photo bounds.
@@ -97,7 +125,9 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
 		activePhotoIndex = 0,
 		activePhotoPressed,
+		enableZoom = true,
 		light = false,
+		maxZoom = 3,
 		nextButtonPressed,
 		onActivePhotoIndexChange,
 		phrases = defaultPhrases,
@@ -105,10 +135,15 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		preloadSize = 5,
 		prevButtonPressed,
 		showThumbnails = true,
+		zoomStep = 0.25,
 		wrap = false,
 	},
 	ref,
 ) {
+	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
+	const previousActivePhotoIndexRef = useRef(activePhotoIndex);
+	const panStartRef = useRef({ x: 0, y: 0 });
+	const panOriginRef = useRef({ x: 0, y: 0 });
 	const [state, setState] = useState<GalleryState>(() => {
 		const normalizedActivePhotoIndex = getNormalizedActivePhotoIndex(
 			activePhotoIndex,
@@ -124,6 +159,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			hidePrevButton,
 			hideNextButton,
 			controlsDisabled: true,
+			zoomScale: MIN_ZOOM,
+			zoomOffsetX: 0,
+			zoomOffsetY: 0,
+			isPanning: false,
 			touchStartInfo: null,
 			touchEndInfo: null,
 			touchMoved: false,
@@ -162,6 +201,34 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	useEffect(() => {
 		onActivePhotoIndexChange?.(state.activePhotoIndex);
 	}, [onActivePhotoIndexChange, state.activePhotoIndex]);
+
+	useEffect(() => {
+		const activePhotoChanged =
+			previousActivePhotoIndexRef.current !== state.activePhotoIndex;
+		previousActivePhotoIndexRef.current = state.activePhotoIndex;
+		if (!activePhotoChanged) {
+			return;
+		}
+
+		setState((prevState) => {
+			if (
+				prevState.zoomScale === MIN_ZOOM &&
+				prevState.zoomOffsetX === 0 &&
+				prevState.zoomOffsetY === 0 &&
+				!prevState.isPanning
+			) {
+				return prevState;
+			}
+
+			return {
+				...prevState,
+				zoomScale: MIN_ZOOM,
+				zoomOffsetX: 0,
+				zoomOffsetY: 0,
+				isPanning: false,
+			};
+		});
+	}, [state.activePhotoIndex]);
 
 	const getItemByDirection = useCallback(
 		(direction: string, activeIndex: number) => {
@@ -248,26 +315,158 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, []);
 
 	const onPhotoPress = useCallback(() => {
+		if (enableZoom && state.zoomScale > MIN_ZOOM) {
+			return;
+		}
 		move(DIRECTION_NEXT);
 		activePhotoPressed?.();
-	}, [activePhotoPressed, move]);
+	}, [activePhotoPressed, enableZoom, move, state.zoomScale]);
 
-	const onTouchStart = useCallback((event: TouchEvent) => {
+	const normalizedMaxZoom = Math.max(MIN_ZOOM, maxZoom);
+	const normalizedZoomStep = Math.max(0.1, zoomStep);
+
+	const resetZoom = useCallback(() => {
 		setState((prevState) => ({
 			...prevState,
-			touchStartInfo: event.targetTouches[0],
+			zoomScale: MIN_ZOOM,
+			zoomOffsetX: 0,
+			zoomOffsetY: 0,
+			isPanning: false,
 		}));
 	}, []);
 
-	const onTouchMove = useCallback((event: TouchEvent) => {
-		setState((prevState) => ({
-			...prevState,
-			touchMoved: true,
-			touchEndInfo: event.targetTouches[0],
-		}));
+	const setZoomScale = useCallback(
+		(nextScale: number) => {
+			setState((prevState) => {
+				const clampedScale = Math.min(
+					Math.max(nextScale, MIN_ZOOM),
+					normalizedMaxZoom,
+				);
+				const nextOffsets = clampZoomOffset(
+					prevState.zoomOffsetX,
+					prevState.zoomOffsetY,
+					clampedScale,
+					photoButtonRef.current,
+				);
+
+				return {
+					...prevState,
+					zoomScale: clampedScale,
+					zoomOffsetX: nextOffsets.x,
+					zoomOffsetY: nextOffsets.y,
+					isPanning: clampedScale > MIN_ZOOM ? prevState.isPanning : false,
+				};
+			});
+		},
+		[normalizedMaxZoom],
+	);
+
+	const zoomIn = useCallback(() => {
+		setZoomScale(state.zoomScale + normalizedZoomStep);
+	}, [normalizedZoomStep, setZoomScale, state.zoomScale]);
+
+	const zoomOut = useCallback(() => {
+		setZoomScale(state.zoomScale - normalizedZoomStep);
+	}, [normalizedZoomStep, setZoomScale, state.zoomScale]);
+
+	const startPan = useCallback(
+		(clientX: number, clientY: number) => {
+			if (!enableZoom || state.zoomScale <= MIN_ZOOM) {
+				return;
+			}
+
+			panStartRef.current = { x: clientX, y: clientY };
+			panOriginRef.current = { x: state.zoomOffsetX, y: state.zoomOffsetY };
+
+			setState((prevState) => ({ ...prevState, isPanning: true }));
+		},
+		[enableZoom, state.zoomOffsetX, state.zoomOffsetY, state.zoomScale],
+	);
+
+	const updatePan = useCallback((clientX: number, clientY: number) => {
+		setState((prevState) => {
+			if (!prevState.isPanning) {
+				return prevState;
+			}
+
+			const deltaX = clientX - panStartRef.current.x;
+			const deltaY = clientY - panStartRef.current.y;
+			const nextOffsets = clampZoomOffset(
+				panOriginRef.current.x + deltaX,
+				panOriginRef.current.y + deltaY,
+				prevState.zoomScale,
+				photoButtonRef.current,
+			);
+
+			return {
+				...prevState,
+				zoomOffsetX: nextOffsets.x,
+				zoomOffsetY: nextOffsets.y,
+			};
+		});
 	}, []);
+
+	const endPan = useCallback(() => {
+		setState((prevState) => {
+			if (!prevState.isPanning) {
+				return prevState;
+			}
+
+			return {
+				...prevState,
+				isPanning: false,
+			};
+		});
+	}, []);
+
+	const onTouchStart = useCallback(
+		(event: TouchEvent) => {
+			const touch = event.targetTouches[0];
+			if (!touch) {
+				return;
+			}
+
+			if (enableZoom && state.zoomScale > MIN_ZOOM) {
+				startPan(touch.clientX, touch.clientY);
+				return;
+			}
+
+			setState((prevState) => ({
+				...prevState,
+				touchStartInfo: touch,
+			}));
+		},
+		[enableZoom, startPan, state.zoomScale],
+	);
+
+	const onTouchMove = useCallback(
+		(event: TouchEvent) => {
+			const touch = event.targetTouches[0];
+			if (!touch) {
+				return;
+			}
+
+			if (enableZoom && state.zoomScale > MIN_ZOOM) {
+				event.preventDefault();
+				updatePan(touch.clientX, touch.clientY);
+				return;
+			}
+
+			setState((prevState) => ({
+				...prevState,
+				touchMoved: true,
+				touchEndInfo: touch,
+			}));
+		},
+		[enableZoom, state.zoomScale, updatePan],
+	);
 
 	const onTouchEnd = useCallback(() => {
+		if (enableZoom && state.zoomScale > MIN_ZOOM) {
+			endPan();
+			return;
+		}
+
 		setState((prevState) => {
 			const { touchStartInfo, touchEndInfo, touchMoved } = prevState;
 			if (touchMoved && touchStartInfo && touchEndInfo) {
@@ -283,7 +482,35 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				touchMoved: false,
 			};
 		});
-	}, [onNextButtonPress, onPrevButtonPress]);
+	}, [
+		enableZoom,
+		endPan,
+		onNextButtonPress,
+		onPrevButtonPress,
+		state.zoomScale,
+	]);
+
+	const onMouseDown = useCallback(
+		(event: MouseEvent<HTMLButtonElement>) => {
+			startPan(event.clientX, event.clientY);
+		},
+		[startPan],
+	);
+
+	const onMouseMove = useCallback(
+		(event: MouseEvent<HTMLButtonElement>) => {
+			updatePan(event.clientX, event.clientY);
+		},
+		[updatePan],
+	);
+
+	const onMouseUp = useCallback(() => {
+		endPan();
+	}, [endPan]);
+
+	const onMouseLeave = useCallback(() => {
+		endPan();
+	}, [endPan]);
 
 	const to = useCallback(
 		(index: number) => {
@@ -347,6 +574,74 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		state.hidePrevButton,
 	]);
 
+	const zoomControls = useMemo(() => {
+		if (!enableZoom || photos.length === 0) {
+			return null;
+		}
+
+		const canZoomIn = state.zoomScale < normalizedMaxZoom;
+		const canZoomOut = state.zoomScale > MIN_ZOOM;
+		const isResetDisabled =
+			state.zoomScale === MIN_ZOOM &&
+			state.zoomOffsetX === 0 &&
+			state.zoomOffsetY === 0;
+
+		return (
+			<div className="gallery-zoom-controls">
+				<button
+					type="button"
+					className="gallery-zoom-button gallery-zoom-button--in"
+					onClick={zoomIn}
+					disabled={!canZoomIn}
+					aria-label={phrases.zoomIn}
+				>
+					+
+				</button>
+				<button
+					type="button"
+					className="gallery-zoom-button gallery-zoom-button--out"
+					onClick={zoomOut}
+					disabled={!canZoomOut}
+					aria-label={phrases.zoomOut}
+				>
+					-
+				</button>
+				<button
+					type="button"
+					className="gallery-zoom-button gallery-zoom-button--reset"
+					onClick={resetZoom}
+					disabled={isResetDisabled}
+					aria-label={phrases.resetZoom}
+				>
+					1x
+				</button>
+			</div>
+		);
+	}, [
+		enableZoom,
+		normalizedMaxZoom,
+		phrases.resetZoom,
+		phrases.zoomIn,
+		phrases.zoomOut,
+		photos.length,
+		resetZoom,
+		state.zoomOffsetX,
+		state.zoomOffsetY,
+		state.zoomScale,
+		zoomIn,
+		zoomOut,
+	]);
+
+	const zoomedPhotoStyle = useMemo(
+		() =>
+			({
+				'--rbg-zoom-scale': String(state.zoomScale),
+				'--rbg-pan-x': `${state.zoomOffsetX}px`,
+				'--rbg-pan-y': `${state.zoomOffsetY}px`,
+			}) as CSSProperties,
+		[state.zoomOffsetX, state.zoomOffsetY, state.zoomScale],
+	);
+
 	const galleryModalPreloadPhotos = useMemo(() => {
 		let counter = 1;
 		let index = state.activePhotoIndex;
@@ -373,6 +668,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			<div className="gallery-modal--preload">{galleryModalPreloadPhotos}</div>
 			<div className="gallery-main">
 				{controls}
+				{zoomControls}
 				<div className="gallery-photos">
 					{hasPhotos ? (
 						<div className="gallery-photo">
@@ -385,6 +681,13 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 									onTouchStart={onTouchStart}
 									onTouchMove={onTouchMove}
 									onTouchEnd={onTouchEnd}
+									onMouseDown={onMouseDown}
+									onMouseMove={onMouseMove}
+									onMouseUp={onMouseUp}
+									onMouseLeave={onMouseLeave}
+									buttonRef={photoButtonRef}
+									disablePress={enableZoom && state.zoomScale > MIN_ZOOM}
+									style={zoomedPhotoStyle}
 								/>
 							</div>
 						</div>

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import type { CSSProperties, TouchEvent } from 'react';
+import type { CSSProperties, MouseEvent, Ref, TouchEvent } from 'react';
 import { memo, useCallback } from 'react';
 import type { GalleryPhoto } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
@@ -14,9 +14,15 @@ interface PhotoProps {
 	onTouchStart?: (event: TouchEvent<HTMLButtonElement>) => void;
 	onTouchMove?: (event: TouchEvent<HTMLButtonElement>) => void;
 	onTouchEnd?: (event: TouchEvent<HTMLButtonElement>) => void;
+	onMouseDown?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onMouseMove?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onMouseUp?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onMouseLeave?: (event: MouseEvent<HTMLButtonElement>) => void;
 	onLoad?: () => void;
 	onError?: () => void;
 	style?: CSSProperties;
+	buttonRef?: Ref<HTMLButtonElement>;
+	disablePress?: boolean;
 }
 
 /**
@@ -28,13 +34,22 @@ function Photo({
 	onTouchStart,
 	onTouchMove,
 	onTouchEnd,
+	onMouseDown,
+	onMouseMove,
+	onMouseUp,
+	onMouseLeave,
 	onLoad,
 	onError,
 	style,
+	buttonRef,
+	disablePress = false,
 }: PhotoProps) {
 	const onPressHandler = useCallback(() => {
+		if (disablePress) {
+			return;
+		}
 		onPress?.();
-	}, [onPress]);
+	}, [disablePress, onPress]);
 
 	if (!photo) {
 		return null;
@@ -51,12 +66,17 @@ function Photo({
 		<ul className="gallery-images--ul gallery-photo-list">
 			<li className={clsx(className, 'gallery-photo-item')}>
 				<button
+					ref={buttonRef}
 					type="button"
 					onClick={onPressHandler}
 					className="photo-button gallery-photo-button"
 					onTouchStart={onTouchStart}
 					onTouchMove={onTouchMove}
 					onTouchEnd={onTouchEnd}
+					onMouseDown={onMouseDown}
+					onMouseMove={onMouseMove}
+					onMouseUp={onMouseUp}
+					onMouseLeave={onMouseLeave}
 				>
 					<Image
 						alt={photo.alt || captionText}
