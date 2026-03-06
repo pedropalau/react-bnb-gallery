@@ -334,5 +334,46 @@ describe('ReactBnbGallery', () => {
 				},
 			);
 		});
+
+		it('supports overriding overlay, photo counter, and modal container slots', () => {
+			const CustomOverlay = ({ className, style }) => (
+				<div
+					data-testid="custom-overlay"
+					className={className}
+					style={style}
+					aria-hidden="true"
+				/>
+			);
+			const CustomPhotoCounter = ({ current, total, className }) => (
+				<div data-testid="custom-counter" className={className}>
+					{current} of {total}
+				</div>
+			);
+			const CustomModalContainer = ({ children, className }) => (
+				<section data-testid="custom-modal-container" className={className}>
+					{children}
+				</section>
+			);
+
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					components={{
+						Overlay: CustomOverlay,
+						PhotoCounter: CustomPhotoCounter,
+						ModalContainer: CustomModalContainer,
+					}}
+				/>,
+			);
+
+			expect(screen.getByTestId('custom-overlay')).toBeInTheDocument();
+			expect(screen.getByTestId('custom-modal-container')).toBeInTheDocument();
+			expect(screen.getByTestId('custom-counter')).toHaveTextContent('1 of 2');
+
+			const modal = document.body.querySelector('.gallery-modal');
+			fireEvent.keyDown(modal, { key: 'ArrowRight' });
+			expect(screen.getByTestId('custom-counter')).toHaveTextContent('2 of 2');
+		});
 	});
 });

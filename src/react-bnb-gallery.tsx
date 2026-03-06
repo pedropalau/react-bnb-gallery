@@ -87,7 +87,7 @@ export interface ReactBnbGalleryProps {
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
  * @param renderCaptionActions - Render prop for injecting custom controls in the caption action area
- * @param components - Optional slot overrides for built-in UI components such as close button, controls, photo, caption, and thumbnails
+ * @param components - Optional slot overrides for built-in UI components such as overlay, counter, modal container, close button, controls, photo, caption, and thumbnails
  * @param classNames - Optional className overrides for default gallery UI slots
  * @param styles - Optional inline style overrides for default gallery UI slots
  * @param rightKeyPressed - Callback fired when the right arrow key is pressed
@@ -254,6 +254,9 @@ export function ReactBnbGallery({
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
 	const CloseButtonComponent = components?.CloseButton ?? CloseButton;
+	const OverlayComponent = components?.Overlay;
+	const PhotoCounterComponent = components?.PhotoCounter;
+	const ModalContainerComponent = components?.ModalContainer;
 
 	if (!show) {
 		return null;
@@ -282,72 +285,183 @@ export function ReactBnbGallery({
 				aria-modal="true"
 				style={{ zIndex, ...(styles?.modal || {}) }}
 			>
-				<div
-					style={galleryModalOverlayStyles}
-					className={clsx('gallery-modal--overlay', classNames?.overlay)}
-				/>
-				<div className="gallery-modal--container">
-					<div className="gallery-modal--table">
-						<div className="gallery-modal--cell">
-							<div className="gallery-modal--content">
-								<div
-									className={clsx(
-										'gallery-modal--close',
-										classNames?.closeButtonWrapper,
-									)}
-									style={styles?.closeButtonWrapper}
-								>
-									<CloseButtonComponent
-										onPress={close}
-										light={light}
-										className={classNames?.closeButton}
-										style={styles?.closeButton}
-									/>
-								</div>
-								<div className="gallery-content">
-									<div className="gallery-top">
-										<div className="gallery-top--inner">
-											{hasMoreThanOnePhoto && (
-												<p
-													className={clsx(
-														'gallery-photo-counter',
-														classNames?.photoCounter,
-													)}
-													aria-live="polite"
-													style={styles?.photoCounter}
-												>
-													{photoCounterLabel}
-												</p>
-											)}
-										</div>
+				{OverlayComponent ? (
+					<OverlayComponent
+						className={clsx('gallery-modal--overlay', classNames?.overlay)}
+						style={galleryModalOverlayStyles}
+						light={light}
+						opacity={opacity}
+						backgroundColor={backgroundColorProp}
+					/>
+				) : (
+					<div
+						style={galleryModalOverlayStyles}
+						className={clsx('gallery-modal--overlay', classNames?.overlay)}
+					/>
+				)}
+				{ModalContainerComponent ? (
+					<ModalContainerComponent
+						className={clsx(
+							'gallery-modal--container',
+							classNames?.modalContainer,
+						)}
+						style={styles?.modalContainer}
+					>
+						<div className="gallery-modal--table">
+							<div className="gallery-modal--cell">
+								<div className="gallery-modal--content">
+									<div
+										className={clsx(
+											'gallery-modal--close',
+											classNames?.closeButtonWrapper,
+										)}
+										style={styles?.closeButtonWrapper}
+									>
+										<CloseButtonComponent
+											onPress={close}
+											light={light}
+											className={classNames?.closeButton}
+											style={styles?.closeButton}
+										/>
 									</div>
-									<Gallery
-										phrases={phrases}
-										ref={gallery}
-										photos={photos}
-										light={light}
-										wrap={wrap}
-										activePhotoIndex={activePhotoIndex}
-										activePhotoPressed={activePhotoPressed}
-										direction={direction}
-										enableZoom={enableZoom}
-										nextButtonPressed={nextButtonPressed}
-										prevButtonPressed={prevButtonPressed}
-										renderCaptionActions={renderCaptionActions}
-										components={components}
-										classNames={classNames}
-										styles={styles}
-										showThumbnails={showThumbnails}
-										preloadSize={preloadSize}
-										maxZoom={maxZoom}
-										zoomStep={zoomStep}
-										onActivePhotoIndexChange={setDisplayedPhotoIndex}
-									/>
+									<div className="gallery-content">
+										<div className="gallery-top">
+											<div className="gallery-top--inner">
+												{hasMoreThanOnePhoto &&
+													(PhotoCounterComponent ? (
+														<PhotoCounterComponent
+															className={clsx(
+																'gallery-photo-counter',
+																classNames?.photoCounter,
+															)}
+															style={styles?.photoCounter}
+															current={displayedPhotoIndex + 1}
+															total={photos.length}
+															label={photoCounterLabel}
+														/>
+													) : (
+														<p
+															className={clsx(
+																'gallery-photo-counter',
+																classNames?.photoCounter,
+															)}
+															aria-live="polite"
+															style={styles?.photoCounter}
+														>
+															{photoCounterLabel}
+														</p>
+													))}
+											</div>
+										</div>
+										<Gallery
+											phrases={phrases}
+											ref={gallery}
+											photos={photos}
+											light={light}
+											wrap={wrap}
+											activePhotoIndex={activePhotoIndex}
+											activePhotoPressed={activePhotoPressed}
+											direction={direction}
+											enableZoom={enableZoom}
+											nextButtonPressed={nextButtonPressed}
+											prevButtonPressed={prevButtonPressed}
+											renderCaptionActions={renderCaptionActions}
+											components={components}
+											classNames={classNames}
+											styles={styles}
+											showThumbnails={showThumbnails}
+											preloadSize={preloadSize}
+											maxZoom={maxZoom}
+											zoomStep={zoomStep}
+											onActivePhotoIndexChange={setDisplayedPhotoIndex}
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ModalContainerComponent>
+				) : (
+					<div
+						className={clsx(
+							'gallery-modal--container',
+							classNames?.modalContainer,
+						)}
+						style={styles?.modalContainer}
+					>
+						<div className="gallery-modal--table">
+							<div className="gallery-modal--cell">
+								<div className="gallery-modal--content">
+									<div
+										className={clsx(
+											'gallery-modal--close',
+											classNames?.closeButtonWrapper,
+										)}
+										style={styles?.closeButtonWrapper}
+									>
+										<CloseButtonComponent
+											onPress={close}
+											light={light}
+											className={classNames?.closeButton}
+											style={styles?.closeButton}
+										/>
+									</div>
+									<div className="gallery-content">
+										<div className="gallery-top">
+											<div className="gallery-top--inner">
+												{hasMoreThanOnePhoto &&
+													(PhotoCounterComponent ? (
+														<PhotoCounterComponent
+															className={clsx(
+																'gallery-photo-counter',
+																classNames?.photoCounter,
+															)}
+															style={styles?.photoCounter}
+															current={displayedPhotoIndex + 1}
+															total={photos.length}
+															label={photoCounterLabel}
+														/>
+													) : (
+														<p
+															className={clsx(
+																'gallery-photo-counter',
+																classNames?.photoCounter,
+															)}
+															aria-live="polite"
+															style={styles?.photoCounter}
+														>
+															{photoCounterLabel}
+														</p>
+													))}
+											</div>
+										</div>
+										<Gallery
+											phrases={phrases}
+											ref={gallery}
+											photos={photos}
+											light={light}
+											wrap={wrap}
+											activePhotoIndex={activePhotoIndex}
+											activePhotoPressed={activePhotoPressed}
+											direction={direction}
+											enableZoom={enableZoom}
+											nextButtonPressed={nextButtonPressed}
+											prevButtonPressed={prevButtonPressed}
+											renderCaptionActions={renderCaptionActions}
+											components={components}
+											classNames={classNames}
+											styles={styles}
+											showThumbnails={showThumbnails}
+											preloadSize={preloadSize}
+											maxZoom={maxZoom}
+											zoomStep={zoomStep}
+											onActivePhotoIndexChange={setDisplayedPhotoIndex}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</FocusTrap>,
 		document.body,

@@ -612,16 +612,19 @@ export default function OptionsPage() {
 
 						<PropDetail name="components">
 							<p>
-								Overrides internal UI slots (close button, controls, photo,
-								caption, thumbnails) with your own React components. This is
-								useful when you need deep design-system integration without
-								forking the library.
+								Overrides internal UI slots (overlay, photo counter, modal
+								container, close button, controls, photo, caption, thumbnails)
+								with your own React components. This is useful when you need
+								deep design-system integration without forking the library.
 							</p>
 							<CodeBlock
 								__raw__={`<ReactBnbGallery
   show={open}
   photos={photos}
   components={{
+    Overlay: ({ className, style }) => (
+      <div className={className} style={{ ...style, backdropFilter: 'blur(8px)' }} />
+    ),
     CloseButton: ({ onPress }) => (
       <button type="button" className="my-close" onClick={onPress}>
         Close
@@ -641,6 +644,9 @@ export default function OptionsPage() {
   show={open}
   photos={photos}
   components={{
+    Overlay: ({ className, style }) => (
+      <div className={className} style={{ ...style, backdropFilter: 'blur(8px)' }} />
+    ),
     CloseButton: ({ onPress }) => (
       <button type="button" className="my-close" onClick={onPress}>
         Close

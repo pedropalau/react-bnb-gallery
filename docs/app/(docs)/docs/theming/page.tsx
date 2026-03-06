@@ -69,13 +69,21 @@ export default function ThemingPage() {
 
 			<DocsPageHeading2>Custom Component Slots</DocsPageHeading2>
 			<DocsPageParagraph>
-				Use <code>components</code> when design requirements need custom markup or your own design-system primitives.
+				Use <code>components</code> when design requirements need custom markup or your own design-system primitives. You can now override top-level layout slots such as <code>Overlay</code>, <code>PhotoCounter</code>, and <code>ModalContainer</code> in addition to button/photo/caption slots.
 			</DocsPageParagraph>
 			<CodeBlock
 				__raw__={`<ReactBnbGallery
   show={open}
   photos={photos}
   components={{
+    ModalContainer: ({ children, className }) => (
+      <section className={\`my-gallery-shell \${className ?? ''}\`}>
+        {children}
+      </section>
+    ),
+    PhotoCounter: ({ current, total, className }) => (
+      <div className={className}>Photo {current} of {total}</div>
+    ),
     CloseButton: ({ onPress, className }) => (
       <button
         type="button"
@@ -104,6 +112,14 @@ export default function ThemingPage() {
   show={open}
   photos={photos}
   components={{
+    ModalContainer: ({ children, className }) => (
+      <section className={\`my-gallery-shell \${className ?? ''}\`}>
+        {children}
+      </section>
+    ),
+    PhotoCounter: ({ current, total, className }) => (
+      <div className={className}>Photo {current} of {total}</div>
+    ),
     CloseButton: ({ onPress, className }) => (
       <button
         type="button"

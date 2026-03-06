@@ -52,6 +52,7 @@ export type GalleryRenderCaptionActions = (
 export interface GalleryClassNames {
 	modal?: string;
 	overlay?: string;
+	modalContainer?: string;
 	closeButtonWrapper?: string;
 	closeButton?: string;
 	photoCounter?: string;
@@ -72,6 +73,7 @@ export interface GalleryClassNames {
 export interface GalleryStyles {
 	modal?: CSSProperties;
 	overlay?: CSSProperties;
+	modalContainer?: CSSProperties;
 	closeButtonWrapper?: CSSProperties;
 	closeButton?: CSSProperties;
 	photoCounter?: CSSProperties;
@@ -92,6 +94,31 @@ export interface GalleryStyles {
 export interface GalleryCloseButtonProps {
 	onPress?: () => void;
 	light?: boolean;
+	className?: string;
+	style?: CSSProperties;
+}
+
+/** Props for overriding the modal overlay component. */
+export interface GalleryOverlayProps {
+	className?: string;
+	style?: CSSProperties;
+	light?: boolean;
+	opacity?: number;
+	backgroundColor?: string;
+}
+
+/** Props for overriding the top photo counter component. */
+export interface GalleryPhotoCounterProps {
+	current: number;
+	total: number;
+	label: string;
+	className?: string;
+	style?: CSSProperties;
+}
+
+/** Props for overriding the modal content container wrapper. */
+export interface GalleryModalContainerProps {
+	children?: ReactNode;
 	className?: string;
 	style?: CSSProperties;
 }
@@ -178,6 +205,9 @@ export interface GalleryCaptionComponentProps {
 
 /** Slot components that can be overridden to customize gallery UI rendering. */
 export interface GalleryComponents {
+	Overlay?: ComponentType<GalleryOverlayProps>;
+	PhotoCounter?: ComponentType<GalleryPhotoCounterProps>;
+	ModalContainer?: ComponentType<GalleryModalContainerProps>;
 	CloseButton?: ComponentType<GalleryCloseButtonProps>;
 	PrevButton?: ComponentType<GalleryControlButtonProps>;
 	NextButton?: ComponentType<GalleryControlButtonProps>;
