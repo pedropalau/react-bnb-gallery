@@ -11,12 +11,6 @@ export const defaultPhrases = {
 	showPhotoList: 'Show photo list',
 	/** Label for the button that closes the photo list panel. */
 	hidePhotoList: 'Hide photo list',
-	/** Label for the zoom-in control. */
-	zoomIn: 'Zoom in',
-	/** Label for the zoom-out control. */
-	zoomOut: 'Zoom out',
-	/** Label for the zoom reset control. */
-	resetZoom: 'Reset zoom',
 };
 
 export type DefaultPhrases = typeof defaultPhrases;
