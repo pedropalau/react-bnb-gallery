@@ -12,7 +12,6 @@ const PREV_ARROW =
  */
 function PrevButton({
 	onPress,
-	disabled = false,
 	phrases = defaultPhrases,
 	className,
 	style,
@@ -20,13 +19,12 @@ function PrevButton({
 }: GalleryControlButtonProps) {
 	return (
 		<Control
-			{...props}
-			className={clsx('gallery-control--prev', className)}
-			onPress={onPress}
-			arrow={PREV_ARROW}
-			label={phrases.previousPhoto}
-			disabled={disabled}
-			style={style}
+		className={clsx('gallery-control--prev', className)}
+		onPress={onPress}
+		arrow={PREV_ARROW}
+		label={phrases.previousPhoto}
+		style={style}
+		{...props}
 		/>
 	);
 }
