@@ -12,7 +12,6 @@ const NEXT_ARROW =
  */
 function NextButton({
 	onPress,
-	disabled = false,
 	phrases = defaultPhrases,
 	className,
 	style,
@@ -20,13 +19,11 @@ function NextButton({
 }: GalleryControlButtonProps) {
 	return (
 		<Control
-			{...props}
 			className={clsx('gallery-control--next', className)}
 			onPress={onPress}
 			arrow={NEXT_ARROW}
 			label={phrases.nextPhoto}
-			disabled={disabled}
-			style={style}
+			{...props}
 		/>
 	);
 }

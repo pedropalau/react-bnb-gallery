@@ -338,7 +338,8 @@ export default function OptionsPage() {
 
 						<PropDetail name="photos">
 							<p>
-								The photos to display. Pass an array containing URL strings and/or{' '}
+								The photos to display. Pass an array containing URL strings
+								and/or{' '}
 								<a
 									href="#photo-props"
 									className="font-medium underline underline-offset-2"

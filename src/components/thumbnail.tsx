@@ -19,9 +19,7 @@ function Thumbnail({
 	photo = null,
 	onPress,
 	number = 0,
-	disabled = false,
 	className,
-	style,
 	imageClassName,
 	imageStyle,
 	...props
@@ -31,14 +29,6 @@ function Thumbnail({
 	}
 
 	const captionText = getCaptionText(photo.caption);
-	const buttonClassName = clsx(
-		'thumbnail-button',
-		'gallery-thumbnail-button',
-		// Legacy alias kept for 2.x compatibility; use `is-active` going forward.
-		active && 'active',
-		active && 'is-active',
-		className,
-	);
 	const thumbnailImageStyle = {
 		...thumbnailStyle,
 		...(imageStyle || {}),
@@ -46,14 +36,19 @@ function Thumbnail({
 
 	return (
 		<button
-			{...props}
 			type="button"
 			aria-label={captionText || undefined}
-			className={buttonClassName}
+			className={clsx(
+				'thumbnail-button',
+				'gallery-thumbnail-button',
+				// Legacy alias kept for 2.x compatibility; use `is-active` going forward.
+				active && 'active',
+				active && 'is-active',
+				className,
+			)}
 			data-photo-index={number}
 			onClick={onPress}
-			disabled={disabled}
-			style={style}
+			{...props}
 		>
 			<Image
 				alt={photo.thumbnailAlt || photo.alt || captionText}
