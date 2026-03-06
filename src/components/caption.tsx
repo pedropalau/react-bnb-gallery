@@ -2,7 +2,11 @@ import clsx from 'clsx';
 import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { defaultPhrases } from '../default-phrases';
-import type { GalleryPhoto, GalleryPhrases } from '../types/gallery';
+import type {
+	GalleryPhoto,
+	GalleryPhrases,
+	GalleryRenderCaptionActions,
+} from '../types/gallery';
 import {
 	calculateThumbnailsContainerDimension,
 	calculateThumbnailsLeftScroll,
@@ -18,6 +22,7 @@ interface CaptionProps {
 	onPress?: (index: number) => void;
 	photos?: GalleryPhoto[];
 	phrases?: GalleryPhrases;
+	renderCaptionActions?: GalleryRenderCaptionActions;
 	showThumbnails?: boolean;
 }
 
@@ -29,6 +34,7 @@ function Caption({
 	onPress,
 	photos = [],
 	phrases = defaultPhrases,
+	renderCaptionActions,
 	showThumbnails: showThumbnailsProp = true,
 }: CaptionProps) {
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
@@ -75,6 +81,13 @@ function Caption({
 		photos.length,
 	);
 	const hasMoreThanOnePhoto = photos.length > 1;
+	const customActions = renderCaptionActions?.({
+		current,
+		currentPhoto,
+		photos,
+		showThumbnails,
+	});
+	const hasCaptionRightContent = hasMoreThanOnePhoto || customActions != null;
 
 	return (
 		<figcaption className={className}>
@@ -89,13 +102,22 @@ function Caption({
 								<p className="photo-subcaption">{currentPhoto.subcaption}</p>
 							)}
 						</div>
-						{hasMoreThanOnePhoto && (
+						{hasCaptionRightContent && (
 							<div className="caption-right">
-								<TogglePhotoList
-									phrases={phrases}
-									isOpened={showThumbnails}
-									onPress={toggleThumbnails}
-								/>
+								<div className="gallery-caption-actions">
+									{hasMoreThanOnePhoto && (
+										<TogglePhotoList
+											phrases={phrases}
+											isOpened={showThumbnails}
+											onPress={toggleThumbnails}
+										/>
+									)}
+									{customActions != null && (
+										<div className="gallery-caption-custom-actions">
+											{customActions}
+										</div>
+									)}
+								</div>
 							</div>
 						)}
 					</div>

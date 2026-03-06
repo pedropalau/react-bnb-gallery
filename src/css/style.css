@@ -567,6 +567,19 @@
 		display: table-cell;
 	}
 
+	.gallery-caption-actions {
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.75rem;
+	}
+
+	.gallery-caption-custom-actions {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
 	.gallery-figcaption--info .photo-caption,
 	.gallery-figcaption--info .photo-subcaption {
 		margin: 0;

@@ -8,7 +8,9 @@ export { ReactBnbGallery, Gallery };
 export type { ReactBnbGalleryProps } from './react-bnb-gallery';
 
 export type {
+	GalleryCaptionActionsContext,
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
+	GalleryRenderCaptionActions,
 } from './types/gallery';
