@@ -2,29 +2,13 @@ import clsx from 'clsx';
 import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { defaultPhrases } from '../default-phrases';
-import type {
-	GalleryPhoto,
-	GalleryPhrases,
-	GalleryRenderCaptionActions,
-} from '../types/gallery';
+import type { GalleryCaptionComponentProps } from '../types/gallery';
 import {
 	calculateThumbnailsContainerDimension,
 	calculateThumbnailsLeftScroll,
 } from '../utils/thumbnail-layout';
 import { Thumbnail } from './thumbnail';
 import { TogglePhotoList } from './toggle-photo-list';
-
-/**
- * Props for the gallery caption area and thumbnail strip.
- */
-interface CaptionProps {
-	current?: number;
-	onPress?: (index: number) => void;
-	photos?: GalleryPhoto[];
-	phrases?: GalleryPhrases;
-	renderCaptionActions?: GalleryRenderCaptionActions;
-	showThumbnails?: boolean;
-}
 
 /**
  * Renders the current photo caption and optional thumbnail navigation.
@@ -36,7 +20,11 @@ function Caption({
 	phrases = defaultPhrases,
 	renderCaptionActions,
 	showThumbnails: showThumbnailsProp = true,
-}: CaptionProps) {
+	components,
+}: GalleryCaptionComponentProps) {
+	const ThumbnailComponent = components?.Thumbnail ?? Thumbnail;
+	const TogglePhotoListComponent =
+		components?.TogglePhotoList ?? TogglePhotoList;
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
 	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
 	const thumbnailsListRef = useRef<HTMLUListElement | null>(null);
@@ -106,7 +94,7 @@ function Caption({
 							<div className="caption-right">
 								<div className="gallery-caption-actions">
 									{hasMoreThanOnePhoto && (
-										<TogglePhotoList
+										<TogglePhotoListComponent
 											phrases={phrases}
 											isOpened={showThumbnails}
 											onPress={toggleThumbnails}
@@ -137,12 +125,12 @@ function Caption({
 									className="thumbnails-list gallery-thumbnails-list"
 									ref={thumbnailsListRef}
 								>
-									{photos.map((photo: GalleryPhoto, index: number) => (
+									{photos.map((photo, index: number) => (
 										<li
 											key={photo.photo || `${index}`}
 											className="gallery-thumbnail-item"
 										>
-											<Thumbnail
+											<ThumbnailComponent
 												active={index === current}
 												photo={photo}
 												onPress={onThumbnailPress}

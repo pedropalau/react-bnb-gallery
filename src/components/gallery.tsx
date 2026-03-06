@@ -13,6 +13,7 @@ import {
 import { DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
 import { defaultPhrases } from '../default-phrases';
 import type {
+	GalleryComponents,
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
@@ -43,6 +44,7 @@ interface GalleryProps {
 	showThumbnails?: boolean;
 	zoomStep?: number;
 	wrap?: boolean;
+	components?: GalleryComponents;
 }
 
 interface TouchInfo {
@@ -172,9 +174,15 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		showThumbnails = true,
 		zoomStep = 0.25,
 		wrap = false,
+		components,
 	},
 	ref,
 ) {
+	const PrevButtonComponent = components?.PrevButton ?? PrevButton;
+	const NextButtonComponent = components?.NextButton ?? NextButton;
+	const PhotoComponent = components?.Photo ?? Photo;
+	const CaptionComponent = components?.Caption ?? Caption;
+
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
 	const previousActivePhotoIndexRef = useRef(activePhotoIndex);
@@ -765,7 +773,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		const ui = [];
 		if (!state.hidePrevButton) {
 			ui.push(
-				<PrevButton
+				<PrevButtonComponent
 					key=".prevControl"
 					disabled={state.controlsDisabled}
 					onPress={onPrevButtonPress}
@@ -775,7 +783,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		}
 		if (!state.hideNextButton) {
 			ui.push(
-				<NextButton
+				<NextButtonComponent
 					key=".nextControl"
 					disabled={state.controlsDisabled}
 					onPress={onNextButtonPress}
@@ -785,6 +793,8 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		}
 		return ui;
 	}, [
+		NextButtonComponent,
+		PrevButtonComponent,
 		light,
 		onNextButtonPress,
 		onPrevButtonPress,
@@ -837,7 +847,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					{hasPhotos ? (
 						<div className="gallery-photo">
 							<div className="gallery-photo--current">
-								<Photo
+								<PhotoComponent
 									photo={current}
 									onLoad={onPhotoLoad}
 									onError={onPhotoError}
@@ -866,12 +876,17 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				</div>
 			</div>
 			{showThumbnails && current && (
-				<Caption
+				<CaptionComponent
 					phrases={phrases}
 					current={state.activePhotoIndex}
 					photos={photos}
 					onPress={onThumbnailPress}
 					renderCaptionActions={renderCaptionActions}
+					showThumbnails={showThumbnails}
+					components={{
+						Thumbnail: components?.Thumbnail,
+						TogglePhotoList: components?.TogglePhotoList,
+					}}
 				/>
 			)}
 		</div>

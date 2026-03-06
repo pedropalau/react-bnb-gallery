@@ -34,6 +34,11 @@ const galleryProps = [
 		type: '(context) => ReactNode',
 		default: 'undefined',
 	},
+	{
+		prop: 'components',
+		type: 'GalleryComponents',
+		default: 'undefined',
+	},
 	{ prop: 'rightKeyPressed', type: '() => void', default: 'undefined' },
 	{ prop: 'show', type: 'boolean', default: 'false' },
 	{ prop: 'showThumbnails', type: 'boolean', default: 'true' },
@@ -597,6 +602,54 @@ export default function OptionsPage() {
       Open original
     </button>
   )}
+  onClose={() => setOpen(false)}
+/>`}</code>
+								</pre>
+							</CodeBlock>
+						</PropDetail>
+
+						<PropDetail name="components">
+							<p>
+								Overrides internal UI slots (close button, controls, photo,
+								caption, thumbnails) with your own React components. This is
+								useful when you need deep design-system integration without
+								forking the library.
+							</p>
+							<CodeBlock
+								__raw__={`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  components={{
+    CloseButton: ({ onPress }) => (
+      <button type="button" className="my-close" onClick={onPress}>
+        Close
+      </button>
+    ),
+    NextButton: ({ onPress, disabled }) => (
+      <button type="button" disabled={disabled} onClick={onPress}>
+        Next
+      </button>
+    ),
+  }}
+  onClose={() => setOpen(false)}
+/>`}
+							>
+								<pre>
+									<code>{`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  components={{
+    CloseButton: ({ onPress }) => (
+      <button type="button" className="my-close" onClick={onPress}>
+        Close
+      </button>
+    ),
+    NextButton: ({ onPress, disabled }) => (
+      <button type="button" disabled={disabled} onClick={onPress}>
+        Next
+      </button>
+    ),
+  }}
   onClose={() => setOpen(false)}
 />`}</code>
 								</pre>

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { memo } from 'react';
 import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
-import type { GalleryPhoto } from '../types/gallery';
+import type { GalleryThumbnailComponentProps } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
 import { Image } from './image';
 
@@ -11,16 +11,6 @@ const thumbnailStyle = {
 };
 
 /**
- * Props for a single thumbnail button in the caption strip.
- */
-interface ThumbnailProps {
-	active?: boolean;
-	photo?: GalleryPhoto | null;
-	onPress?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-	number?: number;
-}
-
-/**
  * Renders a clickable thumbnail for selecting a photo by index.
  */
 function Thumbnail({
@@ -28,7 +18,7 @@ function Thumbnail({
 	photo = null,
 	onPress,
 	number = 0,
-}: ThumbnailProps) {
+}: GalleryThumbnailComponentProps) {
 	if (!photo) {
 		return null;
 	}

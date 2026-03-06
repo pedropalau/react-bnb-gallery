@@ -1,40 +1,8 @@
 import clsx from 'clsx';
-import type {
-	CSSProperties,
-	MouseEvent,
-	Ref,
-	TouchEvent,
-	WheelEvent,
-} from 'react';
 import { memo, useCallback } from 'react';
-import type { GalleryPhoto } from '../types/gallery';
+import type { GalleryPhotoComponentProps } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
 import { Image } from './image';
-
-/**
- * Props for the active gallery photo surface.
- */
-interface PhotoProps {
-	photo?: GalleryPhoto | null;
-	onPress?: () => void;
-	onTouchStart?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onTouchMove?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onTouchEnd?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onMouseDown?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseMove?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseUp?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseLeave?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onWheel?: (event: WheelEvent<HTMLButtonElement>) => void;
-	onLoad?: () => void;
-	onError?: () => void;
-	style?: CSSProperties;
-	buttonRef?: Ref<HTMLButtonElement>;
-	imageRef?: Ref<HTMLImageElement>;
-	disablePress?: boolean;
-	enableZoom?: boolean;
-	isZoomMode?: boolean;
-	isPanning?: boolean;
-}
 
 /**
  * Renders the main photo element and forwards interaction callbacks.
@@ -59,7 +27,7 @@ function Photo({
 	enableZoom = true,
 	isZoomMode = false,
 	isPanning = false,
-}: PhotoProps) {
+}: GalleryPhotoComponentProps) {
 	const onPressHandler = useCallback(() => {
 		if (disablePress) {
 			return;

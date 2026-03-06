@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { ReactBnbGallery } from '../../src/react-bnb-gallery';
 
@@ -241,6 +241,48 @@ describe('ReactBnbGallery', () => {
 				}),
 			);
 			expect(document.body).toHaveTextContent('Custom 1');
+		});
+
+		it('supports overriding UI components via the components prop', () => {
+			const onClose = vi.fn();
+			const CustomCloseButton = ({ onPress }) => (
+				<button type="button" data-testid="custom-close" onClick={onPress}>
+					Close
+				</button>
+			);
+			const CustomThumbnail = ({ number = 0, onPress }) => (
+				<button
+					type="button"
+					data-testid={`custom-thumbnail-${number}`}
+					data-photo-index={number}
+					onClick={onPress}
+				>
+					Thumb {number + 1}
+				</button>
+			);
+
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					onClose={onClose}
+					components={{
+						CloseButton: CustomCloseButton,
+						Thumbnail: CustomThumbnail,
+					}}
+				/>,
+			);
+
+			fireEvent.click(screen.getByTestId('custom-close'));
+			expect(onClose).toHaveBeenCalledTimes(1);
+
+			expect(
+				document.body.querySelector('.gallery-photo-counter'),
+			).toHaveTextContent('1 / 2');
+			fireEvent.click(screen.getByTestId('custom-thumbnail-1'));
+			expect(
+				document.body.querySelector('.gallery-photo-counter'),
+			).toHaveTextContent('2 / 2');
 		});
 	});
 });

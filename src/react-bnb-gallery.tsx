@@ -15,6 +15,7 @@ import {
 } from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
+	GalleryComponents,
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
@@ -52,6 +53,7 @@ export interface ReactBnbGalleryProps {
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
 	renderCaptionActions?: GalleryRenderCaptionActions;
+	components?: GalleryComponents;
 	rightKeyPressed?: () => void;
 	maxZoom?: number;
 	show?: boolean;
@@ -81,6 +83,7 @@ export interface ReactBnbGalleryProps {
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
  * @param renderCaptionActions - Render prop for injecting custom controls in the caption action area
+ * @param components - Optional slot overrides for built-in UI components such as close button, controls, photo, caption, and thumbnails
  * @param rightKeyPressed - Callback fired when the right arrow key is pressed
  * @param maxZoom - Maximum zoom scale applied by gestures (default: `3`)
  * @param show - Whether the gallery modal is visible (default: `false`)
@@ -106,6 +109,7 @@ export function ReactBnbGallery({
 	preloadSize = 5,
 	prevButtonPressed,
 	renderCaptionActions,
+	components,
 	rightKeyPressed,
 	maxZoom = 3,
 	show = false,
@@ -240,6 +244,7 @@ export function ReactBnbGallery({
 	}, [backgroundColorProp, opacity]);
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
+	const CloseButtonComponent = components?.CloseButton ?? CloseButton;
 
 	if (!show) {
 		return null;
@@ -273,7 +278,7 @@ export function ReactBnbGallery({
 						<div className="gallery-modal--cell">
 							<div className="gallery-modal--content">
 								<div className="gallery-modal--close">
-									<CloseButton onPress={close} light={light} />
+									<CloseButtonComponent onPress={close} light={light} />
 								</div>
 								<div className="gallery-content">
 									<div className="gallery-top">
@@ -298,6 +303,7 @@ export function ReactBnbGallery({
 										nextButtonPressed={nextButtonPressed}
 										prevButtonPressed={prevButtonPressed}
 										renderCaptionActions={renderCaptionActions}
+										components={components}
 										showThumbnails={showThumbnails}
 										preloadSize={preloadSize}
 										maxZoom={maxZoom}

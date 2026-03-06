@@ -326,6 +326,56 @@ describe('Gallery', () => {
 			).not.toBeInTheDocument();
 		});
 
+		it('renders custom internal components passed via components prop', () => {
+			const CustomPrevButton = ({ onPress, disabled }) => (
+				<button
+					type="button"
+					data-testid="custom-prev"
+					onClick={onPress}
+					disabled={disabled}
+				>
+					Prev
+				</button>
+			);
+			const CustomNextButton = ({ onPress, disabled }) => (
+				<button
+					type="button"
+					data-testid="custom-next"
+					onClick={onPress}
+					disabled={disabled}
+				>
+					Next
+				</button>
+			);
+			const CustomPhoto = ({ photo, onPress }) => (
+				<button type="button" data-testid="custom-photo" onClick={onPress}>
+					{photo?.caption || 'photo'}
+				</button>
+			);
+			const CustomCaption = () => (
+				<figcaption data-testid="custom-caption">Custom caption</figcaption>
+			);
+
+			const { getByTestId } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails
+					wrap
+					components={{
+						PrevButton: CustomPrevButton,
+						NextButton: CustomNextButton,
+						Photo: CustomPhoto,
+						Caption: CustomCaption,
+					}}
+				/>,
+			);
+
+			expect(getByTestId('custom-prev')).toBeInTheDocument();
+			expect(getByTestId('custom-next')).toBeInTheDocument();
+			expect(getByTestId('custom-photo')).toBeInTheDocument();
+			expect(getByTestId('custom-caption')).toBeInTheDocument();
+		});
+
 		it('enters zoom mode with mouse wheel and disables click navigation', () => {
 			const activePhotoPressed = vi.fn();
 			const { container } = render(

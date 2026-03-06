@@ -1,4 +1,12 @@
-import type { ReactNode } from 'react';
+import type {
+	ComponentType,
+	CSSProperties,
+	MouseEvent,
+	ReactNode,
+	Ref,
+	TouchEvent,
+	WheelEvent,
+} from 'react';
 import type { DefaultPhrases } from '../default-phrases';
 
 /** Localization strings used throughout the gallery UI. */
@@ -39,6 +47,79 @@ export interface GalleryCaptionActionsContext {
 export type GalleryRenderCaptionActions = (
 	context: GalleryCaptionActionsContext,
 ) => ReactNode;
+
+/** Props for overriding the modal close button component. */
+export interface GalleryCloseButtonProps {
+	onPress?: () => void;
+	light?: boolean;
+}
+
+/** Shared props for overriding previous/next navigation controls. */
+export interface GalleryControlButtonProps {
+	onPress?: () => void;
+	disabled?: boolean;
+	light?: boolean;
+}
+
+/** Props for overriding the active gallery photo component. */
+export interface GalleryPhotoComponentProps {
+	photo?: GalleryPhoto | null;
+	onPress?: () => void;
+	onTouchStart?: (event: TouchEvent<HTMLButtonElement>) => void;
+	onTouchMove?: (event: TouchEvent<HTMLButtonElement>) => void;
+	onTouchEnd?: (event: TouchEvent<HTMLButtonElement>) => void;
+	onMouseDown?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onMouseMove?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onMouseUp?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onMouseLeave?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onWheel?: (event: WheelEvent<HTMLButtonElement>) => void;
+	onLoad?: () => void;
+	onError?: () => void;
+	style?: CSSProperties;
+	buttonRef?: Ref<HTMLButtonElement>;
+	imageRef?: Ref<HTMLImageElement>;
+	disablePress?: boolean;
+	enableZoom?: boolean;
+	isZoomMode?: boolean;
+	isPanning?: boolean;
+}
+
+/** Props for overriding the thumbnail strip visibility toggle component. */
+export interface GalleryTogglePhotoListComponentProps {
+	isOpened?: boolean;
+	onPress?: () => void;
+	phrases?: GalleryPhrases;
+}
+
+/** Props for overriding the thumbnail item component. */
+export interface GalleryThumbnailComponentProps {
+	active?: boolean;
+	photo?: GalleryPhoto | null;
+	onPress?: (event: MouseEvent<HTMLButtonElement>) => void;
+	number?: number;
+}
+
+/** Props for overriding the gallery caption component. */
+export interface GalleryCaptionComponentProps {
+	current?: number;
+	onPress?: (index: number) => void;
+	photos?: GalleryPhoto[];
+	phrases?: GalleryPhrases;
+	renderCaptionActions?: GalleryRenderCaptionActions;
+	showThumbnails?: boolean;
+	components?: Pick<GalleryComponents, 'Thumbnail' | 'TogglePhotoList'>;
+}
+
+/** Slot components that can be overridden to customize gallery UI rendering. */
+export interface GalleryComponents {
+	CloseButton?: ComponentType<GalleryCloseButtonProps>;
+	PrevButton?: ComponentType<GalleryControlButtonProps>;
+	NextButton?: ComponentType<GalleryControlButtonProps>;
+	Photo?: ComponentType<GalleryPhotoComponentProps>;
+	Caption?: ComponentType<GalleryCaptionComponentProps>;
+	Thumbnail?: ComponentType<GalleryThumbnailComponentProps>;
+	TogglePhotoList?: ComponentType<GalleryTogglePhotoListComponentProps>;
+}
 
 /** Exposes navigation controls for programmatic gallery control. */
 export interface GalleryController {
