@@ -274,6 +274,7 @@ export function ReactBnbGallery({
 						<CloseButtonComponent
 							onPress={close}
 							light={light}
+							phrases={phrases}
 							className={classNames?.closeButton}
 							style={styles?.closeButton}
 						/>
@@ -351,7 +352,7 @@ export function ReactBnbGallery({
 				onKeyDown={keyboard ? onKeyDown : undefined}
 				tabIndex={-1}
 				role="dialog"
-				aria-label="Photo gallery"
+				aria-label={phrases.photoGallery}
 				aria-modal="true"
 				style={{ zIndex, ...(styles?.modal || {}) }}
 			>

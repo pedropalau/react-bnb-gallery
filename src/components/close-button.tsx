@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { defaultPhrases } from '../default-phrases';
 import type { GalleryCloseButtonProps } from '../types/gallery';
 
 // Path coordinates stay within the 24x24 viewBox bounds to avoid icon clipping.
@@ -16,6 +17,7 @@ const iconStyle = {
 function CloseButton({
 	onPress,
 	light = false,
+	phrases = defaultPhrases,
 	className,
 	style,
 }: GalleryCloseButtonProps) {
@@ -29,7 +31,7 @@ function CloseButton({
 			)}
 			style={style}
 			type="button"
-			aria-label="Close gallery"
+			aria-label={phrases.closeGallery}
 		>
 			<svg
 				viewBox="0 0 24 24"

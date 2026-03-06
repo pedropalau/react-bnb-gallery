@@ -11,6 +11,16 @@ export const defaultPhrases = {
 	showPhotoList: 'Show photo list',
 	/** Label for the button that closes the photo list panel. */
 	hidePhotoList: 'Hide photo list',
+	/** Accessible label for the button that closes the gallery modal. */
+	closeGallery: 'Close gallery',
+	/** Accessible label for the button that navigates to the previous photo. */
+	previousPhoto: 'Previous photo',
+	/** Accessible label for the button that navigates to the next photo. */
+	nextPhoto: 'Next photo',
+	/** Accessible label for the gallery dialog element. */
+	photoGallery: 'Photo gallery',
+	/** Accessible label for the thumbnail navigation region. */
+	thumbnailNavigation: 'Thumbnail navigation',
 };
 
 export type DefaultPhrases = typeof defaultPhrases;

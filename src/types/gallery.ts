@@ -94,6 +94,7 @@ export interface GalleryStyles {
 export interface GalleryCloseButtonProps {
 	onPress?: () => void;
 	light?: boolean;
+	phrases?: GalleryPhrases;
 	className?: string;
 	style?: CSSProperties;
 }
@@ -129,6 +130,7 @@ export interface GalleryControlButtonProps {
 	disabled?: boolean;
 	/** Exposed for custom controls; default controls inherit light mode from CSS tokens. */
 	light?: boolean;
+	phrases?: GalleryPhrases;
 	className?: string;
 	style?: CSSProperties;
 }

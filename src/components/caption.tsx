@@ -131,7 +131,7 @@ function Caption({
 						<div
 							className="gallery-figcaption--thumbnails"
 							role="region"
-							aria-label="Thumbnail navigation"
+							aria-label={phrases.thumbnailNavigation}
 							ref={thumbnailsWrapperRef}
 						>
 							<div

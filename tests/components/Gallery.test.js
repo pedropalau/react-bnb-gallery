@@ -137,6 +137,33 @@ describe('Gallery', () => {
 			);
 		});
 
+		it('uses localized labels for controls and thumbnail navigation', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails
+					wrap
+					phrases={{
+						previousPhoto: 'Foto anterior',
+						nextPhoto: 'Foto siguiente',
+						thumbnailNavigation: 'Navegación de miniaturas',
+					}}
+				/>,
+			);
+
+			expect(container.querySelector('.gallery-control--prev')).toHaveAttribute(
+				'aria-label',
+				'Foto anterior',
+			);
+			expect(container.querySelector('.gallery-control--next')).toHaveAttribute(
+				'aria-label',
+				'Foto siguiente',
+			);
+			expect(
+				container.querySelector('.gallery-figcaption--thumbnails'),
+			).toHaveAttribute('aria-label', 'Navegación de miniaturas');
+		});
+
 		it('syncs caption content when activePhotoIndex prop changes', () => {
 			const photoList = photos.slice(0, 2);
 			const { container, rerender } = render(

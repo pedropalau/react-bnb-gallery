@@ -21,4 +21,12 @@ describe('CloseButton', () => {
 			'gallery-close--light',
 		);
 	});
+
+	it('uses localized close label from phrases', () => {
+		render(<CloseButton phrases={{ closeGallery: 'Cerrar galería' }} />);
+
+		expect(
+			screen.getByRole('button', { name: 'Cerrar galería' }),
+		).toBeInTheDocument();
+	});
 });

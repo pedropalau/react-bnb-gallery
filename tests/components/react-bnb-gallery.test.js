@@ -98,6 +98,25 @@ describe('ReactBnbGallery', () => {
 			expect(modal).toHaveAttribute('aria-modal', 'true');
 		});
 
+		it('uses localized dialog and close-button labels from phrases', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					phrases={{
+						photoGallery: 'Galería de fotos',
+						closeGallery: 'Cerrar galería',
+					}}
+				/>,
+			);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			expect(modal).toHaveAttribute('aria-label', 'Galería de fotos');
+			expect(
+				screen.getByRole('button', { name: 'Cerrar galería' }),
+			).toBeInTheDocument();
+		});
+
 		it('applies light mode class to the modal', () => {
 			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
 
