@@ -6,6 +6,7 @@
     "@react-bnb-gallery/docs": "0.1.0"
   },
   "changesets": [
+    "eight-rules-beam",
     "mean-news-act",
     "tall-forks-jump"
   ]
