@@ -220,5 +220,27 @@ describe('ReactBnbGallery', () => {
 				/Hide photo list|Show photo list/,
 			);
 		});
+
+		it('renders custom caption actions via renderCaptionActions', () => {
+			const renderCaptionActions = vi.fn(({ current }) => (
+				<button type="button">Custom {current + 1}</button>
+			));
+
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					renderCaptionActions={renderCaptionActions}
+				/>,
+			);
+
+			expect(renderCaptionActions).toHaveBeenCalledWith(
+				expect.objectContaining({
+					current: 0,
+					showThumbnails: true,
+				}),
+			);
+			expect(document.body).toHaveTextContent('Custom 1');
+		});
 	});
 });

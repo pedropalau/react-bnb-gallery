@@ -23,6 +23,23 @@ export interface GalleryPhoto {
 	[key: string]: unknown;
 }
 
+/** Context provided to custom caption action renderers. */
+export interface GalleryCaptionActionsContext {
+	/** Current active photo index. */
+	current: number;
+	/** Currently active photo object, when available. */
+	currentPhoto?: GalleryPhoto;
+	/** Full normalized photo list. */
+	photos: GalleryPhoto[];
+	/** Whether the thumbnail strip is currently visible. */
+	showThumbnails: boolean;
+}
+
+/** Render prop for injecting custom controls in the caption action area. */
+export type GalleryRenderCaptionActions = (
+	context: GalleryCaptionActionsContext,
+) => ReactNode;
+
 /** Exposes navigation controls for programmatic gallery control. */
 export interface GalleryController {
 	/** Navigate to the previous photo. */

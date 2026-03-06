@@ -16,6 +16,7 @@ import type {
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
+	GalleryRenderCaptionActions,
 } from '../types/gallery';
 import { Caption } from './caption';
 import { NextButton } from './next-button';
@@ -38,6 +39,7 @@ interface GalleryProps {
 	photos?: GalleryPhoto[];
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
+	renderCaptionActions?: GalleryRenderCaptionActions;
 	showThumbnails?: boolean;
 	zoomStep?: number;
 	wrap?: boolean;
@@ -166,6 +168,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		photos = EMPTY_PHOTOS,
 		preloadSize = 5,
 		prevButtonPressed,
+		renderCaptionActions,
 		showThumbnails = true,
 		zoomStep = 0.25,
 		wrap = false,
@@ -868,6 +871,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					current={state.activePhotoIndex}
 					photos={photos}
 					onPress={onThumbnailPress}
+					renderCaptionActions={renderCaptionActions}
 				/>
 			)}
 		</div>

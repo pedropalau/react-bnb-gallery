@@ -18,6 +18,7 @@ import type {
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
+	GalleryRenderCaptionActions,
 } from './types/gallery';
 import { normalizePhotos } from './utils/normalize-photos';
 
@@ -50,6 +51,7 @@ export interface ReactBnbGalleryProps {
 	phrases?: Partial<GalleryPhrases>;
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
+	renderCaptionActions?: GalleryRenderCaptionActions;
 	rightKeyPressed?: () => void;
 	maxZoom?: number;
 	show?: boolean;
@@ -78,6 +80,7 @@ export interface ReactBnbGalleryProps {
  * @param phrases - Localization strings for UI labels
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
+ * @param renderCaptionActions - Render prop for injecting custom controls in the caption action area
  * @param rightKeyPressed - Callback fired when the right arrow key is pressed
  * @param maxZoom - Maximum zoom scale applied by gestures (default: `3`)
  * @param show - Whether the gallery modal is visible (default: `false`)
@@ -102,6 +105,7 @@ export function ReactBnbGallery({
 	phrases: phrasesProp,
 	preloadSize = 5,
 	prevButtonPressed,
+	renderCaptionActions,
 	rightKeyPressed,
 	maxZoom = 3,
 	show = false,
@@ -293,6 +297,7 @@ export function ReactBnbGallery({
 										enableZoom={enableZoom}
 										nextButtonPressed={nextButtonPressed}
 										prevButtonPressed={prevButtonPressed}
+										renderCaptionActions={renderCaptionActions}
 										showThumbnails={showThumbnails}
 										preloadSize={preloadSize}
 										maxZoom={maxZoom}
