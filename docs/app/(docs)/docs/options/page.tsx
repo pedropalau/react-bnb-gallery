@@ -39,6 +39,8 @@ const galleryProps = [
 		type: 'GalleryComponents',
 		default: 'undefined',
 	},
+	{ prop: 'classNames', type: 'GalleryClassNames', default: 'undefined' },
+	{ prop: 'styles', type: 'GalleryStyles', default: 'undefined' },
 	{ prop: 'rightKeyPressed', type: '() => void', default: 'undefined' },
 	{ prop: 'show', type: 'boolean', default: 'false' },
 	{ prop: 'showThumbnails', type: 'boolean', default: 'true' },
@@ -656,6 +658,76 @@ export default function OptionsPage() {
 							</CodeBlock>
 						</PropDetail>
 
+						<PropDetail name="classNames">
+							<p>
+								Applies class names to built-in UI slots without replacing
+								components. Use this for lightweight theming with utility-first
+								or design-system classes.
+							</p>
+							<CodeBlock
+								__raw__={`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  classNames={{
+    modal: 'rounded-2xl',
+    overlay: 'backdrop-blur-sm',
+    photoButton: 'ring-2 ring-white/30',
+    caption: 'bg-black/70',
+    thumbnailButton: 'rounded-md border border-white/30',
+  }}
+  onClose={() => setOpen(false)}
+/>`}
+							>
+								<pre>
+									<code>{`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  classNames={{
+    modal: 'rounded-2xl',
+    overlay: 'backdrop-blur-sm',
+    photoButton: 'ring-2 ring-white/30',
+    caption: 'bg-black/70',
+    thumbnailButton: 'rounded-md border border-white/30',
+  }}
+  onClose={() => setOpen(false)}
+/>`}</code>
+								</pre>
+							</CodeBlock>
+						</PropDetail>
+
+						<PropDetail name="styles">
+							<p>
+								Applies inline styles to the same slots available in{' '}
+								<code>classNames</code>. Useful for dynamic runtime styling or
+								theme-token values from JavaScript.
+							</p>
+							<CodeBlock
+								__raw__={`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  styles={{
+    overlay: { backgroundColor: 'rgba(8, 10, 20, 0.9)' },
+    photoCounter: { letterSpacing: '0.12em' },
+    caption: { borderTop: '1px solid rgba(255,255,255,0.2)' },
+  }}
+  onClose={() => setOpen(false)}
+/>`}
+							>
+								<pre>
+									<code>{`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  styles={{
+    overlay: { backgroundColor: 'rgba(8, 10, 20, 0.9)' },
+    photoCounter: { letterSpacing: '0.12em' },
+    caption: { borderTop: '1px solid rgba(255,255,255,0.2)' },
+  }}
+  onClose={() => setOpen(false)}
+/>`}</code>
+								</pre>
+							</CodeBlock>
+						</PropDetail>
+
 						<PropDetail name="show">
 							<p>
 								Controls the visibility of the gallery modal. Set to{' '}
@@ -764,6 +836,62 @@ export default function OptionsPage() {
 							</CodeBlock>
 						</PropDetail>
 					</div>
+				</div>
+
+				<div className="flex flex-col gap-4 rounded-lg border border-border bg-muted/30 p-6">
+					<h2 className="text-lg font-semibold tracking-tight">
+						Theming &amp; Component Slots
+					</h2>
+					<p className="text-sm text-muted-foreground">
+						Use <code>classNames</code> and <code>styles</code> for fast visual
+						customization, and use <code>components</code> when you need to
+						replace internal rendering with your own design-system components.
+					</p>
+					<CodeBlock
+						__raw__={`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  classNames={{
+    overlay: 'bg-slate-950/90 backdrop-blur-md',
+    caption: 'bg-slate-950/80',
+    togglePhotoList: 'text-sky-300 hover:text-sky-200',
+  }}
+  styles={{
+    photoCounter: { fontVariantNumeric: 'tabular-nums' },
+  }}
+  components={{
+    CloseButton: ({ onPress, className }) => (
+      <button type="button" className={\`btn btn-ghost \${className ?? ''}\`} onClick={onPress}>
+        Dismiss
+      </button>
+    ),
+  }}
+  onClose={() => setOpen(false)}
+/>`}
+					>
+						<pre>
+							<code>{`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  classNames={{
+    overlay: 'bg-slate-950/90 backdrop-blur-md',
+    caption: 'bg-slate-950/80',
+    togglePhotoList: 'text-sky-300 hover:text-sky-200',
+  }}
+  styles={{
+    photoCounter: { fontVariantNumeric: 'tabular-nums' },
+  }}
+  components={{
+    CloseButton: ({ onPress, className }) => (
+      <button type="button" className={\`btn btn-ghost \${className ?? ''}\`} onClick={onPress}>
+        Dismiss
+      </button>
+    ),
+  }}
+  onClose={() => setOpen(false)}
+/>`}</code>
+						</pre>
+					</CodeBlock>
 				</div>
 
 				{/* Photo props */}

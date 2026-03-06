@@ -21,6 +21,10 @@ function Photo({
 	onLoad,
 	onError,
 	style,
+	buttonClassName,
+	buttonStyle,
+	imageClassName,
+	imageStyle,
 	buttonRef,
 	imageRef,
 	disablePress = false,
@@ -40,6 +44,7 @@ function Photo({
 	}
 
 	const captionText = getCaptionText(photo.caption);
+	const mergedImageStyle = { ...(style || {}), ...(imageStyle || {}) };
 	const className = clsx(
 		'gallery-media-photo',
 		'gallery-media-photo--block',
@@ -59,7 +64,9 @@ function Photo({
 						enableZoom && 'gallery-photo-button--zoom-enabled',
 						isZoomMode && 'gallery-photo-button--zoomed',
 						isPanning && 'gallery-photo-button--panning',
+						buttonClassName,
 					)}
+					style={buttonStyle}
 					onTouchStart={onTouchStart}
 					onTouchMove={onTouchMove}
 					onTouchEnd={onTouchEnd}
@@ -71,11 +78,11 @@ function Photo({
 				>
 					<Image
 						alt={photo.alt || captionText}
-						className="photo gallery-photo-image"
+						className={clsx('photo gallery-photo-image', imageClassName)}
 						src={photo.photo || ''}
 						onLoad={onLoad}
 						onError={onError}
-						style={style}
+						style={mergedImageStyle}
 						imageRef={imageRef}
 					/>
 				</button>

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { memo } from 'react';
 import type { GalleryControlButtonProps } from '../types/gallery';
 import { Control } from './control';
@@ -12,15 +13,18 @@ function PrevButton({
 	onPress,
 	disabled = false,
 	light = false,
+	className,
+	style,
 }: GalleryControlButtonProps) {
 	return (
 		<Control
-			className="gallery-control--prev"
+			className={clsx('gallery-control--prev', className)}
 			onPress={onPress}
 			arrow={PREV_ARROW}
 			label="Previous photo"
 			disabled={disabled}
 			light={light}
+			style={style}
 		/>
 	);
 }

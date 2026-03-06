@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { memo } from 'react';
 import type { GalleryControlButtonProps } from '../types/gallery';
 import { Control } from './control';
@@ -12,15 +13,18 @@ function NextButton({
 	onPress,
 	disabled = false,
 	light = false,
+	className,
+	style,
 }: GalleryControlButtonProps) {
 	return (
 		<Control
-			className="gallery-control--next"
+			className={clsx('gallery-control--next', className)}
 			onPress={onPress}
 			arrow={NEXT_ARROW}
 			label="Next photo"
 			disabled={disabled}
 			light={light}
+			style={style}
 		/>
 	);
 }

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { GalleryCloseButtonProps } from '../types/gallery';
 
 const CLOSE_PATH =
@@ -15,11 +16,14 @@ const buttonStyle = {
 function CloseButton({
 	onPress,
 	light: _light = false,
+	className,
+	style,
 }: GalleryCloseButtonProps) {
 	return (
 		<button
 			onClick={onPress}
-			className="gallery-close"
+			className={clsx('gallery-close', className)}
+			style={style}
 			type="button"
 			aria-label="Close gallery"
 			aria-busy={false}

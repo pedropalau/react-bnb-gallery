@@ -15,11 +15,13 @@ import {
 } from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
+	GalleryClassNames,
 	GalleryComponents,
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
 	GalleryRenderCaptionActions,
+	GalleryStyles,
 } from './types/gallery';
 import { normalizePhotos } from './utils/normalize-photos';
 
@@ -54,6 +56,8 @@ export interface ReactBnbGalleryProps {
 	prevButtonPressed?: () => void;
 	renderCaptionActions?: GalleryRenderCaptionActions;
 	components?: GalleryComponents;
+	classNames?: GalleryClassNames;
+	styles?: GalleryStyles;
 	rightKeyPressed?: () => void;
 	maxZoom?: number;
 	show?: boolean;
@@ -84,6 +88,8 @@ export interface ReactBnbGalleryProps {
  * @param prevButtonPressed - Callback fired when the previous button is pressed
  * @param renderCaptionActions - Render prop for injecting custom controls in the caption action area
  * @param components - Optional slot overrides for built-in UI components such as close button, controls, photo, caption, and thumbnails
+ * @param classNames - Optional className overrides for default gallery UI slots
+ * @param styles - Optional inline style overrides for default gallery UI slots
  * @param rightKeyPressed - Callback fired when the right arrow key is pressed
  * @param maxZoom - Maximum zoom scale applied by gestures (default: `3`)
  * @param show - Whether the gallery modal is visible (default: `false`)
@@ -110,6 +116,8 @@ export function ReactBnbGallery({
 	prevButtonPressed,
 	renderCaptionActions,
 	components,
+	classNames,
+	styles,
 	rightKeyPressed,
 	maxZoom = 3,
 	show = false,
@@ -240,8 +248,9 @@ export function ReactBnbGallery({
 			...(hasDeprecatedBackgroundColorOverride
 				? { backgroundColor: backgroundColorProp }
 				: {}),
+			...(styles?.overlay || {}),
 		};
-	}, [backgroundColorProp, opacity]);
+	}, [backgroundColorProp, opacity, styles?.overlay]);
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
 	const CloseButtonComponent = components?.CloseButton ?? CloseButton;
@@ -262,29 +271,51 @@ export function ReactBnbGallery({
 		>
 			<div
 				ref={modalRef}
-				className={clsx('gallery-modal', light && 'mode-light')}
+				className={clsx(
+					'gallery-modal',
+					light && 'mode-light',
+					classNames?.modal,
+				)}
 				onKeyDown={keyboard ? onKeyDown : undefined}
 				tabIndex={-1}
 				role="dialog"
 				aria-modal="true"
-				style={{ zIndex }}
+				style={{ zIndex, ...(styles?.modal || {}) }}
 			>
 				<div
 					style={galleryModalOverlayStyles}
-					className="gallery-modal--overlay"
+					className={clsx('gallery-modal--overlay', classNames?.overlay)}
 				/>
 				<div className="gallery-modal--container">
 					<div className="gallery-modal--table">
 						<div className="gallery-modal--cell">
 							<div className="gallery-modal--content">
-								<div className="gallery-modal--close">
-									<CloseButtonComponent onPress={close} light={light} />
+								<div
+									className={clsx(
+										'gallery-modal--close',
+										classNames?.closeButtonWrapper,
+									)}
+									style={styles?.closeButtonWrapper}
+								>
+									<CloseButtonComponent
+										onPress={close}
+										light={light}
+										className={classNames?.closeButton}
+										style={styles?.closeButton}
+									/>
 								</div>
 								<div className="gallery-content">
 									<div className="gallery-top">
 										<div className="gallery-top--inner">
 											{hasMoreThanOnePhoto && (
-												<p className="gallery-photo-counter" aria-live="polite">
+												<p
+													className={clsx(
+														'gallery-photo-counter',
+														classNames?.photoCounter,
+													)}
+													aria-live="polite"
+													style={styles?.photoCounter}
+												>
 													{photoCounterLabel}
 												</p>
 											)}
@@ -304,6 +335,8 @@ export function ReactBnbGallery({
 										prevButtonPressed={prevButtonPressed}
 										renderCaptionActions={renderCaptionActions}
 										components={components}
+										classNames={classNames}
+										styles={styles}
 										showThumbnails={showThumbnails}
 										preloadSize={preloadSize}
 										maxZoom={maxZoom}

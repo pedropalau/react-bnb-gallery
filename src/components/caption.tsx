@@ -21,6 +21,18 @@ function Caption({
 	renderCaptionActions,
 	showThumbnails: showThumbnailsProp = true,
 	components,
+	className,
+	style,
+	thumbnailsListClassName,
+	thumbnailsListStyle,
+	thumbnailItemClassName,
+	thumbnailItemStyle,
+	thumbnailClassName,
+	thumbnailStyle,
+	thumbnailImageClassName,
+	thumbnailImageStyle,
+	togglePhotoListClassName,
+	togglePhotoListStyle,
 }: GalleryCaptionComponentProps) {
 	const ThumbnailComponent = components?.Thumbnail ?? Thumbnail;
 	const TogglePhotoListComponent =
@@ -58,11 +70,12 @@ function Caption({
 		setShowThumbnails((prevState) => !prevState);
 	};
 
-	const className = clsx(
+	const rootClassName = clsx(
 		'gallery-figcaption',
 		// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
 		!showThumbnails && 'hide',
 		!showThumbnails && 'is-thumbnails-collapsed',
+		className,
 	);
 	const currentPhoto = photos[current];
 	const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(
@@ -78,7 +91,7 @@ function Caption({
 	const hasCaptionRightContent = hasMoreThanOnePhoto || customActions != null;
 
 	return (
-		<figcaption className={className}>
+		<figcaption className={rootClassName} style={style}>
 			<div className="gallery-figcaption--content">
 				<div className="gallery-figcaption--inner">
 					<div className="gallery-figcaption--info">
@@ -98,6 +111,8 @@ function Caption({
 											phrases={phrases}
 											isOpened={showThumbnails}
 											onPress={toggleThumbnails}
+											className={togglePhotoListClassName}
+											style={togglePhotoListStyle}
 										/>
 									)}
 									{customActions != null && (
@@ -122,19 +137,31 @@ function Caption({
 								}}
 							>
 								<ul
-									className="thumbnails-list gallery-thumbnails-list"
+									className={clsx(
+										'thumbnails-list gallery-thumbnails-list',
+										thumbnailsListClassName,
+									)}
+									style={thumbnailsListStyle}
 									ref={thumbnailsListRef}
 								>
 									{photos.map((photo, index: number) => (
 										<li
 											key={photo.photo || `${index}`}
-											className="gallery-thumbnail-item"
+											className={clsx(
+												'gallery-thumbnail-item',
+												thumbnailItemClassName,
+											)}
+											style={thumbnailItemStyle}
 										>
 											<ThumbnailComponent
 												active={index === current}
 												photo={photo}
 												onPress={onThumbnailPress}
 												number={index}
+												className={thumbnailClassName}
+												style={thumbnailStyle}
+												imageClassName={thumbnailImageClassName}
+												imageStyle={thumbnailImageStyle}
 											/>
 										</li>
 									))}
