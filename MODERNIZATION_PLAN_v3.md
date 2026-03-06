@@ -4,7 +4,7 @@ Last updated: 2026-03-06
 Plan ID: v3
 Target stable release: 3.0.0
 Current stable release: 2.2.1
-Current prerelease: 3.0.0-next.1 (`npm dist-tag: next`)
+Current prerelease: 3.0.0-next.3 (`npm dist-tag: next`)
 
 ## Goal
 
@@ -69,6 +69,33 @@ Ship `3.0.0` as a deliberate major release with:
 1. Iterate on prereleases (`3.0.0-next.N`) based on user feedback.
 2. Keep release gates enforced before stable publish.
 
+## Status Audit (2026-03-06)
+
+### Findings: Completed
+
+1. W1 is complete:
+   - Default exports are removed from the package surface (`src/index.ts` exports named symbols only).
+   - Changelog records default-export removal in `3.0.0-next.0`.
+2. W2 is complete:
+   - `MIGRATION_v2_to_v3.md` exists with before/after import guidance.
+   - README and docs use named imports for package usage examples.
+3. P0 backlog items are implemented in runtime and tests:
+   - Controlled index API is present (`activePhotoIndex`, `onActivePhotoIndexChange`).
+   - Zoom/pan shipped in `3.0.0-next.2` (`enableZoom`, `maxZoom`, `zoomStep` + gesture behavior).
+   - Custom rendering paths are present (`components` slot overrides and `renderCaptionActions`, shipped in `3.0.0-next.3`).
+4. Hard release gates currently pass locally on 2026-03-06:
+   - `pnpm lint`
+   - `pnpm test`
+   - `pnpm build`
+   - `pnpm docs:build`
+
+### Findings: Pending Before 3.0.0 GA
+
+1. Continue prerelease iteration and feedback triage for `3.0.0-next.*` until no critical regressions remain.
+2. Add explicit package-surface regression tests for named-export-only entry points (to prevent accidental default-export reintroduction).
+3. Expand controlled-index parity tests to explicitly assert `onActivePhotoIndexChange` behavior across keyboard/touch/wrap transitions.
+4. Decide whether any P1 items are required pre-GA or should be deferred to `3.0.x` after stable release.
+
 ## Feature Delivery Model (v3)
 
 1. All feature work branches from `next` and merges back into `next`.
@@ -103,9 +130,9 @@ Ship `3.0.0` as a deliberate major release with:
 
 ## Current Feature Sprint
 
-1. Branch: `feat/v3-zoom-pan`
-2. Goal: deliver zoom/pan behavior with no regressions to keyboard navigation, overlay close behavior, and existing CSS API.
-3. Release target: `3.0.0-next.2`
+1. Branch: `feat/v3-release-hardening`
+2. Goal: close remaining release-risk gaps (export-surface regression tests, controlled-index parity test coverage, prerelease feedback triage) before GA.
+3. Release target: `3.0.0-next.4`
 
 ## Hard Release Gates (Required Before GA)
 
