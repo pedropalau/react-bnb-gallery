@@ -108,5 +108,42 @@ describe('Caption', () => {
 			).toBeInTheDocument();
 			expect(screen.getByText('Photo by')).toBeInTheDocument();
 		});
+
+		it('renders custom caption actions next to the thumbnail toggle', () => {
+			render(
+				<Caption
+					current={0}
+					photos={photos.slice(0, 2)}
+					showThumbnails
+					renderCaptionActions={({ current }) => (
+						<button type="button">Action {current + 1}</button>
+					)}
+				/>,
+			);
+
+			expect(
+				screen.getByRole('button', { name: /hide photo list/i }),
+			).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'Action 1' }),
+			).toBeInTheDocument();
+		});
+
+		it('renders custom caption actions even with a single photo', () => {
+			render(
+				<Caption
+					current={0}
+					photos={photos.slice(0, 1)}
+					renderCaptionActions={() => <button type="button">Download</button>}
+				/>,
+			);
+
+			expect(
+				screen.getByRole('button', { name: 'Download' }),
+			).toBeInTheDocument();
+			expect(
+				screen.queryByRole('button', { name: /photo list/i }),
+			).not.toBeInTheDocument();
+		});
 	});
 });

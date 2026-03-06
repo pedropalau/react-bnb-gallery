@@ -13,7 +13,12 @@ const galleryProps = [
 		default: "'deprecated (compat alias)'",
 		deprecated: true,
 	},
-	{ prop: 'direction', type: 'string', default: "'forwards'", deprecated: true },
+	{
+		prop: 'direction',
+		type: 'string',
+		default: "'forwards'",
+		deprecated: true,
+	},
 	{ prop: 'keyboard', type: 'boolean', default: 'true' },
 	{ prop: 'leftKeyPressed', type: '() => void', default: 'undefined' },
 	{ prop: 'light', type: 'boolean', default: 'false' },
@@ -24,6 +29,11 @@ const galleryProps = [
 	{ prop: 'phrases', type: 'GalleryPhrases', default: '{...}' },
 	{ prop: 'preloadSize', type: 'number', default: '5' },
 	{ prop: 'prevButtonPressed', type: '() => void', default: 'undefined' },
+	{
+		prop: 'renderCaptionActions',
+		type: '(context) => ReactNode',
+		default: 'undefined',
+	},
 	{ prop: 'rightKeyPressed', type: '() => void', default: 'undefined' },
 	{ prop: 'show', type: 'boolean', default: 'false' },
 	{ prop: 'showThumbnails', type: 'boolean', default: 'true' },
@@ -198,8 +208,8 @@ export default function OptionsPage() {
 						<PropDetail name="backgroundColor" deprecated>
 							<p>
 								This prop is deprecated in <code>2.x</code>, still works as a
-								backward-compatible alias for overlay color, and will be
-								removed in the next major version. Prefer the CSS token{' '}
+								backward-compatible alias for overlay color, and will be removed
+								in the next major version. Prefer the CSS token{' '}
 								<code>--rbg-overlay</code> instead.
 							</p>
 							<CodeBlock
@@ -219,9 +229,9 @@ export default function OptionsPage() {
 
 						<PropDetail name="direction" deprecated>
 							<p>
-								Controls the animation direction when navigating between
-								photos. This prop is deprecated and will be removed in the
-								next major version — avoid using it in new code.
+								Controls the animation direction when navigating between photos.
+								This prop is deprecated and will be removed in the next major
+								version — avoid using it in new code.
 							</p>
 						</PropDetail>
 
@@ -276,9 +286,9 @@ export default function OptionsPage() {
 
 						<PropDetail name="light">
 							<p>
-								Enables a light color scheme for the gallery UI. By default
-								the gallery uses a dark theme. Set to <code>true</code> to
-								switch to a light background with dark controls.
+								Enables a light color scheme for the gallery UI. By default the
+								gallery uses a dark theme. Set to <code>true</code> to switch to
+								a light background with dark controls.
 							</p>
 							<CodeBlock
 								__raw__={`<ReactBnbGallery
@@ -560,6 +570,39 @@ export default function OptionsPage() {
 							</CodeBlock>
 						</PropDetail>
 
+						<PropDetail name="renderCaptionActions">
+							<p>
+								Render prop for injecting custom controls in the caption action
+								area next to the photo-list toggle button. Useful for adding
+								actions like download, share, or open-original.
+							</p>
+							<CodeBlock
+								__raw__={`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  renderCaptionActions={({ currentPhoto }) => (
+    <button type="button" onClick={() => window.open(currentPhoto?.photo)}>
+      Open original
+    </button>
+  )}
+  onClose={() => setOpen(false)}
+/>`}
+							>
+								<pre>
+									<code>{`<ReactBnbGallery
+  show={open}
+  photos={photos}
+  renderCaptionActions={({ currentPhoto }) => (
+    <button type="button" onClick={() => window.open(currentPhoto?.photo)}>
+      Open original
+    </button>
+  )}
+  onClose={() => setOpen(false)}
+/>`}</code>
+								</pre>
+							</CodeBlock>
+						</PropDetail>
+
 						<PropDetail name="show">
 							<p>
 								Controls the visibility of the gallery modal. Set to{' '}
@@ -792,8 +835,8 @@ export default function OptionsPage() {
 
 						<PropDetail name="thumbnailAlt">
 							<p>
-								Accessible text for the thumbnail image. When omitted, it
-								falls back to <code>alt</code>, then <code>caption</code>.
+								Accessible text for the thumbnail image. When omitted, it falls
+								back to <code>alt</code>, then <code>caption</code>.
 							</p>
 							<CodeBlock
 								__raw__={`photos={[

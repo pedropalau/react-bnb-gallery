@@ -302,6 +302,20 @@ describe('Gallery', () => {
 			expect(activePhotoPressed).toHaveBeenCalledTimes(1);
 		});
 
+		it('renders custom caption actions from renderCaptionActions', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails
+					renderCaptionActions={({ current }) => (
+						<button type="button">Action {current + 1}</button>
+					)}
+				/>,
+			);
+
+			expect(container).toHaveTextContent('Action 1');
+		});
+
 		it('does not render zoom controls', () => {
 			const { container } = render(
 				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
