@@ -1,4 +1,4 @@
-import type { TouchEvent } from 'react';
+import type { CSSProperties, MouseEvent, TouchEvent, WheelEvent } from 'react';
 import {
 	forwardRef,
 	memo,
@@ -6,6 +6,7 @@ import {
 	useEffect,
 	useImperativeHandle,
 	useMemo,
+	useRef,
 	useState,
 } from 'react';
 
@@ -28,7 +29,9 @@ interface GalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
 	direction?: string;
+	enableZoom?: boolean;
 	light?: boolean;
+	maxZoom?: number;
 	nextButtonPressed?: () => void;
 	onActivePhotoIndexChange?: (index: number) => void;
 	phrases?: GalleryPhrases;
@@ -36,6 +39,7 @@ interface GalleryProps {
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
 	showThumbnails?: boolean;
+	zoomStep?: number;
 	wrap?: boolean;
 }
 
@@ -43,17 +47,73 @@ interface TouchInfo {
 	screenX: number;
 }
 
+interface PinchInfo {
+	startDistance: number;
+	startScale: number;
+	startOffsetX: number;
+	startOffsetY: number;
+	startMidpointX: number;
+	startMidpointY: number;
+}
+
 interface GalleryState {
 	activePhotoIndex: number;
 	hidePrevButton: boolean;
 	hideNextButton: boolean;
 	controlsDisabled: boolean;
+	zoomScale: number;
+	zoomOffsetX: number;
+	zoomOffsetY: number;
+	isPanning: boolean;
 	touchStartInfo: TouchInfo | null;
 	touchEndInfo: TouchInfo | null;
 	touchMoved: boolean;
 }
 
 const EMPTY_PHOTOS: GalleryPhoto[] = [];
+const MIN_ZOOM = 1;
+
+function clampZoomOffset(
+	offsetX: number,
+	offsetY: number,
+	scale: number,
+	element: HTMLElement | null,
+	mediaElement: HTMLImageElement | null,
+) {
+	if (!element || !mediaElement || scale <= MIN_ZOOM) {
+		return { x: 0, y: 0 };
+	}
+
+	const viewportWidth = element.clientWidth;
+	const viewportHeight = element.clientHeight;
+	const intrinsicWidth = mediaElement.naturalWidth || mediaElement.clientWidth;
+	const intrinsicHeight =
+		mediaElement.naturalHeight || mediaElement.clientHeight;
+
+	if (
+		viewportWidth <= 0 ||
+		viewportHeight <= 0 ||
+		intrinsicWidth <= 0 ||
+		intrinsicHeight <= 0
+	) {
+		return { x: 0, y: 0 };
+	}
+
+	const containScale = Math.min(
+		viewportWidth / intrinsicWidth,
+		viewportHeight / intrinsicHeight,
+		1,
+	);
+	const renderedWidth = intrinsicWidth * containScale;
+	const renderedHeight = intrinsicHeight * containScale;
+	const maxX = Math.max(0, (renderedWidth * scale - viewportWidth) / 2);
+	const maxY = Math.max(0, (renderedHeight * scale - viewportHeight) / 2);
+
+	return {
+		x: Math.min(Math.max(offsetX, -maxX), maxX),
+		y: Math.min(Math.max(offsetY, -maxY), maxY),
+	};
+}
 
 /**
  * Clamps a requested active index to available photo bounds.
@@ -97,7 +157,9 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
 		activePhotoIndex = 0,
 		activePhotoPressed,
+		enableZoom = true,
 		light = false,
+		maxZoom = 3,
 		nextButtonPressed,
 		onActivePhotoIndexChange,
 		phrases = defaultPhrases,
@@ -105,10 +167,17 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		preloadSize = 5,
 		prevButtonPressed,
 		showThumbnails = true,
+		zoomStep = 0.25,
 		wrap = false,
 	},
 	ref,
 ) {
+	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
+	const photoImageRef = useRef<HTMLImageElement | null>(null);
+	const previousActivePhotoIndexRef = useRef(activePhotoIndex);
+	const panStartRef = useRef({ x: 0, y: 0 });
+	const panOriginRef = useRef({ x: 0, y: 0 });
+	const pinchStartRef = useRef<PinchInfo | null>(null);
 	const [state, setState] = useState<GalleryState>(() => {
 		const normalizedActivePhotoIndex = getNormalizedActivePhotoIndex(
 			activePhotoIndex,
@@ -124,6 +193,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			hidePrevButton,
 			hideNextButton,
 			controlsDisabled: true,
+			zoomScale: MIN_ZOOM,
+			zoomOffsetX: 0,
+			zoomOffsetY: 0,
+			isPanning: false,
 			touchStartInfo: null,
 			touchEndInfo: null,
 			touchMoved: false,
@@ -162,6 +235,35 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	useEffect(() => {
 		onActivePhotoIndexChange?.(state.activePhotoIndex);
 	}, [onActivePhotoIndexChange, state.activePhotoIndex]);
+
+	useEffect(() => {
+		const activePhotoChanged =
+			previousActivePhotoIndexRef.current !== state.activePhotoIndex;
+		previousActivePhotoIndexRef.current = state.activePhotoIndex;
+		const shouldResetZoom = activePhotoChanged || !enableZoom;
+		if (!shouldResetZoom) {
+			return;
+		}
+
+		setState((prevState) => {
+			if (
+				prevState.zoomScale === MIN_ZOOM &&
+				prevState.zoomOffsetX === 0 &&
+				prevState.zoomOffsetY === 0 &&
+				!prevState.isPanning
+			) {
+				return prevState;
+			}
+
+			return {
+				...prevState,
+				zoomScale: MIN_ZOOM,
+				zoomOffsetX: 0,
+				zoomOffsetY: 0,
+				isPanning: false,
+			};
+		});
+	}, [enableZoom, state.activePhotoIndex]);
 
 	const getItemByDirection = useCallback(
 		(direction: string, activeIndex: number) => {
@@ -248,26 +350,318 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, []);
 
 	const onPhotoPress = useCallback(() => {
+		if (enableZoom && state.zoomScale > MIN_ZOOM) {
+			return;
+		}
 		move(DIRECTION_NEXT);
 		activePhotoPressed?.();
-	}, [activePhotoPressed, move]);
+	}, [activePhotoPressed, enableZoom, move, state.zoomScale]);
 
-	const onTouchStart = useCallback((event: TouchEvent) => {
-		setState((prevState) => ({
-			...prevState,
-			touchStartInfo: event.targetTouches[0],
-		}));
+	const normalizedMaxZoom = Math.max(MIN_ZOOM, maxZoom);
+	const normalizedZoomStep = Math.max(0.1, zoomStep);
+	const isZoomMode = enableZoom && state.zoomScale > MIN_ZOOM;
+
+	const getTouchDistance = useCallback(
+		(
+			touchA: { clientX: number; clientY: number },
+			touchB: {
+				clientX: number;
+				clientY: number;
+			},
+		) => {
+			const deltaX = touchA.clientX - touchB.clientX;
+			const deltaY = touchA.clientY - touchB.clientY;
+			return Math.hypot(deltaX, deltaY);
+		},
+		[],
+	);
+
+	const setZoomScale = useCallback(
+		(nextScale: number, focalClientX?: number, focalClientY?: number) => {
+			setState((prevState) => {
+				const clampedScale = Math.min(
+					Math.max(nextScale, MIN_ZOOM),
+					normalizedMaxZoom,
+				);
+				if (
+					clampedScale === prevState.zoomScale &&
+					focalClientX === undefined &&
+					focalClientY === undefined
+				) {
+					return prevState;
+				}
+
+				let nextOffsetX = prevState.zoomOffsetX;
+				let nextOffsetY = prevState.zoomOffsetY;
+				const element = photoButtonRef.current;
+
+				if (
+					element &&
+					focalClientX !== undefined &&
+					focalClientY !== undefined &&
+					prevState.zoomScale > 0
+				) {
+					const rect = element.getBoundingClientRect();
+					const focalX = focalClientX - rect.left - rect.width / 2;
+					const focalY = focalClientY - rect.top - rect.height / 2;
+					const scaleRatio = clampedScale / prevState.zoomScale;
+
+					nextOffsetX = (prevState.zoomOffsetX - focalX) * scaleRatio + focalX;
+					nextOffsetY = (prevState.zoomOffsetY - focalY) * scaleRatio + focalY;
+				}
+
+				const nextOffsets = clampZoomOffset(
+					nextOffsetX,
+					nextOffsetY,
+					clampedScale,
+					element,
+					photoImageRef.current,
+				);
+
+				return {
+					...prevState,
+					zoomScale: clampedScale,
+					zoomOffsetX: nextOffsets.x,
+					zoomOffsetY: nextOffsets.y,
+					isPanning: clampedScale > MIN_ZOOM ? prevState.isPanning : false,
+				};
+			});
+		},
+		[normalizedMaxZoom],
+	);
+
+	const startPan = useCallback(
+		(clientX: number, clientY: number) => {
+			if (!enableZoom || state.zoomScale <= MIN_ZOOM) {
+				return;
+			}
+
+			panStartRef.current = { x: clientX, y: clientY };
+			panOriginRef.current = { x: state.zoomOffsetX, y: state.zoomOffsetY };
+
+			setState((prevState) => ({ ...prevState, isPanning: true }));
+		},
+		[enableZoom, state.zoomOffsetX, state.zoomOffsetY, state.zoomScale],
+	);
+
+	const updatePan = useCallback((clientX: number, clientY: number) => {
+		setState((prevState) => {
+			if (!prevState.isPanning) {
+				return prevState;
+			}
+
+			const deltaX = clientX - panStartRef.current.x;
+			const deltaY = clientY - panStartRef.current.y;
+			const nextOffsets = clampZoomOffset(
+				panOriginRef.current.x + deltaX,
+				panOriginRef.current.y + deltaY,
+				prevState.zoomScale,
+				photoButtonRef.current,
+				photoImageRef.current,
+			);
+
+			return {
+				...prevState,
+				zoomOffsetX: nextOffsets.x,
+				zoomOffsetY: nextOffsets.y,
+			};
+		});
 	}, []);
 
-	const onTouchMove = useCallback((event: TouchEvent) => {
-		setState((prevState) => ({
-			...prevState,
-			touchMoved: true,
-			touchEndInfo: event.targetTouches[0],
-		}));
+	const endPan = useCallback(() => {
+		setState((prevState) => {
+			if (!prevState.isPanning) {
+				return prevState;
+			}
+
+			return {
+				...prevState,
+				isPanning: false,
+			};
+		});
 	}, []);
+
+	const onTouchStart = useCallback(
+		(event: TouchEvent) => {
+			if (!enableZoom) {
+				const touch = event.targetTouches[0];
+				if (!touch) {
+					return;
+				}
+				setState((prevState) => ({
+					...prevState,
+					touchStartInfo: touch,
+				}));
+				return;
+			}
+
+			if (event.targetTouches.length === 2) {
+				const firstTouch = event.targetTouches[0];
+				const secondTouch = event.targetTouches[1];
+				if (!firstTouch || !secondTouch) {
+					return;
+				}
+
+				const startDistance = getTouchDistance(firstTouch, secondTouch);
+				pinchStartRef.current = {
+					startDistance,
+					startScale: state.zoomScale,
+					startOffsetX: state.zoomOffsetX,
+					startOffsetY: state.zoomOffsetY,
+					startMidpointX: (firstTouch.clientX + secondTouch.clientX) / 2,
+					startMidpointY: (firstTouch.clientY + secondTouch.clientY) / 2,
+				};
+				setState((prevState) => ({
+					...prevState,
+					touchMoved: false,
+					touchStartInfo: null,
+					touchEndInfo: null,
+					isPanning: false,
+				}));
+				return;
+			}
+
+			const touch = event.targetTouches[0];
+			if (!touch) {
+				return;
+			}
+
+			if (state.zoomScale > MIN_ZOOM) {
+				startPan(touch.clientX, touch.clientY);
+				return;
+			}
+
+			setState((prevState) => ({
+				...prevState,
+				touchStartInfo: touch,
+			}));
+		},
+		[
+			enableZoom,
+			getTouchDistance,
+			startPan,
+			state.zoomOffsetX,
+			state.zoomOffsetY,
+			state.zoomScale,
+		],
+	);
+
+	const onTouchMove = useCallback(
+		(event: TouchEvent) => {
+			if (!enableZoom) {
+				const touch = event.targetTouches[0];
+				if (!touch) {
+					return;
+				}
+
+				setState((prevState) => ({
+					...prevState,
+					touchMoved: true,
+					touchEndInfo: touch,
+				}));
+				return;
+			}
+
+			if (event.targetTouches.length === 2 && pinchStartRef.current) {
+				const firstTouch = event.targetTouches[0];
+				const secondTouch = event.targetTouches[1];
+				if (!firstTouch || !secondTouch) {
+					return;
+				}
+
+				event.preventDefault();
+				const pinchStart = pinchStartRef.current;
+				const currentDistance = getTouchDistance(firstTouch, secondTouch);
+				const distanceRatio =
+					pinchStart.startDistance > 0
+						? currentDistance / pinchStart.startDistance
+						: 1;
+				const nextScale = pinchStart.startScale * distanceRatio;
+				const midpointX = (firstTouch.clientX + secondTouch.clientX) / 2;
+				const midpointY = (firstTouch.clientY + secondTouch.clientY) / 2;
+				const midpointDeltaX = midpointX - pinchStart.startMidpointX;
+				const midpointDeltaY = midpointY - pinchStart.startMidpointY;
+				const baseOffsetX = pinchStart.startOffsetX + midpointDeltaX;
+				const baseOffsetY = pinchStart.startOffsetY + midpointDeltaY;
+
+				setState((prevState) => {
+					const clampedScale = Math.min(
+						Math.max(nextScale, MIN_ZOOM),
+						normalizedMaxZoom,
+					);
+					let nextOffsetX = baseOffsetX;
+					let nextOffsetY = baseOffsetY;
+					const element = photoButtonRef.current;
+					if (element && pinchStart.startScale > 0) {
+						const rect = element.getBoundingClientRect();
+						const focalX = midpointX - rect.left - rect.width / 2;
+						const focalY = midpointY - rect.top - rect.height / 2;
+						const scaleRatio = clampedScale / pinchStart.startScale;
+
+						nextOffsetX = (baseOffsetX - focalX) * scaleRatio + focalX;
+						nextOffsetY = (baseOffsetY - focalY) * scaleRatio + focalY;
+					}
+
+					const nextOffsets = clampZoomOffset(
+						nextOffsetX,
+						nextOffsetY,
+						clampedScale,
+						element,
+						photoImageRef.current,
+					);
+
+					return {
+						...prevState,
+						zoomScale: clampedScale,
+						zoomOffsetX: nextOffsets.x,
+						zoomOffsetY: nextOffsets.y,
+						isPanning: false,
+						touchMoved: false,
+						touchStartInfo: null,
+						touchEndInfo: null,
+					};
+				});
+				return;
+			}
+
+			const touch = event.targetTouches[0];
+			if (!touch) {
+				return;
+			}
+
+			if (state.zoomScale > MIN_ZOOM) {
+				event.preventDefault();
+				updatePan(touch.clientX, touch.clientY);
+				return;
+			}
+
+			setState((prevState) => ({
+				...prevState,
+				touchMoved: true,
+				touchEndInfo: touch,
+			}));
+		},
+		[
+			getTouchDistance,
+			enableZoom,
+			normalizedMaxZoom,
+			state.zoomScale,
+			updatePan,
+		],
+	);
 
 	const onTouchEnd = useCallback(() => {
+		if (pinchStartRef.current) {
+			pinchStartRef.current = null;
+			endPan();
+			return;
+		}
+
+		if (enableZoom && state.zoomScale > MIN_ZOOM) {
+			endPan();
+			return;
+		}
+
 		setState((prevState) => {
 			const { touchStartInfo, touchEndInfo, touchMoved } = prevState;
 			if (touchMoved && touchStartInfo && touchEndInfo) {
@@ -283,7 +677,57 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				touchMoved: false,
 			};
 		});
-	}, [onNextButtonPress, onPrevButtonPress]);
+	}, [
+		enableZoom,
+		endPan,
+		onNextButtonPress,
+		onPrevButtonPress,
+		state.zoomScale,
+	]);
+
+	const onMouseDown = useCallback(
+		(event: MouseEvent<HTMLButtonElement>) => {
+			if (isZoomMode) {
+				event.preventDefault();
+			}
+			startPan(event.clientX, event.clientY);
+		},
+		[isZoomMode, startPan],
+	);
+
+	const onMouseMove = useCallback(
+		(event: MouseEvent<HTMLButtonElement>) => {
+			updatePan(event.clientX, event.clientY);
+		},
+		[updatePan],
+	);
+
+	const onMouseUp = useCallback(() => {
+		endPan();
+	}, [endPan]);
+
+	const onMouseLeave = useCallback(() => {
+		endPan();
+	}, [endPan]);
+
+	const onWheel = useCallback(
+		(event: WheelEvent<HTMLButtonElement>) => {
+			if (!enableZoom) {
+				return;
+			}
+
+			event.preventDefault();
+			const zoomDirection = event.deltaY < 0 ? 1 : -1;
+			const wheelStepMultiplier = Math.max(
+				1,
+				Math.min(Math.abs(event.deltaY) / 100, 3),
+			);
+			const delta = normalizedZoomStep * wheelStepMultiplier * zoomDirection;
+
+			setZoomScale(state.zoomScale + delta, event.clientX, event.clientY);
+		},
+		[enableZoom, normalizedZoomStep, setZoomScale, state.zoomScale],
+	);
 
 	const to = useCallback(
 		(index: number) => {
@@ -347,6 +791,19 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		state.hidePrevButton,
 	]);
 
+	const zoomedPhotoStyle = useMemo(
+		() =>
+			({
+				'--rbg-zoom-scale': String(state.zoomScale),
+				'--rbg-pan-x': `${state.zoomOffsetX}px`,
+				'--rbg-pan-y': `${state.zoomOffsetY}px`,
+				'--rbg-zoom-transition': state.isPanning
+					? 'none'
+					: 'transform 180ms ease-out',
+			}) as CSSProperties,
+		[state.isPanning, state.zoomOffsetX, state.zoomOffsetY, state.zoomScale],
+	);
+
 	const galleryModalPreloadPhotos = useMemo(() => {
 		let counter = 1;
 		let index = state.activePhotoIndex;
@@ -385,6 +842,18 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 									onTouchStart={onTouchStart}
 									onTouchMove={onTouchMove}
 									onTouchEnd={onTouchEnd}
+									onMouseDown={onMouseDown}
+									onMouseMove={onMouseMove}
+									onMouseUp={onMouseUp}
+									onMouseLeave={onMouseLeave}
+									onWheel={onWheel}
+									buttonRef={photoButtonRef}
+									imageRef={photoImageRef}
+									disablePress={isZoomMode}
+									enableZoom={enableZoom}
+									isZoomMode={isZoomMode}
+									isPanning={state.isPanning}
+									style={zoomedPhotoStyle}
 								/>
 							</div>
 						</div>

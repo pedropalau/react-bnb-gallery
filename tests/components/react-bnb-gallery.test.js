@@ -206,5 +206,19 @@ describe('ReactBnbGallery', () => {
 				expect.stringContaining('Deprecation: `backgroundColor` is deprecated'),
 			);
 		});
+
+		it('supports partial phrase overrides and keeps default caption labels', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					phrases={{ noPhotosProvided: 'Sin fotos' }}
+				/>,
+			);
+
+			expect(document.body).toHaveTextContent(
+				/Hide photo list|Show photo list/,
+			);
+		});
 	});
 });
