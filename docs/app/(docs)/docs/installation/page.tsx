@@ -28,6 +28,28 @@ export default function InstallationPage() {
 				__yarn__="yarn add react-bnb-gallery"
 			/>
 
+			<DocsPageParagraph>
+				To test the v3 prerelease, install the <code>next</code> tag:
+			</DocsPageParagraph>
+
+			<CodeBlockCommand
+				__npm__="npm install react-bnb-gallery@next"
+				__pnpm__="pnpm add react-bnb-gallery@next"
+				__yarn__="yarn add react-bnb-gallery@next"
+			/>
+
+			<DocsPageParagraph>
+				v3 removes deprecated default exports, so use named imports only. See the migration guide:{' '}
+				<a
+					href="https://github.com/pedropalau/react-bnb-gallery/blob/master/MIGRATION_v2_to_v3.md"
+					target="_blank"
+					rel="noreferrer"
+				>
+					MIGRATION_v2_to_v3.md
+				</a>
+				.
+			</DocsPageParagraph>
+
 			<DocsPageHeading2>Usage</DocsPageHeading2>
 
 			<DocsPageParagraph>

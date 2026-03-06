@@ -41,6 +41,14 @@ Import styles once in your app entrypoint:
 import 'react-bnb-gallery/dist/style.css';
 ```
 
+Test the v3 prerelease:
+
+```bash
+npm install react-bnb-gallery@next
+```
+
+Migration guide: [`MIGRATION_v2_to_v3.md`](./MIGRATION_v2_to_v3.md)
+
 ## Usage
 
 ```tsx
@@ -226,7 +234,7 @@ pnpm build
 ### `2.1.x`
 
 - Runtime `propTypes` and `airbnb-prop-types` validation were removed.
-- Deprecated default exports were removed. Use named imports only.
+- Deprecated default exports remained supported in `2.x` as part of the migration path.
 - Added `GalleryPhoto.alt` and `GalleryPhoto.thumbnailAlt` with backward-compatible fallback to `caption`.
 - Added `GalleryPhoto.caption` and `GalleryPhoto.subcaption` support for `ReactNode` content.
 - Deprecated (planned removal next major):
@@ -239,6 +247,10 @@ pnpm build
 - Introduced `--rbg-*` CSS tokens as the primary customization API.
 - Added explicit `gallery-*` element hooks and `is-*` state classes for safer styling overrides.
 - Continued 2.x deprecation path with runtime warnings/docs for APIs planned to be removed in `3.0.0`.
+
+### `3.0.0`
+
+- Deprecated default exports were removed. Use named imports only.
 
 ## Deprecation Tracker (`2.x` -> `3.0.0`)
 
