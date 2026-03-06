@@ -26,6 +26,11 @@ const SIDEBAR_DOCS_SECTIONS = [
 		title: 'Options',
 	},
 	{
+		slug: 'theming',
+		url: '/docs/theming',
+		title: 'Theming',
+	},
+	{
 		slug: 'license',
 		url: '/docs/license',
 		title: 'License',

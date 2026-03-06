@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import type { CSSProperties } from 'react';
 import { memo, useCallback } from 'react';
 
 const controlStyle = {
@@ -16,6 +17,7 @@ interface ControlProps {
 	className?: string | null;
 	disabled?: boolean;
 	light?: boolean;
+	style?: CSSProperties;
 }
 
 /**
@@ -28,6 +30,7 @@ function Control({
 	className = null,
 	disabled = false,
 	light: _light = false,
+	style,
 }: ControlProps) {
 	const onButtonPress = useCallback(() => {
 		onPress?.();
@@ -40,6 +43,7 @@ function Control({
 			onClick={onButtonPress}
 			disabled={disabled}
 			aria-label={label}
+			style={style}
 		>
 			<svg
 				viewBox="0 0 18 18"

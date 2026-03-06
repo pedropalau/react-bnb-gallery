@@ -1,15 +1,7 @@
 import clsx from 'clsx';
 import { memo } from 'react';
 import { defaultPhrases } from '../default-phrases';
-
-/**
- * Props for the thumbnail list visibility toggle.
- */
-interface TogglePhotoListProps {
-	isOpened?: boolean;
-	onPress?: () => void;
-	phrases?: typeof defaultPhrases;
-}
+import type { GalleryTogglePhotoListComponentProps } from '../types/gallery';
 
 /**
  * Renders the text button that shows or hides the thumbnail strip.
@@ -18,18 +10,26 @@ function TogglePhotoList({
 	isOpened = true,
 	onPress,
 	phrases = defaultPhrases,
-}: TogglePhotoListProps) {
+	className,
+	style,
+}: GalleryTogglePhotoListComponentProps) {
 	const { showPhotoList: showLabel, hidePhotoList: hideLabel } = phrases;
 	const label = isOpened ? hideLabel : showLabel;
-	const className = clsx(
+	const toggleClassName = clsx(
 		'gallery-thumbnails--toggle',
 		// Legacy aliases kept for 2.x compatibility; use `is-open` / `is-collapsed` going forward.
 		isOpened ? 'hide' : 'open',
 		isOpened ? 'is-open' : 'is-collapsed',
+		className,
 	);
 
 	return (
-		<button type="button" className={className} onClick={onPress}>
+		<button
+			type="button"
+			className={toggleClassName}
+			onClick={onPress}
+			style={style}
+		>
 			{label}
 		</button>
 	);

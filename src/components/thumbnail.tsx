@@ -1,7 +1,8 @@
 import clsx from 'clsx';
+import type { CSSProperties } from 'react';
 import { memo } from 'react';
 import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
-import type { GalleryPhoto } from '../types/gallery';
+import type { GalleryThumbnailComponentProps } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
 import { Image } from './image';
 
@@ -11,16 +12,6 @@ const thumbnailStyle = {
 };
 
 /**
- * Props for a single thumbnail button in the caption strip.
- */
-interface ThumbnailProps {
-	active?: boolean;
-	photo?: GalleryPhoto | null;
-	onPress?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-	number?: number;
-}
-
-/**
  * Renders a clickable thumbnail for selecting a photo by index.
  */
 function Thumbnail({
@@ -28,34 +19,44 @@ function Thumbnail({
 	photo = null,
 	onPress,
 	number = 0,
-}: ThumbnailProps) {
+	className,
+	style,
+	imageClassName,
+	imageStyle,
+}: GalleryThumbnailComponentProps) {
 	if (!photo) {
 		return null;
 	}
 
 	const captionText = getCaptionText(photo.caption);
-	const className = clsx(
+	const buttonClassName = clsx(
 		'thumbnail-button',
 		'gallery-thumbnail-button',
 		// Legacy alias kept for 2.x compatibility; use `is-active` going forward.
 		active && 'active',
 		active && 'is-active',
+		className,
 	);
+	const thumbnailImageStyle = {
+		...thumbnailStyle,
+		...(imageStyle || {}),
+	} satisfies CSSProperties;
 
 	return (
 		<button
 			type="button"
 			aria-label={captionText || undefined}
-			className={className}
+			className={buttonClassName}
 			data-photo-index={number}
 			onClick={onPress}
 			disabled={false}
+			style={style}
 		>
 			<Image
 				alt={photo.thumbnailAlt || photo.alt || captionText}
 				src={photo.thumbnail || photo.photo || ''}
-				className="thumbnail gallery-thumbnail-image"
-				style={thumbnailStyle}
+				className={clsx('thumbnail gallery-thumbnail-image', imageClassName)}
+				style={thumbnailImageStyle}
 			/>
 		</button>
 	);

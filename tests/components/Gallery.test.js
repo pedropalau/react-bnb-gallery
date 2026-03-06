@@ -326,6 +326,120 @@ describe('Gallery', () => {
 			).not.toBeInTheDocument();
 		});
 
+		it('renders custom internal components passed via components prop', () => {
+			const CustomPrevButton = ({ onPress, disabled }) => (
+				<button
+					type="button"
+					data-testid="custom-prev"
+					onClick={onPress}
+					disabled={disabled}
+				>
+					Prev
+				</button>
+			);
+			const CustomNextButton = ({ onPress, disabled }) => (
+				<button
+					type="button"
+					data-testid="custom-next"
+					onClick={onPress}
+					disabled={disabled}
+				>
+					Next
+				</button>
+			);
+			const CustomPhoto = ({ photo, onPress }) => (
+				<button type="button" data-testid="custom-photo" onClick={onPress}>
+					{photo?.caption || 'photo'}
+				</button>
+			);
+			const CustomCaption = () => (
+				<figcaption data-testid="custom-caption">Custom caption</figcaption>
+			);
+
+			const { getByTestId } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails
+					wrap
+					components={{
+						PrevButton: CustomPrevButton,
+						NextButton: CustomNextButton,
+						Photo: CustomPhoto,
+						Caption: CustomCaption,
+					}}
+				/>,
+			);
+
+			expect(getByTestId('custom-prev')).toBeInTheDocument();
+			expect(getByTestId('custom-next')).toBeInTheDocument();
+			expect(getByTestId('custom-photo')).toBeInTheDocument();
+			expect(getByTestId('custom-caption')).toBeInTheDocument();
+		});
+
+		it('applies classNames and styles to built-in gallery slots', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails
+					wrap
+					classNames={{
+						gallery: 'custom-gallery',
+						prevButton: 'custom-prev',
+						nextButton: 'custom-next',
+						photoButton: 'custom-photo-button',
+						photoImage: 'custom-photo-image',
+						caption: 'custom-caption',
+						thumbnailsList: 'custom-thumbnails-list',
+						thumbnailItem: 'custom-thumbnail-item',
+						thumbnailButton: 'custom-thumbnail-button',
+						thumbnailImage: 'custom-thumbnail-image',
+						togglePhotoList: 'custom-toggle-photo-list',
+					}}
+					styles={{
+						gallery: { outline: '1px solid rgb(255, 0, 0)' },
+						prevButton: { opacity: 0.7 },
+						photoButton: { outline: '2px solid rgb(0, 255, 0)' },
+						caption: { backgroundColor: 'rgb(0, 0, 0)' },
+					}}
+				/>,
+			);
+
+			expect(container.querySelector('.gallery')).toHaveClass('custom-gallery');
+			expect(container.querySelector('.gallery')).toHaveStyle({
+				outline: '1px solid rgb(255, 0, 0)',
+			});
+			expect(container.querySelector('.gallery-control--prev')).toHaveClass(
+				'custom-prev',
+			);
+			expect(container.querySelector('.gallery-control--next')).toHaveClass(
+				'custom-next',
+			);
+			expect(container.querySelector('.photo-button')).toHaveClass(
+				'custom-photo-button',
+			);
+			expect(container.querySelector('.gallery-photo-image')).toHaveClass(
+				'custom-photo-image',
+			);
+			expect(container.querySelector('.gallery-figcaption')).toHaveClass(
+				'custom-caption',
+			);
+			expect(container.querySelector('.gallery-thumbnails-list')).toHaveClass(
+				'custom-thumbnails-list',
+			);
+			expect(container.querySelector('.gallery-thumbnail-item')).toHaveClass(
+				'custom-thumbnail-item',
+			);
+			expect(container.querySelector('.gallery-thumbnail-button')).toHaveClass(
+				'custom-thumbnail-button',
+			);
+			expect(container.querySelector('.gallery-thumbnail-image')).toHaveClass(
+				'custom-thumbnail-image',
+			);
+			expect(
+				container.querySelector('.gallery-thumbnails--toggle'),
+			).toHaveClass('custom-toggle-photo-list');
+		});
+
 		it('enters zoom mode with mouse wheel and disables click navigation', () => {
 			const activePhotoPressed = vi.fn();
 			const { container } = render(

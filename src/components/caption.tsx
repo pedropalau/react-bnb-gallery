@@ -2,29 +2,13 @@ import clsx from 'clsx';
 import type { MouseEvent } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { defaultPhrases } from '../default-phrases';
-import type {
-	GalleryPhoto,
-	GalleryPhrases,
-	GalleryRenderCaptionActions,
-} from '../types/gallery';
+import type { GalleryCaptionComponentProps } from '../types/gallery';
 import {
 	calculateThumbnailsContainerDimension,
 	calculateThumbnailsLeftScroll,
 } from '../utils/thumbnail-layout';
 import { Thumbnail } from './thumbnail';
 import { TogglePhotoList } from './toggle-photo-list';
-
-/**
- * Props for the gallery caption area and thumbnail strip.
- */
-interface CaptionProps {
-	current?: number;
-	onPress?: (index: number) => void;
-	photos?: GalleryPhoto[];
-	phrases?: GalleryPhrases;
-	renderCaptionActions?: GalleryRenderCaptionActions;
-	showThumbnails?: boolean;
-}
 
 /**
  * Renders the current photo caption and optional thumbnail navigation.
@@ -36,7 +20,23 @@ function Caption({
 	phrases = defaultPhrases,
 	renderCaptionActions,
 	showThumbnails: showThumbnailsProp = true,
-}: CaptionProps) {
+	components,
+	className,
+	style,
+	thumbnailsListClassName,
+	thumbnailsListStyle,
+	thumbnailItemClassName,
+	thumbnailItemStyle,
+	thumbnailClassName,
+	thumbnailStyle,
+	thumbnailImageClassName,
+	thumbnailImageStyle,
+	togglePhotoListClassName,
+	togglePhotoListStyle,
+}: GalleryCaptionComponentProps) {
+	const ThumbnailComponent = components?.Thumbnail ?? Thumbnail;
+	const TogglePhotoListComponent =
+		components?.TogglePhotoList ?? TogglePhotoList;
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
 	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
 	const thumbnailsListRef = useRef<HTMLUListElement | null>(null);
@@ -70,11 +70,12 @@ function Caption({
 		setShowThumbnails((prevState) => !prevState);
 	};
 
-	const className = clsx(
+	const rootClassName = clsx(
 		'gallery-figcaption',
 		// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
 		!showThumbnails && 'hide',
 		!showThumbnails && 'is-thumbnails-collapsed',
+		className,
 	);
 	const currentPhoto = photos[current];
 	const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(
@@ -90,7 +91,7 @@ function Caption({
 	const hasCaptionRightContent = hasMoreThanOnePhoto || customActions != null;
 
 	return (
-		<figcaption className={className}>
+		<figcaption className={rootClassName} style={style}>
 			<div className="gallery-figcaption--content">
 				<div className="gallery-figcaption--inner">
 					<div className="gallery-figcaption--info">
@@ -106,10 +107,12 @@ function Caption({
 							<div className="caption-right">
 								<div className="gallery-caption-actions">
 									{hasMoreThanOnePhoto && (
-										<TogglePhotoList
+										<TogglePhotoListComponent
 											phrases={phrases}
 											isOpened={showThumbnails}
 											onPress={toggleThumbnails}
+											className={togglePhotoListClassName}
+											style={togglePhotoListStyle}
 										/>
 									)}
 									{customActions != null && (
@@ -134,19 +137,31 @@ function Caption({
 								}}
 							>
 								<ul
-									className="thumbnails-list gallery-thumbnails-list"
+									className={clsx(
+										'thumbnails-list gallery-thumbnails-list',
+										thumbnailsListClassName,
+									)}
+									style={thumbnailsListStyle}
 									ref={thumbnailsListRef}
 								>
-									{photos.map((photo: GalleryPhoto, index: number) => (
+									{photos.map((photo, index: number) => (
 										<li
 											key={photo.photo || `${index}`}
-											className="gallery-thumbnail-item"
+											className={clsx(
+												'gallery-thumbnail-item',
+												thumbnailItemClassName,
+											)}
+											style={thumbnailItemStyle}
 										>
-											<Thumbnail
+											<ThumbnailComponent
 												active={index === current}
 												photo={photo}
 												onPress={onThumbnailPress}
 												number={index}
+												className={thumbnailClassName}
+												style={thumbnailStyle}
+												imageClassName={thumbnailImageClassName}
+												imageStyle={thumbnailImageStyle}
 											/>
 										</li>
 									))}

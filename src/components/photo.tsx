@@ -1,40 +1,8 @@
 import clsx from 'clsx';
-import type {
-	CSSProperties,
-	MouseEvent,
-	Ref,
-	TouchEvent,
-	WheelEvent,
-} from 'react';
 import { memo, useCallback } from 'react';
-import type { GalleryPhoto } from '../types/gallery';
+import type { GalleryPhotoComponentProps } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
 import { Image } from './image';
-
-/**
- * Props for the active gallery photo surface.
- */
-interface PhotoProps {
-	photo?: GalleryPhoto | null;
-	onPress?: () => void;
-	onTouchStart?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onTouchMove?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onTouchEnd?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onMouseDown?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseMove?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseUp?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseLeave?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onWheel?: (event: WheelEvent<HTMLButtonElement>) => void;
-	onLoad?: () => void;
-	onError?: () => void;
-	style?: CSSProperties;
-	buttonRef?: Ref<HTMLButtonElement>;
-	imageRef?: Ref<HTMLImageElement>;
-	disablePress?: boolean;
-	enableZoom?: boolean;
-	isZoomMode?: boolean;
-	isPanning?: boolean;
-}
 
 /**
  * Renders the main photo element and forwards interaction callbacks.
@@ -53,13 +21,17 @@ function Photo({
 	onLoad,
 	onError,
 	style,
+	buttonClassName,
+	buttonStyle,
+	imageClassName,
+	imageStyle,
 	buttonRef,
 	imageRef,
 	disablePress = false,
 	enableZoom = true,
 	isZoomMode = false,
 	isPanning = false,
-}: PhotoProps) {
+}: GalleryPhotoComponentProps) {
 	const onPressHandler = useCallback(() => {
 		if (disablePress) {
 			return;
@@ -72,6 +44,7 @@ function Photo({
 	}
 
 	const captionText = getCaptionText(photo.caption);
+	const mergedImageStyle = { ...(style || {}), ...(imageStyle || {}) };
 	const className = clsx(
 		'gallery-media-photo',
 		'gallery-media-photo--block',
@@ -91,7 +64,9 @@ function Photo({
 						enableZoom && 'gallery-photo-button--zoom-enabled',
 						isZoomMode && 'gallery-photo-button--zoomed',
 						isPanning && 'gallery-photo-button--panning',
+						buttonClassName,
 					)}
+					style={buttonStyle}
 					onTouchStart={onTouchStart}
 					onTouchMove={onTouchMove}
 					onTouchEnd={onTouchEnd}
@@ -103,11 +78,11 @@ function Photo({
 				>
 					<Image
 						alt={photo.alt || captionText}
-						className="photo gallery-photo-image"
+						className={clsx('photo gallery-photo-image', imageClassName)}
 						src={photo.photo || ''}
 						onLoad={onLoad}
 						onError={onError}
-						style={style}
+						style={mergedImageStyle}
 						imageRef={imageRef}
 					/>
 				</button>

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { CSSProperties, MouseEvent, TouchEvent, WheelEvent } from 'react';
 import {
 	forwardRef,
@@ -13,10 +14,13 @@ import {
 import { DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
 import { defaultPhrases } from '../default-phrases';
 import type {
+	GalleryClassNames,
+	GalleryComponents,
 	GalleryController,
 	GalleryPhoto,
 	GalleryPhrases,
 	GalleryRenderCaptionActions,
+	GalleryStyles,
 } from '../types/gallery';
 import { Caption } from './caption';
 import { NextButton } from './next-button';
@@ -43,6 +47,9 @@ interface GalleryProps {
 	showThumbnails?: boolean;
 	zoomStep?: number;
 	wrap?: boolean;
+	components?: GalleryComponents;
+	classNames?: GalleryClassNames;
+	styles?: GalleryStyles;
 }
 
 interface TouchInfo {
@@ -172,9 +179,17 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		showThumbnails = true,
 		zoomStep = 0.25,
 		wrap = false,
+		components,
+		classNames,
+		styles,
 	},
 	ref,
 ) {
+	const PrevButtonComponent = components?.PrevButton ?? PrevButton;
+	const NextButtonComponent = components?.NextButton ?? NextButton;
+	const PhotoComponent = components?.Photo ?? Photo;
+	const CaptionComponent = components?.Caption ?? Caption;
+
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
 	const previousActivePhotoIndexRef = useRef(activePhotoIndex);
@@ -765,33 +780,43 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		const ui = [];
 		if (!state.hidePrevButton) {
 			ui.push(
-				<PrevButton
+				<PrevButtonComponent
 					key=".prevControl"
 					disabled={state.controlsDisabled}
 					onPress={onPrevButtonPress}
 					light={light}
+					className={classNames?.prevButton}
+					style={styles?.prevButton}
 				/>,
 			);
 		}
 		if (!state.hideNextButton) {
 			ui.push(
-				<NextButton
+				<NextButtonComponent
 					key=".nextControl"
 					disabled={state.controlsDisabled}
 					onPress={onNextButtonPress}
 					light={light}
+					className={classNames?.nextButton}
+					style={styles?.nextButton}
 				/>,
 			);
 		}
 		return ui;
 	}, [
+		NextButtonComponent,
+		PrevButtonComponent,
 		light,
 		onNextButtonPress,
 		onPrevButtonPress,
 		photos.length,
+		classNames?.nextButton,
+		classNames?.prevButton,
 		state.controlsDisabled,
 		state.hideNextButton,
 		state.hidePrevButton,
+		styles?.nextButton,
+		styles?.prevButton,
 	]);
 
 	const zoomedPhotoStyle = useMemo(
@@ -829,7 +854,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const { noPhotosProvided: emptyMessage } = phrases;
 
 	return (
-		<div className="gallery">
+		<div
+			className={clsx('gallery', classNames?.gallery)}
+			style={styles?.gallery}
+		>
 			<div className="gallery-modal--preload">{galleryModalPreloadPhotos}</div>
 			<div className="gallery-main">
 				{controls}
@@ -837,7 +865,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					{hasPhotos ? (
 						<div className="gallery-photo">
 							<div className="gallery-photo--current">
-								<Photo
+								<PhotoComponent
 									photo={current}
 									onLoad={onPhotoLoad}
 									onError={onPhotoError}
@@ -857,6 +885,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 									isZoomMode={isZoomMode}
 									isPanning={state.isPanning}
 									style={zoomedPhotoStyle}
+									buttonClassName={classNames?.photoButton}
+									buttonStyle={styles?.photoButton}
+									imageClassName={classNames?.photoImage}
+									imageStyle={styles?.photoImage}
 								/>
 							</div>
 						</div>
@@ -866,12 +898,29 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				</div>
 			</div>
 			{showThumbnails && current && (
-				<Caption
+				<CaptionComponent
 					phrases={phrases}
 					current={state.activePhotoIndex}
 					photos={photos}
 					onPress={onThumbnailPress}
 					renderCaptionActions={renderCaptionActions}
+					showThumbnails={showThumbnails}
+					className={classNames?.caption}
+					style={styles?.caption}
+					thumbnailsListClassName={classNames?.thumbnailsList}
+					thumbnailsListStyle={styles?.thumbnailsList}
+					thumbnailItemClassName={classNames?.thumbnailItem}
+					thumbnailItemStyle={styles?.thumbnailItem}
+					thumbnailClassName={classNames?.thumbnailButton}
+					thumbnailStyle={styles?.thumbnailButton}
+					thumbnailImageClassName={classNames?.thumbnailImage}
+					thumbnailImageStyle={styles?.thumbnailImage}
+					togglePhotoListClassName={classNames?.togglePhotoList}
+					togglePhotoListStyle={styles?.togglePhotoList}
+					components={{
+						Thumbnail: components?.Thumbnail,
+						TogglePhotoList: components?.TogglePhotoList,
+					}}
 				/>
 			)}
 		</div>
