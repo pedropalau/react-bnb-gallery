@@ -168,15 +168,13 @@ Prefer these class hooks in custom CSS and tests:
 |---|---|---|---|
 | `activePhotoIndex` | `number` | `0` | Index of the photo shown on open. |
 | `activePhotoPressed` | `() => void` | `undefined` | Callback fired when the active photo is clicked. |
-| `backgroundColor` | `string` | `undefined` | Deprecated in `2.x` (still works as compatibility alias) and planned for removal in next major. Prefer CSS token `--rbg-overlay`. |
-| `direction` | `string` | `'forwards'` | Deprecated in `2.x`; planned for removal in next major. |
 | `keyboard` | `boolean` | `true` | Enable keyboard navigation (arrow keys, Escape). |
 | `leftKeyPressed` | `() => void` | `undefined` | Callback fired when the left arrow key is pressed. |
 | `light` | `boolean` | `false` | Enables light mode styles for controls. |
 | `nextButtonPressed` | `() => void` | `undefined` | Callback fired when the next button is pressed. |
 | `onClose` | `() => void` | `undefined` | Callback fired when the gallery is closed. |
 | `opacity` | `number` | `1` | Background overlay opacity (0-1). |
-| `photos` | `string \| GalleryPhoto \| Array<string \| GalleryPhoto>` | `[]` | Photos to render. Non-array input is deprecated in `2.x`. |
+| `photos` | `Array<string \| GalleryPhoto>` | `[]` | Photos to render. |
 | `phrases` | `GalleryPhrases` | `defaultPhrases` | Custom labels for UI strings. |
 | `preloadSize` | `number` | `5` | Number of adjacent photos to preload. |
 | `prevButtonPressed` | `() => void` | `undefined` | Callback fired when the previous button is pressed. |
@@ -251,22 +249,24 @@ pnpm build
 ### `3.0.0`
 
 - Deprecated default exports were removed. Use named imports only.
+- Deprecated `backgroundColor` and `direction` props were removed.
+- Non-array `photos` input was removed; pass `Array<string | GalleryPhoto>`.
 
 ## Deprecation Tracker (`2.x` -> `3.0.0`)
 
 | Deprecated in `2.x` | Status in `2.x` | Planned `3.0.0` action | Replacement |
 |---|---|---|---|
 | `default` export | Works with deprecation notice in docs | Remove | Named export: `ReactBnbGallery` |
-| `backgroundColor` prop | Backward-compatible alias for overlay color; warns in dev when used | Remove | CSS token: `--rbg-overlay` |
-| `direction` prop | Deprecated (backward compatible) | Remove | Use default navigation direction |
-| Non-array `photos` input | Deprecated (backward compatible) | Remove | Always pass `Array<string \| GalleryPhoto>` |
+| `backgroundColor` prop | Backward-compatible alias for overlay color; warns in dev when used | Removed | CSS token: `--rbg-overlay` |
+| `direction` prop | Deprecated (backward compatible) | Removed | Use default navigation direction |
+| Non-array `photos` input | Deprecated (backward compatible) | Removed | Always pass `Array<string \| GalleryPhoto>` |
 | Legacy state classes (`loading`, `hide`, `open`, `active`) | Still emitted for compatibility | Remove aliases | `is-loading`, `is-thumbnails-collapsed`/`is-open`, `is-collapsed`, `is-active` |
 
 ### `3.0.0` Prep Checklist
 
 - Replace default import with named import:
   - `import { ReactBnbGallery } from 'react-bnb-gallery'`
-- Migrate `backgroundColor` prop usage to CSS token `--rbg-overlay`.
+- Remove `backgroundColor` prop usage and migrate to CSS token `--rbg-overlay`.
 - Replace deprecated class selectors with `gallery-*` hooks and `is-*` states.
 - Ensure `photos` is always passed as an array.
 - Remove any usage of the `direction` prop.
