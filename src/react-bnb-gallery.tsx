@@ -257,6 +257,15 @@ export function ReactBnbGallery({
 	const OverlayComponent = components?.Overlay;
 	const PhotoCounterComponent = components?.PhotoCounter;
 	const ModalContainerComponent = components?.ModalContainer;
+
+	if (!show) {
+		return null;
+	}
+
+	if (typeof document === 'undefined') {
+		return null;
+	}
+
 	const modalContent = (
 		<div className="gallery-modal--table">
 			<div className="gallery-modal--cell">
@@ -331,14 +340,6 @@ export function ReactBnbGallery({
 			</div>
 		</div>
 	);
-
-	if (!show) {
-		return null;
-	}
-
-	if (typeof document === 'undefined') {
-		return null;
-	}
 
 	return createPortal(
 		<FocusTrap
