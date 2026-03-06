@@ -668,6 +668,11 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		],
 	);
 
+	const zoomScale = state.zoomScale;
+	const touchStartInfo = state.touchStartInfo;
+	const touchEndInfo = state.touchEndInfo;
+	const touchMoved = state.touchMoved;
+
 	const onTouchEnd = useCallback(() => {
 		if (pinchStartRef.current) {
 			pinchStartRef.current = null;
@@ -675,32 +680,41 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			return;
 		}
 
-		if (enableZoom && state.zoomScale > MIN_ZOOM) {
+		if (enableZoom && zoomScale > MIN_ZOOM) {
 			endPan();
 			return;
 		}
 
-		setState((prevState) => {
-			const { touchStartInfo, touchEndInfo, touchMoved } = prevState;
-			if (touchMoved && touchStartInfo && touchEndInfo) {
-				if (touchStartInfo.screenX < touchEndInfo.screenX) {
-					onPrevButtonPress();
-				} else if (touchStartInfo.screenX > touchEndInfo.screenX) {
-					onNextButtonPress();
-				}
-			}
+		const shouldGoPrev =
+			touchMoved &&
+			touchStartInfo != null &&
+			touchEndInfo != null &&
+			touchStartInfo.screenX < touchEndInfo.screenX;
+		const shouldGoNext =
+			touchMoved &&
+			touchStartInfo != null &&
+			touchEndInfo != null &&
+			touchStartInfo.screenX > touchEndInfo.screenX;
 
-			return {
-				...prevState,
-				touchMoved: false,
-			};
-		});
+		setState((prevState) => ({
+			...prevState,
+			touchMoved: false,
+		}));
+
+		if (shouldGoPrev) {
+			onPrevButtonPress();
+		} else if (shouldGoNext) {
+			onNextButtonPress();
+		}
 	}, [
 		enableZoom,
 		endPan,
 		onNextButtonPress,
 		onPrevButtonPress,
-		state.zoomScale,
+		touchEndInfo,
+		touchMoved,
+		touchStartInfo,
+		zoomScale,
 	]);
 
 	const onMouseDown = useCallback(
@@ -843,7 +857,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		while (index < photos.length && counter <= preloadSize) {
 			const photo = photos[index];
 			preloadPhotos.push(
-				<img key={photo.photo} alt={photo.photo} src={photo.photo} />,
+				<img key={photo.photo || index} alt={photo.photo} src={photo.photo} />,
 			);
 			index += 1;
 			counter += 1;

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { CSSProperties } from 'react';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 
 const controlStyle = {
 	height: '2.8em',
@@ -16,6 +16,8 @@ interface ControlProps {
 	label?: string;
 	className?: string | null;
 	disabled?: boolean;
+	// Kept for API compatibility with custom control components.
+	// Default controls inherit light/dark styling from parent CSS variables.
 	light?: boolean;
 	style?: CSSProperties;
 }
@@ -32,15 +34,11 @@ function Control({
 	light: _light = false,
 	style,
 }: ControlProps) {
-	const onButtonPress = useCallback(() => {
-		onPress?.();
-	}, [onPress]);
-
 	return (
 		<button
 			type="button"
 			className={clsx('gallery-control', className)}
-			onClick={onButtonPress}
+			onClick={onPress}
 			disabled={disabled}
 			aria-label={label}
 			style={style}

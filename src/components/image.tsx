@@ -3,17 +3,12 @@ import type { CSSProperties, Ref } from 'react';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from './loading-spinner';
 
-const defaultState = {
-	loading: true,
-	withError: false,
-};
-
 /**
  * Props for the image wrapper with loading/error handling.
  */
 interface ImageProps {
 	alt: string;
-	src: string;
+	src?: string;
 	style?: CSSProperties | null;
 	className?: string | string[] | null;
 	imageRef?: Ref<HTMLImageElement>;
@@ -25,7 +20,7 @@ interface ImageProps {
  * Internal load state tracked per rendered source.
  */
 interface ImageState {
-	currentSrc: string;
+	currentSrc?: string;
 	loading: boolean;
 	withError: boolean;
 }
@@ -42,9 +37,11 @@ function Image({
 	onLoad,
 	onError,
 }: ImageProps) {
+	const hasSource = Boolean(src);
 	const [state, setState] = useState<ImageState>(() => ({
 		currentSrc: src,
-		...defaultState,
+		loading: hasSource,
+		withError: !hasSource,
 	}));
 
 	useEffect(() => {
@@ -55,7 +52,8 @@ function Image({
 
 			return {
 				currentSrc: src,
-				...defaultState,
+				loading: Boolean(src),
+				withError: !src,
 			};
 		});
 	}, [src]);

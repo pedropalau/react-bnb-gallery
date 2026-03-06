@@ -127,6 +127,7 @@ export interface GalleryModalContainerProps {
 export interface GalleryControlButtonProps {
 	onPress?: () => void;
 	disabled?: boolean;
+	/** Exposed for custom controls; default controls inherit light mode from CSS tokens. */
 	light?: boolean;
 	className?: string;
 	style?: CSSProperties;

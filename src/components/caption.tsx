@@ -69,9 +69,9 @@ function Caption({
 		[photos.length, onPress],
 	);
 
-	const toggleThumbnails = () => {
+	const toggleThumbnails = useCallback(() => {
 		setShowThumbnails((prevState) => !prevState);
-	};
+	}, []);
 
 	const rootClassName = clsx(
 		'gallery-figcaption',

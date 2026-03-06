@@ -257,6 +257,80 @@ export function ReactBnbGallery({
 	const OverlayComponent = components?.Overlay;
 	const PhotoCounterComponent = components?.PhotoCounter;
 	const ModalContainerComponent = components?.ModalContainer;
+	const modalContent = (
+		<div className="gallery-modal--table">
+			<div className="gallery-modal--cell">
+				<div className="gallery-modal--content">
+					<div
+						className={clsx(
+							'gallery-modal--close',
+							classNames?.closeButtonWrapper,
+						)}
+						style={styles?.closeButtonWrapper}
+					>
+						<CloseButtonComponent
+							onPress={close}
+							light={light}
+							className={classNames?.closeButton}
+							style={styles?.closeButton}
+						/>
+					</div>
+					<div className="gallery-content">
+						<div className="gallery-top">
+							<div className="gallery-top--inner">
+								{hasMoreThanOnePhoto &&
+									(PhotoCounterComponent ? (
+										<PhotoCounterComponent
+											className={clsx(
+												'gallery-photo-counter',
+												classNames?.photoCounter,
+											)}
+											style={styles?.photoCounter}
+											current={displayedPhotoIndex + 1}
+											total={photos.length}
+											label={photoCounterLabel}
+										/>
+									) : (
+										<p
+											className={clsx(
+												'gallery-photo-counter',
+												classNames?.photoCounter,
+											)}
+											aria-live="polite"
+											style={styles?.photoCounter}
+										>
+											{photoCounterLabel}
+										</p>
+									))}
+							</div>
+						</div>
+						<Gallery
+							phrases={phrases}
+							ref={gallery}
+							photos={photos}
+							light={light}
+							wrap={wrap}
+							activePhotoIndex={activePhotoIndex}
+							activePhotoPressed={activePhotoPressed}
+							direction={direction}
+							enableZoom={enableZoom}
+							nextButtonPressed={nextButtonPressed}
+							prevButtonPressed={prevButtonPressed}
+							renderCaptionActions={renderCaptionActions}
+							components={components}
+							classNames={classNames}
+							styles={styles}
+							showThumbnails={showThumbnails}
+							preloadSize={preloadSize}
+							maxZoom={maxZoom}
+							zoomStep={zoomStep}
+							onActivePhotoIndexChange={setDisplayedPhotoIndex}
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 
 	if (!show) {
 		return null;
@@ -307,78 +381,7 @@ export function ReactBnbGallery({
 						)}
 						style={styles?.modalContainer}
 					>
-						<div className="gallery-modal--table">
-							<div className="gallery-modal--cell">
-								<div className="gallery-modal--content">
-									<div
-										className={clsx(
-											'gallery-modal--close',
-											classNames?.closeButtonWrapper,
-										)}
-										style={styles?.closeButtonWrapper}
-									>
-										<CloseButtonComponent
-											onPress={close}
-											light={light}
-											className={classNames?.closeButton}
-											style={styles?.closeButton}
-										/>
-									</div>
-									<div className="gallery-content">
-										<div className="gallery-top">
-											<div className="gallery-top--inner">
-												{hasMoreThanOnePhoto &&
-													(PhotoCounterComponent ? (
-														<PhotoCounterComponent
-															className={clsx(
-																'gallery-photo-counter',
-																classNames?.photoCounter,
-															)}
-															style={styles?.photoCounter}
-															current={displayedPhotoIndex + 1}
-															total={photos.length}
-															label={photoCounterLabel}
-														/>
-													) : (
-														<p
-															className={clsx(
-																'gallery-photo-counter',
-																classNames?.photoCounter,
-															)}
-															aria-live="polite"
-															style={styles?.photoCounter}
-														>
-															{photoCounterLabel}
-														</p>
-													))}
-											</div>
-										</div>
-										<Gallery
-											phrases={phrases}
-											ref={gallery}
-											photos={photos}
-											light={light}
-											wrap={wrap}
-											activePhotoIndex={activePhotoIndex}
-											activePhotoPressed={activePhotoPressed}
-											direction={direction}
-											enableZoom={enableZoom}
-											nextButtonPressed={nextButtonPressed}
-											prevButtonPressed={prevButtonPressed}
-											renderCaptionActions={renderCaptionActions}
-											components={components}
-											classNames={classNames}
-											styles={styles}
-											showThumbnails={showThumbnails}
-											preloadSize={preloadSize}
-											maxZoom={maxZoom}
-											zoomStep={zoomStep}
-											onActivePhotoIndexChange={setDisplayedPhotoIndex}
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
+						{modalContent}
 					</ModalContainerComponent>
 				) : (
 					<div
@@ -388,78 +391,7 @@ export function ReactBnbGallery({
 						)}
 						style={styles?.modalContainer}
 					>
-						<div className="gallery-modal--table">
-							<div className="gallery-modal--cell">
-								<div className="gallery-modal--content">
-									<div
-										className={clsx(
-											'gallery-modal--close',
-											classNames?.closeButtonWrapper,
-										)}
-										style={styles?.closeButtonWrapper}
-									>
-										<CloseButtonComponent
-											onPress={close}
-											light={light}
-											className={classNames?.closeButton}
-											style={styles?.closeButton}
-										/>
-									</div>
-									<div className="gallery-content">
-										<div className="gallery-top">
-											<div className="gallery-top--inner">
-												{hasMoreThanOnePhoto &&
-													(PhotoCounterComponent ? (
-														<PhotoCounterComponent
-															className={clsx(
-																'gallery-photo-counter',
-																classNames?.photoCounter,
-															)}
-															style={styles?.photoCounter}
-															current={displayedPhotoIndex + 1}
-															total={photos.length}
-															label={photoCounterLabel}
-														/>
-													) : (
-														<p
-															className={clsx(
-																'gallery-photo-counter',
-																classNames?.photoCounter,
-															)}
-															aria-live="polite"
-															style={styles?.photoCounter}
-														>
-															{photoCounterLabel}
-														</p>
-													))}
-											</div>
-										</div>
-										<Gallery
-											phrases={phrases}
-											ref={gallery}
-											photos={photos}
-											light={light}
-											wrap={wrap}
-											activePhotoIndex={activePhotoIndex}
-											activePhotoPressed={activePhotoPressed}
-											direction={direction}
-											enableZoom={enableZoom}
-											nextButtonPressed={nextButtonPressed}
-											prevButtonPressed={prevButtonPressed}
-											renderCaptionActions={renderCaptionActions}
-											components={components}
-											classNames={classNames}
-											styles={styles}
-											showThumbnails={showThumbnails}
-											preloadSize={preloadSize}
-											maxZoom={maxZoom}
-											zoomStep={zoomStep}
-											onActivePhotoIndexChange={setDisplayedPhotoIndex}
-										/>
-									</div>
-								</div>
-							</div>
-						</div>
+						{modalContent}
 					</div>
 				)}
 			</div>
