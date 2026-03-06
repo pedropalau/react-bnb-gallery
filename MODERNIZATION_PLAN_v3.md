@@ -4,7 +4,7 @@ Last updated: 2026-03-06
 Plan ID: v3
 Target stable release: 3.0.0
 Current stable release: 2.2.1
-Current prerelease: 3.0.0-next.0 (`npm dist-tag: next`)
+Current prerelease: 3.0.0-next.1 (`npm dist-tag: next`)
 
 ## Goal
 
@@ -68,6 +68,44 @@ Ship `3.0.0` as a deliberate major release with:
 
 1. Iterate on prereleases (`3.0.0-next.N`) based on user feedback.
 2. Keep release gates enforced before stable publish.
+
+## Feature Delivery Model (v3)
+
+1. All feature work branches from `next` and merges back into `next`.
+2. One feature per PR (`feat/v3-<short-name>`), with a focused scope and tests.
+3. Every feature PR includes a changeset (`minor` for new capability, `patch` for bug fix).
+4. Breaking API changes require explicit migration notes before merge.
+
+### Branch Naming
+
+1. `feat/v3-zoom-pan`
+2. `feat/v3-controlled-index`
+3. `feat/v3-custom-render-slots`
+
+## Feature Backlog (Initial)
+
+### P0 (Must-have before 3.0.0 GA)
+
+1. Controlled index API (`activePhotoIndex` + `onActivePhotoIndexChange`) with full keyboard/touch parity.
+2. Active photo zoom and pan interactions (mouse wheel, trackpad, touch pinch fallback behavior).
+3. Custom render slots for controls/caption (without forking core layout behavior).
+
+### P1 (Strong candidates for 3.0.x)
+
+1. Thumbnail virtualization/perf improvements for large photo sets.
+2. Gesture improvements for touch swipe confidence and direction lock.
+3. Additional accessibility phrases/hooks for localization and narration.
+
+### P2 (Later)
+
+1. Advanced transition presets and reduced-motion-aware animation options.
+2. Plugin-like extension hooks for caption and toolbar behavior.
+
+## Current Feature Sprint
+
+1. Branch: `feat/v3-zoom-pan`
+2. Goal: deliver zoom/pan behavior with no regressions to keyboard navigation, overlay close behavior, and existing CSS API.
+3. Release target: `3.0.0-next.2`
 
 ## Hard Release Gates (Required Before GA)
 
