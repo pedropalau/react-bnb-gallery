@@ -1,5 +1,11 @@
 import clsx from 'clsx';
-import type { CSSProperties, MouseEvent, Ref, TouchEvent } from 'react';
+import type {
+	CSSProperties,
+	MouseEvent,
+	Ref,
+	TouchEvent,
+	WheelEvent,
+} from 'react';
 import { memo, useCallback } from 'react';
 import type { GalleryPhoto } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
@@ -18,11 +24,15 @@ interface PhotoProps {
 	onMouseMove?: (event: MouseEvent<HTMLButtonElement>) => void;
 	onMouseUp?: (event: MouseEvent<HTMLButtonElement>) => void;
 	onMouseLeave?: (event: MouseEvent<HTMLButtonElement>) => void;
+	onWheel?: (event: WheelEvent<HTMLButtonElement>) => void;
 	onLoad?: () => void;
 	onError?: () => void;
 	style?: CSSProperties;
 	buttonRef?: Ref<HTMLButtonElement>;
 	disablePress?: boolean;
+	enableZoom?: boolean;
+	isZoomMode?: boolean;
+	isPanning?: boolean;
 }
 
 /**
@@ -38,11 +48,15 @@ function Photo({
 	onMouseMove,
 	onMouseUp,
 	onMouseLeave,
+	onWheel,
 	onLoad,
 	onError,
 	style,
 	buttonRef,
 	disablePress = false,
+	enableZoom = true,
+	isZoomMode = false,
+	isPanning = false,
 }: PhotoProps) {
 	const onPressHandler = useCallback(() => {
 		if (disablePress) {
@@ -69,7 +83,13 @@ function Photo({
 					ref={buttonRef}
 					type="button"
 					onClick={onPressHandler}
-					className="photo-button gallery-photo-button"
+					className={clsx(
+						'photo-button',
+						'gallery-photo-button',
+						enableZoom && 'gallery-photo-button--zoom-enabled',
+						isZoomMode && 'gallery-photo-button--zoomed',
+						isPanning && 'gallery-photo-button--panning',
+					)}
 					onTouchStart={onTouchStart}
 					onTouchMove={onTouchMove}
 					onTouchEnd={onTouchEnd}
@@ -77,6 +97,7 @@ function Photo({
 					onMouseMove={onMouseMove}
 					onMouseUp={onMouseUp}
 					onMouseLeave={onMouseLeave}
+					onWheel={onWheel}
 				>
 					<Image
 						alt={photo.alt || captionText}

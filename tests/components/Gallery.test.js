@@ -302,29 +302,9 @@ describe('Gallery', () => {
 			expect(activePhotoPressed).toHaveBeenCalledTimes(1);
 		});
 
-		it('renders zoom controls by default', () => {
+		it('does not render zoom controls', () => {
 			const { container } = render(
 				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
-			);
-
-			expect(
-				container.querySelector('button[aria-label="Zoom in"]'),
-			).toBeInTheDocument();
-			expect(
-				container.querySelector('button[aria-label="Zoom out"]'),
-			).toBeInTheDocument();
-			expect(
-				container.querySelector('button[aria-label="Reset zoom"]'),
-			).toBeInTheDocument();
-		});
-
-		it('does not render zoom controls when enableZoom is false', () => {
-			const { container } = render(
-				<Gallery
-					photos={photos.slice(0, 2)}
-					showThumbnails={false}
-					enableZoom={false}
-				/>,
 			);
 
 			expect(
@@ -332,7 +312,30 @@ describe('Gallery', () => {
 			).not.toBeInTheDocument();
 		});
 
-		it('disables swipe navigation while zoomed in', () => {
+		it('enters zoom mode with mouse wheel and disables click navigation', () => {
+			const activePhotoPressed = vi.fn();
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					activePhotoPressed={activePhotoPressed}
+				/>,
+			);
+
+			const photoButton = container.querySelector('.photo-button');
+			const photoImage = container.querySelector('.gallery-photo-image');
+
+			fireEvent.wheel(photoButton, {
+				deltaY: -120,
+				clientX: 120,
+				clientY: 120,
+			});
+			fireEvent.click(photoImage);
+
+			expect(activePhotoPressed).toHaveBeenCalledTimes(0);
+		});
+
+		it('disables swipe navigation while zoomed in from pinch', () => {
 			const nextButtonPressed = vi.fn();
 			const { container } = render(
 				<Gallery
@@ -342,12 +345,20 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const zoomInButton = container.querySelector(
-				'button[aria-label="Zoom in"]',
-			);
 			const photoButton = container.querySelector('.photo-button');
-
-			fireEvent.click(zoomInButton);
+			fireEvent.touchStart(photoButton, {
+				targetTouches: [
+					{ clientX: 100, clientY: 100 },
+					{ clientX: 180, clientY: 100 },
+				],
+			});
+			fireEvent.touchMove(photoButton, {
+				targetTouches: [
+					{ clientX: 90, clientY: 100 },
+					{ clientX: 210, clientY: 100 },
+				],
+			});
+			fireEvent.touchEnd(photoButton);
 			fireEvent.touchStart(photoButton, {
 				targetTouches: [{ screenX: 200, clientX: 200, clientY: 200 }],
 			});

@@ -284,6 +284,7 @@
 		--rbg-zoom-scale: 1;
 		--rbg-pan-x: 0px;
 		--rbg-pan-y: 0px;
+		--rbg-zoom-transition: transform 180ms ease-out;
 		max-height: 100%;
 		max-width: 100%;
 		position: absolute;
@@ -298,7 +299,7 @@
 			scale(var(--rbg-zoom-scale));
 		transform-origin: center center;
 		box-shadow: var(--rbg-photo-shadow);
-		transition: transform 180ms ease-out;
+		transition: var(--rbg-zoom-transition);
 	}
 
 	@media (max-width: 900px) {
@@ -318,6 +319,19 @@
 		cursor: pointer;
 		padding: 0;
 		appearance: none;
+	}
+
+	.gallery-photo-button--zoom-enabled {
+		touch-action: none;
+	}
+
+	.gallery-photo-button--zoomed {
+		cursor: grab;
+	}
+
+	.gallery-photo-button--zoomed:active,
+	.gallery-photo-button--panning {
+		cursor: grabbing;
 	}
 
 	.gallery-photo-button:active,
@@ -386,41 +400,6 @@
 			width: 10%;
 			font-size: medium;
 		}
-	}
-
-	/* ─── Zoom controls ───────────────────────────────────────────────────────────── */
-
-	.gallery-zoom-controls {
-		position: absolute;
-		z-index: 4;
-		right: 0.75rem;
-		bottom: 0.75rem;
-		display: inline-flex;
-		gap: 0.35rem;
-	}
-
-	.gallery-zoom-button {
-		cursor: pointer;
-		min-width: 2rem;
-		height: 2rem;
-		border: 0;
-		border-radius: calc(var(--rbg-radius) - 0.125rem);
-		background: rgba(0, 0, 0, 0.55);
-		color: var(--rbg-foreground);
-		font-size: 0.875rem;
-		line-height: 1;
-		padding: 0 0.5rem;
-	}
-
-	.gallery-zoom-button:disabled {
-		opacity: 0.45;
-		cursor: not-allowed;
-	}
-
-	.mode-light .gallery-zoom-button,
-	.rbg-light .gallery-zoom-button {
-		background: rgba(255, 255, 255, 0.82);
-		color: #111;
 	}
 
 	/* ─── Figcaption / caption strip ─────────────────────────────────────────────── */

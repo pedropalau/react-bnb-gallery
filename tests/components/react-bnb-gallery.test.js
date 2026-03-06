@@ -207,7 +207,7 @@ describe('ReactBnbGallery', () => {
 			);
 		});
 
-		it('supports partial phrase overrides and keeps default zoom labels', () => {
+		it('supports partial phrase overrides and keeps default caption labels', () => {
 			render(
 				<ReactBnbGallery
 					photos={photos.slice(0, 2)}
@@ -216,9 +216,9 @@ describe('ReactBnbGallery', () => {
 				/>,
 			);
 
-			expect(
-				document.body.querySelector('button[aria-label="Zoom in"]'),
-			).toBeInTheDocument();
+			expect(document.body).toHaveTextContent(
+				/Hide photo list|Show photo list/,
+			);
 		});
 	});
 });

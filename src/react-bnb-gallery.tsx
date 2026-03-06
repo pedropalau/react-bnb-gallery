@@ -67,7 +67,7 @@ export interface ReactBnbGalleryProps {
  * @param activePhotoPressed - Callback fired when the active photo is pressed
  * @param backgroundColor - Deprecated in 2.x; still supported as compatibility alias for overlay color. Prefer CSS token `--rbg-overlay`
  * @param direction - Navigation direction; deprecated in 2.x — use `activePhotoIndex` with callbacks instead
- * @param enableZoom - Enables zoom controls and pan interactions in the active photo viewport (default: `true`)
+ * @param enableZoom - Enables wheel/pinch zoom and pan interactions in the active photo viewport (default: `true`)
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
  * @param light - Enables light mode styling (default: `false`)
@@ -79,10 +79,10 @@ export interface ReactBnbGalleryProps {
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
  * @param rightKeyPressed - Callback fired when the right arrow key is pressed
- * @param maxZoom - Maximum zoom scale applied by controls (default: `3`)
+ * @param maxZoom - Maximum zoom scale applied by gestures (default: `3`)
  * @param show - Whether the gallery modal is visible (default: `false`)
  * @param showThumbnails - Whether the thumbnail strip is shown (default: `true`)
- * @param zoomStep - Zoom increment/decrement per control press (default: `0.25`)
+ * @param zoomStep - Zoom sensitivity step for wheel and pinch interactions (default: `0.25`)
  * @param wrap - Whether navigation wraps around from the last photo to the first (default: `false`)
  * @param zIndex - CSS `z-index` of the modal (default: `1000`)
  */
