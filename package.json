@@ -81,12 +81,12 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.5",
-    "@changesets/cli": "^2.29.8",
+    "@biomejs/biome": "^2.4.6",
+    "@changesets/cli": "^2.30.0",
     "@tailwindcss/vite": "^4.2.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
-    "@types/node": "^25.3.3",
+    "@types/node": "^25.3.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
