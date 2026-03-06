@@ -335,6 +335,41 @@ describe('Gallery', () => {
 			expect(activePhotoPressed).toHaveBeenCalledTimes(0);
 		});
 
+		it('resets zoom state when enableZoom is toggled off', () => {
+			const { container, rerender } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					enableZoom
+				/>,
+			);
+
+			const photoButton = container.querySelector('.photo-button');
+			const photoImage = container.querySelector('.gallery-photo-image');
+
+			fireEvent.wheel(photoButton, {
+				deltaY: -120,
+				clientX: 120,
+				clientY: 120,
+			});
+
+			expect(photoImage.style.getPropertyValue('--rbg-zoom-scale')).not.toBe(
+				'1',
+			);
+
+			rerender(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					enableZoom={false}
+				/>,
+			);
+
+			expect(photoImage.style.getPropertyValue('--rbg-zoom-scale')).toBe('1');
+			expect(photoImage.style.getPropertyValue('--rbg-pan-x')).toBe('0px');
+			expect(photoImage.style.getPropertyValue('--rbg-pan-y')).toBe('0px');
+		});
+
 		it('clamps horizontal pan for letterboxed images using rendered media bounds', () => {
 			const { container } = render(
 				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,

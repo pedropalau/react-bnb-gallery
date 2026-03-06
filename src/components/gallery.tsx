@@ -240,7 +240,8 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		const activePhotoChanged =
 			previousActivePhotoIndexRef.current !== state.activePhotoIndex;
 		previousActivePhotoIndexRef.current = state.activePhotoIndex;
-		if (!activePhotoChanged) {
+		const shouldResetZoom = activePhotoChanged || !enableZoom;
+		if (!shouldResetZoom) {
 			return;
 		}
 
@@ -262,7 +263,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				isPanning: false,
 			};
 		});
-	}, [state.activePhotoIndex]);
+	}, [enableZoom, state.activePhotoIndex]);
 
 	const getItemByDirection = useCallback(
 		(direction: string, activeIndex: number) => {
