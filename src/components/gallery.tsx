@@ -33,9 +33,7 @@ import { PrevButton } from './prev-button';
 interface GalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
-	direction?: string;
 	enableZoom?: boolean;
-	light?: boolean;
 	maxZoom?: number;
 	nextButtonPressed?: () => void;
 	onActivePhotoIndexChange?: (index: number) => void;
@@ -167,7 +165,6 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		activePhotoIndex = 0,
 		activePhotoPressed,
 		enableZoom = true,
-		light = false,
 		maxZoom = 3,
 		nextButtonPressed,
 		onActivePhotoIndexChange,
@@ -806,7 +803,6 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					key=".prevControl"
 					disabled={state.controlsDisabled}
 					onPress={onPrevButtonPress}
-					light={light}
 					phrases={phrases}
 					className={classNames?.prevButton}
 					style={styles?.prevButton}
@@ -819,7 +815,6 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					key=".nextControl"
 					disabled={state.controlsDisabled}
 					onPress={onNextButtonPress}
-					light={light}
 					phrases={phrases}
 					className={classNames?.nextButton}
 					style={styles?.nextButton}
@@ -830,7 +825,6 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, [
 		NextButtonComponent,
 		PrevButtonComponent,
-		light,
 		onNextButtonPress,
 		onPrevButtonPress,
 		photos.length,

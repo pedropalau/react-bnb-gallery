@@ -13,7 +13,6 @@ const PREV_ARROW =
 function PrevButton({
 	onPress,
 	disabled = false,
-	light = false,
 	phrases = defaultPhrases,
 	className,
 	style,
@@ -27,7 +26,6 @@ function PrevButton({
 			arrow={PREV_ARROW}
 			label={phrases.previousPhoto}
 			disabled={disabled}
-			light={light}
 			style={style}
 		/>
 	);

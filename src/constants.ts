@@ -4,9 +4,6 @@ export const DIRECTION_NEXT = 'next';
 export const POINTER_TYPE_TOUCH = 'touch';
 export const POINTER_TYPE_PEN = 'pen';
 
-export const FORWARDS = 'forwards';
-export const BACKWARDS = 'backwards';
-
 export const ARROW_LEFT_KEYCODE = 37;
 export const ARROW_RIGHT_KEYCODE = 39;
 export const ESC_KEYCODE = 27;

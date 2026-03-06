@@ -7,25 +7,13 @@ export const metadata = createPageMetadata('Options');
 const galleryProps = [
 	{ prop: 'activePhotoIndex', type: 'number', default: '0' },
 	{ prop: 'activePhotoPressed', type: '() => void', default: 'undefined' },
-	{
-		prop: 'backgroundColor',
-		type: 'string',
-		default: "'deprecated (compat alias)'",
-		deprecated: true,
-	},
-	{
-		prop: 'direction',
-		type: 'string',
-		default: "'forwards'",
-		deprecated: true,
-	},
 	{ prop: 'keyboard', type: 'boolean', default: 'true' },
 	{ prop: 'leftKeyPressed', type: '() => void', default: 'undefined' },
 	{ prop: 'light', type: 'boolean', default: 'false' },
 	{ prop: 'nextButtonPressed', type: '() => void', default: 'undefined' },
 	{ prop: 'onClose', type: '() => void', default: 'undefined' },
 	{ prop: 'opacity', type: 'number', default: '1' },
-	{ prop: 'photos', type: 'string | GalleryPhoto | Array<...>', default: '[]' },
+	{ prop: 'photos', type: 'Array<string | GalleryPhoto>', default: '[]' },
 	{ prop: 'phrases', type: 'GalleryPhrases', default: '{...}' },
 	{ prop: 'preloadSize', type: 'number', default: '5' },
 	{ prop: 'prevButtonPressed', type: '() => void', default: 'undefined' },
@@ -61,7 +49,7 @@ const photoProps = [
 function PropsTable({
 	rows,
 }: {
-	rows: { prop: string; type: string; default: string; deprecated?: boolean }[];
+	rows: { prop: string; type: string; default: string }[];
 }) {
 	return (
 		<div className="overflow-hidden rounded-lg border border-border">
@@ -86,16 +74,9 @@ function PropsTable({
 							className={i < rows.length - 1 ? 'border-b border-border' : ''}
 						>
 							<td className="px-4 py-2">
-								<div className="flex items-center gap-2">
-									<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground">
-										{row.prop}
-									</code>
-									{row.deprecated && (
-										<span className="rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-											deprecated
-										</span>
-									)}
-								</div>
+								<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground">
+									{row.prop}
+								</code>
 							</td>
 							<td className="px-4 py-2">
 								<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm text-muted-foreground">
@@ -117,11 +98,9 @@ function PropsTable({
 
 function PropDetail({
 	name,
-	deprecated,
 	children,
 }: {
 	name: string;
-	deprecated?: boolean;
 	children: React.ReactNode;
 }) {
 	return (
@@ -133,11 +112,6 @@ function PropDetail({
 				>
 					{name}
 				</h3>
-				{deprecated && (
-					<span className="rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
-						deprecated
-					</span>
-				)}
 			</div>
 			<div className="flex flex-col gap-3 text-sm text-muted-foreground">
 				{children}
@@ -210,36 +184,6 @@ export default function OptionsPage() {
 />`}</code>
 								</pre>
 							</CodeBlock>
-						</PropDetail>
-
-						<PropDetail name="backgroundColor" deprecated>
-							<p>
-								This prop is deprecated in <code>2.x</code>, still works as a
-								backward-compatible alias for overlay color, and will be removed
-								in the next major version. Prefer the CSS token{' '}
-								<code>--rbg-overlay</code> instead.
-							</p>
-							<CodeBlock
-								__raw__={`/* CSS token-based theming */
-:root {
-  --rbg-overlay: rgba(15, 15, 30, 0.95);
-}`}
-							>
-								<pre>
-									<code>{`/* CSS token-based theming */
-:root {
-  --rbg-overlay: rgba(15, 15, 30, 0.95);
-}`}</code>
-								</pre>
-							</CodeBlock>
-						</PropDetail>
-
-						<PropDetail name="direction" deprecated>
-							<p>
-								Controls the animation direction when navigating between photos.
-								This prop is deprecated and will be removed in the next major
-								version — avoid using it in new code.
-							</p>
 						</PropDetail>
 
 						<PropDetail name="keyboard">
@@ -394,20 +338,17 @@ export default function OptionsPage() {
 
 						<PropDetail name="photos">
 							<p>
-								The photos to display. Accepts a single URL string, a single{' '}
+								The photos to display. Pass an array containing URL strings and/or{' '}
 								<a
 									href="#photo-props"
 									className="font-medium underline underline-offset-2"
 								>
 									photo object
 								</a>
-								, or an array of either — including mixed arrays.
+								, including mixed arrays.
 							</p>
 							<CodeBlock
-								__raw__={`// Single URL
-<ReactBnbGallery show={open} photos="https://example.com/photo.jpg" onClose={() => setOpen(false)} />
-
-// Array of URLs
+								__raw__={`// Array of URLs
 <ReactBnbGallery
   show={open}
   photos={[
@@ -431,10 +372,7 @@ export default function OptionsPage() {
 />`}
 							>
 								<pre>
-									<code>{`// Single URL
-<ReactBnbGallery show={open} photos="https://example.com/photo.jpg" onClose={() => setOpen(false)} />
-
-// Array of URLs
+									<code>{`// Array of URLs
 <ReactBnbGallery
   show={open}
   photos={[

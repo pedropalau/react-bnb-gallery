@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FocusTrap } from 'focus-trap-react';
 import type { KeyboardEvent } from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
@@ -11,7 +11,6 @@ import {
 	DEFAULT_OPACITY,
 	DEFAULT_Z_INDEX,
 	ESC_KEYCODE,
-	FORWARDS,
 } from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
@@ -36,13 +35,6 @@ function normalizeActivePhotoIndex(index: number, totalPhotos: number): number {
 export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
-	/**
-	 * @deprecated This prop will be removed in the next major release.
-	 * In 2.x it still works as a compatibility alias for the overlay color.
-	 * Prefer CSS token `--rbg-overlay`.
-	 */
-	backgroundColor?: string;
-	direction?: string;
 	enableZoom?: boolean;
 	keyboard?: boolean;
 	leftKeyPressed?: () => void;
@@ -50,7 +42,7 @@ export interface ReactBnbGalleryProps {
 	nextButtonPressed?: () => void;
 	onClose?: () => void;
 	opacity?: number;
-	photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
+	photos?: Array<string | GalleryPhoto>;
 	phrases?: Partial<GalleryPhrases>;
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
@@ -73,8 +65,6 @@ export interface ReactBnbGalleryProps {
  *
  * @param activePhotoIndex - Index of the currently displayed photo (default: `0`)
  * @param activePhotoPressed - Callback fired when the active photo is pressed
- * @param backgroundColor - Deprecated in 2.x; still supported as compatibility alias for overlay color. Prefer CSS token `--rbg-overlay`
- * @param direction - Navigation direction; deprecated in 2.x — use `activePhotoIndex` with callbacks instead
  * @param enableZoom - Enables wheel/pinch zoom and pan interactions in the active photo viewport (default: `true`)
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
@@ -82,7 +72,7 @@ export interface ReactBnbGalleryProps {
  * @param nextButtonPressed - Callback fired when the next button is pressed
  * @param onClose - Callback fired when the gallery is closed
  * @param opacity - Overlay opacity between `0` and `1` (default: `0.8`)
- * @param photos - One or more photos to display; accepts a URL string, a `GalleryPhoto` object, or an array of either
+ * @param photos - Photos to display; accepts an array of URL strings and/or `GalleryPhoto` objects
  * @param phrases - Localization strings for UI labels
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
@@ -101,8 +91,6 @@ export interface ReactBnbGalleryProps {
 export function ReactBnbGallery({
 	activePhotoIndex = 0,
 	activePhotoPressed,
-	backgroundColor: backgroundColorProp,
-	direction = FORWARDS,
 	enableZoom = true,
 	keyboard = true,
 	leftKeyPressed,
@@ -128,67 +116,8 @@ export function ReactBnbGallery({
 }: ReactBnbGalleryProps) {
 	const gallery = useRef<GalleryController | null>(null);
 	const modalRef = useRef<HTMLDivElement | null>(null);
-	const previousPropsRef = useRef<{
-		photos?: string | GalleryPhoto | Array<string | GalleryPhoto>;
-		direction?: string;
-		backgroundColor?: string;
-	} | null>(null);
 
-	useEffect(() => {
-		if (process.env.NODE_ENV === 'production') {
-			return;
-		}
-
-		const previousProps = previousPropsRef.current;
-		const usingNonArrayPhotosInput =
-			photosInput != null && !Array.isArray(photosInput);
-		const wasUsingNonArrayPhotosInput =
-			previousProps?.photos != null && !Array.isArray(previousProps.photos);
-
-		if (usingNonArrayPhotosInput && !wasUsingNonArrayPhotosInput) {
-			console.warn(
-				'[react-bnb-gallery] Deprecation: passing `photos` as a single string/object is deprecated in 2.x and will be removed in the next major release. Pass an array instead.',
-			);
-		}
-
-		const usingDeprecatedDirectionProp =
-			typeof direction === 'string' && direction !== FORWARDS;
-		const wasUsingDeprecatedDirectionProp =
-			typeof previousProps?.direction === 'string' &&
-			previousProps.direction !== FORWARDS;
-
-		if (usingDeprecatedDirectionProp && !wasUsingDeprecatedDirectionProp) {
-			console.warn(
-				'[react-bnb-gallery] Deprecation: `direction` is deprecated in 2.x and will be removed in the next major release. Use navigation callbacks and `activePhotoIndex` control instead.',
-			);
-		}
-
-		const usingDeprecatedBackgroundColorProp =
-			typeof backgroundColorProp === 'string' && backgroundColorProp.length > 0;
-		const wasUsingDeprecatedBackgroundColorProp =
-			typeof previousProps?.backgroundColor === 'string' &&
-			previousProps.backgroundColor.length > 0;
-
-		if (
-			usingDeprecatedBackgroundColorProp &&
-			!wasUsingDeprecatedBackgroundColorProp
-		) {
-			console.warn(
-				'[react-bnb-gallery] Deprecation: `backgroundColor` is deprecated in 2.x and will be removed in the next major release. Use CSS token `--rbg-overlay` instead.',
-			);
-		}
-
-		previousPropsRef.current = {
-			photos: photosInput,
-			direction,
-			backgroundColor: backgroundColorProp,
-		};
-	}, [backgroundColorProp, photosInput, direction]);
-
-	const photos = useMemo(
-		() => normalizePhotos(photosInput || []),
-		[photosInput],
-	);
+	const photos = useMemo(() => normalizePhotos(photosInput), [photosInput]);
 	const phrases = useMemo(
 		() => ({ ...defaultPhrases, ...(phrasesProp || {}) }),
 		[phrasesProp],
@@ -232,19 +161,13 @@ export function ReactBnbGallery({
 		[close, leftKeyPressed, rightKeyPressed],
 	);
 
-	const galleryModalOverlayStyles = useMemo(() => {
-		const hasDeprecatedBackgroundColorOverride =
-			typeof backgroundColorProp === 'string' &&
-			backgroundColorProp.trim().length > 0;
-
-		return {
+	const galleryModalOverlayStyles = useMemo(
+		() => ({
 			opacity,
-			...(hasDeprecatedBackgroundColorOverride
-				? { backgroundColor: backgroundColorProp }
-				: {}),
 			...(styles?.overlay || {}),
-		};
-	}, [backgroundColorProp, opacity, styles?.overlay]);
+		}),
+		[opacity, styles?.overlay],
+	);
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
 	const CloseButtonComponent = components?.CloseButton ?? CloseButton;
@@ -312,11 +235,9 @@ export function ReactBnbGallery({
 							phrases={phrases}
 							ref={gallery}
 							photos={photos}
-							light={light}
 							wrap={wrap}
 							activePhotoIndex={activePhotoIndex}
 							activePhotoPressed={activePhotoPressed}
-							direction={direction}
 							enableZoom={enableZoom}
 							nextButtonPressed={nextButtonPressed}
 							prevButtonPressed={prevButtonPressed}
@@ -362,7 +283,6 @@ export function ReactBnbGallery({
 						style={galleryModalOverlayStyles}
 						light={light}
 						opacity={opacity}
-						backgroundColor={backgroundColorProp}
 					/>
 				) : (
 					<div

@@ -10,16 +10,6 @@ vi.mock('focus-trap-react', () => ({
 }));
 
 describe('ReactBnbGallery', () => {
-	let warnSpy;
-
-	beforeEach(() => {
-		warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-	});
-
-	afterEach(() => {
-		warnSpy.mockRestore();
-	});
-
 	describe('#render', () => {
 		it('unmounts', () => {
 			const { rerender, unmount } = render(<ReactBnbGallery photos={photos} />);
@@ -131,19 +121,6 @@ describe('ReactBnbGallery', () => {
 			expect(overlay).toHaveStyle({ opacity: '1' });
 		});
 
-		it('applies deprecated backgroundColor prop as compatibility alias', () => {
-			render(
-				<ReactBnbGallery
-					photos={photos.slice(0, 2)}
-					show
-					backgroundColor="rgb(240, 240, 240)"
-				/>,
-			);
-
-			const overlay = document.body.querySelector('.gallery-modal--overlay');
-			expect(overlay).toHaveStyle({ backgroundColor: 'rgb(240, 240, 240)' });
-		});
-
 		it('renders counter above the image and updates it on navigation', () => {
 			render(<ReactBnbGallery photos={photos.slice(0, 3)} show />);
 
@@ -193,38 +170,6 @@ describe('ReactBnbGallery', () => {
 			expect(
 				document.body.querySelector('.gallery-photo-counter'),
 			).toHaveTextContent('1 / 3');
-		});
-
-		it('warns when photos is passed as a single string', () => {
-			render(<ReactBnbGallery photos="https://example.com/photo.jpg" show />);
-
-			expect(warnSpy).toHaveBeenCalledWith(
-				expect.stringContaining(
-					'Deprecation: passing `photos` as a single string/object is deprecated',
-				),
-			);
-		});
-
-		it('warns when deprecated direction prop is used', () => {
-			render(<ReactBnbGallery photos={photos} show direction="backwards" />);
-
-			expect(warnSpy).toHaveBeenCalledWith(
-				expect.stringContaining('Deprecation: `direction` is deprecated'),
-			);
-		});
-
-		it('warns when deprecated backgroundColor prop is used', () => {
-			render(
-				<ReactBnbGallery
-					photos={photos.slice(0, 2)}
-					show
-					backgroundColor="rgb(240, 240, 240)"
-				/>,
-			);
-
-			expect(warnSpy).toHaveBeenCalledWith(
-				expect.stringContaining('Deprecation: `backgroundColor` is deprecated'),
-			);
 		});
 
 		it('supports partial phrase overrides and keeps default caption labels', () => {

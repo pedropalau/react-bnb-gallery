@@ -17,16 +17,14 @@ export function processPhoto(
 }
 
 /**
- * Normalizes one or more photos into an array of `GalleryPhoto` objects,
+ * Normalizes photos into an array of `GalleryPhoto` objects,
  * each assigned a sequential 1-based `number`.
  *
- * @param photos - A single photo URL string, a single `GalleryPhoto` object,
- *   or an array of either. A non-array value is wrapped in an array before processing.
+ * @param photos - An array of photo URL strings and/or `GalleryPhoto` objects.
  * @returns An array of `GalleryPhoto` objects with sequential `number` fields.
  */
 export function normalizePhotos(
-	photos: string | GalleryPhoto | Array<string | GalleryPhoto>,
+	photos: Array<string | GalleryPhoto>,
 ): GalleryPhoto[] {
-	const photosToProcess = Array.isArray(photos) ? photos : [photos];
-	return photosToProcess.map(processPhoto);
+	return photos.map(processPhoto);
 }

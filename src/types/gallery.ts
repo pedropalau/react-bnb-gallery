@@ -102,7 +102,6 @@ export interface GalleryCloseButtonProps
 export interface GalleryOverlayProps extends ComponentPropsWithRef<'div'> {
 	light?: boolean;
 	opacity?: number;
-	backgroundColor?: string;
 }
 
 /** Props for overriding the top photo counter component. */
@@ -120,8 +119,6 @@ export interface GalleryModalContainerProps
 export interface GalleryControlButtonProps
 	extends Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
 	onPress?: () => void;
-	/** Exposed for custom controls; default controls inherit light mode from CSS tokens. */
-	light?: boolean;
 	phrases?: GalleryPhrases;
 }
 

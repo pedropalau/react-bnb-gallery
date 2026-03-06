@@ -13,7 +13,6 @@ const NEXT_ARROW =
 function NextButton({
 	onPress,
 	disabled = false,
-	light = false,
 	phrases = defaultPhrases,
 	className,
 	style,
@@ -27,7 +26,6 @@ function NextButton({
 			arrow={NEXT_ARROW}
 			label={phrases.nextPhoto}
 			disabled={disabled}
-			light={light}
 			style={style}
 		/>
 	);

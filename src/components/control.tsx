@@ -14,9 +14,6 @@ interface ControlProps {
 	arrow?: string | null;
 	onPress?: () => void;
 	label?: string;
-	// Kept for API compatibility with custom control components.
-	// Default controls inherit light/dark styling from parent CSS variables.
-	light?: boolean;
 }
 
 type ControlButtonProps = Omit<ComponentPropsWithRef<'button'>, 'onClick'>;
@@ -30,7 +27,6 @@ function Control({
 	onPress,
 	label = '',
 	className,
-	light: _light = false,
 	style,
 	...props
 }: ControlMergedProps) {
