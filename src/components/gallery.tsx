@@ -78,13 +78,36 @@ function clampZoomOffset(
 	offsetY: number,
 	scale: number,
 	element: HTMLElement | null,
+	mediaElement: HTMLImageElement | null,
 ) {
-	if (!element || scale <= MIN_ZOOM) {
+	if (!element || !mediaElement || scale <= MIN_ZOOM) {
 		return { x: 0, y: 0 };
 	}
 
-	const maxX = ((scale - 1) * element.clientWidth) / 2;
-	const maxY = ((scale - 1) * element.clientHeight) / 2;
+	const viewportWidth = element.clientWidth;
+	const viewportHeight = element.clientHeight;
+	const intrinsicWidth = mediaElement.naturalWidth || mediaElement.clientWidth;
+	const intrinsicHeight =
+		mediaElement.naturalHeight || mediaElement.clientHeight;
+
+	if (
+		viewportWidth <= 0 ||
+		viewportHeight <= 0 ||
+		intrinsicWidth <= 0 ||
+		intrinsicHeight <= 0
+	) {
+		return { x: 0, y: 0 };
+	}
+
+	const containScale = Math.min(
+		viewportWidth / intrinsicWidth,
+		viewportHeight / intrinsicHeight,
+		1,
+	);
+	const renderedWidth = intrinsicWidth * containScale;
+	const renderedHeight = intrinsicHeight * containScale;
+	const maxX = Math.max(0, (renderedWidth * scale - viewportWidth) / 2);
+	const maxY = Math.max(0, (renderedHeight * scale - viewportHeight) / 2);
 
 	return {
 		x: Math.min(Math.max(offsetX, -maxX), maxX),
@@ -150,6 +173,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	ref,
 ) {
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
+	const photoImageRef = useRef<HTMLImageElement | null>(null);
 	const previousActivePhotoIndexRef = useRef(activePhotoIndex);
 	const panStartRef = useRef({ x: 0, y: 0 });
 	const panOriginRef = useRef({ x: 0, y: 0 });
@@ -390,6 +414,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					nextOffsetY,
 					clampedScale,
 					element,
+					photoImageRef.current,
 				);
 
 				return {
@@ -431,6 +456,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				panOriginRef.current.y + deltaY,
 				prevState.zoomScale,
 				photoButtonRef.current,
+				photoImageRef.current,
 			);
 
 			return {
@@ -580,6 +606,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 						nextOffsetY,
 						clampedScale,
 						element,
+						photoImageRef.current,
 					);
 
 					return {
@@ -820,6 +847,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 									onMouseLeave={onMouseLeave}
 									onWheel={onWheel}
 									buttonRef={photoButtonRef}
+									imageRef={photoImageRef}
 									disablePress={isZoomMode}
 									enableZoom={enableZoom}
 									isZoomMode={isZoomMode}

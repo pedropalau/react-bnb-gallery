@@ -29,6 +29,7 @@ interface PhotoProps {
 	onError?: () => void;
 	style?: CSSProperties;
 	buttonRef?: Ref<HTMLButtonElement>;
+	imageRef?: Ref<HTMLImageElement>;
 	disablePress?: boolean;
 	enableZoom?: boolean;
 	isZoomMode?: boolean;
@@ -53,6 +54,7 @@ function Photo({
 	onError,
 	style,
 	buttonRef,
+	imageRef,
 	disablePress = false,
 	enableZoom = true,
 	isZoomMode = false,
@@ -106,6 +108,7 @@ function Photo({
 						onLoad={onLoad}
 						onError={onError}
 						style={style}
+						imageRef={imageRef}
 					/>
 				</button>
 			</li>

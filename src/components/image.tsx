@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, Ref } from 'react';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from './loading-spinner';
 
@@ -16,6 +16,7 @@ interface ImageProps {
 	src: string;
 	style?: CSSProperties | null;
 	className?: string | string[] | null;
+	imageRef?: Ref<HTMLImageElement>;
 	onLoad?: () => void;
 	onError?: () => void;
 }
@@ -37,6 +38,7 @@ function Image({
 	src,
 	style = null,
 	className = null,
+	imageRef,
 	onLoad,
 	onError,
 }: ImageProps) {
@@ -91,6 +93,7 @@ function Image({
 			{loading && <LoadingSpinner />}
 			{!withError && (
 				<img
+					ref={imageRef}
 					alt={alt}
 					className={clsx(classNames)}
 					onLoad={handleLoad}
