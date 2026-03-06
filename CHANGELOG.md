@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-next.3
+
+### Minor Changes
+
+- 5481c51: Add a new `renderCaptionActions` render prop to inject custom controls in the caption action area.
+
+  The slot renders next to the existing photo-list toggle and receives context (`current`, `currentPhoto`, `photos`, `showThumbnails`) so consumers can build action buttons (for example download/share actions) without forking the gallery layout.
+
 ## 3.0.0-next.2
 
 ### Minor Changes
