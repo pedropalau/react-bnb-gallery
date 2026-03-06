@@ -79,7 +79,7 @@ function Photo({
 					<Image
 						alt={photo.alt || captionText}
 						className={clsx('photo gallery-photo-image', imageClassName)}
-						src={photo.photo ?? undefined}
+						src={photo.photo}
 						onLoad={onLoad}
 						onError={onError}
 						style={mergedImageStyle}

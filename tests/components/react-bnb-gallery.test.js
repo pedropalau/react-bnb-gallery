@@ -94,6 +94,7 @@ describe('ReactBnbGallery', () => {
 
 			const modal = document.body.querySelector('.gallery-modal');
 			expect(modal).toHaveAttribute('role', 'dialog');
+			expect(modal).toHaveAttribute('aria-label', 'Photo gallery');
 			expect(modal).toHaveAttribute('aria-modal', 'true');
 		});
 

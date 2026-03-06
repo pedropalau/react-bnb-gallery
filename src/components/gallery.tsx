@@ -193,6 +193,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
 	const previousActivePhotoIndexRef = useRef(activePhotoIndex);
+	const zoomScaleRef = useRef(MIN_ZOOM);
 	const panStartRef = useRef({ x: 0, y: 0 });
 	const panOriginRef = useRef({ x: 0, y: 0 });
 	const pinchStartRef = useRef<PinchInfo | null>(null);
@@ -283,6 +284,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		});
 	}, [enableZoom, state.activePhotoIndex]);
 
+	useEffect(() => {
+		zoomScaleRef.current = state.zoomScale;
+	}, [state.zoomScale]);
+
 	const getItemByDirection = useCallback(
 		(direction: string, activeIndex: number) => {
 			if (photos.length === 0) {
@@ -368,12 +373,12 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, []);
 
 	const onPhotoPress = useCallback(() => {
-		if (enableZoom && state.zoomScale > MIN_ZOOM) {
+		if (enableZoom && zoomScaleRef.current > MIN_ZOOM) {
 			return;
 		}
 		move(DIRECTION_NEXT);
 		activePhotoPressed?.();
-	}, [activePhotoPressed, enableZoom, move, state.zoomScale]);
+	}, [activePhotoPressed, enableZoom, move]);
 
 	const normalizedMaxZoom = Math.max(MIN_ZOOM, maxZoom);
 	const normalizedZoomStep = Math.max(0.1, zoomStep);

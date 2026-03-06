@@ -197,12 +197,6 @@ export function ReactBnbGallery({
 		normalizeActivePhotoIndex(activePhotoIndex, photos.length),
 	);
 
-	useEffect(() => {
-		setDisplayedPhotoIndex(
-			normalizeActivePhotoIndex(activePhotoIndex, photos.length),
-		);
-	}, [activePhotoIndex, photos.length]);
-
 	const close = useCallback(() => {
 		onClose?.();
 	}, [onClose]);
@@ -357,6 +351,7 @@ export function ReactBnbGallery({
 				onKeyDown={keyboard ? onKeyDown : undefined}
 				tabIndex={-1}
 				role="dialog"
+				aria-label="Photo gallery"
 				aria-modal="true"
 				style={{ zIndex, ...(styles?.modal || {}) }}
 			>
