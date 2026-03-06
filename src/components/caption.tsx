@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { MouseEvent } from 'react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { defaultPhrases } from '../default-phrases';
 import type { GalleryCaptionComponentProps } from '../types/gallery';
 import {
@@ -37,13 +37,10 @@ function Caption({
 	const ThumbnailComponent = components?.Thumbnail ?? Thumbnail;
 	const TogglePhotoListComponent =
 		components?.TogglePhotoList ?? TogglePhotoList;
+	// `showThumbnails` prop is treated as the initial uncontrolled state.
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
 	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
 	const thumbnailsListRef = useRef<HTMLUListElement | null>(null);
-
-	useEffect(() => {
-		setShowThumbnails(showThumbnailsProp);
-	}, [showThumbnailsProp]);
 
 	useEffect(() => {
 		if (!thumbnailsWrapperRef.current || !thumbnailsListRef.current) {
@@ -59,12 +56,18 @@ function Caption({
 		thumbnailsListRef.current.style.marginLeft = `${scrollLeft}px`;
 	}, [current, photos.length]);
 
-	const onThumbnailPress = (event: MouseEvent<HTMLElement>) => {
-		const index = parseInt(event.currentTarget.dataset.photoIndex || '-1', 10);
-		if (index >= 0 && index <= photos.length - 1) {
-			onPress?.(index);
-		}
-	};
+	const onThumbnailPress = useCallback(
+		(event: MouseEvent<HTMLElement>) => {
+			const index = parseInt(
+				event.currentTarget.dataset.photoIndex || '-1',
+				10,
+			);
+			if (index >= 0 && index < photos.length) {
+				onPress?.(index);
+			}
+		},
+		[photos.length, onPress],
+	);
 
 	const toggleThumbnails = () => {
 		setShowThumbnails((prevState) => !prevState);
@@ -127,7 +130,8 @@ function Caption({
 					{hasMoreThanOnePhoto && (
 						<div
 							className="gallery-figcaption--thumbnails"
-							aria-hidden={false}
+							role="region"
+							aria-label="Thumbnail navigation"
 							ref={thumbnailsWrapperRef}
 						>
 							<div
@@ -144,8 +148,9 @@ function Caption({
 									style={thumbnailsListStyle}
 									ref={thumbnailsListRef}
 								>
-									{photos.map((photo, index: number) => (
+									{photos.map((photo, index) => (
 										<li
+											// Fallback to index because `GalleryPhoto` has no required unique id.
 											key={photo.photo || `${index}`}
 											className={clsx(
 												'gallery-thumbnail-item',

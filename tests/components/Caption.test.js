@@ -23,7 +23,7 @@ describe('Caption', () => {
 			).toBeInTheDocument();
 		});
 
-		it('syncs showThumbnails state when showThumbnails prop changes', () => {
+		it('uses showThumbnails prop as initial state only', () => {
 			const { container, rerender } = render(
 				<Caption current={0} photos={photos.slice(0, 2)} showThumbnails />,
 			);
@@ -40,7 +40,9 @@ describe('Caption', () => {
 				/>,
 			);
 
-			expect(container.querySelector('figcaption.hide')).toBeInTheDocument();
+			expect(
+				container.querySelector('figcaption.hide'),
+			).not.toBeInTheDocument();
 		});
 
 		it('keeps photo-list toggle visible after collapsing thumbnails', () => {
