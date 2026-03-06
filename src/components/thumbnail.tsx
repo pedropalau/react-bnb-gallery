@@ -4,6 +4,7 @@ import { memo } from 'react';
 import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
 import type { GalleryThumbnailComponentProps } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
+import { useGalleryContext } from './gallery-context';
 import { Image } from './image';
 
 const thumbnailStyle = {
@@ -20,18 +21,22 @@ function Thumbnail({
 	onPress,
 	number = 0,
 	className,
+	style,
 	imageClassName,
 	imageStyle,
 	...props
 }: GalleryThumbnailComponentProps) {
+	const context = useGalleryContext();
+
 	if (!photo) {
 		return null;
 	}
 
 	const captionText = getCaptionText(photo.caption);
+	const resolvedImageStyle = imageStyle || context?.styles?.thumbnailImage;
 	const thumbnailImageStyle = {
 		...thumbnailStyle,
-		...(imageStyle || {}),
+		...(resolvedImageStyle || {}),
 	} satisfies CSSProperties;
 
 	return (
@@ -44,8 +49,10 @@ function Thumbnail({
 				// Legacy alias kept for 2.x compatibility; use `is-active` going forward.
 				active && 'active',
 				active && 'is-active',
+				context?.classNames?.thumbnailButton,
 				className,
 			)}
+			style={style || context?.styles?.thumbnailButton}
 			data-photo-index={number}
 			onClick={onPress}
 			{...props}
@@ -53,7 +60,11 @@ function Thumbnail({
 			<Image
 				alt={photo.thumbnailAlt || photo.alt || captionText}
 				src={photo.thumbnail || photo.photo || ''}
-				className={clsx('thumbnail gallery-thumbnail-image', imageClassName)}
+				className={clsx(
+					'thumbnail gallery-thumbnail-image',
+					context?.classNames?.thumbnailImage,
+					imageClassName,
+				)}
 				style={thumbnailImageStyle}
 			/>
 		</button>

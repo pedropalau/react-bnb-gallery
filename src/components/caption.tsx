@@ -7,6 +7,7 @@ import {
 	calculateThumbnailsContainerDimension,
 	calculateThumbnailsLeftScroll,
 } from '../utils/thumbnail-layout';
+import { useGalleryContext } from './gallery-context';
 import { Thumbnail } from './thumbnail';
 import { TogglePhotoList } from './toggle-photo-list';
 
@@ -17,11 +18,12 @@ function Caption({
 	current = 0,
 	onPress,
 	photos = [],
-	phrases = defaultPhrases,
+	phrases: phrasesProp,
 	renderCaptionActions,
 	showThumbnails: showThumbnailsProp = true,
 	components,
 	className,
+	style,
 	thumbnailsListClassName,
 	thumbnailsListStyle,
 	thumbnailItemClassName,
@@ -34,9 +36,36 @@ function Caption({
 	togglePhotoListStyle,
 	...props
 }: GalleryCaptionComponentProps) {
-	const ThumbnailComponent = components?.Thumbnail ?? Thumbnail;
+	const context = useGalleryContext();
+	const phrases = phrasesProp || context?.phrases || defaultPhrases;
+	const ThumbnailComponent =
+		components?.Thumbnail || context?.components?.Thumbnail || Thumbnail;
 	const TogglePhotoListComponent =
-		components?.TogglePhotoList ?? TogglePhotoList;
+		components?.TogglePhotoList ||
+		context?.components?.TogglePhotoList ||
+		TogglePhotoList;
+	const resolvedClassName = className || context?.classNames?.caption;
+	const resolvedStyle = style || context?.styles?.caption;
+	const resolvedThumbnailsListClassName =
+		thumbnailsListClassName || context?.classNames?.thumbnailsList;
+	const resolvedThumbnailsListStyle =
+		thumbnailsListStyle || context?.styles?.thumbnailsList;
+	const resolvedThumbnailItemClassName =
+		thumbnailItemClassName || context?.classNames?.thumbnailItem;
+	const resolvedThumbnailItemStyle =
+		thumbnailItemStyle || context?.styles?.thumbnailItem;
+	const resolvedThumbnailClassName =
+		thumbnailClassName || context?.classNames?.thumbnailButton;
+	const resolvedThumbnailStyle =
+		thumbnailStyle || context?.styles?.thumbnailButton;
+	const resolvedThumbnailImageClassName =
+		thumbnailImageClassName || context?.classNames?.thumbnailImage;
+	const resolvedThumbnailImageStyle =
+		thumbnailImageStyle || context?.styles?.thumbnailImage;
+	const resolvedTogglePhotoListClassName =
+		togglePhotoListClassName || context?.classNames?.togglePhotoList;
+	const resolvedTogglePhotoListStyle =
+		togglePhotoListStyle || context?.styles?.togglePhotoList;
 	// `showThumbnails` prop is treated as the initial uncontrolled state.
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
 	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -93,8 +122,9 @@ function Caption({
 				// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
 				!showThumbnails && 'hide',
 				!showThumbnails && 'is-thumbnails-collapsed',
-				className,
+				resolvedClassName,
 			)}
+			style={resolvedStyle}
 			{...props}
 		>
 			<div className="gallery-figcaption--content">
@@ -116,8 +146,8 @@ function Caption({
 											phrases={phrases}
 											isOpened={showThumbnails}
 											onPress={toggleThumbnails}
-											className={togglePhotoListClassName}
-											style={togglePhotoListStyle}
+											className={resolvedTogglePhotoListClassName}
+											style={resolvedTogglePhotoListStyle}
 										/>
 									)}
 									{customActions != null && (
@@ -145,9 +175,9 @@ function Caption({
 								<ul
 									className={clsx(
 										'thumbnails-list gallery-thumbnails-list',
-										thumbnailsListClassName,
+										resolvedThumbnailsListClassName,
 									)}
-									style={thumbnailsListStyle}
+									style={resolvedThumbnailsListStyle}
 									ref={thumbnailsListRef}
 								>
 									{photos.map((photo, index) => (
@@ -156,19 +186,19 @@ function Caption({
 											key={photo.photo || `${index}`}
 											className={clsx(
 												'gallery-thumbnail-item',
-												thumbnailItemClassName,
+												resolvedThumbnailItemClassName,
 											)}
-											style={thumbnailItemStyle}
+											style={resolvedThumbnailItemStyle}
 										>
 											<ThumbnailComponent
 												active={index === current}
 												photo={photo}
 												onPress={onThumbnailPress}
 												number={index}
-												className={thumbnailClassName}
-												style={thumbnailStyle}
-												imageClassName={thumbnailImageClassName}
-												imageStyle={thumbnailImageStyle}
+												className={resolvedThumbnailClassName}
+												style={resolvedThumbnailStyle}
+												imageClassName={resolvedThumbnailImageClassName}
+												imageStyle={resolvedThumbnailImageStyle}
 											/>
 										</li>
 									))}

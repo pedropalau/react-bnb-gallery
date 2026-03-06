@@ -23,6 +23,7 @@ import type {
 	GalleryStyles,
 } from '../types/gallery';
 import { Caption } from './caption';
+import { GalleryContextProvider } from './gallery-context';
 import { NextButton } from './next-button';
 import { Photo } from './photo';
 import { PrevButton } from './prev-button';
@@ -186,6 +187,9 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const NextButtonComponent = components?.NextButton ?? NextButton;
 	const PhotoComponent = components?.Photo ?? Photo;
 	const CaptionComponent = components?.Caption ?? Caption;
+	const isDefaultPrevButtonComponent = PrevButtonComponent === PrevButton;
+	const isDefaultNextButtonComponent = NextButtonComponent === NextButton;
+	const isDefaultCaptionComponent = CaptionComponent === Caption;
 
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
@@ -803,9 +807,13 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					key=".prevControl"
 					disabled={state.controlsDisabled}
 					onPress={onPrevButtonPress}
-					phrases={phrases}
-					className={classNames?.prevButton}
-					style={styles?.prevButton}
+					{...(isDefaultPrevButtonComponent
+						? {}
+						: {
+								phrases,
+								className: classNames?.prevButton,
+								style: styles?.prevButton,
+							})}
 				/>,
 			);
 		}
@@ -815,9 +823,13 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					key=".nextControl"
 					disabled={state.controlsDisabled}
 					onPress={onNextButtonPress}
-					phrases={phrases}
-					className={classNames?.nextButton}
-					style={styles?.nextButton}
+					{...(isDefaultNextButtonComponent
+						? {}
+						: {
+								phrases,
+								className: classNames?.nextButton,
+								style: styles?.nextButton,
+							})}
 				/>,
 			);
 		}
@@ -831,12 +843,24 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		classNames?.nextButton,
 		phrases,
 		classNames?.prevButton,
+		isDefaultNextButtonComponent,
+		isDefaultPrevButtonComponent,
 		state.controlsDisabled,
 		state.hideNextButton,
 		state.hidePrevButton,
 		styles?.nextButton,
 		styles?.prevButton,
 	]);
+
+	const galleryContextValue = useMemo(
+		() => ({
+			phrases,
+			components,
+			classNames,
+			styles,
+		}),
+		[phrases, components, classNames, styles],
+	);
 
 	const zoomedPhotoStyle = useMemo(
 		() =>
@@ -873,76 +897,84 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const { noPhotosProvided: emptyMessage } = phrases;
 
 	return (
-		<div
-			className={clsx('gallery', classNames?.gallery)}
-			style={styles?.gallery}
-		>
-			<div className="gallery-modal--preload">{galleryModalPreloadPhotos}</div>
-			<div className="gallery-main">
-				{controls}
-				<div className="gallery-photos">
-					{hasPhotos ? (
-						<div className="gallery-photo">
-							<div className="gallery-photo--current">
-								<PhotoComponent
-									photo={current}
-									onLoad={onPhotoLoad}
-									onError={onPhotoError}
-									onPress={onPhotoPress}
-									onTouchStart={onTouchStart}
-									onTouchMove={onTouchMove}
-									onTouchEnd={onTouchEnd}
-									onMouseDown={onMouseDown}
-									onMouseMove={onMouseMove}
-									onMouseUp={onMouseUp}
-									onMouseLeave={onMouseLeave}
-									onWheel={onWheel}
-									buttonRef={photoButtonRef}
-									imageRef={photoImageRef}
-									disablePress={isZoomMode}
-									enableZoom={enableZoom}
-									isZoomMode={isZoomMode}
-									isPanning={state.isPanning}
-									style={zoomedPhotoStyle}
-									buttonClassName={classNames?.photoButton}
-									buttonStyle={styles?.photoButton}
-									imageClassName={classNames?.photoImage}
-									imageStyle={styles?.photoImage}
-								/>
-							</div>
-						</div>
-					) : (
-						<div className="gallery-empty">{emptyMessage}</div>
-					)}
+		<GalleryContextProvider value={galleryContextValue}>
+			<div
+				className={clsx('gallery', classNames?.gallery)}
+				style={styles?.gallery}
+			>
+				<div className="gallery-modal--preload">
+					{galleryModalPreloadPhotos}
 				</div>
+				<div className="gallery-main">
+					{controls}
+					<div className="gallery-photos">
+						{hasPhotos ? (
+							<div className="gallery-photo">
+								<div className="gallery-photo--current">
+									<PhotoComponent
+										photo={current}
+										onLoad={onPhotoLoad}
+										onError={onPhotoError}
+										onPress={onPhotoPress}
+										onTouchStart={onTouchStart}
+										onTouchMove={onTouchMove}
+										onTouchEnd={onTouchEnd}
+										onMouseDown={onMouseDown}
+										onMouseMove={onMouseMove}
+										onMouseUp={onMouseUp}
+										onMouseLeave={onMouseLeave}
+										onWheel={onWheel}
+										buttonRef={photoButtonRef}
+										imageRef={photoImageRef}
+										disablePress={isZoomMode}
+										enableZoom={enableZoom}
+										isZoomMode={isZoomMode}
+										isPanning={state.isPanning}
+										style={zoomedPhotoStyle}
+										buttonClassName={classNames?.photoButton}
+										buttonStyle={styles?.photoButton}
+										imageClassName={classNames?.photoImage}
+										imageStyle={styles?.photoImage}
+									/>
+								</div>
+							</div>
+						) : (
+							<div className="gallery-empty">{emptyMessage}</div>
+						)}
+					</div>
+				</div>
+				{showThumbnails && current && (
+					<CaptionComponent
+						current={state.activePhotoIndex}
+						photos={photos}
+						onPress={onThumbnailPress}
+						renderCaptionActions={renderCaptionActions}
+						showThumbnails={showThumbnails}
+						{...(isDefaultCaptionComponent
+							? {}
+							: {
+									phrases,
+									className: classNames?.caption,
+									style: styles?.caption,
+									thumbnailsListClassName: classNames?.thumbnailsList,
+									thumbnailsListStyle: styles?.thumbnailsList,
+									thumbnailItemClassName: classNames?.thumbnailItem,
+									thumbnailItemStyle: styles?.thumbnailItem,
+									thumbnailClassName: classNames?.thumbnailButton,
+									thumbnailStyle: styles?.thumbnailButton,
+									thumbnailImageClassName: classNames?.thumbnailImage,
+									thumbnailImageStyle: styles?.thumbnailImage,
+									togglePhotoListClassName: classNames?.togglePhotoList,
+									togglePhotoListStyle: styles?.togglePhotoList,
+									components: {
+										Thumbnail: components?.Thumbnail,
+										TogglePhotoList: components?.TogglePhotoList,
+									},
+								})}
+					/>
+				)}
 			</div>
-			{showThumbnails && current && (
-				<CaptionComponent
-					phrases={phrases}
-					current={state.activePhotoIndex}
-					photos={photos}
-					onPress={onThumbnailPress}
-					renderCaptionActions={renderCaptionActions}
-					showThumbnails={showThumbnails}
-					className={classNames?.caption}
-					style={styles?.caption}
-					thumbnailsListClassName={classNames?.thumbnailsList}
-					thumbnailsListStyle={styles?.thumbnailsList}
-					thumbnailItemClassName={classNames?.thumbnailItem}
-					thumbnailItemStyle={styles?.thumbnailItem}
-					thumbnailClassName={classNames?.thumbnailButton}
-					thumbnailStyle={styles?.thumbnailButton}
-					thumbnailImageClassName={classNames?.thumbnailImage}
-					thumbnailImageStyle={styles?.thumbnailImage}
-					togglePhotoListClassName={classNames?.togglePhotoList}
-					togglePhotoListStyle={styles?.togglePhotoList}
-					components={{
-						Thumbnail: components?.Thumbnail,
-						TogglePhotoList: components?.TogglePhotoList,
-					}}
-				/>
-			)}
-		</div>
+		</GalleryContextProvider>
 	);
 });
 
