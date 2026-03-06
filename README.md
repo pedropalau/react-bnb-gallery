@@ -262,6 +262,7 @@ pnpm build
 ## Roadmap
 
 - v3 roadmap: [docs/release/V3_ROADMAP.md](docs/release/V3_ROADMAP.md)
+- release workflow checklist: [docs/release/RELEASE_WORKFLOW_CHECKLIST.md](docs/release/RELEASE_WORKFLOW_CHECKLIST.md)
 
 ## License
 
