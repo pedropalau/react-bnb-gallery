@@ -67,7 +67,7 @@
     "docs:lint": "pnpm --dir docs lint",
     "docs:format": "pnpm --dir docs format",
     "prepublishOnly": "pnpm build",
-    "bump-deps": "pnpm dlx npm-check-updates",
+    "bump-deps": "pnpm dlx npm-check-updates --deep -u && pnpm install",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish --provenance --access public",
     "lint": "pnpm lint:biome && pnpm typecheck",
