@@ -733,6 +733,9 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			if (!enableZoom) {
 				return;
 			}
+			if (event.deltaY === 0) {
+				return;
+			}
 
 			event.preventDefault();
 			const zoomDirection = event.deltaY < 0 ? 1 : -1;

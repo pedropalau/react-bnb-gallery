@@ -463,6 +463,24 @@ describe('Gallery', () => {
 			expect(activePhotoPressed).toHaveBeenCalledTimes(0);
 		});
 
+		it('ignores horizontal wheel gestures when deltaY is zero', () => {
+			const { container } = render(
+				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
+			);
+
+			const photoButton = container.querySelector('.photo-button');
+			const photoImage = container.querySelector('.gallery-photo-image');
+
+			fireEvent.wheel(photoButton, {
+				deltaY: 0,
+				deltaX: 120,
+				clientX: 120,
+				clientY: 120,
+			});
+
+			expect(photoImage.style.getPropertyValue('--rbg-zoom-scale')).toBe('1');
+		});
+
 		it('resets zoom state when enableZoom is toggled off', () => {
 			const { container, rerender } = render(
 				<Gallery
