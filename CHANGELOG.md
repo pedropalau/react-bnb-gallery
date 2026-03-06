@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-next.1
+
+### Patch Changes
+
+- 028bfc8: Align documentation for the v3 prerelease.
+
+  Updated installation docs and README with `@next` guidance, named-import-only messaging, and a direct link to the v2-to-v3 migration guide.
+
 ## 3.0.0-next.0
 
 ### Major Changes
