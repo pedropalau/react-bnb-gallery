@@ -1,0 +1,11 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "react-bnb-gallery": "2.2.1",
+    "@react-bnb-gallery/docs": "0.1.0"
+  },
+  "changesets": [
+    "mean-news-act"
+  ]
+}

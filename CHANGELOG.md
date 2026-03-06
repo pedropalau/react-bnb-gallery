@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-next.0
+
+### Major Changes
+
+- bd255cc: Remove all deprecated default exports across the package and keep only named exports.
+
+  This finalizes the deprecation path and requires consumers to update imports from default style to named imports.
+
 ## 2.2.1
 
 ### Patch Changes
