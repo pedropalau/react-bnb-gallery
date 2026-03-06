@@ -17,9 +17,11 @@ function PrevButton({
 	phrases = defaultPhrases,
 	className,
 	style,
+	...props
 }: GalleryControlButtonProps) {
 	return (
 		<Control
+			{...props}
 			className={clsx('gallery-control--prev', className)}
 			onPress={onPress}
 			arrow={PREV_ARROW}

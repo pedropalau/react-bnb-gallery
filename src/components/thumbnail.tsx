@@ -19,10 +19,12 @@ function Thumbnail({
 	photo = null,
 	onPress,
 	number = 0,
+	disabled = false,
 	className,
 	style,
 	imageClassName,
 	imageStyle,
+	...props
 }: GalleryThumbnailComponentProps) {
 	if (!photo) {
 		return null;
@@ -44,12 +46,13 @@ function Thumbnail({
 
 	return (
 		<button
+			{...props}
 			type="button"
 			aria-label={captionText || undefined}
 			className={buttonClassName}
 			data-photo-index={number}
 			onClick={onPress}
-			disabled={false}
+			disabled={disabled}
 			style={style}
 		>
 			<Image

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import type { CSSProperties } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import { memo } from 'react';
 
 const controlStyle = {
@@ -14,13 +14,13 @@ interface ControlProps {
 	arrow?: string | null;
 	onPress?: () => void;
 	label?: string;
-	className?: string | null;
-	disabled?: boolean;
 	// Kept for API compatibility with custom control components.
 	// Default controls inherit light/dark styling from parent CSS variables.
 	light?: boolean;
-	style?: CSSProperties;
 }
+
+type ControlButtonProps = Omit<ComponentPropsWithRef<'button'>, 'onClick'>;
+type ControlMergedProps = ControlProps & ControlButtonProps;
 
 /**
  * Renders a reusable SVG arrow button for gallery navigation.
@@ -29,19 +29,19 @@ function Control({
 	arrow = null,
 	onPress,
 	label = '',
-	className = null,
-	disabled = false,
+	className,
 	light: _light = false,
 	style,
-}: ControlProps) {
+	...props
+}: ControlMergedProps) {
 	return (
 		<button
 			type="button"
 			className={clsx('gallery-control', className)}
 			onClick={onPress}
-			disabled={disabled}
 			aria-label={label}
 			style={style}
+			{...props}
 		>
 			<svg
 				viewBox="0 0 18 18"

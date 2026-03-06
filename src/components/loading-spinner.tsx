@@ -1,19 +1,26 @@
+import clsx from 'clsx';
+import type { ComponentPropsWithRef } from 'react';
+
 /**
  * Props for the loading spinner placeholder.
  */
-interface LoadingSpinnerProps {
+interface LoadingSpinnerProps extends ComponentPropsWithRef<'div'> {
 	show?: boolean;
 }
 
 /**
  * Renders the gallery loading indicator.
  */
-function LoadingSpinner({ show = true }: LoadingSpinnerProps) {
+function LoadingSpinner({
+	show = true,
+	className,
+	...props
+}: LoadingSpinnerProps) {
 	if (!show) {
 		return null;
 	}
 
-	return <div className="loading-spinner" />;
+	return <div {...props} className={clsx('loading-spinner', className)} />;
 }
 
 export { LoadingSpinner };

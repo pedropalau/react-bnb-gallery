@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import type { CSSProperties, Ref } from 'react';
+import type { ComponentPropsWithoutRef, CSSProperties, Ref } from 'react';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from './loading-spinner';
 
@@ -15,6 +15,13 @@ interface ImageProps {
 	onLoad?: () => void;
 	onError?: () => void;
 }
+
+type ImageElementProps = Omit<
+	ComponentPropsWithoutRef<'img'>,
+	'ref' | 'className' | 'style' | 'src' | 'alt' | 'onLoad' | 'onError'
+>;
+
+type ImageMergedProps = ImageProps & ImageElementProps;
 
 /**
  * Internal load state tracked per rendered source.
@@ -36,7 +43,8 @@ function Image({
 	imageRef,
 	onLoad,
 	onError,
-}: ImageProps) {
+	...props
+}: ImageMergedProps) {
 	const hasSource = Boolean(src);
 	const [state, setState] = useState<ImageState>(() => ({
 		currentSrc: src,
@@ -98,6 +106,7 @@ function Image({
 					onError={handleError}
 					src={src}
 					style={style || undefined}
+					{...props}
 				/>
 			)}
 		</div>

@@ -19,7 +19,7 @@ function CloseButton({
 	light = false,
 	phrases = defaultPhrases,
 	className,
-	style,
+	...props
 }: GalleryCloseButtonProps) {
 	return (
 		<button
@@ -29,9 +29,9 @@ function CloseButton({
 				light && 'gallery-close--light',
 				className,
 			)}
-			style={style}
 			type="button"
 			aria-label={phrases.closeGallery}
+			{...props}
 		>
 			<svg
 				viewBox="0 0 24 24"

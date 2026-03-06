@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { CodeBlock } from '@/components/code-block';
-import { DocsPage, DocsPageHeading2, DocsPageParagraph } from '@/components/docs-page';
+import {
+	DocsPage,
+	DocsPageHeading2,
+	DocsPageParagraph,
+} from '@/components/docs-page';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata = createPageMetadata('Theming');
@@ -17,19 +21,22 @@ export default function ThemingPage() {
 			</DocsPageParagraph>
 			<ul className="list-disc space-y-2 pl-5 text-base">
 				<li>
-					<code>classNames</code>: attach your own CSS/Tailwind classes to built-in slots.
+					<code>classNames</code>: attach your own CSS/Tailwind classes to
+					built-in slots.
 				</li>
 				<li>
 					<code>styles</code>: apply inline style objects to those same slots.
 				</li>
 				<li>
-					<code>components</code>: replace internal UI pieces with custom React components.
+					<code>components</code>: replace internal UI pieces with custom React
+					components.
 				</li>
 			</ul>
 
 			<DocsPageHeading2>Quick Theming</DocsPageHeading2>
 			<DocsPageParagraph>
-				Use <code>classNames</code> and <code>styles</code> when you want to keep built-in behavior and only adjust presentation.
+				Use <code>classNames</code> and <code>styles</code> when you want to
+				keep built-in behavior and only adjust presentation.
 			</DocsPageParagraph>
 			<CodeBlock
 				__raw__={`<ReactBnbGallery
@@ -69,7 +76,11 @@ export default function ThemingPage() {
 
 			<DocsPageHeading2>Custom Component Slots</DocsPageHeading2>
 			<DocsPageParagraph>
-				Use <code>components</code> when design requirements need custom markup or your own design-system primitives. You can now override top-level layout slots such as <code>Overlay</code>, <code>PhotoCounter</code>, and <code>ModalContainer</code> in addition to button/photo/caption slots.
+				Use <code>components</code> when design requirements need custom markup
+				or your own design-system primitives. You can now override top-level
+				layout slots such as <code>Overlay</code>, <code>PhotoCounter</code>,
+				and <code>ModalContainer</code> in addition to button/photo/caption
+				slots.
 			</DocsPageParagraph>
 			<CodeBlock
 				__raw__={`<ReactBnbGallery
@@ -146,7 +157,8 @@ export default function ThemingPage() {
 			</CodeBlock>
 
 			<DocsPageParagraph>
-				For full prop signatures and slot names, see the <Link href="/docs/options">options reference</Link>.
+				For full prop signatures and slot names, see the{' '}
+				<Link href="/docs/options">options reference</Link>.
 			</DocsPageParagraph>
 		</DocsPage>
 	);

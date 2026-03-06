@@ -12,6 +12,7 @@ function TogglePhotoList({
 	phrases = defaultPhrases,
 	className,
 	style,
+	...props
 }: GalleryTogglePhotoListComponentProps) {
 	const { showPhotoList: showLabel, hidePhotoList: hideLabel } = phrases;
 	const label = isOpened ? hideLabel : showLabel;
@@ -25,6 +26,7 @@ function TogglePhotoList({
 
 	return (
 		<button
+			{...props}
 			type="button"
 			className={toggleClassName}
 			onClick={onPress}

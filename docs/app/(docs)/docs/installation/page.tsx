@@ -39,7 +39,8 @@ export default function InstallationPage() {
 			/>
 
 			<DocsPageParagraph>
-				v3 removes deprecated default exports, so use named imports only. See the migration guide:{' '}
+				v3 removes deprecated default exports, so use named imports only. See
+				the migration guide:{' '}
 				<a
 					href="https://github.com/pedropalau/react-bnb-gallery/blob/master/MIGRATION_v2_to_v3.md"
 					target="_blank"
@@ -53,7 +54,8 @@ export default function InstallationPage() {
 			<DocsPageHeading2>Usage</DocsPageHeading2>
 
 			<DocsPageParagraph>
-				Import the stylesheet once in your app's entry point (e.g. <code>main.tsx</code> or <code>_app.tsx</code>):
+				Import the stylesheet once in your app's entry point (e.g.{' '}
+				<code>main.tsx</code> or <code>_app.tsx</code>):
 			</DocsPageParagraph>
 
 			<CodeBlock __raw__="import 'react-bnb-gallery/dist/style.css'">
@@ -61,7 +63,8 @@ export default function InstallationPage() {
 			</CodeBlock>
 
 			<DocsPageParagraph>
-				Then render the gallery component. The example below shows the minimal setup needed to get it working:
+				Then render the gallery component. The example below shows the minimal
+				setup needed to get it working:
 			</DocsPageParagraph>
 
 			<CodeBlock

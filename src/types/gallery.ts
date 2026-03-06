@@ -1,11 +1,11 @@
 import type {
+	ComponentPropsWithoutRef,
+	ComponentPropsWithRef,
 	ComponentType,
 	CSSProperties,
 	MouseEvent,
 	ReactNode,
 	Ref,
-	TouchEvent,
-	WheelEvent,
 } from 'react';
 import type { DefaultPhrases } from '../default-phrases';
 
@@ -91,62 +91,54 @@ export interface GalleryStyles {
 }
 
 /** Props for overriding the modal close button component. */
-export interface GalleryCloseButtonProps {
+export interface GalleryCloseButtonProps
+	extends Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
 	onPress?: () => void;
 	light?: boolean;
 	phrases?: GalleryPhrases;
-	className?: string;
-	style?: CSSProperties;
 }
 
 /** Props for overriding the modal overlay component. */
-export interface GalleryOverlayProps {
-	className?: string;
-	style?: CSSProperties;
+export interface GalleryOverlayProps extends ComponentPropsWithRef<'div'> {
 	light?: boolean;
 	opacity?: number;
 	backgroundColor?: string;
 }
 
 /** Props for overriding the top photo counter component. */
-export interface GalleryPhotoCounterProps {
+export interface GalleryPhotoCounterProps extends ComponentPropsWithRef<'p'> {
 	current: number;
 	total: number;
 	label: string;
-	className?: string;
-	style?: CSSProperties;
 }
 
 /** Props for overriding the modal content container wrapper. */
-export interface GalleryModalContainerProps {
-	children?: ReactNode;
-	className?: string;
-	style?: CSSProperties;
-}
+export interface GalleryModalContainerProps
+	extends ComponentPropsWithRef<'div'> {}
 
 /** Shared props for overriding previous/next navigation controls. */
-export interface GalleryControlButtonProps {
+export interface GalleryControlButtonProps
+	extends Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
 	onPress?: () => void;
-	disabled?: boolean;
 	/** Exposed for custom controls; default controls inherit light mode from CSS tokens. */
 	light?: boolean;
 	phrases?: GalleryPhrases;
-	className?: string;
-	style?: CSSProperties;
 }
 
 /** Props for overriding the active gallery photo component. */
-export interface GalleryPhotoComponentProps {
+export interface GalleryPhotoComponentProps
+	extends Omit<
+		ComponentPropsWithoutRef<'button'>,
+		| 'onClick'
+		| 'className'
+		| 'style'
+		| 'children'
+		| 'ref'
+		| 'onLoad'
+		| 'onError'
+	> {
 	photo?: GalleryPhoto | null;
 	onPress?: () => void;
-	onTouchStart?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onTouchMove?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onTouchEnd?: (event: TouchEvent<HTMLButtonElement>) => void;
-	onMouseDown?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseMove?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseUp?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onMouseLeave?: (event: MouseEvent<HTMLButtonElement>) => void;
-	onWheel?: (event: WheelEvent<HTMLButtonElement>) => void;
 	onLoad?: () => void;
 	onError?: () => void;
 	style?: CSSProperties;
@@ -163,28 +155,27 @@ export interface GalleryPhotoComponentProps {
 }
 
 /** Props for overriding the thumbnail strip visibility toggle component. */
-export interface GalleryTogglePhotoListComponentProps {
+export interface GalleryTogglePhotoListComponentProps
+	extends Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
 	isOpened?: boolean;
 	onPress?: () => void;
 	phrases?: GalleryPhrases;
-	className?: string;
-	style?: CSSProperties;
 }
 
 /** Props for overriding the thumbnail item component. */
-export interface GalleryThumbnailComponentProps {
+export interface GalleryThumbnailComponentProps
+	extends Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
 	active?: boolean;
 	photo?: GalleryPhoto | null;
 	onPress?: (event: MouseEvent<HTMLButtonElement>) => void;
 	number?: number;
-	className?: string;
-	style?: CSSProperties;
 	imageClassName?: string;
 	imageStyle?: CSSProperties;
 }
 
 /** Props for overriding the gallery caption component. */
-export interface GalleryCaptionComponentProps {
+export interface GalleryCaptionComponentProps
+	extends ComponentPropsWithRef<'figcaption'> {
 	current?: number;
 	onPress?: (index: number) => void;
 	photos?: GalleryPhoto[];
@@ -192,8 +183,6 @@ export interface GalleryCaptionComponentProps {
 	renderCaptionActions?: GalleryRenderCaptionActions;
 	showThumbnails?: boolean;
 	components?: Pick<GalleryComponents, 'Thumbnail' | 'TogglePhotoList'>;
-	className?: string;
-	style?: CSSProperties;
 	thumbnailsListClassName?: string;
 	thumbnailsListStyle?: CSSProperties;
 	thumbnailItemClassName?: string;

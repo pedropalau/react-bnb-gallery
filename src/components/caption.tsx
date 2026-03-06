@@ -22,7 +22,6 @@ function Caption({
 	showThumbnails: showThumbnailsProp = true,
 	components,
 	className,
-	style,
 	thumbnailsListClassName,
 	thumbnailsListStyle,
 	thumbnailItemClassName,
@@ -33,6 +32,7 @@ function Caption({
 	thumbnailImageStyle,
 	togglePhotoListClassName,
 	togglePhotoListStyle,
+	...props
 }: GalleryCaptionComponentProps) {
 	const ThumbnailComponent = components?.Thumbnail ?? Thumbnail;
 	const TogglePhotoListComponent =
@@ -73,13 +73,6 @@ function Caption({
 		setShowThumbnails((prevState) => !prevState);
 	}, []);
 
-	const rootClassName = clsx(
-		'gallery-figcaption',
-		// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
-		!showThumbnails && 'hide',
-		!showThumbnails && 'is-thumbnails-collapsed',
-		className,
-	);
 	const currentPhoto = photos[current];
 	const captionThumbnailsWrapperWidth = calculateThumbnailsContainerDimension(
 		photos.length,
@@ -94,7 +87,16 @@ function Caption({
 	const hasCaptionRightContent = hasMoreThanOnePhoto || customActions != null;
 
 	return (
-		<figcaption className={rootClassName} style={style}>
+		<figcaption
+			className={clsx(
+				'gallery-figcaption',
+				// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
+				!showThumbnails && 'hide',
+				!showThumbnails && 'is-thumbnails-collapsed',
+				className,
+			)}
+			{...props}
+		>
 			<div className="gallery-figcaption--content">
 				<div className="gallery-figcaption--inner">
 					<div className="gallery-figcaption--info">

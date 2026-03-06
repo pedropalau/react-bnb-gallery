@@ -10,14 +10,6 @@ import { Image } from './image';
 function Photo({
 	photo = null,
 	onPress,
-	onTouchStart,
-	onTouchMove,
-	onTouchEnd,
-	onMouseDown,
-	onMouseMove,
-	onMouseUp,
-	onMouseLeave,
-	onWheel,
 	onLoad,
 	onError,
 	style,
@@ -31,6 +23,7 @@ function Photo({
 	enableZoom = true,
 	isZoomMode = false,
 	isPanning = false,
+	...buttonProps
 }: GalleryPhotoComponentProps) {
 	const onPressHandler = useCallback(() => {
 		if (disablePress) {
@@ -55,6 +48,7 @@ function Photo({
 		<ul className="gallery-images--ul gallery-photo-list">
 			<li className={clsx(className, 'gallery-photo-item')}>
 				<button
+					{...buttonProps}
 					ref={buttonRef}
 					type="button"
 					onClick={onPressHandler}
@@ -67,14 +61,6 @@ function Photo({
 						buttonClassName,
 					)}
 					style={buttonStyle}
-					onTouchStart={onTouchStart}
-					onTouchMove={onTouchMove}
-					onTouchEnd={onTouchEnd}
-					onMouseDown={onMouseDown}
-					onMouseMove={onMouseMove}
-					onMouseUp={onMouseUp}
-					onMouseLeave={onMouseLeave}
-					onWheel={onWheel}
 				>
 					<Image
 						alt={photo.alt || captionText}

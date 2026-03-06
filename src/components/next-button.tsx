@@ -17,9 +17,11 @@ function NextButton({
 	phrases = defaultPhrases,
 	className,
 	style,
+	...props
 }: GalleryControlButtonProps) {
 	return (
 		<Control
+			{...props}
 			className={clsx('gallery-control--next', className)}
 			onPress={onPress}
 			arrow={NEXT_ARROW}

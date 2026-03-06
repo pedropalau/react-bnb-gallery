@@ -46,8 +46,8 @@ export default function LicensePage() {
 			</DocsPageParagraph>
 
 			<DocsPageParagraph>
-				Attribution is not required, but greatly appreciated — even a comment
-				in your code mentioning the library is enough.
+				Attribution is not required, but greatly appreciated — even a comment in
+				your code mentioning the library is enough.
 			</DocsPageParagraph>
 
 			<CodeBlock __raw__={LICENSE}>
