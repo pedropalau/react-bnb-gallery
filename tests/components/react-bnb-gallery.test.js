@@ -371,6 +371,73 @@ describe('ReactBnbGallery', () => {
 			expect(document.body).toHaveTextContent('Custom 1');
 		});
 
+		it('renders top-bar slot content with contextual photo data', () => {
+			const onClose = vi.fn();
+			const renderTopStart = vi.fn(({ close, currentPhotoIndex }) => (
+				<button type="button" data-testid="custom-top-start" onClick={close}>
+					Close {currentPhotoIndex + 1}
+				</button>
+			));
+			const renderTopCenter = vi.fn(({ currentPhotoIndex, totalPhotos }) => (
+				<p data-testid="custom-top-center">
+					{currentPhotoIndex + 1} / {totalPhotos}
+				</p>
+			));
+			const renderTopEnd = vi.fn(({ hasMultiplePhotos }) => (
+				<span data-testid="custom-top-end">
+					{hasMultiplePhotos ? 'multiple' : 'single'}
+				</span>
+			));
+
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 3)}
+					show
+					onClose={onClose}
+					renderTopStart={renderTopStart}
+					renderTopCenter={renderTopCenter}
+					renderTopEnd={renderTopEnd}
+				/>,
+			);
+
+			expect(screen.getByTestId('custom-top-start')).toHaveTextContent(
+				'Close 1',
+			);
+			expect(screen.getByTestId('custom-top-center')).toHaveTextContent(
+				'1 / 3',
+			);
+			expect(screen.getByTestId('custom-top-end')).toHaveTextContent(
+				'multiple',
+			);
+			expect(
+				document.body.querySelector('.gallery-photo-counter'),
+			).not.toBeInTheDocument();
+			expect(
+				document.body.querySelector('.gallery-modal--close .gallery-close'),
+			).not.toBeInTheDocument();
+
+			expect(renderTopCenter).toHaveBeenCalledWith(
+				expect.objectContaining({
+					currentPhotoIndex: 0,
+					totalPhotos: 3,
+					hasMultiplePhotos: true,
+					currentPhoto: expect.objectContaining({
+						photo: photos[0].photo,
+					}),
+					close: expect.any(Function),
+				}),
+			);
+
+			fireEvent.click(screen.getByTestId('custom-top-start'));
+			expect(onClose).toHaveBeenCalledTimes(1);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			fireEvent.keyDown(modal, { key: 'ArrowRight' });
+			expect(screen.getByTestId('custom-top-center')).toHaveTextContent(
+				'2 / 3',
+			);
+		});
+
 		it('supports overriding UI components via the components prop', () => {
 			const onClose = vi.fn();
 			const CustomCloseButton = ({ onPress }) => (

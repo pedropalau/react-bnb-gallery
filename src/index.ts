@@ -29,7 +29,9 @@ export type {
 	GalleryPhotoCounterProps,
 	GalleryPhrases,
 	GalleryRenderCaptionActions,
+	GalleryRenderTopBarSlot,
 	GalleryStyles,
 	GalleryThumbnailComponentProps,
 	GalleryTogglePhotoListComponentProps,
+	GalleryTopBarSlotContext,
 } from './types/gallery';

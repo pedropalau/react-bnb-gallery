@@ -18,6 +18,7 @@ import type {
 	GalleryPhoto,
 	GalleryPhrases,
 	GalleryRenderCaptionActions,
+	GalleryRenderTopBarSlot,
 	GalleryStyles,
 } from './types/gallery';
 import { normalizePhotos } from './utils/normalize-photos';
@@ -54,6 +55,9 @@ export interface ReactBnbGalleryProps {
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
 	renderCaptionActions?: GalleryRenderCaptionActions;
+	renderTopStart?: GalleryRenderTopBarSlot;
+	renderTopCenter?: GalleryRenderTopBarSlot;
+	renderTopEnd?: GalleryRenderTopBarSlot;
 	closeButtonPosition?: GalleryCloseButtonPosition;
 	controlsPlacement?: GalleryControlsPlacement;
 	components?: GalleryComponents;
@@ -88,6 +92,9 @@ export interface ReactBnbGalleryProps {
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
  * @param renderCaptionActions - Render prop for injecting custom controls in the caption action area
+ * @param renderTopStart - Render prop for custom content in the top bar start area
+ * @param renderTopCenter - Render prop for custom content in the top bar center area
+ * @param renderTopEnd - Render prop for custom content in the top bar end area
  * @param closeButtonPosition - Horizontal placement of the close button in the top bar (`left` or `right`, default: `right`)
  * @param controlsPlacement - Placement of previous/next controls (`sides`, `top`, or `bottom`, default: `sides`)
  * @param components - Optional slot overrides for built-in UI components such as overlay, counter, modal container, close button, controls, photo, caption, and thumbnails
@@ -118,6 +125,9 @@ export function ReactBnbGallery({
 	preloadSize = 5,
 	prevButtonPressed,
 	renderCaptionActions,
+	renderTopStart,
+	renderTopCenter,
+	renderTopEnd,
 	closeButtonPosition = 'right',
 	controlsPlacement = 'sides',
 	components,
@@ -257,11 +267,23 @@ export function ReactBnbGallery({
 		],
 	);
 	const hasMoreThanOnePhoto = photos.length > 1;
+	const currentPhoto = photos[displayedPhotoIndex];
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
 	const CloseButtonComponent = components?.CloseButton ?? CloseButton;
 	const OverlayComponent = components?.Overlay;
 	const PhotoCounterComponent = components?.PhotoCounter;
 	const ModalContainerComponent = components?.ModalContainer;
+	const topBarSlotContext = useMemo(
+		() => ({
+			currentPhotoIndex: displayedPhotoIndex,
+			currentPhoto,
+			photos,
+			totalPhotos: photos.length,
+			hasMultiplePhotos: hasMoreThanOnePhoto,
+			close,
+		}),
+		[close, currentPhoto, displayedPhotoIndex, hasMoreThanOnePhoto, photos],
+	);
 
 	if (!isRendered) {
 		return null;
@@ -284,68 +306,74 @@ export function ReactBnbGallery({
 						>
 							<div className="gallery-top--inner">
 								<div className="gallery-top-slot gallery-top-slot--start">
-									{closeButtonPosition === 'left' && (
-										<div
-											className={clsx(
-												'gallery-modal--close',
-												classNames?.closeButtonWrapper,
+									{renderTopStart
+										? renderTopStart(topBarSlotContext)
+										: closeButtonPosition === 'left' && (
+												<div
+													className={clsx(
+														'gallery-modal--close',
+														classNames?.closeButtonWrapper,
+													)}
+													style={styles?.closeButtonWrapper}
+												>
+													<CloseButtonComponent
+														onPress={close}
+														light={light}
+														phrases={phrases}
+														className={classNames?.closeButton}
+														style={styles?.closeButton}
+													/>
+												</div>
 											)}
-											style={styles?.closeButtonWrapper}
-										>
-											<CloseButtonComponent
-												onPress={close}
-												light={light}
-												phrases={phrases}
-												className={classNames?.closeButton}
-												style={styles?.closeButton}
-											/>
-										</div>
-									)}
 								</div>
 								<div className="gallery-top-slot gallery-top-slot--center">
-									{hasMoreThanOnePhoto &&
-										(PhotoCounterComponent ? (
-											<PhotoCounterComponent
-												className={clsx(
-													'gallery-photo-counter',
-													classNames?.photoCounter,
-												)}
-												style={styles?.photoCounter}
-												current={displayedPhotoIndex + 1}
-												total={photos.length}
-												label={photoCounterLabel}
-											/>
-										) : (
-											<p
-												className={clsx(
-													'gallery-photo-counter',
-													classNames?.photoCounter,
-												)}
-												aria-live="polite"
-												style={styles?.photoCounter}
-											>
-												{photoCounterLabel}
-											</p>
-										))}
+									{renderTopCenter
+										? renderTopCenter(topBarSlotContext)
+										: hasMoreThanOnePhoto &&
+											(PhotoCounterComponent ? (
+												<PhotoCounterComponent
+													className={clsx(
+														'gallery-photo-counter',
+														classNames?.photoCounter,
+													)}
+													style={styles?.photoCounter}
+													current={displayedPhotoIndex + 1}
+													total={photos.length}
+													label={photoCounterLabel}
+												/>
+											) : (
+												<p
+													className={clsx(
+														'gallery-photo-counter',
+														classNames?.photoCounter,
+													)}
+													aria-live="polite"
+													style={styles?.photoCounter}
+												>
+													{photoCounterLabel}
+												</p>
+											))}
 								</div>
 								<div className="gallery-top-slot gallery-top-slot--end">
-									{closeButtonPosition === 'right' && (
-										<div
-											className={clsx(
-												'gallery-modal--close',
-												classNames?.closeButtonWrapper,
+									{renderTopEnd
+										? renderTopEnd(topBarSlotContext)
+										: closeButtonPosition === 'right' && (
+												<div
+													className={clsx(
+														'gallery-modal--close',
+														classNames?.closeButtonWrapper,
+													)}
+													style={styles?.closeButtonWrapper}
+												>
+													<CloseButtonComponent
+														onPress={close}
+														light={light}
+														phrases={phrases}
+														className={classNames?.closeButton}
+														style={styles?.closeButton}
+													/>
+												</div>
 											)}
-											style={styles?.closeButtonWrapper}
-										>
-											<CloseButtonComponent
-												onPress={close}
-												light={light}
-												phrases={phrases}
-												className={classNames?.closeButton}
-												style={styles?.closeButton}
-											/>
-										</div>
-									)}
 								</div>
 							</div>
 						</div>

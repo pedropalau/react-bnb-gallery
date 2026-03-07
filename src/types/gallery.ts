@@ -96,6 +96,27 @@ export type GalleryRenderCaptionActions = (
 	context: GalleryCaptionActionsContext,
 ) => ReactNode;
 
+/** Context provided to top bar slot renderers. */
+export interface GalleryTopBarSlotContext {
+	/** Current active photo index (zero-based). */
+	currentPhotoIndex: number;
+	/** Currently active photo object, when available. */
+	currentPhoto?: GalleryPhoto;
+	/** Full normalized photo list. */
+	photos: GalleryPhoto[];
+	/** Total photo count in the gallery. */
+	totalPhotos: number;
+	/** Whether there is more than one photo available. */
+	hasMultiplePhotos: boolean;
+	/** Closes the gallery modal. */
+	close: () => void;
+}
+
+/** Render prop used to inject custom content into a top-bar slot area. */
+export type GalleryRenderTopBarSlot = (
+	context: GalleryTopBarSlotContext,
+) => ReactNode;
+
 /** Class-name overrides for default gallery UI slots. */
 export interface GalleryClassNames {
 	modal?: string;
