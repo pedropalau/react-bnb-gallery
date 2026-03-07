@@ -6,6 +6,7 @@
     "@react-bnb-gallery/docs": "0.1.0"
   },
   "changesets": [
+    "brave-poets-smile",
     "eight-rules-beam",
     "mean-news-act",
     "mighty-donuts-pull",
