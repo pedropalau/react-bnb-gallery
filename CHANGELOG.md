@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.8
+
+### Patch Changes
+
+- Prepare the next prerelease cycle after publishing `3.0.0-next.7`.
+
 ## 3.0.0-next.7
 
 ### Patch Changes
