@@ -21,6 +21,32 @@ describe('ReactBnbGallery', () => {
 			expect(document.body.querySelector('.gallery')).toBeInTheDocument();
 		});
 
+		it('locks body scroll while modal is visible and restores it on close', async () => {
+			const { rerender } = render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					animations={{ closePreset: 'none' }}
+				/>,
+			);
+
+			expect(document.body.style.overflow).toBe('hidden');
+
+			rerender(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show={false}
+					animations={{ closePreset: 'none' }}
+				/>,
+			);
+
+			await act(async () => {
+				await Promise.resolve();
+			});
+
+			expect(document.body.style.overflow).toBe('');
+		});
+
 		it('invokes keyboard callbacks on arrow keys', () => {
 			const leftKeyPressed = vi.fn();
 			const rightKeyPressed = vi.fn();

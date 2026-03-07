@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
 import { defaultPhrases } from './default-phrases';
+import { useScrollLock } from './hooks/use-scroll-lock';
 import type {
 	GalleryAnimationOptions,
 	GalleryClassNames,
@@ -143,6 +144,7 @@ export function ReactBnbGallery({
 	);
 	const [isRendered, setIsRendered] = useState(show);
 	const [isClosing, setIsClosing] = useState(false);
+	useScrollLock({ autoLock: isRendered });
 	const openAnimationPreset =
 		animations?.openPreset || DEFAULT_OPEN_ANIMATION_PRESET;
 	const openAnimationDurationMs = Math.max(
