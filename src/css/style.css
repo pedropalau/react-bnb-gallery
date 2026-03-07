@@ -7,7 +7,7 @@
 @layer rbg-tokens {
 	:root {
 		/* Border-radius base token. Variants are computed inline where needed. */
-		--rbg-radius: 0.375rem;
+		--rbg-radius: 0;
 
 		/* Color tokens (dark-mode defaults). */
 		--rbg-foreground: #fff;
