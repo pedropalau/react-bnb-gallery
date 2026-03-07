@@ -19,6 +19,7 @@
 		--rbg-spinner-track: rgba(255, 255, 255, 0.2);
 		--rbg-spinner-head: var(--rbg-foreground);
 		--rbg-loading-mask: var(--rbg-overlay);
+		--rbg-control-hover-surface: rgb(255 255 255 / 8%);
 
 		/* Shadow token. */
 		--rbg-photo-shadow: 0 0.6rem 1rem rgba(0, 0, 0, 0.25);
@@ -55,6 +56,7 @@
 		--rbg-overlay: rgb(255, 255, 255);
 		--rbg-icon: var(--rbg-foreground);
 		--rbg-spinner-track: rgba(0, 0, 0, 0.1);
+		--rbg-control-hover-surface: rgb(0 0 0 / 8%);
 	}
 }
 
@@ -550,7 +552,15 @@
 		height: 2.9rem;
 		display: grid;
 		place-items: center;
+		position: relative;
 		border-radius: 999px;
+	}
+
+	.gallery-control-surface::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
 		border: 2px solid var(--rbg-foreground-subtle);
 		background-color: transparent;
 		transition:
@@ -561,14 +571,15 @@
 
 	.gallery-control-icon {
 		display: block;
-		width: 0.98rem;
-		height: 0.98rem;
-		transition: transform var(--rbg-feedback-duration) var(--rbg-motion-easing);
+		width: 1rem;
+		height: 1rem;
+		position: relative;
+		z-index: 1;
 	}
 
-	.gallery-control:hover .gallery-control-surface {
+	.gallery-control:hover .gallery-control-surface::before {
 		border-color: var(--rbg-foreground);
-		background-color: rgb(255 255 255 / 8%);
+		background-color: var(--rbg-control-hover-surface);
 	}
 
 	.gallery-control:focus,
@@ -576,7 +587,7 @@
 		outline: none;
 	}
 
-	.gallery-control:active .gallery-control-surface {
+	.gallery-control:active .gallery-control-surface::before {
 		transform: scale(var(--rbg-feedback-scale));
 	}
 
@@ -900,14 +911,16 @@
 		}
 	}
 
-	.gallery--feedback-disabled .gallery-control-surface,
+	.gallery--feedback-disabled .gallery-control-surface::before,
 	.gallery--feedback-disabled .gallery-control-icon,
 	.gallery--feedback-disabled .gallery-thumbnail-image,
 	.gallery--feedback-disabled .gallery-thumbnails--toggle {
 		transition: none;
 	}
 
-	.gallery--feedback-disabled .gallery-control:active .gallery-control-surface,
+	.gallery--feedback-disabled
+		.gallery-control:active
+		.gallery-control-surface::before,
 	.gallery--feedback-disabled
 		.gallery-thumbnail-button:active
 		.gallery-thumbnail-image,
@@ -995,7 +1008,7 @@
 		}
 
 		.gallery-control-icon,
-		.gallery-control-surface,
+		.gallery-control-surface::before,
 		.gallery-thumbnail-image,
 		.gallery-thumbnails--toggle,
 		.gallery-figcaption--thumbnails,
