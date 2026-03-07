@@ -10,14 +10,6 @@ import {
 	useRef,
 	useState,
 } from 'react';
-
-import {
-	DEFAULT_ANIMATION_DURATION_MS,
-	DEFAULT_ANIMATION_EASING,
-	DEFAULT_ANIMATION_PRESET,
-	DEFAULT_FEEDBACK_SCALE,
-	MIN_ZOOM,
-} from '../constants';
 import { defaultPhrases } from '../default-phrases';
 import type {
 	GalleryAnimationOptions,
@@ -92,6 +84,12 @@ interface GalleryState {
 }
 
 const EMPTY_PHOTOS: GalleryPhoto[] = [];
+const DEFAULT_ANIMATION_PRESET = 'slide';
+const DEFAULT_ANIMATION_DURATION_MS = 220;
+const DEFAULT_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const DEFAULT_FEEDBACK_SCALE = 0.97;
+const MIN_ZOOM = 1;
+
 function clampZoomOffset(
 	offsetX: number,
 	offsetY: number,

@@ -5,16 +5,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
-import {
-	DEFAULT_CLOSE_ANIMATION_DURATION_MS,
-	DEFAULT_CLOSE_ANIMATION_EASING,
-	DEFAULT_CLOSE_ANIMATION_PRESET,
-	DEFAULT_OPACITY,
-	DEFAULT_OPEN_ANIMATION_DURATION_MS,
-	DEFAULT_OPEN_ANIMATION_EASING,
-	DEFAULT_OPEN_ANIMATION_PRESET,
-	DEFAULT_Z_INDEX,
-} from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
 	GalleryAnimationOptions,
@@ -36,6 +26,13 @@ function normalizeActivePhotoIndex(index: number, totalPhotos: number): number {
 
 	return Math.min(Math.max(index, 0), totalPhotos - 1);
 }
+
+const DEFAULT_OPEN_ANIMATION_PRESET = 'fade-up';
+const DEFAULT_OPEN_ANIMATION_DURATION_MS = 240;
+const DEFAULT_OPEN_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const DEFAULT_CLOSE_ANIMATION_PRESET = 'fade';
+const DEFAULT_CLOSE_ANIMATION_DURATION_MS = 180;
+const DEFAULT_CLOSE_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
 export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
@@ -108,7 +105,7 @@ export function ReactBnbGallery({
 	light = false,
 	nextButtonPressed,
 	onClose,
-	opacity = DEFAULT_OPACITY,
+	opacity = 1,
 	photos: photosInput = [],
 	phrases: phrasesProp,
 	preloadSize = 5,
@@ -123,7 +120,7 @@ export function ReactBnbGallery({
 	showThumbnails = true,
 	zoomStep = 0.25,
 	wrap = false,
-	zIndex = DEFAULT_Z_INDEX,
+	zIndex = 2000,
 }: ReactBnbGalleryProps) {
 	const gallery = useRef<GalleryController | null>(null);
 	const modalRef = useRef<HTMLDivElement | null>(null);
