@@ -338,7 +338,7 @@
 
 	.gallery-photos {
 		width: 100%;
-		max-width: 105vh;
+		max-width: min(94vw, 112vh);
 		margin: 0 auto;
 	}
 
@@ -360,7 +360,7 @@
 
 	@media (min-width: 744px) {
 		.gallery-photo {
-			padding-bottom: 67%;
+			padding-bottom: 62%;
 		}
 	}
 
@@ -524,7 +524,7 @@
 		height: 100%;
 		z-index: 3;
 		font-size: 0.5em;
-		width: 20%;
+		width: 14%;
 		background: none;
 		border: 0;
 		color: var(--rbg-icon);
@@ -569,7 +569,7 @@
 
 	@media (min-width: 1128px) {
 		.gallery-control {
-			width: 10%;
+			width: 8%;
 			font-size: medium;
 		}
 	}
