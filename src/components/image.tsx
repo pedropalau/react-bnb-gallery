@@ -45,6 +45,7 @@ function Image({
 	onError,
 	...props
 }: ImageMergedProps) {
+	const { draggable = false, ...imageProps } = props;
 	const hasSource = Boolean(src);
 	const [state, setState] = useState<ImageState>(() => ({
 		currentSrc: src,
@@ -102,11 +103,12 @@ function Image({
 					ref={imageRef}
 					alt={alt}
 					className={clsx(classNames)}
+					draggable={draggable}
 					onLoad={handleLoad}
 					onError={handleError}
 					src={src}
 					style={style || undefined}
-					{...props}
+					{...imageProps}
 				/>
 			)}
 		</div>

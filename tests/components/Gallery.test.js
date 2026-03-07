@@ -239,6 +239,17 @@ describe('Gallery', () => {
 			);
 		});
 
+		it('renders gallery images as non-draggable by default', () => {
+			const { container } = render(
+				<Gallery photos={photos.slice(0, 1)} showThumbnails={false} />,
+			);
+
+			expect(container.querySelector('img.photo')).toHaveAttribute(
+				'draggable',
+				'false',
+			);
+		});
+
 		it('does not coerce ReactNode captions into alt attributes', () => {
 			const photoList = [
 				{
