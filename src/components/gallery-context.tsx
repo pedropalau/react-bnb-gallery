@@ -7,9 +7,14 @@ import type {
 	GalleryStyles,
 } from '../types/gallery';
 
+type GalleryContextComponents = Pick<
+	GalleryComponents,
+	'Thumbnail' | 'TogglePhotoList'
+>;
+
 interface GalleryContextValue {
 	phrases: GalleryPhrases;
-	components?: GalleryComponents;
+	components?: GalleryContextComponents;
 	classNames?: GalleryClassNames;
 	styles?: GalleryStyles;
 }

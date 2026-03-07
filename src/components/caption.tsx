@@ -44,28 +44,20 @@ function Caption({
 		components?.TogglePhotoList ||
 		context?.components?.TogglePhotoList ||
 		TogglePhotoList;
-	const resolvedClassName = className || context?.classNames?.caption;
-	const resolvedStyle = style || context?.styles?.caption;
-	const resolvedThumbnailsListClassName =
-		thumbnailsListClassName || context?.classNames?.thumbnailsList;
-	const resolvedThumbnailsListStyle =
+	const mergedClassName = clsx(context?.classNames?.caption, className);
+	const mergedStyle = style || context?.styles?.caption;
+	const mergedThumbnailsListClassName = clsx(
+		context?.classNames?.thumbnailsList,
+		thumbnailsListClassName,
+	);
+	const mergedThumbnailsListStyle =
 		thumbnailsListStyle || context?.styles?.thumbnailsList;
-	const resolvedThumbnailItemClassName =
-		thumbnailItemClassName || context?.classNames?.thumbnailItem;
-	const resolvedThumbnailItemStyle =
+	const mergedThumbnailItemClassName = clsx(
+		context?.classNames?.thumbnailItem,
+		thumbnailItemClassName,
+	);
+	const mergedThumbnailItemStyle =
 		thumbnailItemStyle || context?.styles?.thumbnailItem;
-	const resolvedThumbnailClassName =
-		thumbnailClassName || context?.classNames?.thumbnailButton;
-	const resolvedThumbnailStyle =
-		thumbnailStyle || context?.styles?.thumbnailButton;
-	const resolvedThumbnailImageClassName =
-		thumbnailImageClassName || context?.classNames?.thumbnailImage;
-	const resolvedThumbnailImageStyle =
-		thumbnailImageStyle || context?.styles?.thumbnailImage;
-	const resolvedTogglePhotoListClassName =
-		togglePhotoListClassName || context?.classNames?.togglePhotoList;
-	const resolvedTogglePhotoListStyle =
-		togglePhotoListStyle || context?.styles?.togglePhotoList;
 	// `showThumbnails` prop is treated as the initial uncontrolled state.
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
 	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -122,9 +114,9 @@ function Caption({
 				// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
 				!showThumbnails && 'hide',
 				!showThumbnails && 'is-thumbnails-collapsed',
-				resolvedClassName,
+				mergedClassName,
 			)}
-			style={resolvedStyle}
+			style={mergedStyle}
 			{...props}
 		>
 			<div className="gallery-figcaption--content">
@@ -146,8 +138,8 @@ function Caption({
 											phrases={phrases}
 											isOpened={showThumbnails}
 											onPress={toggleThumbnails}
-											className={resolvedTogglePhotoListClassName}
-											style={resolvedTogglePhotoListStyle}
+											className={togglePhotoListClassName}
+											style={togglePhotoListStyle}
 										/>
 									)}
 									{customActions != null && (
@@ -175,9 +167,9 @@ function Caption({
 								<ul
 									className={clsx(
 										'thumbnails-list gallery-thumbnails-list',
-										resolvedThumbnailsListClassName,
+										mergedThumbnailsListClassName,
 									)}
-									style={resolvedThumbnailsListStyle}
+									style={mergedThumbnailsListStyle}
 									ref={thumbnailsListRef}
 								>
 									{photos.map((photo, index) => (
@@ -186,19 +178,19 @@ function Caption({
 											key={photo.photo || `${index}`}
 											className={clsx(
 												'gallery-thumbnail-item',
-												resolvedThumbnailItemClassName,
+												mergedThumbnailItemClassName,
 											)}
-											style={resolvedThumbnailItemStyle}
+											style={mergedThumbnailItemStyle}
 										>
 											<ThumbnailComponent
 												active={index === current}
 												photo={photo}
 												onPress={onThumbnailPress}
 												number={index}
-												className={resolvedThumbnailClassName}
-												style={resolvedThumbnailStyle}
-												imageClassName={resolvedThumbnailImageClassName}
-												imageStyle={resolvedThumbnailImageStyle}
+												className={thumbnailClassName}
+												style={thumbnailStyle}
+												imageClassName={thumbnailImageClassName}
+												imageStyle={thumbnailImageStyle}
 											/>
 										</li>
 									))}

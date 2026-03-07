@@ -187,6 +187,8 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const NextButtonComponent = components?.NextButton ?? NextButton;
 	const PhotoComponent = components?.Photo ?? Photo;
 	const CaptionComponent = components?.Caption ?? Caption;
+	// Default slot components consume shared config from context.
+	// Custom slot components receive explicit props for backward compatibility.
 	const isDefaultPrevButtonComponent = PrevButtonComponent === PrevButton;
 	const isDefaultNextButtonComponent = NextButtonComponent === NextButton;
 	const isDefaultCaptionComponent = CaptionComponent === Caption;
@@ -855,7 +857,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const galleryContextValue = useMemo(
 		() => ({
 			phrases,
-			components,
+			components: {
+				Thumbnail: components?.Thumbnail,
+				TogglePhotoList: components?.TogglePhotoList,
+			},
 			classNames,
 			styles,
 		}),
