@@ -16,8 +16,6 @@ import {
 	DEFAULT_ANIMATION_EASING,
 	DEFAULT_ANIMATION_PRESET,
 	DEFAULT_FEEDBACK_SCALE,
-	DIRECTION_NEXT,
-	DIRECTION_PREV,
 	MIN_ZOOM,
 } from '../constants';
 import { defaultPhrases } from '../default-phrases';
@@ -76,11 +74,13 @@ interface PinchInfo {
 	startMidpointY: number;
 }
 
+type GalleryDirection = 'prev' | 'next';
+
 interface GalleryState {
 	activePhotoIndex: number;
 	hidePrevButton: boolean;
 	hideNextButton: boolean;
-	lastDirection: typeof DIRECTION_NEXT | typeof DIRECTION_PREV;
+	lastDirection: GalleryDirection;
 	controlsDisabled: boolean;
 	zoomScale: number;
 	zoomOffsetX: number;
@@ -238,7 +238,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			activePhotoIndex: normalizedActivePhotoIndex,
 			hidePrevButton,
 			hideNextButton,
-			lastDirection: DIRECTION_NEXT,
+			lastDirection: 'next',
 			controlsDisabled: true,
 			zoomScale: MIN_ZOOM,
 			zoomOffsetX: 0,
@@ -272,8 +272,8 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 
 			const nextDirection =
 				normalizedActivePhotoIndex > prevState.activePhotoIndex
-					? DIRECTION_NEXT
-					: DIRECTION_PREV;
+					? 'next'
+					: 'prev';
 
 			return {
 				...prevState,
@@ -323,16 +323,13 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, [state.zoomScale]);
 
 	const getItemByDirection = useCallback(
-		(
-			direction: typeof DIRECTION_NEXT | typeof DIRECTION_PREV,
-			activeIndex: number,
-		) => {
+		(direction: GalleryDirection, activeIndex: number) => {
 			if (photos.length === 0) {
 				return 0;
 			}
 
-			const isNextDirection = direction === DIRECTION_NEXT;
-			const isPrevDirection = direction === DIRECTION_PREV;
+			const isNextDirection = direction === 'next';
+			const isPrevDirection = direction === 'prev';
 			const lastItemIndex = photos.length - 1;
 			const isGoingToWrap =
 				(isPrevDirection && activeIndex === 0) ||
@@ -350,10 +347,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	);
 
 	const move = useCallback(
-		(
-			direction: typeof DIRECTION_NEXT | typeof DIRECTION_PREV,
-			index: number | false = false,
-		) => {
+		(direction: GalleryDirection, index: number | false = false) => {
 			setState((prevState) => {
 				const nextElementIndex =
 					index !== false
@@ -388,11 +382,11 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	);
 
 	const prev = useCallback(() => {
-		move(DIRECTION_PREV);
+		move('prev');
 	}, [move]);
 
 	const next = useCallback(() => {
-		move(DIRECTION_NEXT);
+		move('next');
 	}, [move]);
 
 	useImperativeHandle(
@@ -426,7 +420,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		if (enableZoom && zoomScaleRef.current > MIN_ZOOM) {
 			return;
 		}
-		move(DIRECTION_NEXT);
+		move('next');
 		activePhotoPressed?.();
 	}, [activePhotoPressed, enableZoom, move]);
 
@@ -829,8 +823,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				return;
 			}
 
-			const direction =
-				index > state.activePhotoIndex ? DIRECTION_NEXT : DIRECTION_PREV;
+			const direction = index > state.activePhotoIndex ? 'next' : 'prev';
 			move(direction, index);
 		},
 		[move, photos.length, state.activePhotoIndex],
@@ -994,7 +987,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 									key={`${state.activePhotoIndex}-${state.lastDirection}`}
 									className={clsx(
 										'gallery-photo--current',
-										state.lastDirection === DIRECTION_PREV
+										state.lastDirection === 'prev'
 											? 'gallery-photo--direction-prev'
 											: 'gallery-photo--direction-next',
 									)}

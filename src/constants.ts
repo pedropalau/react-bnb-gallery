@@ -1,6 +1,3 @@
-export const DIRECTION_PREV = 'prev';
-export const DIRECTION_NEXT = 'next';
-
 export const ARROW_LEFT_KEYCODE = 37;
 export const ARROW_RIGHT_KEYCODE = 39;
 export const ESC_KEYCODE = 27;
