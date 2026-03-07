@@ -19,7 +19,7 @@
 		--rbg-spinner-track: rgba(255, 255, 255, 0.2);
 		--rbg-spinner-head: var(--rbg-foreground);
 		--rbg-loading-mask: var(--rbg-overlay);
-		--rbg-control-hover-surface: rgb(255 255 255 / 8%);
+		--rbg-control-hover-surface: rgb(255 255 255 / 20%);
 
 		/* Shadow token. */
 		--rbg-photo-shadow: 0 0.6rem 1rem rgba(0, 0, 0, 0.25);
@@ -289,13 +289,21 @@
 		background: none transparent;
 		border: 0;
 		display: inline-flex;
+		align-items: center;
 		padding: 0.5rem;
 		color: var(--rbg-icon);
+		border-radius: 999px;
 	}
 
 	.gallery-modal--close button.gallery-close .gallery-close-icon {
 		display: block;
+		width: 1.5em;
+		height: 1.5em;
 		fill: currentColor;
+	}
+
+	.gallery-modal--close button.gallery-close:hover {
+		background-color: var(--rbg-control-hover-surface);
 	}
 
 	.gallery-modal--close button.gallery-close:active,
