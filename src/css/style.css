@@ -8,6 +8,7 @@
 	:root {
 		/* Border-radius base token. Variants are computed inline where needed. */
 		--rbg-radius: 0;
+		--rbg-gallery-max-width: min(94vw, 112vh);
 
 		/* Color tokens (dark-mode defaults). */
 		--rbg-foreground: #fff;
@@ -338,7 +339,7 @@
 
 	.gallery-photos {
 		width: 100%;
-		max-width: min(94vw, 112vh);
+		max-width: var(--rbg-gallery-max-width);
 		margin: 0 auto;
 	}
 
@@ -722,7 +723,7 @@
 	}
 
 	.gallery-figcaption--content {
-		max-width: 105vh;
+		max-width: var(--rbg-gallery-max-width);
 		margin-inline: auto;
 		overflow: hidden;
 	}
