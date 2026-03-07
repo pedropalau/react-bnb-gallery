@@ -4,7 +4,7 @@ Last updated: 2026-03-06
 Plan ID: v3
 Target stable release: 3.0.0
 Current stable release: 2.2.1
-Current prerelease: 3.0.0-next.3 (`npm dist-tag: next`)
+Current prerelease: 3.0.0-next.5 (`npm dist-tag: next`)
 
 ## Goal
 
@@ -83,7 +83,10 @@ Ship `3.0.0` as a deliberate major release with:
    - Controlled index API is present (`activePhotoIndex`, `onActivePhotoIndexChange`).
    - Zoom/pan shipped in `3.0.0-next.2` (`enableZoom`, `maxZoom`, `zoomStep` + gesture behavior).
    - Custom rendering paths are present (`components` slot overrides and `renderCaptionActions`, shipped in `3.0.0-next.3`).
-4. Hard release gates currently pass locally on 2026-03-06:
+4. Release-hardening coverage is in place:
+   - Package-surface regression tests for named-export-only entry points were added (`tests/package-surface.test.js`).
+   - Controlled-index callback coverage now asserts `onActivePhotoIndexChange` on touch/wrap and thumbnail transitions (`tests/components/Gallery.test.js`).
+5. Hard release gates currently pass locally on 2026-03-06:
    - `pnpm lint`
    - `pnpm test`
    - `pnpm build`
@@ -92,9 +95,7 @@ Ship `3.0.0` as a deliberate major release with:
 ### Findings: Pending Before 3.0.0 GA
 
 1. Continue prerelease iteration and feedback triage for `3.0.0-next.*` until no critical regressions remain.
-2. Add explicit package-surface regression tests for named-export-only entry points (to prevent accidental default-export reintroduction).
-3. Expand controlled-index parity tests to explicitly assert `onActivePhotoIndexChange` behavior across keyboard/touch/wrap transitions.
-4. Decide whether any P1 items are required pre-GA or should be deferred to `3.0.x` after stable release.
+2. Decide whether any P1 items are required pre-GA or should be deferred to `3.0.x` after stable release.
 
 ## Feature Delivery Model (v3)
 
@@ -132,7 +133,7 @@ Ship `3.0.0` as a deliberate major release with:
 
 1. Branch: `feat/v3-release-hardening`
 2. Goal: close remaining release-risk gaps (export-surface regression tests, controlled-index parity test coverage, prerelease feedback triage) before GA.
-3. Release target: `3.0.0-next.4`
+3. Release target: `3.0.0-next.6`
 
 ## Hard Release Gates (Required Before GA)
 

@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { Gallery } from '../../src/components/gallery';
@@ -613,6 +613,78 @@ describe('Gallery', () => {
 			fireEvent.touchEnd(photoButton);
 
 			expect(nextButtonPressed).toHaveBeenCalledTimes(0);
+		});
+
+		it('reports index changes for swipe navigation, including wrap transitions', async () => {
+			const onActivePhotoIndexChange = vi.fn();
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 3)}
+					showThumbnails={false}
+					wrap
+					onActivePhotoIndexChange={onActivePhotoIndexChange}
+				/>,
+			);
+
+			const photoButton = container.querySelector('.photo-button');
+			expect(photoButton).toBeInTheDocument();
+
+			onActivePhotoIndexChange.mockClear();
+
+			const swipeLeft = () => {
+				fireEvent.touchStart(photoButton, {
+					targetTouches: [{ screenX: 220 }],
+				});
+				fireEvent.touchMove(photoButton, {
+					targetTouches: [{ screenX: 120 }],
+				});
+				fireEvent.touchEnd(photoButton);
+			};
+			const swipeRight = () => {
+				fireEvent.touchStart(photoButton, {
+					targetTouches: [{ screenX: 120 }],
+				});
+				fireEvent.touchMove(photoButton, {
+					targetTouches: [{ screenX: 220 }],
+				});
+				fireEvent.touchEnd(photoButton);
+			};
+
+			swipeLeft();
+			swipeLeft();
+			swipeLeft();
+			swipeRight();
+
+			await waitFor(() => {
+				expect(onActivePhotoIndexChange).toHaveBeenCalledTimes(4);
+			});
+			expect(onActivePhotoIndexChange).toHaveBeenNthCalledWith(1, 1);
+			expect(onActivePhotoIndexChange).toHaveBeenNthCalledWith(2, 2);
+			expect(onActivePhotoIndexChange).toHaveBeenNthCalledWith(3, 0);
+			expect(onActivePhotoIndexChange).toHaveBeenNthCalledWith(4, 2);
+		});
+
+		it('reports index changes when selecting a thumbnail', async () => {
+			const onActivePhotoIndexChange = vi.fn();
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 3)}
+					showThumbnails
+					onActivePhotoIndexChange={onActivePhotoIndexChange}
+				/>,
+			);
+
+			const thumbnails = container.querySelectorAll(
+				'.gallery-thumbnail-button',
+			);
+			expect(thumbnails).toHaveLength(3);
+
+			onActivePhotoIndexChange.mockClear();
+			fireEvent.click(thumbnails[2]);
+
+			await waitFor(() => {
+				expect(onActivePhotoIndexChange).toHaveBeenCalledWith(2);
+			});
 		});
 	});
 });
