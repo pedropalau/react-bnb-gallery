@@ -8,6 +8,8 @@ export { ReactBnbGallery, Gallery };
 export type { ReactBnbGalleryProps } from './react-bnb-gallery';
 
 export type {
+	GalleryAnimationOptions,
+	GalleryAnimationPreset,
 	GalleryCaptionActionsContext,
 	GalleryCaptionComponentProps,
 	GalleryClassNames,
@@ -15,6 +17,7 @@ export type {
 	GalleryComponents,
 	GalleryControlButtonProps,
 	GalleryController,
+	GalleryImageFit,
 	GalleryModalContainerProps,
 	GalleryOverlayProps,
 	GalleryPhoto,

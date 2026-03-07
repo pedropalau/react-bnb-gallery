@@ -14,9 +14,11 @@ import {
 } from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
+	GalleryAnimationOptions,
 	GalleryClassNames,
 	GalleryComponents,
 	GalleryController,
+	GalleryImageFit,
 	GalleryPhoto,
 	GalleryPhrases,
 	GalleryRenderCaptionActions,
@@ -35,7 +37,9 @@ function normalizeActivePhotoIndex(index: number, totalPhotos: number): number {
 export interface ReactBnbGalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
+	animations?: GalleryAnimationOptions;
 	enableZoom?: boolean;
+	imageFit?: GalleryImageFit;
 	keyboard?: boolean;
 	leftKeyPressed?: () => void;
 	light?: boolean;
@@ -65,7 +69,9 @@ export interface ReactBnbGalleryProps {
  *
  * @param activePhotoIndex - Index of the currently displayed photo (default: `0`)
  * @param activePhotoPressed - Callback fired when the active photo is pressed
+ * @param animations - Optional motion customization for image transitions and feedback interactions
  * @param enableZoom - Enables wheel/pinch zoom and pan interactions in the active photo viewport (default: `true`)
+ * @param imageFit - Active photo adaptation mode (`contain` or `cover`, default: `contain`)
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
  * @param light - Enables light mode styling (default: `false`)
@@ -91,7 +97,9 @@ export interface ReactBnbGalleryProps {
 export function ReactBnbGallery({
 	activePhotoIndex = 0,
 	activePhotoPressed,
+	animations,
 	enableZoom = true,
+	imageFit = 'contain',
 	keyboard = true,
 	leftKeyPressed,
 	light = false,
@@ -238,7 +246,9 @@ export function ReactBnbGallery({
 							wrap={wrap}
 							activePhotoIndex={activePhotoIndex}
 							activePhotoPressed={activePhotoPressed}
+							animations={animations}
 							enableZoom={enableZoom}
+							imageFit={imageFit}
 							nextButtonPressed={nextButtonPressed}
 							prevButtonPressed={prevButtonPressed}
 							renderCaptionActions={renderCaptionActions}

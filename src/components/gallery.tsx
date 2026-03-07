@@ -14,9 +14,12 @@ import {
 import { DIRECTION_NEXT, DIRECTION_PREV } from '../constants';
 import { defaultPhrases } from '../default-phrases';
 import type {
+	GalleryAnimationOptions,
+	GalleryAnimationPreset,
 	GalleryClassNames,
 	GalleryComponents,
 	GalleryController,
+	GalleryImageFit,
 	GalleryPhoto,
 	GalleryPhrases,
 	GalleryRenderCaptionActions,
@@ -34,7 +37,9 @@ import { PrevButton } from './prev-button';
 interface GalleryProps {
 	activePhotoIndex?: number;
 	activePhotoPressed?: () => void;
+	animations?: GalleryAnimationOptions;
 	enableZoom?: boolean;
+	imageFit?: GalleryImageFit;
 	maxZoom?: number;
 	nextButtonPressed?: () => void;
 	onActivePhotoIndexChange?: (index: number) => void;
@@ -68,6 +73,7 @@ interface GalleryState {
 	activePhotoIndex: number;
 	hidePrevButton: boolean;
 	hideNextButton: boolean;
+	lastDirection: typeof DIRECTION_NEXT | typeof DIRECTION_PREV;
 	controlsDisabled: boolean;
 	zoomScale: number;
 	zoomOffsetX: number;
@@ -80,6 +86,10 @@ interface GalleryState {
 
 const EMPTY_PHOTOS: GalleryPhoto[] = [];
 const MIN_ZOOM = 1;
+const DEFAULT_ANIMATION_PRESET: GalleryAnimationPreset = 'slide';
+const DEFAULT_ANIMATION_DURATION_MS = 220;
+const DEFAULT_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const DEFAULT_FEEDBACK_SCALE = 0.97;
 
 function clampZoomOffset(
 	offsetX: number,
@@ -165,7 +175,9 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	{
 		activePhotoIndex = 0,
 		activePhotoPressed,
+		animations,
 		enableZoom = true,
+		imageFit = 'contain',
 		maxZoom = 3,
 		nextButtonPressed,
 		onActivePhotoIndexChange,
@@ -192,6 +204,17 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const isDefaultPrevButtonComponent = PrevButtonComponent === PrevButton;
 	const isDefaultNextButtonComponent = NextButtonComponent === NextButton;
 	const isDefaultCaptionComponent = CaptionComponent === Caption;
+	const animationPreset = animations?.preset || DEFAULT_ANIMATION_PRESET;
+	const animationDurationMs = Math.max(
+		0,
+		animations?.durationMs ?? DEFAULT_ANIMATION_DURATION_MS,
+	);
+	const animationEasing = animations?.easing || DEFAULT_ANIMATION_EASING;
+	const enableFeedback = animations?.enableFeedback ?? true;
+	const feedbackScale = Math.min(
+		1,
+		Math.max(0.9, animations?.feedbackScale ?? DEFAULT_FEEDBACK_SCALE),
+	);
 
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
@@ -214,6 +237,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			activePhotoIndex: normalizedActivePhotoIndex,
 			hidePrevButton,
 			hideNextButton,
+			lastDirection: DIRECTION_NEXT,
 			controlsDisabled: true,
 			zoomScale: MIN_ZOOM,
 			zoomOffsetX: 0,
@@ -245,11 +269,17 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				return prevState;
 			}
 
+			const nextDirection =
+				normalizedActivePhotoIndex > prevState.activePhotoIndex
+					? DIRECTION_NEXT
+					: DIRECTION_PREV;
+
 			return {
 				...prevState,
 				activePhotoIndex: normalizedActivePhotoIndex,
 				hidePrevButton,
 				hideNextButton,
+				lastDirection: nextDirection,
 			};
 		});
 	}, [activePhotoIndex, photos, wrap]);
@@ -292,7 +322,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, [state.zoomScale]);
 
 	const getItemByDirection = useCallback(
-		(direction: string, activeIndex: number) => {
+		(
+			direction: typeof DIRECTION_NEXT | typeof DIRECTION_PREV,
+			activeIndex: number,
+		) => {
 			if (photos.length === 0) {
 				return 0;
 			}
@@ -316,7 +349,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	);
 
 	const move = useCallback(
-		(direction: string, index: number | false = false) => {
+		(
+			direction: typeof DIRECTION_NEXT | typeof DIRECTION_PREV,
+			index: number | false = false,
+		) => {
 			setState((prevState) => {
 				const nextElementIndex =
 					index !== false
@@ -329,11 +365,21 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					wrap,
 				);
 
+				if (
+					prevState.activePhotoIndex === nextElementIndex &&
+					prevState.hidePrevButton === hidePrevButton &&
+					prevState.hideNextButton === hideNextButton &&
+					prevState.lastDirection === direction
+				) {
+					return prevState;
+				}
+
 				return {
 					...prevState,
 					activePhotoIndex: nextElementIndex,
 					hidePrevButton,
 					hideNextButton,
+					lastDirection: direction,
 				};
 			});
 		},
@@ -875,9 +921,31 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				'--rbg-pan-y': `${state.zoomOffsetY}px`,
 				'--rbg-zoom-transition': state.isPanning
 					? 'none'
-					: 'transform 180ms ease-out',
+					: `transform ${Math.max(animationDurationMs, 120)}ms ${animationEasing}`,
 			}) as CSSProperties,
-		[state.isPanning, state.zoomOffsetX, state.zoomOffsetY, state.zoomScale],
+		[
+			animationDurationMs,
+			animationEasing,
+			state.isPanning,
+			state.zoomOffsetX,
+			state.zoomOffsetY,
+			state.zoomScale,
+		],
+	);
+
+	const galleryMotionStyle = useMemo(
+		() =>
+			({
+				...(styles?.gallery || {}),
+				'--rbg-motion-duration': `${animationDurationMs}ms`,
+				'--rbg-motion-easing': animationEasing,
+				'--rbg-feedback-duration': `${Math.max(
+					100,
+					Math.round(animationDurationMs * 0.6),
+				)}ms`,
+				'--rbg-feedback-scale': String(feedbackScale),
+			}) as CSSProperties,
+		[animationDurationMs, animationEasing, feedbackScale, styles?.gallery],
 	);
 
 	const galleryModalPreloadPhotos = useMemo(() => {
@@ -904,8 +972,14 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	return (
 		<GalleryContextProvider value={galleryContextValue}>
 			<div
-				className={clsx('gallery', classNames?.gallery)}
-				style={styles?.gallery}
+				className={clsx(
+					'gallery',
+					`gallery--animation-${animationPreset}`,
+					!enableFeedback && 'gallery--feedback-disabled',
+					imageFit === 'cover' && 'gallery--image-fit-cover',
+					classNames?.gallery,
+				)}
+				style={galleryMotionStyle}
 			>
 				<div className="gallery-modal--preload">
 					{galleryModalPreloadPhotos}
@@ -915,7 +989,15 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					<div className="gallery-photos">
 						{hasPhotos ? (
 							<div className="gallery-photo">
-								<div className="gallery-photo--current">
+								<div
+									key={`${state.activePhotoIndex}-${state.lastDirection}`}
+									className={clsx(
+										'gallery-photo--current',
+										state.lastDirection === DIRECTION_PREV
+											? 'gallery-photo--direction-prev'
+											: 'gallery-photo--direction-next',
+									)}
+								>
 									<PhotoComponent
 										photo={current}
 										onLoad={onPhotoLoad}
@@ -935,6 +1017,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 										enableZoom={enableZoom}
 										isZoomMode={isZoomMode}
 										isPanning={state.isPanning}
+										imageFit={imageFit}
 										style={zoomedPhotoStyle}
 										buttonClassName={classNames?.photoButton}
 										buttonStyle={styles?.photoButton}

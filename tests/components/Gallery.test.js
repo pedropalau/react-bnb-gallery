@@ -467,6 +467,48 @@ describe('Gallery', () => {
 			).toHaveClass('custom-toggle-photo-list');
 		});
 
+		it('applies motion customization classes and CSS variables', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					animations={{
+						preset: 'fade',
+						durationMs: 320,
+						easing: 'linear',
+						enableFeedback: false,
+						feedbackScale: 0.94,
+					}}
+				/>,
+			);
+
+			const galleryRoot = container.querySelector('.gallery');
+			expect(galleryRoot).toHaveClass('gallery--animation-fade');
+			expect(galleryRoot).toHaveClass('gallery--feedback-disabled');
+			expect(galleryRoot).toHaveStyle({
+				'--rbg-motion-duration': '320ms',
+				'--rbg-motion-easing': 'linear',
+				'--rbg-feedback-scale': '0.94',
+			});
+		});
+
+		it('applies cover fit adaptation to the active photo', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					imageFit="cover"
+				/>,
+			);
+
+			expect(container.querySelector('.gallery')).toHaveClass(
+				'gallery--image-fit-cover',
+			);
+			expect(container.querySelector('.gallery-photo-image')).toHaveClass(
+				'gallery-photo-image--cover',
+			);
+		});
+
 		it('enters zoom mode with mouse wheel and disables click navigation', () => {
 			const activePhotoPressed = vi.fn();
 			const { container } = render(
@@ -632,22 +674,24 @@ describe('Gallery', () => {
 			onActivePhotoIndexChange.mockClear();
 
 			const swipeLeft = () => {
-				fireEvent.touchStart(photoButton, {
+				const currentPhotoButton = container.querySelector('.photo-button');
+				fireEvent.touchStart(currentPhotoButton, {
 					targetTouches: [{ screenX: 220 }],
 				});
-				fireEvent.touchMove(photoButton, {
+				fireEvent.touchMove(currentPhotoButton, {
 					targetTouches: [{ screenX: 120 }],
 				});
-				fireEvent.touchEnd(photoButton);
+				fireEvent.touchEnd(currentPhotoButton);
 			};
 			const swipeRight = () => {
-				fireEvent.touchStart(photoButton, {
+				const currentPhotoButton = container.querySelector('.photo-button');
+				fireEvent.touchStart(currentPhotoButton, {
 					targetTouches: [{ screenX: 120 }],
 				});
-				fireEvent.touchMove(photoButton, {
+				fireEvent.touchMove(currentPhotoButton, {
 					targetTouches: [{ screenX: 220 }],
 				});
-				fireEvent.touchEnd(photoButton);
+				fireEvent.touchEnd(currentPhotoButton);
 			};
 
 			swipeLeft();

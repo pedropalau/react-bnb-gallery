@@ -31,6 +31,26 @@ export interface GalleryPhoto {
 	[key: string]: unknown;
 }
 
+/** Motion presets for image transition behavior. */
+export type GalleryAnimationPreset = 'none' | 'fade' | 'slide' | 'zoom';
+
+/** Image fitting strategy for the active gallery photo. */
+export type GalleryImageFit = 'contain' | 'cover';
+
+/** Optional animation controls for transition and feedback motion. */
+export interface GalleryAnimationOptions {
+	/** Motion preset used when switching photos. */
+	preset?: GalleryAnimationPreset;
+	/** Duration of gallery motion transitions in milliseconds. */
+	durationMs?: number;
+	/** CSS timing function used for transitions and keyframe animations. */
+	easing?: string;
+	/** Enables/disables press feedback animations for controls and thumbnails. */
+	enableFeedback?: boolean;
+	/** Scale factor applied for press feedback (`0.9` to `1`, default `0.97`). */
+	feedbackScale?: number;
+}
+
 /** Context provided to custom caption action renderers. */
 export interface GalleryCaptionActionsContext {
 	/** Current active photo index. */
@@ -149,6 +169,7 @@ export interface GalleryPhotoComponentProps
 	enableZoom?: boolean;
 	isZoomMode?: boolean;
 	isPanning?: boolean;
+	imageFit?: GalleryImageFit;
 }
 
 /** Props for overriding the thumbnail strip visibility toggle component. */

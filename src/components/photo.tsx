@@ -23,6 +23,7 @@ function Photo({
 	enableZoom = true,
 	isZoomMode = false,
 	isPanning = false,
+	imageFit = 'contain',
 	...buttonProps
 }: GalleryPhotoComponentProps) {
 	const onPressHandler = useCallback(() => {
@@ -64,7 +65,11 @@ function Photo({
 				>
 					<Image
 						alt={photo.alt || captionText}
-						className={clsx('photo gallery-photo-image', imageClassName)}
+						className={clsx(
+							'photo gallery-photo-image',
+							imageFit === 'cover' && 'gallery-photo-image--cover',
+							imageClassName,
+						)}
 						src={photo.photo}
 						onLoad={onLoad}
 						onError={onError}

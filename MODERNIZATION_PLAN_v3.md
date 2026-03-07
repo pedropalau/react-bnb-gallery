@@ -132,7 +132,7 @@ Ship `3.0.0` as a deliberate major release with:
 ## Current Feature Sprint
 
 1. Branch: `feat/v3-release-hardening`
-2. Goal: close remaining release-risk gaps (export-surface regression tests, controlled-index parity test coverage, prerelease feedback triage) before GA.
+2. Goal: close release-risk gaps and ship customizable motion/image-adaptation support (`animations`, `imageFit`) before GA.
 3. Release target: `3.0.0-next.6`
 
 ## Hard Release Gates (Required Before GA)

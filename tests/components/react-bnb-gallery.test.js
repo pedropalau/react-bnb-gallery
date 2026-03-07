@@ -114,6 +114,24 @@ describe('ReactBnbGallery', () => {
 			expect(modal).toHaveClass('mode-light');
 		});
 
+		it('forwards animation and image-fit options to the gallery', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					animations={{ preset: 'zoom', durationMs: 260 }}
+					imageFit="cover"
+				/>,
+			);
+
+			expect(document.body.querySelector('.gallery')).toHaveClass(
+				'gallery--animation-zoom',
+			);
+			expect(document.body.querySelector('.gallery-photo-image')).toHaveClass(
+				'gallery-photo-image--cover',
+			);
+		});
+
 		it('sets overlay opacity via inline style', () => {
 			render(<ReactBnbGallery photos={photos.slice(0, 2)} show light />);
 
