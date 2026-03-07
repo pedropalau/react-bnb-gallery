@@ -316,7 +316,7 @@
 	}
 
 	.gallery-top--inner {
-		padding: 1.25rem 0.9375rem 0.75rem;
+		padding: 1.25rem 0.9375rem;
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 		align-items: center;
@@ -471,14 +471,14 @@
 		max-height: 100%;
 		max-width: 100%;
 		position: absolute;
-		top: 50%;
+		top: 0;
 		left: 0;
 		right: 0;
-		bottom: 0;
+		bottom: auto;
 		margin: 0 auto;
 		z-index: 0;
 		border-radius: var(--rbg-radius);
-		transform: translateY(-50%) translate(var(--rbg-pan-x), var(--rbg-pan-y))
+		transform: translate(var(--rbg-pan-x), var(--rbg-pan-y))
 			scale(var(--rbg-zoom-scale));
 		transform-origin: center center;
 		box-shadow: var(--rbg-photo-shadow);
