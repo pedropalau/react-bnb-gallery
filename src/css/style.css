@@ -83,6 +83,16 @@
 		}
 	}
 
+	@keyframes GalleryPhotoFadeOut {
+		from {
+			opacity: 1;
+		}
+
+		to {
+			opacity: 0.01;
+		}
+	}
+
 	@keyframes GalleryPhotoSlideInNext {
 		from {
 			opacity: 0.01;
@@ -92,6 +102,18 @@
 		to {
 			opacity: 1;
 			transform: translateX(0);
+		}
+	}
+
+	@keyframes GalleryPhotoSlideOutNext {
+		from {
+			opacity: 1;
+			transform: translateX(0);
+		}
+
+		to {
+			opacity: 0.01;
+			transform: translateX(-18px);
 		}
 	}
 
@@ -107,6 +129,18 @@
 		}
 	}
 
+	@keyframes GalleryPhotoSlideOutPrev {
+		from {
+			opacity: 1;
+			transform: translateX(0);
+		}
+
+		to {
+			opacity: 0.01;
+			transform: translateX(18px);
+		}
+	}
+
 	@keyframes GalleryPhotoZoomIn {
 		from {
 			opacity: 0.01;
@@ -116,6 +150,18 @@
 		to {
 			opacity: 1;
 			transform: scale(1);
+		}
+	}
+
+	@keyframes GalleryPhotoZoomOut {
+		from {
+			opacity: 1;
+			transform: scale(1);
+		}
+
+		to {
+			opacity: 0.01;
+			transform: scale(1.025);
 		}
 	}
 
@@ -426,12 +472,22 @@
 		}
 	}
 
-	.gallery-photo--current {
+	.gallery-photo--current,
+	.gallery-photo--outgoing {
 		position: absolute;
 		inset: 0;
 		animation-duration: var(--rbg-motion-duration);
 		animation-timing-function: var(--rbg-motion-easing);
 		animation-fill-mode: both;
+	}
+
+	.gallery-photo--current {
+		z-index: 2;
+	}
+
+	.gallery-photo--outgoing {
+		pointer-events: none;
+		z-index: 1;
 	}
 
 	/* ─── Photo list ─────────────────────────────────────────────────────────────── */
@@ -1061,12 +1117,17 @@
 			var(--rbg-close-easing) both;
 	}
 
-	.gallery--animation-none .gallery-photo--current {
+	.gallery--animation-none .gallery-photo--current,
+	.gallery--animation-none .gallery-photo--outgoing {
 		animation: none;
 	}
 
 	.gallery--animation-fade .gallery-photo--current {
 		animation-name: GalleryPhotoFadeIn;
+	}
+
+	.gallery--animation-fade .gallery-photo--outgoing {
+		animation-name: GalleryPhotoFadeOut;
 	}
 
 	.gallery--animation-slide
@@ -1079,8 +1140,22 @@
 		animation-name: GalleryPhotoSlideInPrev;
 	}
 
+	.gallery--animation-slide
+		.gallery-photo--outgoing.gallery-photo--direction-next {
+		animation-name: GalleryPhotoSlideOutNext;
+	}
+
+	.gallery--animation-slide
+		.gallery-photo--outgoing.gallery-photo--direction-prev {
+		animation-name: GalleryPhotoSlideOutPrev;
+	}
+
 	.gallery--animation-zoom .gallery-photo--current {
 		animation-name: GalleryPhotoZoomIn;
+	}
+
+	.gallery--animation-zoom .gallery-photo--outgoing {
+		animation-name: GalleryPhotoZoomOut;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -1089,8 +1164,13 @@
 			animation: none;
 		}
 
-		.gallery-photo--current {
+		.gallery-photo--current,
+		.gallery-photo--outgoing {
 			animation: none;
+		}
+
+		.gallery-photo--outgoing {
+			display: none;
 		}
 
 		.gallery-control-icon,

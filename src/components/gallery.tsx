@@ -72,6 +72,7 @@ type GalleryDirection = 'prev' | 'next';
 
 interface GalleryState {
 	activePhotoIndex: number;
+	transitionFromIndex: number | null;
 	hidePrevButton: boolean;
 	hideNextButton: boolean;
 	lastDirection: GalleryDirection;
@@ -270,6 +271,8 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		1,
 		Math.max(0.9, animations?.feedbackScale ?? DEFAULT_FEEDBACK_SCALE),
 	);
+	const isImageMotionEnabled =
+		animationPreset !== 'none' && animationDurationMs > 0;
 
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
@@ -290,6 +293,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		);
 		return {
 			activePhotoIndex: normalizedActivePhotoIndex,
+			transitionFromIndex: null,
 			hidePrevButton,
 			hideNextButton,
 			lastDirection: 'next',
@@ -328,20 +332,66 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				normalizedActivePhotoIndex > prevState.activePhotoIndex
 					? 'next'
 					: 'prev';
+			const isPhotoChanged =
+				prevState.activePhotoIndex !== normalizedActivePhotoIndex;
 
 			return {
 				...prevState,
 				activePhotoIndex: normalizedActivePhotoIndex,
+				transitionFromIndex:
+					isImageMotionEnabled && isPhotoChanged
+						? prevState.activePhotoIndex
+						: null,
 				hidePrevButton,
 				hideNextButton,
 				lastDirection: nextDirection,
 			};
 		});
-	}, [activePhotoIndex, photos, wrap]);
+	}, [activePhotoIndex, isImageMotionEnabled, photos, wrap]);
 
 	useEffect(() => {
 		onActivePhotoIndexChange?.(state.activePhotoIndex);
 	}, [onActivePhotoIndexChange, state.activePhotoIndex]);
+
+	useEffect(() => {
+		if (isImageMotionEnabled) {
+			return;
+		}
+
+		setState((prevState) => {
+			if (prevState.transitionFromIndex === null) {
+				return prevState;
+			}
+
+			return {
+				...prevState,
+				transitionFromIndex: null,
+			};
+		});
+	}, [isImageMotionEnabled]);
+
+	useEffect(() => {
+		if (!isImageMotionEnabled || state.transitionFromIndex === null) {
+			return;
+		}
+
+		const timeoutId = window.setTimeout(() => {
+			setState((prevState) => {
+				if (prevState.transitionFromIndex === null) {
+					return prevState;
+				}
+
+				return {
+					...prevState,
+					transitionFromIndex: null,
+				};
+			});
+		}, animationDurationMs);
+
+		return () => {
+			window.clearTimeout(timeoutId);
+		};
+	}, [animationDurationMs, isImageMotionEnabled, state.transitionFromIndex]);
 
 	useEffect(() => {
 		const activePhotoChanged =
@@ -423,16 +473,22 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					return prevState;
 				}
 
+				const isPhotoChanged = prevState.activePhotoIndex !== nextElementIndex;
+
 				return {
 					...prevState,
 					activePhotoIndex: nextElementIndex,
+					transitionFromIndex:
+						isImageMotionEnabled && isPhotoChanged
+							? prevState.activePhotoIndex
+							: null,
 					hidePrevButton,
 					hideNextButton,
 					lastDirection: direction,
 				};
 			});
 		},
-		[getItemByDirection, photos.length, wrap],
+		[getItemByDirection, isImageMotionEnabled, photos.length, wrap],
 	);
 
 	const prev = useCallback(() => {
@@ -1018,6 +1074,26 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 
 	const hasPhotos = photos.length > 0;
 	const current = photos[state.activePhotoIndex];
+	const hasOutgoingPhoto =
+		hasPhotos &&
+		state.transitionFromIndex != null &&
+		state.transitionFromIndex !== state.activePhotoIndex &&
+		state.transitionFromIndex >= 0 &&
+		state.transitionFromIndex < photos.length;
+	const outgoing = hasOutgoingPhoto
+		? photos[state.transitionFromIndex as number]
+		: null;
+	const photoDirectionClass =
+		state.lastDirection === 'prev'
+			? 'gallery-photo--direction-prev'
+			: 'gallery-photo--direction-next';
+	const sharedPhotoSlotProps = {
+		imageFit,
+		buttonClassName: classNames?.photoButton,
+		buttonStyle: styles?.photoButton,
+		imageClassName: classNames?.photoImage,
+		imageStyle: styles?.photoImage,
+	};
 	const { noPhotosProvided: emptyMessage } = phrases;
 
 	return (
@@ -1051,12 +1127,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 						{hasPhotos ? (
 							<div className="gallery-photo">
 								<div
-									key={`${state.activePhotoIndex}-${state.lastDirection}`}
+									key={`current-${state.activePhotoIndex}-${state.lastDirection}`}
 									className={clsx(
 										'gallery-photo--current',
-										state.lastDirection === 'prev'
-											? 'gallery-photo--direction-prev'
-											: 'gallery-photo--direction-next',
+										photoDirectionClass,
 									)}
 								>
 									<PhotoComponent
@@ -1078,14 +1152,29 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 										enableZoom={enableZoom}
 										isZoomMode={isZoomMode}
 										isPanning={state.isPanning}
-										imageFit={imageFit}
 										style={zoomedPhotoStyle}
-										buttonClassName={classNames?.photoButton}
-										buttonStyle={styles?.photoButton}
-										imageClassName={classNames?.photoImage}
-										imageStyle={styles?.photoImage}
+										{...sharedPhotoSlotProps}
 									/>
 								</div>
+								{outgoing && (
+									<div
+										key={`outgoing-${state.transitionFromIndex}-${state.activePhotoIndex}-${state.lastDirection}`}
+										className={clsx(
+											'gallery-photo--outgoing',
+											photoDirectionClass,
+										)}
+										aria-hidden="true"
+									>
+										<PhotoComponent
+											photo={outgoing}
+											disablePress
+											enableZoom={false}
+											isZoomMode={false}
+											isPanning={false}
+											{...sharedPhotoSlotProps}
+										/>
+									</div>
+								)}
 							</div>
 						) : (
 							<div className="gallery-empty">{emptyMessage}</div>

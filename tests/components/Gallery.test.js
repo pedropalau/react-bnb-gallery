@@ -549,6 +549,76 @@ describe('Gallery', () => {
 			});
 		});
 
+		it('renders outgoing and incoming photos together while transitioning', async () => {
+			const photoList = photos.slice(0, 2);
+			const { container, rerender } = render(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					activePhotoIndex={0}
+					animations={{ preset: 'fade', durationMs: 40 }}
+				/>,
+			);
+
+			expect(
+				container.querySelector('.gallery-photo--outgoing'),
+			).not.toBeInTheDocument();
+
+			rerender(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					activePhotoIndex={1}
+					animations={{ preset: 'fade', durationMs: 40 }}
+				/>,
+			);
+
+			expect(
+				container.querySelector('.gallery-photo--current'),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector('.gallery-photo--outgoing'),
+			).toBeInTheDocument();
+
+			const renderedSources = Array.from(
+				container.querySelectorAll('.gallery-photo img.photo'),
+			).map((image) => image.getAttribute('src'));
+
+			expect(renderedSources).toContain(photoList[0].photo);
+			expect(renderedSources).toContain(photoList[1].photo);
+
+			await waitFor(() => {
+				expect(
+					container.querySelector('.gallery-photo--outgoing'),
+				).not.toBeInTheDocument();
+			});
+		});
+
+		it('does not keep an outgoing layer when image transitions are disabled', () => {
+			const photoList = photos.slice(0, 2);
+			const { container, rerender } = render(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					activePhotoIndex={0}
+					animations={{ preset: 'none', durationMs: 40 }}
+				/>,
+			);
+
+			rerender(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					activePhotoIndex={1}
+					animations={{ preset: 'none', durationMs: 40 }}
+				/>,
+			);
+
+			expect(
+				container.querySelector('.gallery-photo--outgoing'),
+			).not.toBeInTheDocument();
+		});
+
 		it('applies cover fit adaptation to the active photo', () => {
 			const { container } = render(
 				<Gallery
