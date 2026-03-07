@@ -122,6 +122,31 @@ describe('Gallery', () => {
 			).not.toBeInTheDocument();
 		});
 
+		it('supports placing controls in a top row', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					wrap
+					controlsPlacement="top"
+				/>,
+			);
+
+			expect(container.querySelector('.gallery-main')).toHaveClass(
+				'gallery-main--controls-top',
+			);
+			expect(
+				container.querySelector(
+					'.gallery-controls-row--top .gallery-control--prev',
+				),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector(
+					'.gallery-controls-row--top .gallery-control--next',
+				),
+			).toBeInTheDocument();
+		});
+
 		it('renders accessible labels on navigation controls', () => {
 			const { container } = render(
 				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} wrap />,

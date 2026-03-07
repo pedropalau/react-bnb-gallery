@@ -279,18 +279,16 @@
 	/* ─── Modal close button ─────────────────────────────────────────────────────── */
 
 	.gallery-modal--close {
-		position: absolute;
+		position: relative;
 		z-index: 10;
-		right: 0;
-		top: 0;
-		padding: 0.9375rem;
+		display: inline-flex;
 	}
 
 	.gallery-modal--close button.gallery-close {
 		cursor: pointer;
 		background: none transparent;
 		border: 0;
-		display: block;
+		display: inline-flex;
 		padding: 0.5rem;
 		color: var(--rbg-icon);
 	}
@@ -318,11 +316,30 @@
 	}
 
 	.gallery-top--inner {
-		padding: 1.25rem 0.9375rem;
+		padding: 1.25rem 0.9375rem 0.75rem;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		align-items: center;
+		column-gap: 0.75rem;
+		min-height: 3rem;
+	}
+
+	.gallery-top-slot {
 		display: flex;
 		align-items: center;
+		min-width: 0;
+	}
+
+	.gallery-top-slot--start {
+		justify-content: flex-start;
+	}
+
+	.gallery-top-slot--center {
 		justify-content: center;
-		min-height: 3rem;
+	}
+
+	.gallery-top-slot--end {
+		justify-content: flex-end;
 	}
 
 	.gallery-photo-counter {
@@ -349,6 +366,20 @@
 	.gallery-main {
 		position: relative;
 		z-index: 9;
+	}
+
+	.gallery-controls-row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		align-items: center;
+	}
+
+	.gallery-controls-row--top {
+		padding: 0 0.9375rem 0.75rem;
+	}
+
+	.gallery-controls-row--bottom {
+		padding: 0.75rem 0.9375rem 0;
 	}
 
 	.gallery-photos {
@@ -611,9 +642,39 @@
 		padding-left: 0.65rem;
 	}
 
+	.gallery-main--controls-top .gallery-control,
+	.gallery-main--controls-bottom .gallery-control {
+		position: relative;
+		top: auto;
+		left: auto;
+		right: auto;
+		height: auto;
+		width: auto;
+		padding: 0;
+	}
+
+	.gallery-main--controls-top .gallery-control--prev,
+	.gallery-main--controls-bottom .gallery-control--prev {
+		justify-self: start;
+		justify-content: flex-start;
+		padding-right: 0;
+	}
+
+	.gallery-main--controls-top .gallery-control--next,
+	.gallery-main--controls-bottom .gallery-control--next {
+		justify-self: end;
+		justify-content: flex-end;
+		padding-left: 0;
+	}
+
 	@media (max-width: 767px) {
 		.gallery-control {
 			width: 10%;
+		}
+
+		.gallery-main--controls-top .gallery-control,
+		.gallery-main--controls-bottom .gallery-control {
+			width: auto;
 		}
 
 		.gallery-control-surface {
@@ -625,6 +686,11 @@
 	@media (min-width: 1128px) {
 		.gallery-control {
 			width: 8%;
+		}
+
+		.gallery-main--controls-top .gallery-control,
+		.gallery-main--controls-bottom .gallery-control {
+			width: auto;
 		}
 
 		.gallery-control-surface {

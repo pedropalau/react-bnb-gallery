@@ -224,6 +224,55 @@ describe('ReactBnbGallery', () => {
 			).toHaveTextContent('2 / 3');
 		});
 
+		it('supports placing the close button on the left side of the top bar', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					closeButtonPosition="left"
+				/>,
+			);
+
+			expect(document.body.querySelector('.gallery-top')).toHaveClass(
+				'gallery-top--close-left',
+			);
+			expect(
+				document.body.querySelector(
+					'.gallery-top-slot--start .gallery-modal--close',
+				),
+			).toBeInTheDocument();
+			expect(
+				document.body.querySelector(
+					'.gallery-top-slot--end .gallery-modal--close',
+				),
+			).not.toBeInTheDocument();
+		});
+
+		it('supports placing navigation controls in a bottom row', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					controlsPlacement="bottom"
+					wrap
+				/>,
+			);
+
+			expect(document.body.querySelector('.gallery-main')).toHaveClass(
+				'gallery-main--controls-bottom',
+			);
+			expect(
+				document.body.querySelector(
+					'.gallery-controls-row--bottom .gallery-control--prev',
+				),
+			).toBeInTheDocument();
+			expect(
+				document.body.querySelector(
+					'.gallery-controls-row--bottom .gallery-control--next',
+				),
+			).toBeInTheDocument();
+		});
+
 		it('stops at the last photo when wrap is disabled', () => {
 			render(
 				<ReactBnbGallery

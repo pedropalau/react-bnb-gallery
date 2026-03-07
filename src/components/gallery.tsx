@@ -16,6 +16,7 @@ import type {
 	GalleryClassNames,
 	GalleryComponents,
 	GalleryController,
+	GalleryControlsPlacement,
 	GalleryImageFit,
 	GalleryPhoto,
 	GalleryPhrases,
@@ -48,6 +49,7 @@ interface GalleryProps {
 	showThumbnails?: boolean;
 	zoomStep?: number;
 	wrap?: boolean;
+	controlsPlacement?: GalleryControlsPlacement;
 	components?: GalleryComponents;
 	classNames?: GalleryClassNames;
 	styles?: GalleryStyles;
@@ -188,6 +190,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		showThumbnails = true,
 		zoomStep = 0.25,
 		wrap = false,
+		controlsPlacement = 'sides',
 		components,
 		classNames,
 		styles,
@@ -976,8 +979,18 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				<div className="gallery-modal--preload">
 					{galleryModalPreloadPhotos}
 				</div>
-				<div className="gallery-main">
-					{controls}
+				<div
+					className={clsx(
+						'gallery-main',
+						`gallery-main--controls-${controlsPlacement}`,
+					)}
+				>
+					{controlsPlacement === 'top' && controls && (
+						<div className="gallery-controls-row gallery-controls-row--top">
+							{controls}
+						</div>
+					)}
+					{controlsPlacement === 'sides' && controls}
 					<div className="gallery-photos">
 						{hasPhotos ? (
 							<div className="gallery-photo">
@@ -1022,6 +1035,11 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 							<div className="gallery-empty">{emptyMessage}</div>
 						)}
 					</div>
+					{controlsPlacement === 'bottom' && controls && (
+						<div className="gallery-controls-row gallery-controls-row--bottom">
+							{controls}
+						</div>
+					)}
 				</div>
 				{showThumbnails && current && (
 					<CaptionComponent

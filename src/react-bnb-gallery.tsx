@@ -9,8 +9,10 @@ import { defaultPhrases } from './default-phrases';
 import type {
 	GalleryAnimationOptions,
 	GalleryClassNames,
+	GalleryCloseButtonPosition,
 	GalleryComponents,
 	GalleryController,
+	GalleryControlsPlacement,
 	GalleryImageFit,
 	GalleryPhoto,
 	GalleryPhrases,
@@ -51,6 +53,8 @@ export interface ReactBnbGalleryProps {
 	preloadSize?: number;
 	prevButtonPressed?: () => void;
 	renderCaptionActions?: GalleryRenderCaptionActions;
+	closeButtonPosition?: GalleryCloseButtonPosition;
+	controlsPlacement?: GalleryControlsPlacement;
 	components?: GalleryComponents;
 	classNames?: GalleryClassNames;
 	styles?: GalleryStyles;
@@ -83,6 +87,8 @@ export interface ReactBnbGalleryProps {
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)
  * @param prevButtonPressed - Callback fired when the previous button is pressed
  * @param renderCaptionActions - Render prop for injecting custom controls in the caption action area
+ * @param closeButtonPosition - Horizontal placement of the close button in the top bar (`left` or `right`, default: `right`)
+ * @param controlsPlacement - Placement of previous/next controls (`sides`, `top`, or `bottom`, default: `sides`)
  * @param components - Optional slot overrides for built-in UI components such as overlay, counter, modal container, close button, controls, photo, caption, and thumbnails
  * @param classNames - Optional className overrides for default gallery UI slots
  * @param styles - Optional inline style overrides for default gallery UI slots
@@ -111,6 +117,8 @@ export function ReactBnbGallery({
 	preloadSize = 5,
 	prevButtonPressed,
 	renderCaptionActions,
+	closeButtonPosition = 'right',
+	controlsPlacement = 'sides',
 	components,
 	classNames,
 	styles,
@@ -265,48 +273,78 @@ export function ReactBnbGallery({
 		<div className="gallery-modal--table">
 			<div className="gallery-modal--cell">
 				<div className="gallery-modal--content">
-					<div
-						className={clsx(
-							'gallery-modal--close',
-							classNames?.closeButtonWrapper,
-						)}
-						style={styles?.closeButtonWrapper}
-					>
-						<CloseButtonComponent
-							onPress={close}
-							light={light}
-							phrases={phrases}
-							className={classNames?.closeButton}
-							style={styles?.closeButton}
-						/>
-					</div>
 					<div className="gallery-content">
-						<div className="gallery-top">
+						<div
+							className={clsx(
+								'gallery-top',
+								`gallery-top--close-${closeButtonPosition}`,
+							)}
+						>
 							<div className="gallery-top--inner">
-								{hasMoreThanOnePhoto &&
-									(PhotoCounterComponent ? (
-										<PhotoCounterComponent
+								<div className="gallery-top-slot gallery-top-slot--start">
+									{closeButtonPosition === 'left' && (
+										<div
 											className={clsx(
-												'gallery-photo-counter',
-												classNames?.photoCounter,
+												'gallery-modal--close',
+												classNames?.closeButtonWrapper,
 											)}
-											style={styles?.photoCounter}
-											current={displayedPhotoIndex + 1}
-											total={photos.length}
-											label={photoCounterLabel}
-										/>
-									) : (
-										<p
-											className={clsx(
-												'gallery-photo-counter',
-												classNames?.photoCounter,
-											)}
-											aria-live="polite"
-											style={styles?.photoCounter}
+											style={styles?.closeButtonWrapper}
 										>
-											{photoCounterLabel}
-										</p>
-									))}
+											<CloseButtonComponent
+												onPress={close}
+												light={light}
+												phrases={phrases}
+												className={classNames?.closeButton}
+												style={styles?.closeButton}
+											/>
+										</div>
+									)}
+								</div>
+								<div className="gallery-top-slot gallery-top-slot--center">
+									{hasMoreThanOnePhoto &&
+										(PhotoCounterComponent ? (
+											<PhotoCounterComponent
+												className={clsx(
+													'gallery-photo-counter',
+													classNames?.photoCounter,
+												)}
+												style={styles?.photoCounter}
+												current={displayedPhotoIndex + 1}
+												total={photos.length}
+												label={photoCounterLabel}
+											/>
+										) : (
+											<p
+												className={clsx(
+													'gallery-photo-counter',
+													classNames?.photoCounter,
+												)}
+												aria-live="polite"
+												style={styles?.photoCounter}
+											>
+												{photoCounterLabel}
+											</p>
+										))}
+								</div>
+								<div className="gallery-top-slot gallery-top-slot--end">
+									{closeButtonPosition === 'right' && (
+										<div
+											className={clsx(
+												'gallery-modal--close',
+												classNames?.closeButtonWrapper,
+											)}
+											style={styles?.closeButtonWrapper}
+										>
+											<CloseButtonComponent
+												onPress={close}
+												light={light}
+												phrases={phrases}
+												className={classNames?.closeButton}
+												style={styles?.closeButton}
+											/>
+										</div>
+									)}
+								</div>
 							</div>
 						</div>
 						<Gallery
@@ -322,6 +360,7 @@ export function ReactBnbGallery({
 							nextButtonPressed={nextButtonPressed}
 							prevButtonPressed={prevButtonPressed}
 							renderCaptionActions={renderCaptionActions}
+							controlsPlacement={controlsPlacement}
 							components={components}
 							classNames={classNames}
 							styles={styles}

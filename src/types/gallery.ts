@@ -47,6 +47,12 @@ export type GalleryCloseAnimationPreset =
 /** Image fitting strategy for the active gallery photo. */
 export type GalleryImageFit = 'contain' | 'cover';
 
+/** Placement options for previous/next navigation controls. */
+export type GalleryControlsPlacement = 'sides' | 'top' | 'bottom';
+
+/** Horizontal alignment options for the modal close button in the top bar. */
+export type GalleryCloseButtonPosition = 'left' | 'right';
+
 /** Optional animation controls for transition and feedback motion. */
 export interface GalleryAnimationOptions {
 	/** Motion preset used when switching photos. */
