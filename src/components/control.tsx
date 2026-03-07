@@ -2,11 +2,6 @@ import clsx from 'clsx';
 import type { ComponentPropsWithRef } from 'react';
 import { memo } from 'react';
 
-const controlStyle = {
-	height: '2.8em',
-	width: '2.8em',
-};
-
 /**
  * Shared arrow-control button props used by previous/next controls.
  */
@@ -39,16 +34,18 @@ function Control({
 			style={style}
 			{...props}
 		>
-			<svg
-				viewBox="0 0 18 18"
-				role="presentation"
-				focusable="false"
-				aria-hidden="true"
-				className="gallery-control-icon"
-				style={controlStyle}
-			>
-				<path d={arrow || ''} fillRule="evenodd" />
-			</svg>
+			{label ? <span className="sr-only">{label}</span> : null}
+			<span className="gallery-control-surface" aria-hidden="true">
+				<svg
+					viewBox="0 0 18 18"
+					role="presentation"
+					focusable="false"
+					aria-hidden="true"
+					className="gallery-control-icon"
+				>
+					<path d={arrow || ''} fillRule="evenodd" />
+				</svg>
+			</span>
 		</button>
 	);
 }
