@@ -1,4 +1,3 @@
-import { THUMBNAIL_WIDTH } from '../src/constants';
 import {
 	calculateThumbnailsContainerDimension,
 	calculateThumbnailsLeftScroll,
@@ -25,7 +24,7 @@ describe('the calculateThumbnailsOffset function', () => {
 
 describe('the calculateThumbnailsContainerDimension function', () => {
 	it('dimension with total of 1', () => {
-		expect(calculateThumbnailsContainerDimension(1)).toBe(THUMBNAIL_WIDTH + 8);
+		expect(calculateThumbnailsContainerDimension(1)).toBe(66);
 	});
 	it('dimension with total of 10', () => {
 		expect(calculateThumbnailsContainerDimension(10)).toBe(732);
@@ -35,6 +34,15 @@ describe('the calculateThumbnailsContainerDimension function', () => {
 	});
 	it('dimension with total of 999', () => {
 		expect(calculateThumbnailsContainerDimension(999)).toBe(73918);
+	});
+
+	it('accepts measured layout dimensions', () => {
+		expect(
+			calculateThumbnailsContainerDimension(3, {
+				thumbnailFrameWidth: 80,
+				thumbnailStep: 92,
+			}),
+		).toBe(264);
 	});
 });
 

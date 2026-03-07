@@ -1,16 +1,9 @@
 import clsx from 'clsx';
-import type { CSSProperties } from 'react';
 import { memo } from 'react';
-import { THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH } from '../constants';
 import type { GalleryThumbnailComponentProps } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
 import { useGalleryContext } from './gallery-context';
 import { Image } from './image';
-
-const thumbnailStyle = {
-	width: THUMBNAIL_WIDTH,
-	height: THUMBNAIL_HEIGHT,
-};
 
 /**
  * Renders a clickable thumbnail for selecting a photo by index.
@@ -34,10 +27,6 @@ function Thumbnail({
 
 	const captionText = getCaptionText(photo.caption);
 	const resolvedImageStyle = imageStyle || context?.styles?.thumbnailImage;
-	const thumbnailImageStyle = {
-		...thumbnailStyle,
-		...(resolvedImageStyle || {}),
-	} satisfies CSSProperties;
 
 	return (
 		<button
@@ -65,7 +54,7 @@ function Thumbnail({
 					context?.classNames?.thumbnailImage,
 					imageClassName,
 				)}
-				style={thumbnailImageStyle}
+				style={resolvedImageStyle}
 			/>
 		</button>
 	);

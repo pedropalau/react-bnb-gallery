@@ -5,13 +5,6 @@ export const ARROW_LEFT_KEYCODE = 37;
 export const ARROW_RIGHT_KEYCODE = 39;
 export const ESC_KEYCODE = 27;
 
-export const THUMBNAIL_WIDTH = 58;
-export const THUMBNAIL_HEIGHT = 50;
-/** Matches `border: 0.25rem` on div.picture in CSS. */
-export const THUMBNAIL_BORDER_WIDTH = 4;
-/** Matches `margin-left: 0.5rem` on li + li in CSS. */
-export const THUMBNAIL_OFFSET = 8;
-
 export const DEFAULT_OPACITY = 1;
 export const DEFAULT_Z_INDEX = 2000;
 

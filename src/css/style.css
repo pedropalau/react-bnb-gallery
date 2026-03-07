@@ -37,6 +37,12 @@
 		--rbg-thumbnail-panel-duration: 450ms;
 		--rbg-thumbnail-scroll-duration: 300ms;
 		--rbg-caption-motion-duration: 200ms;
+
+		/* Thumbnail layout tokens. */
+		--rbg-thumbnail-width: 3.625rem;
+		--rbg-thumbnail-height: 3.125rem;
+		--rbg-thumbnail-border-width: 0.25rem;
+		--rbg-thumbnail-gap: 0.5rem;
 	}
 
 	/* Light-mode overrides — applied via the `light` prop (.mode-light) or manually via .rbg-light. */
@@ -576,7 +582,10 @@
 
 	.gallery-figcaption--thumbnails {
 		position: relative;
-		height: 58px;
+		height: calc(
+			var(--rbg-thumbnail-height) +
+			(var(--rbg-thumbnail-border-width) * 2)
+		);
 		overflow: hidden;
 		transition: height var(--rbg-thumbnail-panel-duration)
 			var(--rbg-motion-easing);
@@ -590,8 +599,8 @@
 	.caption-thumbnails {
 		position: absolute;
 		min-width: 100%;
-		margin-left: -0.25rem;
-		margin-right: -0.25rem;
+		margin-left: calc(var(--rbg-thumbnail-border-width) * -1);
+		margin-right: calc(var(--rbg-thumbnail-border-width) * -1);
 	}
 
 	.gallery-thumbnails-list,
@@ -625,7 +634,7 @@
 
 	.gallery-thumbnail-item + .gallery-thumbnail-item,
 	.thumbnails-list li + li {
-		margin-left: 0.5rem;
+		margin-left: var(--rbg-thumbnail-gap);
 	}
 
 	.gallery-thumbnail-button,
@@ -655,16 +664,15 @@
 
 	.gallery-thumbnail-button .gallery-image-wrapper,
 	.thumbnail-button div.picture {
-		/* 0.25rem = THUMBNAIL_BORDER_WIDTH (4 px) — transparent border reserves layout space. */
-		border: 0.25rem solid transparent;
+		border: var(--rbg-thumbnail-border-width) solid transparent;
 		border-radius: calc(var(--rbg-radius) - 0.125rem);
 		overflow: hidden;
 	}
 
 	.gallery-thumbnail-image,
 	.thumbnail-button div.picture img.thumbnail {
-		width: 100%;
-		height: 100%;
+		width: var(--rbg-thumbnail-width);
+		height: var(--rbg-thumbnail-height);
 		display: block;
 		position: relative;
 		z-index: 1;
