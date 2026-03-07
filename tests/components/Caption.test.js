@@ -82,6 +82,17 @@ describe('Caption', () => {
 			});
 		});
 
+		it('loads active thumbnail eagerly and defers inactive thumbnails', () => {
+			const { container } = render(
+				<Caption current={0} photos={photos.slice(0, 3)} showThumbnails />,
+			);
+
+			const thumbnailImages = container.querySelectorAll('img.thumbnail');
+			expect(thumbnailImages[0]).toHaveAttribute('loading', 'eager');
+			expect(thumbnailImages[1]).toHaveAttribute('loading', 'lazy');
+			expect(thumbnailImages[2]).toHaveAttribute('loading', 'lazy');
+		});
+
 		it('renders caption and subcaption when they are React nodes', () => {
 			render(
 				<Caption

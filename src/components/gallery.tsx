@@ -169,6 +169,59 @@ function getWrapControlState(
 	};
 }
 
+function getPreloadIndexes(
+	activePhotoIndex: number,
+	totalPhotos: number,
+	preloadSize: number,
+	wrap: boolean,
+) {
+	if (totalPhotos <= 1 || preloadSize <= 0) {
+		return [];
+	}
+
+	const maxPreloadCount = Math.min(preloadSize, totalPhotos - 1);
+	const indexes: number[] = [];
+	const seenIndexes = new Set<number>([activePhotoIndex]);
+	let distance = 1;
+
+	while (indexes.length < maxPreloadCount) {
+		const forwardIndex = activePhotoIndex + distance;
+		const backwardIndex = activePhotoIndex - distance;
+		let addedIndexAtThisDistance = false;
+
+		const candidates = [forwardIndex, backwardIndex];
+		for (const candidateIndex of candidates) {
+			let normalizedIndex = candidateIndex;
+			if (wrap) {
+				normalizedIndex =
+					((candidateIndex % totalPhotos) + totalPhotos) % totalPhotos;
+			} else if (candidateIndex < 0 || candidateIndex >= totalPhotos) {
+				continue;
+			}
+
+			if (seenIndexes.has(normalizedIndex)) {
+				continue;
+			}
+
+			seenIndexes.add(normalizedIndex);
+			indexes.push(normalizedIndex);
+			addedIndexAtThisDistance = true;
+
+			if (indexes.length >= maxPreloadCount) {
+				break;
+			}
+		}
+
+		if (!wrap && !addedIndexAtThisDistance) {
+			break;
+		}
+
+		distance += 1;
+	}
+
+	return indexes;
+}
+
 /**
  * Core carousel component responsible for image navigation and touch gestures.
  */
@@ -944,21 +997,24 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	);
 
 	const galleryModalPreloadPhotos = useMemo(() => {
-		let counter = 1;
-		let index = state.activePhotoIndex;
-		const preloadPhotos = [];
+		const preloadIndexes = getPreloadIndexes(
+			state.activePhotoIndex,
+			photos.length,
+			preloadSize,
+			wrap,
+		);
 
-		while (index < photos.length && counter <= preloadSize) {
-			const photo = photos[index];
-			preloadPhotos.push(
-				<img key={photo.photo || index} alt={photo.photo} src={photo.photo} />,
+		return preloadIndexes.map((photoIndex) => {
+			const photo = photos[photoIndex];
+			return (
+				<img
+					key={photo.photo || photoIndex}
+					alt={photo.photo}
+					src={photo.photo}
+				/>
 			);
-			index += 1;
-			counter += 1;
-		}
-
-		return preloadPhotos;
-	}, [photos, preloadSize, state.activePhotoIndex]);
+		});
+	}, [photos, preloadSize, state.activePhotoIndex, wrap]);
 
 	const hasPhotos = photos.length > 0;
 	const current = photos[state.activePhotoIndex];

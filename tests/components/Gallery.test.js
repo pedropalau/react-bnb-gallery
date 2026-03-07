@@ -36,6 +36,27 @@ describe('Gallery', () => {
 			).toHaveLength(2);
 		});
 
+		it('preloads photos nearest to the active index', () => {
+			const photoList = photos.slice(0, 5);
+			const { container } = render(
+				<Gallery
+					photos={photoList}
+					preloadSize={2}
+					showThumbnails={false}
+					activePhotoIndex={2}
+				/>,
+			);
+
+			const preloadSources = Array.from(
+				container.querySelectorAll('.gallery-modal--preload img'),
+			).map((image) => image.getAttribute('src'));
+
+			expect(preloadSources).toHaveLength(2);
+			expect(preloadSources).toContain(photoList[1].photo);
+			expect(preloadSources).toContain(photoList[3].photo);
+			expect(preloadSources).not.toContain(photoList[2].photo);
+		});
+
 		it('updates controls when photos prop changes', () => {
 			const { container, rerender } = render(
 				<Gallery photos={photos.slice(0, 1)} showThumbnails={false} />,

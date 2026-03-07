@@ -54,6 +54,9 @@ function Thumbnail({
 					context?.classNames?.thumbnailImage,
 					imageClassName,
 				)}
+				loading={active ? 'eager' : 'lazy'}
+				decoding="async"
+				fetchPriority={active ? 'high' : 'low'}
 				style={resolvedImageStyle}
 			/>
 		</button>
