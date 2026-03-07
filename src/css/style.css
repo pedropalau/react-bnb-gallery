@@ -561,9 +561,8 @@
 
 	.gallery-control-icon {
 		display: block;
-		width: 0.85rem;
-		height: 0.85rem;
-		fill: currentColor;
+		width: 0.98rem;
+		height: 0.98rem;
 		transition: transform var(--rbg-feedback-duration) var(--rbg-motion-easing);
 	}
 
@@ -585,6 +584,14 @@
 		left: 0;
 		justify-content: flex-end;
 		padding-right: 0.65rem;
+	}
+
+	.gallery-control--prev .gallery-control-surface svg {
+		margin-left: -0.1rem;
+	}
+
+	.gallery-control--next .gallery-control-surface svg {
+		margin-right: -0.1rem;
 	}
 
 	.gallery-control--next {

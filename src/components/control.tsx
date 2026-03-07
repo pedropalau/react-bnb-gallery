@@ -37,13 +37,16 @@ function Control({
 			{label ? <span className="sr-only">{label}</span> : null}
 			<span className="gallery-control-surface" aria-hidden="true">
 				<svg
-					viewBox="0 0 18 18"
+					viewBox="0 0 24 24"
 					role="presentation"
 					focusable="false"
 					aria-hidden="true"
 					className="gallery-control-icon"
+					strokeWidth={2}
+					stroke="currentColor"
+					fill="none"
 				>
-					<path d={arrow || ''} fillRule="evenodd" />
+					<path d={arrow || ''} strokeLinecap="round" strokeLinejoin="round" />
 				</svg>
 			</span>
 		</button>
