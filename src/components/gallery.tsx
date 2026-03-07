@@ -87,8 +87,8 @@ interface GalleryState {
 }
 
 const EMPTY_PHOTOS: GalleryPhoto[] = [];
-const DEFAULT_ANIMATION_PRESET = 'slide';
-const DEFAULT_ANIMATION_DURATION_MS = 220;
+const DEFAULT_ANIMATION_PRESET = 'fade';
+const DEFAULT_ANIMATION_DURATION_MS = 420;
 const DEFAULT_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const DEFAULT_FEEDBACK_SCALE = 0.97;
 const MIN_ZOOM = 1;

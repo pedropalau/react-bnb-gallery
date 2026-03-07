@@ -27,17 +27,17 @@
 		--rbg-z-modal: 2000;
 
 		/* Motion tokens. */
-		--rbg-motion-duration: 220ms;
-		--rbg-motion-easing: cubic-bezier(0.22, 1, 0.36, 1);
-		--rbg-open-duration: 240ms;
+		--rbg-motion-duration: 1000ms;
+		--rbg-motion-easing: ease-in-out;
+		--rbg-open-duration: 320ms;
 		--rbg-open-easing: cubic-bezier(0.22, 1, 0.36, 1);
-		--rbg-close-duration: 180ms;
+		--rbg-close-duration: 240ms;
 		--rbg-close-easing: cubic-bezier(0.22, 1, 0.36, 1);
-		--rbg-feedback-duration: 140ms;
+		--rbg-feedback-duration: 180ms;
 		--rbg-feedback-scale: 0.97;
-		--rbg-thumbnail-panel-duration: 450ms;
-		--rbg-thumbnail-scroll-duration: 300ms;
-		--rbg-caption-motion-duration: 200ms;
+		--rbg-thumbnail-panel-duration: 520ms;
+		--rbg-thumbnail-scroll-duration: 360ms;
+		--rbg-caption-motion-duration: 240ms;
 
 		/* Thumbnail layout tokens. */
 		--rbg-thumbnail-width: 3.625rem;

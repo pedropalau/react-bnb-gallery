@@ -31,10 +31,10 @@ function normalizeActivePhotoIndex(index: number, totalPhotos: number): number {
 }
 
 const DEFAULT_OPEN_ANIMATION_PRESET = 'fade-up';
-const DEFAULT_OPEN_ANIMATION_DURATION_MS = 240;
+const DEFAULT_OPEN_ANIMATION_DURATION_MS = 320;
 const DEFAULT_OPEN_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const DEFAULT_CLOSE_ANIMATION_PRESET = 'fade';
-const DEFAULT_CLOSE_ANIMATION_DURATION_MS = 180;
+const DEFAULT_CLOSE_ANIMATION_DURATION_MS = 240;
 const DEFAULT_CLOSE_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
 export interface ReactBnbGalleryProps {
