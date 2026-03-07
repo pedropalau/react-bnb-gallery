@@ -1,7 +1,3 @@
-export const ARROW_LEFT_KEYCODE = 37;
-export const ARROW_RIGHT_KEYCODE = 39;
-export const ESC_KEYCODE = 27;
-
 export const DEFAULT_OPACITY = 1;
 export const DEFAULT_Z_INDEX = 2000;
 

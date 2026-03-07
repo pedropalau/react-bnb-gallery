@@ -6,8 +6,6 @@ import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
 import {
-	ARROW_LEFT_KEYCODE,
-	ARROW_RIGHT_KEYCODE,
 	DEFAULT_CLOSE_ANIMATION_DURATION_MS,
 	DEFAULT_CLOSE_ANIMATION_EASING,
 	DEFAULT_CLOSE_ANIMATION_PRESET,
@@ -16,7 +14,6 @@ import {
 	DEFAULT_OPEN_ANIMATION_EASING,
 	DEFAULT_OPEN_ANIMATION_PRESET,
 	DEFAULT_Z_INDEX,
-	ESC_KEYCODE,
 } from './constants';
 import { defaultPhrases } from './default-phrases';
 import type {
@@ -205,20 +202,17 @@ export function ReactBnbGallery({
 				return;
 			}
 
-			switch (event.key || event.which) {
+			switch (event.key) {
 				case 'Escape':
-				case ESC_KEYCODE:
 					event.preventDefault();
 					close();
 					break;
 				case 'ArrowLeft':
-				case ARROW_LEFT_KEYCODE:
 					event.preventDefault();
 					gallery.current?.prev();
 					leftKeyPressed?.();
 					break;
 				case 'ArrowRight':
-				case ARROW_RIGHT_KEYCODE:
 					event.preventDefault();
 					gallery.current?.next();
 					rightKeyPressed?.();
