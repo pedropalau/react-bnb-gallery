@@ -34,6 +34,16 @@ export interface GalleryPhoto {
 /** Motion presets for image transition behavior. */
 export type GalleryAnimationPreset = 'none' | 'fade' | 'slide' | 'zoom';
 
+/** Motion presets for gallery open transitions. */
+export type GalleryOpenAnimationPreset = 'none' | 'fade' | 'fade-up' | 'zoom';
+
+/** Motion presets for gallery close transitions. */
+export type GalleryCloseAnimationPreset =
+	| 'none'
+	| 'fade'
+	| 'fade-down'
+	| 'zoom';
+
 /** Image fitting strategy for the active gallery photo. */
 export type GalleryImageFit = 'contain' | 'cover';
 
@@ -45,6 +55,18 @@ export interface GalleryAnimationOptions {
 	durationMs?: number;
 	/** CSS timing function used for transitions and keyframe animations. */
 	easing?: string;
+	/** Motion preset used when the modal opens. */
+	openPreset?: GalleryOpenAnimationPreset;
+	/** Duration of modal open animation in milliseconds. */
+	openDurationMs?: number;
+	/** CSS timing function for modal open animation. */
+	openEasing?: string;
+	/** Motion preset used when the modal closes. */
+	closePreset?: GalleryCloseAnimationPreset;
+	/** Duration of modal close animation in milliseconds. */
+	closeDurationMs?: number;
+	/** CSS timing function for modal close animation. */
+	closeEasing?: string;
 	/** Enables/disables press feedback animations for controls and thumbnails. */
 	enableFeedback?: boolean;
 	/** Scale factor applied for press feedback (`0.9` to `1`, default `0.97`). */

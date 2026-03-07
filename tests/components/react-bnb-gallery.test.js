@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { ReactBnbGallery } from '../../src/react-bnb-gallery';
 
@@ -130,6 +130,76 @@ describe('ReactBnbGallery', () => {
 			expect(document.body.querySelector('.gallery-photo-image')).toHaveClass(
 				'gallery-photo-image--cover',
 			);
+		});
+
+		it('applies customizable modal open animation options', () => {
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 2)}
+					show
+					animations={{
+						openPreset: 'zoom',
+						openDurationMs: 360,
+						openEasing: 'linear',
+					}}
+				/>,
+			);
+
+			const modal = document.body.querySelector('.gallery-modal');
+			expect(modal).toHaveClass('gallery-modal--open-zoom');
+			expect(modal).toHaveStyle({
+				'--rbg-open-duration': '360ms',
+				'--rbg-open-easing': 'linear',
+			});
+		});
+
+		it('plays customizable close animation before unmounting', () => {
+			vi.useFakeTimers();
+			try {
+				const closeAnimations = {
+					closePreset: 'fade-down',
+					closeDurationMs: 240,
+					closeEasing: 'linear',
+				};
+				const { rerender } = render(
+					<ReactBnbGallery
+						photos={photos.slice(0, 2)}
+						show
+						animations={closeAnimations}
+					/>,
+				);
+
+				rerender(
+					<ReactBnbGallery
+						photos={photos.slice(0, 2)}
+						show={false}
+						animations={closeAnimations}
+					/>,
+				);
+
+				const closingModal = document.body.querySelector('.gallery-modal');
+				expect(closingModal).toHaveClass('gallery-modal--close-fade-down');
+				expect(closingModal).toHaveStyle({
+					'--rbg-close-duration': '240ms',
+					'--rbg-close-easing': 'linear',
+				});
+
+				act(() => {
+					vi.advanceTimersByTime(239);
+				});
+				expect(
+					document.body.querySelector('.gallery-modal'),
+				).toBeInTheDocument();
+
+				act(() => {
+					vi.advanceTimersByTime(1);
+				});
+				expect(
+					document.body.querySelector('.gallery-modal'),
+				).not.toBeInTheDocument();
+			} finally {
+				vi.useRealTimers();
+			}
 		});
 
 		it('sets overlay opacity via inline style', () => {

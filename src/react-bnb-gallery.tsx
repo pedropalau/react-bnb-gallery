@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FocusTrap } from 'focus-trap-react';
-import type { KeyboardEvent } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import type { CSSProperties, KeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
@@ -25,6 +25,13 @@ import type {
 	GalleryStyles,
 } from './types/gallery';
 import { normalizePhotos } from './utils/normalize-photos';
+
+const DEFAULT_OPEN_ANIMATION_PRESET = 'fade-up';
+const DEFAULT_OPEN_ANIMATION_DURATION_MS = 240;
+const DEFAULT_OPEN_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const DEFAULT_CLOSE_ANIMATION_PRESET = 'fade';
+const DEFAULT_CLOSE_ANIMATION_DURATION_MS = 180;
+const DEFAULT_CLOSE_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
 function normalizeActivePhotoIndex(index: number, totalPhotos: number): number {
 	if (totalPhotos === 0) {
@@ -69,7 +76,7 @@ export interface ReactBnbGalleryProps {
  *
  * @param activePhotoIndex - Index of the currently displayed photo (default: `0`)
  * @param activePhotoPressed - Callback fired when the active photo is pressed
- * @param animations - Optional motion customization for image transitions and feedback interactions
+ * @param animations - Optional motion customization for image transitions, modal open animation, and feedback interactions
  * @param enableZoom - Enables wheel/pinch zoom and pan interactions in the active photo viewport (default: `true`)
  * @param imageFit - Active photo adaptation mode (`contain` or `cover`, default: `contain`)
  * @param keyboard - Whether keyboard navigation is enabled (default: `true`)
@@ -133,6 +140,60 @@ export function ReactBnbGallery({
 	const [displayedPhotoIndex, setDisplayedPhotoIndex] = useState(() =>
 		normalizeActivePhotoIndex(activePhotoIndex, photos.length),
 	);
+	const [isRendered, setIsRendered] = useState(show);
+	const [isClosing, setIsClosing] = useState(false);
+	const openAnimationPreset =
+		animations?.openPreset || DEFAULT_OPEN_ANIMATION_PRESET;
+	const openAnimationDurationMs = Math.max(
+		0,
+		animations?.openDurationMs ??
+			animations?.durationMs ??
+			DEFAULT_OPEN_ANIMATION_DURATION_MS,
+	);
+	const openAnimationEasing =
+		animations?.openEasing ||
+		animations?.easing ||
+		DEFAULT_OPEN_ANIMATION_EASING;
+	const closeAnimationPreset =
+		animations?.closePreset || DEFAULT_CLOSE_ANIMATION_PRESET;
+	const closeAnimationDurationMs = Math.max(
+		0,
+		animations?.closeDurationMs ??
+			animations?.durationMs ??
+			DEFAULT_CLOSE_ANIMATION_DURATION_MS,
+	);
+	const closeAnimationEasing =
+		animations?.closeEasing ||
+		animations?.easing ||
+		DEFAULT_CLOSE_ANIMATION_EASING;
+
+	useEffect(() => {
+		if (show) {
+			setIsRendered(true);
+			setIsClosing(false);
+			return;
+		}
+
+		if (!isRendered) {
+			return;
+		}
+
+		if (closeAnimationPreset === 'none' || closeAnimationDurationMs === 0) {
+			setIsClosing(false);
+			setIsRendered(false);
+			return;
+		}
+
+		setIsClosing(true);
+		const timeoutId = window.setTimeout(() => {
+			setIsClosing(false);
+			setIsRendered(false);
+		}, closeAnimationDurationMs);
+
+		return () => {
+			window.clearTimeout(timeoutId);
+		};
+	}, [closeAnimationDurationMs, closeAnimationPreset, isRendered, show]);
 
 	const close = useCallback(() => {
 		onClose?.();
@@ -176,6 +237,25 @@ export function ReactBnbGallery({
 		}),
 		[opacity, styles?.overlay],
 	);
+	const galleryModalStyles = useMemo(
+		() =>
+			({
+				zIndex,
+				...(styles?.modal || {}),
+				'--rbg-open-duration': `${openAnimationDurationMs}ms`,
+				'--rbg-open-easing': openAnimationEasing,
+				'--rbg-close-duration': `${closeAnimationDurationMs}ms`,
+				'--rbg-close-easing': closeAnimationEasing,
+			}) as CSSProperties,
+		[
+			closeAnimationDurationMs,
+			closeAnimationEasing,
+			openAnimationDurationMs,
+			openAnimationEasing,
+			styles?.modal,
+			zIndex,
+		],
+	);
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
 	const CloseButtonComponent = components?.CloseButton ?? CloseButton;
@@ -183,7 +263,7 @@ export function ReactBnbGallery({
 	const PhotoCounterComponent = components?.PhotoCounter;
 	const ModalContainerComponent = components?.ModalContainer;
 
-	if (!show) {
+	if (!isRendered) {
 		return null;
 	}
 
@@ -277,6 +357,9 @@ export function ReactBnbGallery({
 				ref={modalRef}
 				className={clsx(
 					'gallery-modal',
+					isClosing
+						? `gallery-modal--close-${closeAnimationPreset}`
+						: `gallery-modal--open-${openAnimationPreset}`,
 					light && 'mode-light',
 					classNames?.modal,
 				)}
@@ -285,7 +368,7 @@ export function ReactBnbGallery({
 				role="dialog"
 				aria-label={phrases.photoGallery}
 				aria-modal="true"
-				style={{ zIndex, ...(styles?.modal || {}) }}
+				style={galleryModalStyles}
 			>
 				{OverlayComponent ? (
 					<OverlayComponent
