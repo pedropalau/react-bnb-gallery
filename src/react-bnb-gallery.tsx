@@ -8,7 +8,13 @@ import { Gallery } from './components/gallery';
 import {
 	ARROW_LEFT_KEYCODE,
 	ARROW_RIGHT_KEYCODE,
+	DEFAULT_CLOSE_ANIMATION_DURATION_MS,
+	DEFAULT_CLOSE_ANIMATION_EASING,
+	DEFAULT_CLOSE_ANIMATION_PRESET,
 	DEFAULT_OPACITY,
+	DEFAULT_OPEN_ANIMATION_DURATION_MS,
+	DEFAULT_OPEN_ANIMATION_EASING,
+	DEFAULT_OPEN_ANIMATION_PRESET,
 	DEFAULT_Z_INDEX,
 	ESC_KEYCODE,
 } from './constants';
@@ -25,13 +31,6 @@ import type {
 	GalleryStyles,
 } from './types/gallery';
 import { normalizePhotos } from './utils/normalize-photos';
-
-const DEFAULT_OPEN_ANIMATION_PRESET = 'fade-up';
-const DEFAULT_OPEN_ANIMATION_DURATION_MS = 240;
-const DEFAULT_OPEN_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
-const DEFAULT_CLOSE_ANIMATION_PRESET = 'fade';
-const DEFAULT_CLOSE_ANIMATION_DURATION_MS = 180;
-const DEFAULT_CLOSE_ANIMATION_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
 function normalizeActivePhotoIndex(index: number, totalPhotos: number): number {
 	if (totalPhotos === 0) {
