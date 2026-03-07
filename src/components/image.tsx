@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import type { ComponentPropsWithoutRef, CSSProperties, Ref } from 'react';
-import { useEffect, useState } from 'react';
-import { LoadingSpinner } from './loading-spinner';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Props for the image wrapper with loading/error handling.
@@ -9,6 +8,7 @@ import { LoadingSpinner } from './loading-spinner';
 interface ImageProps {
 	alt: string;
 	src?: string;
+	variant?: 'photo' | 'thumbnail';
 	style?: CSSProperties | null;
 	className?: string | string[] | null;
 	imageRef?: Ref<HTMLImageElement>;
@@ -32,12 +32,18 @@ interface ImageState {
 	withError: boolean;
 }
 
+const MIN_SKELETON_MS = {
+	photo: 0,
+	thumbnail: 180,
+} as const;
+
 /**
- * Renders an image with a spinner while loading and hides on error.
+ * Renders an image with a skeleton placeholder while loading and hides on error.
  */
 function Image({
 	alt,
 	src,
+	variant = 'photo',
 	style = null,
 	className = null,
 	imageRef,
@@ -47,6 +53,8 @@ function Image({
 }: ImageMergedProps) {
 	const { draggable = false, ...imageProps } = props;
 	const hasSource = Boolean(src);
+	const loadingStartedAtRef = useRef(Date.now());
+	const settleLoadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [state, setState] = useState<ImageState>(() => ({
 		currentSrc: src,
 		loading: hasSource,
@@ -54,6 +62,12 @@ function Image({
 	}));
 
 	useEffect(() => {
+		if (settleLoadTimerRef.current) {
+			clearTimeout(settleLoadTimerRef.current);
+			settleLoadTimerRef.current = null;
+		}
+		loadingStartedAtRef.current = Date.now();
+
 		setState((prevState) => {
 			if (src === prevState.currentSrc) {
 				return prevState;
@@ -67,13 +81,43 @@ function Image({
 		});
 	}, [src]);
 
+	useEffect(
+		() => () => {
+			if (settleLoadTimerRef.current) {
+				clearTimeout(settleLoadTimerRef.current);
+			}
+		},
+		[],
+	);
+
 	const handleLoad = () => {
 		onLoad?.();
-		setState((prevState) => ({
-			...prevState,
-			loading: false,
-			withError: false,
-		}));
+		const loadedSrc = src;
+		const completeLoad = () => {
+			settleLoadTimerRef.current = null;
+			setState((prevState) => {
+				if (prevState.currentSrc !== loadedSrc) {
+					return prevState;
+				}
+
+				return {
+					...prevState,
+					loading: false,
+					withError: false,
+				};
+			});
+		};
+
+		const minSkeletonMs = MIN_SKELETON_MS[variant];
+		const elapsedMs = Date.now() - loadingStartedAtRef.current;
+		const remainingMs = Math.max(0, minSkeletonMs - elapsedMs);
+
+		if (remainingMs <= 0) {
+			completeLoad();
+			return;
+		}
+
+		settleLoadTimerRef.current = setTimeout(completeLoad, remainingMs);
 	};
 
 	const handleError = () => {
@@ -89,15 +133,30 @@ function Image({
 	const wrapperClassNames = [
 		'picture',
 		'gallery-image-wrapper',
+		`gallery-image-wrapper--${variant}`,
 		// Legacy alias kept for 2.x compatibility; use `is-loading` going forward.
 		loading && 'loading',
 		loading && 'is-loading',
 	];
-	const classNames = [className, 'media-image', 'gallery-image'];
+	const classNames = [
+		className,
+		'media-image',
+		'gallery-image',
+		loading && 'gallery-image--loading',
+		!loading && !withError && 'gallery-image--loaded',
+	];
 
 	return (
 		<div className={clsx(wrapperClassNames)}>
-			{loading && <LoadingSpinner />}
+			{loading && (
+				<div
+					className={clsx(
+						'gallery-image-skeleton',
+						`gallery-image-skeleton--${variant}`,
+					)}
+					aria-hidden="true"
+				/>
+			)}
 			{!withError && (
 				<img
 					ref={imageRef}

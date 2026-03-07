@@ -57,6 +57,38 @@ describe('Gallery', () => {
 			expect(preloadSources).not.toContain(photoList[2].photo);
 		});
 
+		it('renders skeleton placeholders while images are loading', () => {
+			const { container } = render(<Gallery photos={photos} showThumbnails />);
+
+			expect(
+				container.querySelector(
+					'.gallery-photo .gallery-image-skeleton--photo',
+				),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector(
+					'.gallery-thumbnail-button .gallery-image-skeleton--thumbnail',
+				),
+			).toBeInTheDocument();
+			expect(
+				container.querySelector('.loading-spinner'),
+			).not.toBeInTheDocument();
+		});
+
+		it('adds a loaded class to thumbnail images once they finish loading', () => {
+			const { container } = render(<Gallery photos={photos} showThumbnails />);
+			const thumbnailImage = container.querySelector(
+				'.gallery-thumbnail-image',
+			);
+
+			expect(thumbnailImage).toHaveClass('gallery-image--loading');
+			fireEvent.load(thumbnailImage);
+			return waitFor(() => {
+				expect(thumbnailImage).toHaveClass('gallery-image--loaded');
+				expect(thumbnailImage).not.toHaveClass('gallery-image--loading');
+			});
+		});
+
 		it('updates controls when photos prop changes', () => {
 			const { container, rerender } = render(
 				<Gallery photos={photos.slice(0, 1)} showThumbnails={false} />,

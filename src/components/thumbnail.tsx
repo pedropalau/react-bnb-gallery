@@ -49,6 +49,7 @@ function Thumbnail({
 			<Image
 				alt={photo.thumbnailAlt || photo.alt || captionText}
 				src={photo.thumbnail || photo.photo || ''}
+				variant="thumbnail"
 				className={clsx(
 					'thumbnail gallery-thumbnail-image',
 					context?.classNames?.thumbnailImage,

@@ -71,6 +71,7 @@ function Photo({
 							imageClassName,
 						)}
 						src={photo.photo}
+						variant="photo"
 						onLoad={onLoad}
 						onError={onError}
 						style={mergedImageStyle}
