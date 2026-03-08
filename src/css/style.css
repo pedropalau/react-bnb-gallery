@@ -94,7 +94,7 @@
 
 	@keyframes GalleryPhotoFadeIn {
 		from {
-			opacity: 0.01;
+			opacity: 0;
 		}
 
 		to {
@@ -108,13 +108,13 @@
 		}
 
 		to {
-			opacity: 0.01;
+			opacity: 0;
 		}
 	}
 
 	@keyframes GalleryPhotoSlideInNext {
 		from {
-			opacity: 0.01;
+			opacity: 0;
 			transform: translateX(18px);
 		}
 
@@ -131,14 +131,14 @@
 		}
 
 		to {
-			opacity: 0.01;
+			opacity: 0;
 			transform: translateX(-18px);
 		}
 	}
 
 	@keyframes GalleryPhotoSlideInPrev {
 		from {
-			opacity: 0.01;
+			opacity: 0;
 			transform: translateX(-18px);
 		}
 
@@ -155,14 +155,14 @@
 		}
 
 		to {
-			opacity: 0.01;
+			opacity: 0;
 			transform: translateX(18px);
 		}
 	}
 
 	@keyframes GalleryPhotoZoomIn {
 		from {
-			opacity: 0.01;
+			opacity: 0;
 			transform: scale(0.975);
 		}
 
@@ -179,14 +179,14 @@
 		}
 
 		to {
-			opacity: 0.01;
+			opacity: 0;
 			transform: scale(1.025);
 		}
 	}
 
 	@keyframes GalleryModalFadeIn {
 		from {
-			opacity: 0.01;
+			opacity: 0;
 		}
 
 		to {
@@ -196,7 +196,7 @@
 
 	@keyframes GalleryModalFadeUpIn {
 		from {
-			opacity: 0.01;
+			opacity: 0;
 			transform: translateY(10px);
 		}
 
@@ -208,7 +208,7 @@
 
 	@keyframes GalleryModalZoomIn {
 		from {
-			opacity: 0.01;
+			opacity: 0;
 			transform: scale(0.985);
 		}
 
@@ -224,7 +224,7 @@
 		}
 
 		to {
-			opacity: 0.01;
+			opacity: 0;
 		}
 	}
 
@@ -235,7 +235,7 @@
 		}
 
 		to {
-			opacity: 0.01;
+			opacity: 0;
 			transform: translateY(10px);
 		}
 	}
@@ -247,7 +247,7 @@
 		}
 
 		to {
-			opacity: 0.01;
+			opacity: 0;
 			transform: scale(0.985);
 		}
 	}
@@ -331,7 +331,6 @@
 		position: fixed;
 		inset: 0;
 		overflow-y: auto;
-		transform: translate3d(0, 0, 0);
 		z-index: 1;
 	}
 
@@ -370,7 +369,7 @@
 
 	.gallery-modal--close button.gallery-close {
 		cursor: pointer;
-		background: none transparent;
+		background: none;
 		border: 0;
 		display: inline-flex;
 		align-items: center;
@@ -391,7 +390,7 @@
 	}
 
 	.gallery-modal--close button.gallery-close:active,
-	.gallery-modal--close button.gallery-close:focus {
+	.gallery-modal--close button.gallery-close:focus-visible {
 		outline: none;
 	}
 
@@ -499,13 +498,12 @@
 	.gallery-photo {
 		position: relative;
 		width: 100%;
-		height: 0;
-		padding-bottom: 75%;
+		aspect-ratio: 4/3;
 	}
 
 	@media (min-width: 744px) {
 		.gallery-photo {
-			padding-bottom: 62%;
+			aspect-ratio: 100/62;
 		}
 	}
 
@@ -577,7 +575,6 @@
 		object-fit: contain;
 		user-select: none;
 		-webkit-user-select: none;
-		-webkit-user-drag: none;
 	}
 
 	.gallery-photo-image.gallery-image--loading,
@@ -658,18 +655,12 @@
 		cursor: grabbing;
 	}
 
-	.gallery-photo-button:active,
-	.gallery-photo-button:focus,
+	.gallery-photo-button:focus-visible,
 	.gallery
 		ul.gallery-images--ul
 		li.gallery-media-photo
-		button.photo-button:active,
-	.gallery
-		ul.gallery-images--ul
-		li.gallery-media-photo
-		button.photo-button:focus {
+		button.photo-button:focus-visible {
 		outline: none;
-		border: 0;
 	}
 
 	/* ─── Navigation controls ────────────────────────────────────────────────────── */
@@ -724,8 +715,7 @@
 		background-color: var(--rbg-control-hover-surface);
 	}
 
-	.gallery-control:focus,
-	.gallery-control:active {
+	.gallery-control:focus-visible {
 		outline: none;
 	}
 
@@ -851,31 +841,10 @@
 		margin: 0;
 		padding: 0;
 		left: 0;
+		display: flex;
+		gap: var(--rbg-thumbnail-gap);
 		transition: margin-left var(--rbg-thumbnail-scroll-duration)
 			var(--rbg-motion-easing);
-	}
-
-	.gallery-thumbnails-list::before,
-	.gallery-thumbnails-list::after,
-	.thumbnails-list::before,
-	.thumbnails-list::after {
-		content: "";
-		display: block;
-	}
-
-	.gallery-thumbnails-list::after,
-	.thumbnails-list::after {
-		clear: both;
-	}
-
-	.gallery-thumbnail-item,
-	.thumbnails-list li {
-		float: left;
-	}
-
-	.gallery-thumbnail-item + .gallery-thumbnail-item,
-	.thumbnails-list li + li {
-		margin-left: var(--rbg-thumbnail-gap);
 	}
 
 	.gallery-thumbnail-button,
@@ -890,10 +859,8 @@
 		padding: 0;
 	}
 
-	.gallery-thumbnail-button:focus,
-	.gallery-thumbnail-button:active,
-	.thumbnail-button:focus,
-	.thumbnail-button:active {
+	.gallery-thumbnail-button:focus-visible,
+	.thumbnail-button:focus-visible {
 		outline: none;
 	}
 
@@ -1041,8 +1008,7 @@
 		transition: transform var(--rbg-feedback-duration) var(--rbg-motion-easing);
 	}
 
-	.gallery-thumbnails--toggle:focus,
-	.gallery-thumbnails--toggle:active {
+	.gallery-thumbnails--toggle:focus-visible {
 		outline: none;
 	}
 
