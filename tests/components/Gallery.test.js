@@ -57,19 +57,19 @@ describe('Gallery', () => {
 			expect(preloadSources).not.toContain(photoList[2].photo);
 		});
 
-		it('renders skeleton placeholders while images are loading', () => {
+		it('does not render skeleton placeholders immediately while images are loading', () => {
 			const { container } = render(<Gallery photos={photos} showThumbnails />);
 
 			expect(
 				container.querySelector(
 					'.gallery-photo .gallery-image-skeleton--photo',
 				),
-			).toBeInTheDocument();
+			).not.toBeInTheDocument();
 			expect(
 				container.querySelector(
 					'.gallery-thumbnail-button .gallery-image-skeleton--thumbnail',
 				),
-			).toBeInTheDocument();
+			).not.toBeInTheDocument();
 			expect(
 				container.querySelector('.loading-spinner'),
 			).not.toBeInTheDocument();
