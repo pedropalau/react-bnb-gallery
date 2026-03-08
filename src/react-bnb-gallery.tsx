@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
 import { defaultPhrases } from './default-phrases';
+import { usePrefersReducedMotion } from './hooks/use-prefers-reduced-motion';
 import { useScrollLock } from './hooks/use-scroll-lock';
 import type {
 	GalleryAnimationOptions,
@@ -154,6 +155,7 @@ export function ReactBnbGallery({
 	);
 	const [isRendered, setIsRendered] = useState(show);
 	const [isClosing, setIsClosing] = useState(false);
+	const prefersReducedMotion = usePrefersReducedMotion();
 	useScrollLock({ autoLock: isRendered });
 	const openAnimationPreset =
 		animations?.openPreset || DEFAULT_OPEN_ANIMATION_PRESET;
@@ -179,6 +181,10 @@ export function ReactBnbGallery({
 		animations?.closeEasing ||
 		animations?.easing ||
 		DEFAULT_CLOSE_ANIMATION_EASING;
+	const shouldAnimateClose =
+		!prefersReducedMotion &&
+		closeAnimationPreset !== 'none' &&
+		closeAnimationDurationMs > 0;
 
 	useEffect(() => {
 		if (show) {
@@ -191,7 +197,7 @@ export function ReactBnbGallery({
 			return;
 		}
 
-		if (closeAnimationPreset === 'none' || closeAnimationDurationMs === 0) {
+		if (!shouldAnimateClose) {
 			setIsClosing(false);
 			setIsRendered(false);
 			return;
@@ -206,7 +212,7 @@ export function ReactBnbGallery({
 		return () => {
 			window.clearTimeout(timeoutId);
 		};
-	}, [closeAnimationDurationMs, closeAnimationPreset, isRendered, show]);
+	}, [closeAnimationDurationMs, isRendered, shouldAnimateClose, show]);
 
 	const close = useCallback(() => {
 		onClose?.();

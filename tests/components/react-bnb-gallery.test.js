@@ -9,6 +9,17 @@ vi.mock('focus-trap-react', () => ({
 	FocusTrap: ({ children }) => children,
 }));
 
+function createMatchMediaMock(matches) {
+	return vi.fn().mockImplementation((query) => ({
+		matches,
+		media: query,
+		onchange: null,
+		addEventListener: vi.fn(),
+		removeEventListener: vi.fn(),
+		dispatchEvent: vi.fn(),
+	}));
+}
+
 describe('ReactBnbGallery', () => {
 	describe('#render', () => {
 		it('unmounts', () => {
@@ -224,6 +235,47 @@ describe('ReactBnbGallery', () => {
 					document.body.querySelector('.gallery-modal'),
 				).not.toBeInTheDocument();
 			} finally {
+				vi.useRealTimers();
+			}
+		});
+
+		it('closes immediately when reduced motion is preferred', () => {
+			vi.useFakeTimers();
+			vi.stubGlobal('matchMedia', createMatchMediaMock(true));
+			try {
+				const closeAnimations = {
+					closePreset: 'fade-down',
+					closeDurationMs: 240,
+					closeEasing: 'linear',
+				};
+				const { rerender } = render(
+					<ReactBnbGallery
+						photos={photos.slice(0, 2)}
+						show
+						animations={closeAnimations}
+					/>,
+				);
+
+				rerender(
+					<ReactBnbGallery
+						photos={photos.slice(0, 2)}
+						show={false}
+						animations={closeAnimations}
+					/>,
+				);
+
+				expect(
+					document.body.querySelector('.gallery-modal'),
+				).not.toBeInTheDocument();
+
+				act(() => {
+					vi.advanceTimersByTime(240);
+				});
+				expect(
+					document.body.querySelector('.gallery-modal'),
+				).not.toBeInTheDocument();
+			} finally {
+				vi.unstubAllGlobals();
 				vi.useRealTimers();
 			}
 		});

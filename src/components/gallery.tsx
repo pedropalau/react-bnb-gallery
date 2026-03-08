@@ -11,6 +11,7 @@ import {
 	useState,
 } from 'react';
 import { defaultPhrases } from '../default-phrases';
+import { usePrefersReducedMotion } from '../hooks/use-prefers-reduced-motion';
 import type {
 	GalleryAnimationOptions,
 	GalleryClassNames,
@@ -274,13 +275,16 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		animations?.durationMs ?? DEFAULT_ANIMATION_DURATION_MS,
 	);
 	const animationEasing = animations?.easing || DEFAULT_ANIMATION_EASING;
+	const prefersReducedMotion = usePrefersReducedMotion();
 	const enableFeedback = animations?.enableFeedback ?? true;
 	const feedbackScale = Math.min(
 		1,
 		Math.max(0.9, animations?.feedbackScale ?? DEFAULT_FEEDBACK_SCALE),
 	);
 	const isImageMotionEnabled =
-		animationPreset !== 'none' && animationDurationMs > 0;
+		!prefersReducedMotion &&
+		animationPreset !== 'none' &&
+		animationDurationMs > 0;
 
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);

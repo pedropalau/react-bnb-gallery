@@ -5,6 +5,17 @@ import { Gallery } from '../../src/components/gallery';
 
 import photos from '../test-photos';
 
+function createMatchMediaMock(matches) {
+	return vi.fn().mockImplementation((query) => ({
+		matches,
+		media: query,
+		onchange: null,
+		addEventListener: vi.fn(),
+		removeEventListener: vi.fn(),
+		dispatchEvent: vi.fn(),
+	}));
+}
+
 describe('Gallery', () => {
 	describe('#render', () => {
 		it('renders <Caption />', () => {
@@ -655,6 +666,36 @@ describe('Gallery', () => {
 			expect(
 				container.querySelector('.gallery-photo--outgoing'),
 			).not.toBeInTheDocument();
+		});
+
+		it('does not keep an outgoing layer when reduced motion is preferred', () => {
+			vi.stubGlobal('matchMedia', createMatchMediaMock(true));
+			try {
+				const photoList = photos.slice(0, 2);
+				const { container, rerender } = render(
+					<Gallery
+						photos={photoList}
+						showThumbnails={false}
+						activePhotoIndex={0}
+						animations={{ preset: 'fade', durationMs: 40 }}
+					/>,
+				);
+
+				rerender(
+					<Gallery
+						photos={photoList}
+						showThumbnails={false}
+						activePhotoIndex={1}
+						animations={{ preset: 'fade', durationMs: 40 }}
+					/>,
+				);
+
+				expect(
+					container.querySelector('.gallery-photo--outgoing'),
+				).not.toBeInTheDocument();
+			} finally {
+				vi.unstubAllGlobals();
+			}
 		});
 
 		it('applies cover fit adaptation to the active photo', () => {
