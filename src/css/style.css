@@ -312,12 +312,12 @@
 	.gallery-photo {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 4/3;
+		aspect-ratio: 4 / 3;
 	}
 
 	@media (min-width: 744px) {
 		.gallery-photo {
-			aspect-ratio: 100/62;
+			aspect-ratio: 100 / 62;
 		}
 	}
 
@@ -872,85 +872,47 @@
 		}
 	}
 
-	@keyframes GalleryPhotoFadeOut {
-		from {
-			opacity: 1;
-		}
-
-		to {
-			opacity: 0;
-		}
-	}
-
 	@keyframes GalleryPhotoSlideInNext {
 		from {
 			opacity: 0;
-			transform: translateX(18px);
+			transform: translateX(40px);
 		}
 
-		to {
-			opacity: 1;
-			transform: translateX(0);
-		}
-	}
-
-	@keyframes GalleryPhotoSlideOutNext {
-		from {
-			opacity: 1;
-			transform: translateX(0);
-		}
-
-		to {
+		30% {
 			opacity: 0;
-			transform: translateX(-18px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateX(0);
 		}
 	}
 
 	@keyframes GalleryPhotoSlideInPrev {
 		from {
 			opacity: 0;
-			transform: translateX(-18px);
+			transform: translateX(-40px);
 		}
 
-		to {
-			opacity: 1;
-			transform: translateX(0);
-		}
-	}
-
-	@keyframes GalleryPhotoSlideOutPrev {
-		from {
-			opacity: 1;
-			transform: translateX(0);
-		}
-
-		to {
+		30% {
 			opacity: 0;
-			transform: translateX(18px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateX(0);
 		}
 	}
 
 	@keyframes GalleryPhotoZoomIn {
 		from {
 			opacity: 0;
-			transform: scale(0.975);
+			transform: scale(0.91);
 		}
 
 		to {
 			opacity: 1;
 			transform: scale(1);
-		}
-	}
-
-	@keyframes GalleryPhotoZoomOut {
-		from {
-			opacity: 1;
-			transform: scale(1);
-		}
-
-		to {
-			opacity: 0;
-			transform: scale(1.025);
 		}
 	}
 
@@ -1072,10 +1034,6 @@
 		animation-name: GalleryPhotoFadeIn;
 	}
 
-	.gallery--animation-fade .gallery-photo--outgoing {
-		animation-name: GalleryPhotoFadeOut;
-	}
-
 	.gallery--animation-slide
 		.gallery-photo--current.gallery-photo--direction-next {
 		animation-name: GalleryPhotoSlideInNext;
@@ -1086,22 +1044,8 @@
 		animation-name: GalleryPhotoSlideInPrev;
 	}
 
-	.gallery--animation-slide
-		.gallery-photo--outgoing.gallery-photo--direction-next {
-		animation-name: GalleryPhotoSlideOutNext;
-	}
-
-	.gallery--animation-slide
-		.gallery-photo--outgoing.gallery-photo--direction-prev {
-		animation-name: GalleryPhotoSlideOutPrev;
-	}
-
 	.gallery--animation-zoom .gallery-photo--current {
 		animation-name: GalleryPhotoZoomIn;
-	}
-
-	.gallery--animation-zoom .gallery-photo--outgoing {
-		animation-name: GalleryPhotoZoomOut;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
