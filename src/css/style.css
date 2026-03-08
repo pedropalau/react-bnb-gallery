@@ -535,13 +535,10 @@
 		--rbg-pan-x: 0px;
 		--rbg-pan-y: 0px;
 		--rbg-zoom-transition: transform 180ms ease-out;
-		max-height: 100%;
-		max-width: 100%;
+		height: 100%;
+		width: 100%;
 		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: auto;
+		inset: 0;
 		margin: 0 auto;
 		z-index: 0;
 		border-radius: var(--rbg-radius);
