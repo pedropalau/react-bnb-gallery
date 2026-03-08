@@ -807,6 +807,50 @@
 	/* ─── Caption info — responsive ──────────────────────────────────────────────── */
 
 	@media (max-width: 743px) {
+		.gallery-modal {
+			--rbg-gallery-max-width: 100vw;
+			--rbg-thumbnail-width: 3.125rem;
+			--rbg-thumbnail-height: 2.75rem;
+			--rbg-thumbnail-border-width: 0.1875rem;
+			--rbg-thumbnail-gap: 0.4375rem;
+		}
+
+		.gallery-top--inner {
+			padding: 0.875rem 0.75rem;
+			min-height: 2.5rem;
+		}
+
+		.gallery {
+			justify-content: flex-start;
+		}
+
+		.gallery-main--controls-sides {
+			flex: 1 1 auto;
+			min-height: 0;
+			align-items: stretch;
+		}
+
+		.gallery-main--controls-sides .gallery-photos {
+			display: flex;
+			align-items: stretch;
+			padding-inline: 0.5rem;
+			box-sizing: border-box;
+		}
+
+		.gallery-main--controls-sides .gallery-photo {
+			width: 100%;
+			align-self: stretch;
+		}
+
+		.gallery--image-fit-cover .gallery-main--controls-sides .gallery-photo {
+			height: 100%;
+			aspect-ratio: auto;
+		}
+
+		.gallery-figcaption {
+			padding-bottom: calc(0.25rem + env(safe-area-inset-bottom));
+		}
+
 		.gallery-figcaption--info {
 			/* Stack left/right columns vertically and add horizontal breathing room. */
 			display: block;
