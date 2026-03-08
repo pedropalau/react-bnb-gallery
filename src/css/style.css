@@ -95,6 +95,7 @@
 
 	.gallery-image-wrapper--thumbnail {
 		background-color: var(--rbg-image-surface-thumbnail);
+		background-clip: padding-box;
 		border-radius: calc(var(--rbg-radius) - 0.125rem);
 	}
 
