@@ -1111,6 +1111,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			({
 				...(styles?.gallery || {}),
 				'--rbg-motion-duration': `${animationDurationMs}ms`,
+				'--rbg-outgoing-fade-duration': `${Math.max(
+					140,
+					Math.round(animationDurationMs * 0.58),
+				)}ms`,
 				'--rbg-motion-easing': animationEasing,
 				'--rbg-feedback-duration': `${Math.max(
 					100,

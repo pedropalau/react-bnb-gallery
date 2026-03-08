@@ -30,6 +30,7 @@
 
 		/* Motion tokens. */
 		--rbg-motion-duration: 1000ms;
+		--rbg-outgoing-fade-duration: 580ms;
 		--rbg-motion-easing: ease-in-out;
 		--rbg-open-duration: 320ms;
 		--rbg-open-easing: cubic-bezier(0.22, 1, 0.36, 1);
@@ -921,6 +922,17 @@
 		}
 	}
 
+	@keyframes GalleryPhotoOutgoingFade {
+		0%,
+		24% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+
 	@keyframes GalleryModalFadeIn {
 		from {
 			opacity: 0;
@@ -1051,6 +1063,12 @@
 
 	.gallery--animation-zoom .gallery-photo--current {
 		animation-name: GalleryPhotoZoomIn;
+	}
+
+	.gallery--animation-slide .gallery-photo--outgoing,
+	.gallery--animation-zoom .gallery-photo--outgoing {
+		animation-name: GalleryPhotoOutgoingFade;
+		animation-duration: var(--rbg-outgoing-fade-duration);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
