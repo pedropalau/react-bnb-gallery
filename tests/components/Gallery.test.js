@@ -613,11 +613,17 @@ describe('Gallery', () => {
 			).toBeInTheDocument();
 
 			const renderedSources = Array.from(
-				container.querySelectorAll('.gallery-photo img.photo'),
+				container.querySelectorAll('.gallery-photo img'),
 			).map((image) => image.getAttribute('src'));
 
 			expect(renderedSources).toContain(photoList[0].photo);
 			expect(renderedSources).toContain(photoList[1].photo);
+
+			const currentImage = container.querySelector(
+				'.gallery-photo--current img',
+			);
+			expect(currentImage).toBeInTheDocument();
+			fireEvent.load(currentImage);
 
 			await waitFor(() => {
 				expect(

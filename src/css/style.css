@@ -390,6 +390,11 @@
 		opacity: 0;
 	}
 
+	/* Keep the outgoing layer visible during transitions to avoid black-frame flashes. */
+	.gallery-photo--outgoing .gallery-photo-image.gallery-image--loading {
+		opacity: 1;
+	}
+
 	.gallery-photo--current .gallery-photo-image.gallery-image--loaded {
 		animation: GalleryPhotoFadeIn var(--rbg-image-reveal-duration)
 			var(--rbg-image-reveal-easing);

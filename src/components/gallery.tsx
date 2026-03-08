@@ -73,6 +73,8 @@ type GalleryDirection = 'prev' | 'next';
 interface GalleryState {
 	activePhotoIndex: number;
 	transitionFromIndex: number | null;
+	activePhotoReady: boolean;
+	transitionDurationComplete: boolean;
 	hidePrevButton: boolean;
 	hideNextButton: boolean;
 	lastDirection: GalleryDirection;
@@ -223,6 +225,12 @@ function getPreloadIndexes(
 	return indexes;
 }
 
+function getPhotoSource(photo: GalleryPhoto | undefined): string | null {
+	return typeof photo?.photo === 'string' && photo.photo.length > 0
+		? photo.photo
+		: null;
+}
+
 /**
  * Core carousel component responsible for image navigation and touch gestures.
  */
@@ -281,6 +289,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const panStartRef = useRef({ x: 0, y: 0 });
 	const panOriginRef = useRef({ x: 0, y: 0 });
 	const pinchStartRef = useRef<PinchInfo | null>(null);
+	const loadedPhotoSourcesRef = useRef<Set<string>>(new Set());
 	const [state, setState] = useState<GalleryState>(() => {
 		const normalizedActivePhotoIndex = getNormalizedActivePhotoIndex(
 			activePhotoIndex,
@@ -294,6 +303,8 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		return {
 			activePhotoIndex: normalizedActivePhotoIndex,
 			transitionFromIndex: null,
+			activePhotoReady: false,
+			transitionDurationComplete: true,
 			hidePrevButton,
 			hideNextButton,
 			lastDirection: 'next',
@@ -334,14 +345,22 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					: 'prev';
 			const isPhotoChanged =
 				prevState.activePhotoIndex !== normalizedActivePhotoIndex;
+			const nextPhotoSrc = getPhotoSource(photos[normalizedActivePhotoIndex]);
+			const isNextPhotoKnownAsLoaded =
+				nextPhotoSrc != null && loadedPhotoSourcesRef.current.has(nextPhotoSrc);
+			const nextTransitionFromIndex =
+				isImageMotionEnabled && isPhotoChanged
+					? prevState.activePhotoIndex
+					: null;
 
 			return {
 				...prevState,
 				activePhotoIndex: normalizedActivePhotoIndex,
-				transitionFromIndex:
-					isImageMotionEnabled && isPhotoChanged
-						? prevState.activePhotoIndex
-						: null,
+				transitionFromIndex: nextTransitionFromIndex,
+				activePhotoReady: isPhotoChanged
+					? isNextPhotoKnownAsLoaded
+					: prevState.activePhotoReady,
+				transitionDurationComplete: nextTransitionFromIndex == null,
 				hidePrevButton,
 				hideNextButton,
 				lastDirection: nextDirection,
@@ -366,6 +385,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			return {
 				...prevState,
 				transitionFromIndex: null,
+				transitionDurationComplete: true,
 			};
 		});
 	}, [isImageMotionEnabled]);
@@ -377,13 +397,16 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 
 		const timeoutId = window.setTimeout(() => {
 			setState((prevState) => {
-				if (prevState.transitionFromIndex === null) {
+				if (
+					prevState.transitionFromIndex === null ||
+					prevState.transitionDurationComplete
+				) {
 					return prevState;
 				}
 
 				return {
 					...prevState,
-					transitionFromIndex: null,
+					transitionDurationComplete: true,
 				};
 			});
 		}, animationDurationMs);
@@ -392,6 +415,31 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			window.clearTimeout(timeoutId);
 		};
 	}, [animationDurationMs, isImageMotionEnabled, state.transitionFromIndex]);
+
+	useEffect(() => {
+		if (state.transitionFromIndex == null) {
+			return;
+		}
+
+		if (!state.transitionDurationComplete || !state.activePhotoReady) {
+			return;
+		}
+
+		setState((prevState) => {
+			if (prevState.transitionFromIndex == null) {
+				return prevState;
+			}
+
+			return {
+				...prevState,
+				transitionFromIndex: null,
+			};
+		});
+	}, [
+		state.activePhotoReady,
+		state.transitionDurationComplete,
+		state.transitionFromIndex,
+	]);
 
 	useEffect(() => {
 		const activePhotoChanged =
@@ -474,21 +522,30 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				}
 
 				const isPhotoChanged = prevState.activePhotoIndex !== nextElementIndex;
+				const nextPhotoSrc = getPhotoSource(photos[nextElementIndex]);
+				const isNextPhotoKnownAsLoaded =
+					nextPhotoSrc != null &&
+					loadedPhotoSourcesRef.current.has(nextPhotoSrc);
+				const nextTransitionFromIndex =
+					isImageMotionEnabled && isPhotoChanged
+						? prevState.activePhotoIndex
+						: null;
 
 				return {
 					...prevState,
 					activePhotoIndex: nextElementIndex,
-					transitionFromIndex:
-						isImageMotionEnabled && isPhotoChanged
-							? prevState.activePhotoIndex
-							: null,
+					transitionFromIndex: nextTransitionFromIndex,
+					activePhotoReady: isPhotoChanged
+						? isNextPhotoKnownAsLoaded
+						: prevState.activePhotoReady,
+					transitionDurationComplete: nextTransitionFromIndex == null,
 					hidePrevButton,
 					hideNextButton,
 					lastDirection: direction,
 				};
 			});
 		},
-		[getItemByDirection, isImageMotionEnabled, photos.length, wrap],
+		[getItemByDirection, isImageMotionEnabled, photos, wrap],
 	);
 
 	const prev = useCallback(() => {
@@ -519,11 +576,23 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, [prev, prevButtonPressed]);
 
 	const onPhotoLoad = useCallback(() => {
-		setState((prevState) => ({ ...prevState, controlsDisabled: false }));
-	}, []);
+		const activePhotoSrc = getPhotoSource(photos[state.activePhotoIndex]);
+		if (activePhotoSrc != null) {
+			loadedPhotoSourcesRef.current.add(activePhotoSrc);
+		}
+		setState((prevState) => ({
+			...prevState,
+			controlsDisabled: false,
+			activePhotoReady: true,
+		}));
+	}, [photos, state.activePhotoIndex]);
 
 	const onPhotoError = useCallback(() => {
-		setState((prevState) => ({ ...prevState, controlsDisabled: false }));
+		setState((prevState) => ({
+			...prevState,
+			controlsDisabled: false,
+			activePhotoReady: true,
+		}));
 	}, []);
 
 	const onPhotoPress = useCallback(() => {
