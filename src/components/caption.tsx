@@ -193,9 +193,7 @@ function Caption({
 		<figcaption
 			className={clsx(
 				'gallery-figcaption',
-				// Legacy alias kept for 2.x compatibility; use `is-thumbnails-collapsed` going forward.
-				!showThumbnails && 'hide',
-				!showThumbnails && 'is-thumbnails-collapsed',
+!showThumbnails && 'is-thumbnails-collapsed',
 				mergedClassName,
 			)}
 			style={mergedStyle}
@@ -248,7 +246,7 @@ function Caption({
 							>
 								<ul
 									className={clsx(
-										'thumbnails-list gallery-thumbnails-list',
+										'gallery-thumbnails-list',
 										mergedThumbnailsListClassName,
 									)}
 									style={mergedThumbnailsListStyle}

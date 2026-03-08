@@ -33,10 +33,7 @@ function Thumbnail({
 			type="button"
 			aria-label={captionText || undefined}
 			className={clsx(
-				'thumbnail-button',
 				'gallery-thumbnail-button',
-				// Legacy alias kept for 2.x compatibility; use `is-active` going forward.
-				active && 'active',
 				active && 'is-active',
 				context?.classNames?.thumbnailButton,
 				className,
@@ -51,7 +48,7 @@ function Thumbnail({
 				src={photo.thumbnail || photo.photo || ''}
 				variant="thumbnail"
 				className={clsx(
-					'thumbnail gallery-thumbnail-image',
+					'gallery-thumbnail-image',
 					context?.classNames?.thumbnailImage,
 					imageClassName,
 				)}

@@ -39,23 +39,16 @@ function Photo({
 
 	const captionText = getCaptionText(photo.caption);
 	const mergedImageStyle = { ...(style || {}), ...(imageStyle || {}) };
-	const className = clsx(
-		'gallery-media-photo',
-		'gallery-media-photo--block',
-		'gallery-media-cover',
-	);
-
 	return (
-		<ul className="gallery-images--ul gallery-photo-list">
-			<li className={clsx(className, 'gallery-photo-item')}>
+		<ul className="gallery-photo-list">
+			<li className="gallery-photo-item">
 				<button
 					{...buttonProps}
 					ref={buttonRef}
 					type="button"
 					onClick={onPressHandler}
 					className={clsx(
-						'photo-button',
-						'gallery-photo-button',
+							'gallery-photo-button',
 						enableZoom && 'gallery-photo-button--zoom-enabled',
 						isZoomMode && 'gallery-photo-button--zoomed',
 						isPanning && 'gallery-photo-button--panning',
@@ -66,7 +59,7 @@ function Photo({
 					<Image
 						alt={photo.alt || captionText}
 						className={clsx(
-							'photo gallery-photo-image',
+							'gallery-photo-image',
 							imageFit === 'cover' && 'gallery-photo-image--cover',
 							imageClassName,
 						)}
