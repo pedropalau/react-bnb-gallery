@@ -461,6 +461,7 @@
 		height: 100%;
 		z-index: 3;
 		width: 14%;
+		min-width: calc(2.9rem + 0.65rem);
 		display: flex;
 		align-items: center;
 		background: none;
@@ -559,6 +560,7 @@
 	@media (max-width: 767px) {
 		.gallery-control {
 			width: 10%;
+			min-width: calc(2.55rem + 0.65rem);
 		}
 
 		.gallery-main--controls-top .gallery-control,
