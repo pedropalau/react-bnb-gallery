@@ -104,7 +104,10 @@ function Caption({
 		context?.components?.TogglePhotoList ||
 		TogglePhotoList;
 	const mergedClassName = clsx(context?.classNames?.caption, className);
-	const mergedStyle = style || context?.styles?.caption;
+	const mergedStyle = {
+		...(context?.styles?.caption || {}),
+		...(style || {}),
+	};
 	const mergedThumbnailsListClassName = clsx(
 		context?.classNames?.thumbnailsList,
 		thumbnailsListClassName,
@@ -193,7 +196,7 @@ function Caption({
 		<figcaption
 			className={clsx(
 				'gallery-figcaption',
-!showThumbnails && 'is-thumbnails-collapsed',
+				!showThumbnails && 'is-thumbnails-collapsed',
 				mergedClassName,
 			)}
 			style={mergedStyle}
