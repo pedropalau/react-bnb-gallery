@@ -4,6 +4,7 @@ import { Gallery } from './components/gallery';
 import { ReactBnbGallery } from './react-bnb-gallery';
 
 export { ReactBnbGallery, Gallery };
+export { defaultPhrases } from './default-phrases';
 
 export type { ReactBnbGalleryProps } from './react-bnb-gallery';
 
@@ -28,6 +29,7 @@ export type {
 	GalleryPhotoComponentProps,
 	GalleryPhotoCounterProps,
 	GalleryPhrases,
+	GalleryProps,
 	GalleryRenderCaptionActions,
 	GalleryRenderTopBarSlot,
 	GalleryStyles,

@@ -16,7 +16,7 @@ export type GalleryPhrases = DefaultPhrases;
 export interface GalleryPhoto {
 	/** URL of the full-size photo. */
 	photo?: string;
-	/** Display number shown in the lightbox. */
+	/** Optional display number for use by custom slot components. Not rendered by any default component. */
 	number?: number;
 	/** Accessible alt text for the full-size photo image. */
 	alt?: string;
@@ -81,8 +81,8 @@ export interface GalleryAnimationOptions {
 
 /** Context provided to custom caption action renderers. */
 export interface GalleryCaptionActionsContext {
-	/** Current active photo index. */
-	current: number;
+	/** Current active photo index (zero-based). */
+	currentPhotoIndex: number;
 	/** Currently active photo object, when available. */
 	currentPhoto?: GalleryPhoto;
 	/** Full normalized photo list. */
@@ -182,8 +182,7 @@ export interface GalleryPhotoCounterProps extends ComponentPropsWithRef<'p'> {
 }
 
 /** Props for overriding the modal content container wrapper. */
-export interface GalleryModalContainerProps
-	extends ComponentPropsWithRef<'div'> {}
+export type GalleryModalContainerProps = ComponentPropsWithRef<'div'>;
 
 /** Shared props for overriding previous/next navigation controls. */
 export interface GalleryControlButtonProps
@@ -196,13 +195,7 @@ export interface GalleryControlButtonProps
 export interface GalleryPhotoComponentProps
 	extends Omit<
 		ComponentPropsWithoutRef<'button'>,
-		| 'onClick'
-		| 'className'
-		| 'style'
-		| 'children'
-		| 'ref'
-		| 'onLoad'
-		| 'onError'
+		'onClick' | 'className' | 'style' | 'children' | 'onLoad' | 'onError'
 	> {
 	photo?: GalleryPhoto | null;
 	onPress?: () => void;
@@ -275,6 +268,30 @@ export interface GalleryComponents {
 	Caption?: ComponentType<GalleryCaptionComponentProps>;
 	Thumbnail?: ComponentType<GalleryThumbnailComponentProps>;
 	TogglePhotoList?: ComponentType<GalleryTogglePhotoListComponentProps>;
+}
+
+/** Props for the core gallery viewport component. */
+export interface GalleryProps {
+	activePhotoIndex?: number;
+	activePhotoPressed?: () => void;
+	animations?: GalleryAnimationOptions;
+	enableZoom?: boolean;
+	imageFit?: GalleryImageFit;
+	maxZoom?: number;
+	nextButtonPressed?: () => void;
+	onActivePhotoIndexChange?: (index: number) => void;
+	phrases?: GalleryPhrases;
+	photos?: GalleryPhoto[];
+	preloadSize?: number;
+	prevButtonPressed?: () => void;
+	renderCaptionActions?: GalleryRenderCaptionActions;
+	showThumbnails?: boolean;
+	zoomStep?: number;
+	wrap?: boolean;
+	controlsPlacement?: GalleryControlsPlacement;
+	components?: GalleryComponents;
+	classNames?: GalleryClassNames;
+	styles?: GalleryStyles;
 }
 
 /** Exposes navigation controls for programmatic gallery control. */

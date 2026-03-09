@@ -57,7 +57,11 @@ function getScrollbarWidth(target: HTMLElement): number {
 		);
 	}
 
-	return Math.max(0, target.offsetWidth - target.clientWidth);
+	const style = window.getComputedStyle(target);
+	const borderWidth =
+		Number.parseFloat(style.borderLeftWidth) +
+		Number.parseFloat(style.borderRightWidth);
+	return Math.max(0, target.offsetWidth - target.clientWidth - borderWidth);
 }
 
 export function useScrollLock(
@@ -73,7 +77,7 @@ export function useScrollLock(
 			return;
 		}
 
-		const currentCount = targetLockCounts.get(target) || 0;
+		const currentCount = targetLockCounts.get(target) ?? 0;
 		if (currentCount === 0) {
 			targetSnapshots.set(target, {
 				overflow: target.style.overflow,
@@ -103,25 +107,23 @@ export function useScrollLock(
 			return;
 		}
 
-		const currentCount = targetLockCounts.get(target) || 0;
+		const currentCount = targetLockCounts.get(target) ?? 0;
 		if (currentCount <= 0) {
 			setIsLocked(false);
 			return;
 		}
 
 		const nextCount = currentCount - 1;
-		if (nextCount > 0) {
+		if (nextCount === 0) {
+			targetLockCounts.delete(target);
+			const snapshot = targetSnapshots.get(target);
+			if (snapshot) {
+				target.style.overflow = snapshot.overflow;
+				target.style.paddingRight = snapshot.paddingRight;
+				targetSnapshots.delete(target);
+			}
+		} else {
 			targetLockCounts.set(target, nextCount);
-			setIsLocked(false);
-			return;
-		}
-
-		targetLockCounts.delete(target);
-		const snapshot = targetSnapshots.get(target);
-		if (snapshot) {
-			target.style.overflow = snapshot.overflow;
-			target.style.paddingRight = snapshot.paddingRight;
-			targetSnapshots.delete(target);
 		}
 
 		setIsLocked(false);

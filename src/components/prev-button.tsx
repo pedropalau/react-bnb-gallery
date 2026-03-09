@@ -30,7 +30,7 @@ function PrevButton({
 			onPress={onPress}
 			arrow={PREV_BUTTON_ARROW_PATH}
 			label={phrases.previousPhoto}
-			style={style || context?.styles?.prevButton}
+			style={{ ...context?.styles?.prevButton, ...style }}
 			{...props}
 		/>
 	);

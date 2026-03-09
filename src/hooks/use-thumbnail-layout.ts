@@ -15,6 +15,7 @@ function parsePixelValue(value?: string): number {
 
 function getMeasuredThumbnailLayout(
 	thumbnailsList: HTMLUListElement,
+	thumbnailsWrapper: HTMLDivElement,
 ): ThumbnailLayoutDimensions {
 	const thumbnailItems = thumbnailsList.querySelectorAll<HTMLLIElement>('li');
 	const firstThumbnail = thumbnailItems[0];
@@ -26,26 +27,22 @@ function getMeasuredThumbnailLayout(
 		if (firstRect.width > 0) {
 			measuredLayout.thumbnailFrameWidth = firstRect.width;
 		}
-	}
 
-	if (firstThumbnail && secondThumbnail) {
-		const firstRect = firstThumbnail.getBoundingClientRect();
-		const secondRect = secondThumbnail.getBoundingClientRect();
-		const measuredStep = secondRect.left - firstRect.left;
-		if (measuredStep > 0) {
-			measuredLayout.thumbnailStep = measuredStep;
+		if (secondThumbnail) {
+			const secondRect = secondThumbnail.getBoundingClientRect();
+			const measuredStep = secondRect.left - firstRect.left;
+			if (measuredStep > 0) {
+				measuredLayout.thumbnailStep = measuredStep;
+			}
 		}
 	}
 
-	const thumbnailsContainer = thumbnailsList.parentElement;
-	if (thumbnailsContainer) {
-		const containerStyles = window.getComputedStyle(thumbnailsContainer);
-		const viewportInset =
-			Math.abs(parsePixelValue(containerStyles.marginLeft)) +
-			Math.abs(parsePixelValue(containerStyles.marginRight));
-		if (viewportInset > 0) {
-			measuredLayout.thumbnailViewportInset = viewportInset;
-		}
+	const containerStyles = window.getComputedStyle(thumbnailsWrapper);
+	const viewportInset =
+		Math.abs(parsePixelValue(containerStyles.marginLeft)) +
+		Math.abs(parsePixelValue(containerStyles.marginRight));
+	if (viewportInset > 0) {
+		measuredLayout.thumbnailViewportInset = viewportInset;
 	}
 
 	return measuredLayout;
@@ -76,6 +73,8 @@ export function useThumbnailLayout({
 	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
 	const thumbnailsListRef = useRef<HTMLUListElement | null>(null);
 
+	const syncRef = useRef<() => void>(() => {});
+
 	const syncThumbnailLayout = useCallback(() => {
 		if (!thumbnailsWrapperRef.current || !thumbnailsListRef.current) {
 			return;
@@ -83,6 +82,7 @@ export function useThumbnailLayout({
 
 		const measuredLayout = getMeasuredThumbnailLayout(
 			thumbnailsListRef.current,
+			thumbnailsWrapperRef.current,
 		);
 		setThumbnailLayout((previousLayout) =>
 			areThumbnailLayoutsEqual(previousLayout, measuredLayout)
@@ -99,16 +99,19 @@ export function useThumbnailLayout({
 		thumbnailsListRef.current.style.marginLeft = `${scrollLeft}px`;
 	}, [current, totalPhotos]);
 
+	syncRef.current = syncThumbnailLayout;
+
 	useEffect(() => {
 		syncThumbnailLayout();
 	}, [syncThumbnailLayout]);
 
 	useEffect(() => {
-		window.addEventListener('resize', syncThumbnailLayout);
+		const handler = () => syncRef.current();
+		window.addEventListener('resize', handler, { passive: true });
 		return () => {
-			window.removeEventListener('resize', syncThumbnailLayout);
+			window.removeEventListener('resize', handler);
 		};
-	}, [syncThumbnailLayout]);
+	}, []);
 
 	return {
 		thumbnailLayout,

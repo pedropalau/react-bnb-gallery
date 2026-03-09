@@ -35,31 +35,19 @@ function Caption({
 	...props
 }: GalleryCaptionComponentProps) {
 	const context = useGalleryContext();
+
 	const phrases = phrasesProp || context?.phrases || defaultPhrases;
+
 	const ThumbnailComponent =
 		components?.Thumbnail || context?.components?.Thumbnail || Thumbnail;
+
 	const TogglePhotoListComponent =
 		components?.TogglePhotoList ||
 		context?.components?.TogglePhotoList ||
 		TogglePhotoList;
-	const mergedClassName = clsx(context?.classNames?.caption, className);
-	const mergedStyle = {
-		...(context?.styles?.caption || {}),
-		...(style || {}),
-	};
-	const mergedThumbnailsListClassName = clsx(
-		context?.classNames?.thumbnailsList,
-		thumbnailsListClassName,
-	);
-	const mergedThumbnailsListStyle =
-		thumbnailsListStyle || context?.styles?.thumbnailsList;
-	const mergedThumbnailItemClassName = clsx(
-		context?.classNames?.thumbnailItem,
-		thumbnailItemClassName,
-	);
-	const mergedThumbnailItemStyle =
-		thumbnailItemStyle || context?.styles?.thumbnailItem;
+
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
+
 	const { thumbnailLayout, thumbnailsWrapperRef, thumbnailsListRef } =
 		useThumbnailLayout({
 			current,
@@ -94,7 +82,7 @@ function Caption({
 	);
 	const hasMoreThanOnePhoto = photos.length > 1;
 	const customActions = renderCaptionActions?.({
-		current,
+		currentPhotoIndex: current,
 		currentPhoto,
 		photos,
 		showThumbnails,
@@ -106,9 +94,13 @@ function Caption({
 			className={clsx(
 				'gallery-figcaption',
 				!showThumbnails && 'is-thumbnails-collapsed',
-				mergedClassName,
+				context?.classNames?.caption,
+				className,
 			)}
-			style={mergedStyle}
+			style={{
+				...(context?.styles?.caption || {}),
+				...(style || {}),
+			}}
 			{...props}
 		>
 			<div className="gallery-figcaption--content">
@@ -159,9 +151,13 @@ function Caption({
 								<ul
 									className={clsx(
 										'gallery-thumbnails-list',
-										mergedThumbnailsListClassName,
+										context?.classNames?.thumbnailsList,
+										thumbnailsListClassName,
 									)}
-									style={mergedThumbnailsListStyle}
+									style={{
+										...(context?.styles?.thumbnailsList || {}),
+										...(thumbnailsListStyle || {}),
+									}}
 									ref={thumbnailsListRef}
 								>
 									{photos.map((photo, index) => (
@@ -170,9 +166,13 @@ function Caption({
 											key={photo.photo || `${index}`}
 											className={clsx(
 												'gallery-thumbnail-item',
-												mergedThumbnailItemClassName,
+												context?.classNames?.thumbnailItem,
+												thumbnailItemClassName,
 											)}
-											style={mergedThumbnailItemStyle}
+											style={{
+												...(context?.styles?.thumbnailItem || {}),
+												...(thumbnailItemStyle || {}),
+											}}
 										>
 											<ThumbnailComponent
 												active={index === current}

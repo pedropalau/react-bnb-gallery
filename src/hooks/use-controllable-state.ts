@@ -1,5 +1,5 @@
 import type { SetStateAction } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 interface UseControllableStateOptions<T> {
 	value?: T;
@@ -21,12 +21,6 @@ export function useControllableState<T>({
 	const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 	const isControlled = value !== undefined;
 	const currentValue = isControlled ? value : uncontrolledValue;
-
-	useEffect(() => {
-		if (isControlled) {
-			setUncontrolledValue(value);
-		}
-	}, [isControlled, value]);
 
 	const setValue = useCallback(
 		(nextValue: SetStateAction<T>) => {

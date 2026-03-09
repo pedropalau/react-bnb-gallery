@@ -21,6 +21,8 @@ export const defaultPhrases = {
 	photoGallery: 'Photo gallery',
 	/** Accessible label for the thumbnail navigation region. */
 	thumbnailNavigation: 'Thumbnail navigation',
+	/** Accessible label for a thumbnail button when no caption is available. Receives the 1-based photo number. */
+	photoNumber: (n: number) => `Photo ${n}`,
 };
 
 export type DefaultPhrases = typeof defaultPhrases;

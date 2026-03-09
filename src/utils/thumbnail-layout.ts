@@ -8,7 +8,9 @@ export interface ThumbnailLayoutDimensions {
 	thumbnailViewportInset?: number;
 }
 
+// 58px image + 4px top border + 4px bottom border (THUMBNAIL_WIDTH + 2 * THUMBNAIL_BORDER_WIDTH)
 const DEFAULT_THUMBNAIL_FRAME_WIDTH = 66;
+// frame width + 8px gap between thumbnails (DEFAULT_THUMBNAIL_FRAME_WIDTH + THUMBNAIL_OFFSET)
 const DEFAULT_THUMBNAIL_STEP = 74;
 const DEFAULT_THUMBNAIL_VIEWPORT_INSET = 8;
 
@@ -48,27 +50,6 @@ export function calculateThumbnailsContainerDimension(
 }
 
 /**
- * Calculates the CSS translation offset needed to center the active thumbnail
- * within the thumbnails container.
- *
- * @param current - Zero-based index of the active thumbnail.
- * @param bounding - The bounding rect of the thumbnails container (only `width` is used).
- * @param layoutDimensions - Optional measured thumbnail layout dimensions.
- * @returns The translation offset in pixels (negative = shift left, positive = shift right).
- */
-export function calculateThumbnailsOffset(
-	current: number,
-	bounding: Bounding,
-	layoutDimensions?: ThumbnailLayoutDimensions,
-): number {
-	const { thumbnailFrameWidth, thumbnailStep } =
-		resolveLayoutDimensions(layoutDimensions);
-	const half = bounding.width / 2 - thumbnailFrameWidth / 2;
-	const offset = current * thumbnailStep - half;
-	return offset <= 0 ? Math.abs(offset) : offset * -1;
-}
-
-/**
  * Calculates the horizontal scroll offset (as a negative CSS `left` value) needed
  * to keep the active thumbnail centered within the thumbnail strip.
  *
@@ -95,8 +76,8 @@ export function calculateThumbnailsLeftScroll(
 		return calculatedScrollLeft;
 	}
 
-	const thumbnailsPerRow = bounding.width / thumbnailStep;
-	const thumbnailsHalf = Math.round(thumbnailsPerRow / 2);
+	const thumbnailsPerRow = Math.floor(bounding.width / thumbnailStep);
+	const thumbnailsHalf = Math.floor(thumbnailsPerRow / 2);
 	const thumbnailsLeft = total - (current + 1);
 
 	if (thumbnailsLeft < thumbnailsHalf) {

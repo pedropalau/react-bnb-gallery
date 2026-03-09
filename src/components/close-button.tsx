@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { memo } from 'react';
 import { defaultPhrases } from '../default-phrases';
 import type { GalleryCloseButtonProps } from '../types/gallery';
 
@@ -7,7 +8,6 @@ import type { GalleryCloseButtonProps } from '../types/gallery';
  */
 function CloseButton({
 	onPress,
-	light = false,
 	phrases = defaultPhrases,
 	className,
 	...props
@@ -15,11 +15,7 @@ function CloseButton({
 	return (
 		<button
 			onClick={onPress}
-			className={clsx(
-				'gallery-close',
-				light && 'gallery-close--light',
-				className,
-			)}
+			className={clsx('gallery-close', className)}
 			type="button"
 			aria-label={phrases.closeGallery}
 			{...props}
@@ -32,6 +28,7 @@ function CloseButton({
 				stroke="currentColor"
 				className="gallery-close-icon"
 				aria-hidden="true"
+				focusable="false"
 			>
 				<path
 					strokeLinecap="round"
@@ -43,4 +40,6 @@ function CloseButton({
 	);
 }
 
-export { CloseButton };
+const MemoizedCloseButton = memo(CloseButton);
+
+export { MemoizedCloseButton as CloseButton };

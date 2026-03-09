@@ -13,48 +13,16 @@ import {
 import { defaultPhrases } from '../default-phrases';
 import { usePrefersReducedMotion } from '../hooks/use-prefers-reduced-motion';
 import type {
-	GalleryAnimationOptions,
-	GalleryClassNames,
-	GalleryComponents,
 	GalleryController,
-	GalleryControlsPlacement,
 	GalleryImageFit,
 	GalleryPhoto,
-	GalleryPhrases,
-	GalleryRenderCaptionActions,
-	GalleryStyles,
+	GalleryProps,
 } from '../types/gallery';
 import { Caption } from './caption';
-import { GalleryContextProvider } from './gallery-context';
+import { GalleryContext } from './gallery-context';
 import { NextButton } from './next-button';
 import { Photo } from './photo';
 import { PrevButton } from './prev-button';
-
-/**
- * Props for the internal gallery viewport, controls, and caption panel.
- */
-interface GalleryProps {
-	activePhotoIndex?: number;
-	activePhotoPressed?: () => void;
-	animations?: GalleryAnimationOptions;
-	enableZoom?: boolean;
-	imageFit?: GalleryImageFit;
-	maxZoom?: number;
-	nextButtonPressed?: () => void;
-	onActivePhotoIndexChange?: (index: number) => void;
-	phrases?: GalleryPhrases;
-	photos?: GalleryPhoto[];
-	preloadSize?: number;
-	prevButtonPressed?: () => void;
-	renderCaptionActions?: GalleryRenderCaptionActions;
-	showThumbnails?: boolean;
-	zoomStep?: number;
-	wrap?: boolean;
-	controlsPlacement?: GalleryControlsPlacement;
-	components?: GalleryComponents;
-	classNames?: GalleryClassNames;
-	styles?: GalleryStyles;
-}
 
 interface TouchInfo {
 	screenX: number;
@@ -1218,7 +1186,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	const { noPhotosProvided: emptyMessage } = phrases;
 
 	return (
-		<GalleryContextProvider value={galleryContextValue}>
+		<GalleryContext.Provider value={galleryContextValue}>
 			<div
 				className={clsx(
 					'gallery',
@@ -1339,7 +1307,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					/>
 				)}
 			</div>
-		</GalleryContextProvider>
+		</GalleryContext.Provider>
 	);
 });
 

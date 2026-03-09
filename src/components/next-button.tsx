@@ -30,7 +30,7 @@ function NextButton({
 			onPress={onPress}
 			arrow={NEXT_BUTTON_ARROW_PATH}
 			label={phrases.nextPhoto}
-			style={style || context?.styles?.nextButton}
+			style={{ ...context?.styles?.nextButton, ...style }}
 			{...props}
 		/>
 	);

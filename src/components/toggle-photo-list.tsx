@@ -26,7 +26,7 @@ function TogglePhotoList({
 			type="button"
 			className={clsx(
 				'gallery-thumbnails--toggle',
-isOpened ? 'is-open' : 'is-collapsed',
+				isOpened ? 'is-open' : 'is-collapsed',
 				context?.classNames?.togglePhotoList,
 				className,
 			)}

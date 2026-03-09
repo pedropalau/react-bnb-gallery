@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { memo } from 'react';
+import { defaultPhrases } from '../default-phrases';
 import type { GalleryThumbnailComponentProps } from '../types/gallery';
 import { getCaptionText } from '../utils/get-caption-text';
 import { useGalleryContext } from './gallery-context';
@@ -20,25 +21,34 @@ function Thumbnail({
 	...props
 }: GalleryThumbnailComponentProps) {
 	const context = useGalleryContext();
+	const phrases = context?.phrases ?? defaultPhrases;
 
 	if (!photo) {
 		return null;
 	}
 
 	const captionText = getCaptionText(photo.caption);
-	const resolvedImageStyle = imageStyle || context?.styles?.thumbnailImage;
+
+	const resolvedImageStyle =
+		imageStyle || context?.styles?.thumbnailImage
+			? { ...context?.styles?.thumbnailImage, ...imageStyle }
+			: undefined;
+	const resolvedButtonStyle =
+		style || context?.styles?.thumbnailButton
+			? { ...context?.styles?.thumbnailButton, ...style }
+			: undefined;
 
 	return (
 		<button
 			type="button"
-			aria-label={captionText || undefined}
+			aria-label={captionText || phrases.photoNumber(number + 1)}
 			className={clsx(
 				'gallery-thumbnail-button',
 				active && 'is-active',
 				context?.classNames?.thumbnailButton,
 				className,
 			)}
-			style={style || context?.styles?.thumbnailButton}
+			style={resolvedButtonStyle}
 			data-photo-index={number}
 			onClick={onPress}
 			{...props}

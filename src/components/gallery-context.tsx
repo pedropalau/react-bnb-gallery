@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 import type {
 	GalleryClassNames,
@@ -7,6 +6,9 @@ import type {
 	GalleryStyles,
 } from '../types/gallery';
 
+// Only Thumbnail and TogglePhotoList are slot components rendered inside
+// Caption, which is itself a slot. Other GalleryComponents slots are rendered
+// directly by Gallery and do not need to flow through context.
 type GalleryContextComponents = Pick<
 	GalleryComponents,
 	'Thumbnail' | 'TogglePhotoList'
@@ -21,22 +23,17 @@ interface GalleryContextValue {
 
 const GalleryContext = createContext<GalleryContextValue | null>(null);
 
-interface GalleryContextProviderProps {
-	value: GalleryContextValue;
-	children: ReactNode;
-}
-
-function GalleryContextProvider({
-	value,
-	children,
-}: GalleryContextProviderProps) {
-	return (
-		<GalleryContext.Provider value={value}>{children}</GalleryContext.Provider>
-	);
-}
-
+/** Returns null when used outside a GalleryContext.Provider (e.g. standalone component usage). */
 function useGalleryContext(): GalleryContextValue | null {
 	return useContext(GalleryContext);
 }
 
-export { GalleryContextProvider, useGalleryContext };
+/** Throws when used outside a GalleryContext.Provider. Use for strictly internal components. */
+function useRequiredGalleryContext(): GalleryContextValue {
+	const ctx = useContext(GalleryContext);
+	if (!ctx) throw new Error('useRequiredGalleryContext must be used inside GalleryContext.Provider');
+	return ctx;
+}
+
+export { GalleryContext, useGalleryContext, useRequiredGalleryContext };
+export type { GalleryContextValue };

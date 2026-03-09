@@ -38,7 +38,7 @@ function Photo({
 	}
 
 	const captionText = getCaptionText(photo.caption);
-	const mergedImageStyle = { ...(style || {}), ...(imageStyle || {}) };
+
 	return (
 		<div className="gallery-photo-list">
 			<div className="gallery-photo-item">
@@ -54,7 +54,7 @@ function Photo({
 						isPanning && 'gallery-photo-button--panning',
 						buttonClassName,
 					)}
-					style={buttonStyle}
+					style={{ ...style, ...buttonStyle }}
 				>
 					<Image
 						alt={photo.alt || captionText}
@@ -67,7 +67,7 @@ function Photo({
 						variant="photo"
 						onLoad={onLoad}
 						onError={onError}
-						style={mergedImageStyle}
+						style={imageStyle}
 						imageRef={imageRef}
 					/>
 				</button>

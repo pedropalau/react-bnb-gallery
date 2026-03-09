@@ -6,7 +6,7 @@ import { memo } from 'react';
  * Shared arrow-control button props used by previous/next controls.
  */
 interface ControlProps {
-	arrow?: string | null;
+	arrow?: string;
 	onPress?: () => void;
 	label?: string;
 }
@@ -18,7 +18,7 @@ type ControlMergedProps = ControlProps & ControlButtonProps;
  * Renders a reusable SVG arrow button for gallery navigation.
  */
 function Control({
-	arrow = null,
+	arrow = '',
 	onPress,
 	label = '',
 	className,
@@ -30,23 +30,20 @@ function Control({
 			type="button"
 			className={clsx('gallery-control', className)}
 			onClick={onPress}
-			aria-label={label}
+			aria-label={label || undefined}
 			style={style}
 			{...props}
 		>
-			{label ? <span className="sr-only">{label}</span> : null}
 			<span className="gallery-control-surface" aria-hidden="true">
 				<svg
 					viewBox="0 0 24 24"
-					role="presentation"
-					focusable="false"
 					aria-hidden="true"
 					className="gallery-control-icon"
 					strokeWidth={2}
 					stroke="currentColor"
 					fill="none"
 				>
-					<path d={arrow || ''} strokeLinecap="round" strokeLinejoin="round" />
+					<path d={arrow} strokeLinecap="round" strokeLinejoin="round" />
 				</svg>
 			</span>
 		</button>

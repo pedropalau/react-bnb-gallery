@@ -14,7 +14,7 @@ interface ImageProps {
 	alt: string;
 	src?: string;
 	variant?: 'photo' | 'thumbnail';
-	style?: CSSProperties | null;
+	style?: CSSProperties;
 	className?: string | string[] | null;
 	imageRef?: Ref<HTMLImageElement>;
 	onLoad?: () => void;
@@ -47,7 +47,7 @@ function Image({
 	alt,
 	src,
 	variant = 'photo',
-	style = null,
+	style,
 	className = null,
 	imageRef,
 	onLoad,
@@ -55,25 +55,34 @@ function Image({
 	...props
 }: ImageMergedProps) {
 	const { draggable = false, ...imageProps } = props;
+
 	const hasSource = Boolean(src);
+
 	const skeletonDelayMs =
 		variant === 'photo' ? PHOTO_SKELETON_DELAY_MS : THUMBNAIL_SKELETON_DELAY_MS;
+
 	const decodeRequestRef = useRef(0);
+
 	const skeletonTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
 	const [state, setState] = useState<ImageState>(() => ({
 		currentSrc: src,
 		loading: hasSource,
 		withError: !hasSource,
 	}));
+
 	const [showSkeleton, setShowSkeleton] = useState(false);
 
 	useEffect(() => {
 		decodeRequestRef.current += 1;
+
 		if (skeletonTimerRef.current) {
 			clearTimeout(skeletonTimerRef.current);
 			skeletonTimerRef.current = null;
 		}
+
 		setShowSkeleton(false);
+
 		setState((prevState) => {
 			if (src === prevState.currentSrc) {
 				return prevState;
@@ -128,7 +137,7 @@ function Image({
 		(_event: SyntheticEvent<HTMLImageElement>) => {
 			onLoad?.();
 			const loadedSrc = src;
-			const requestId = ++decodeRequestRef.current;
+			const requestId = decodeRequestRef.current;
 			const finalizeLoad = () => {
 				if (requestId !== decodeRequestRef.current) {
 					return;
@@ -139,12 +148,7 @@ function Image({
 
 			// Reveal on the next animation frame so the browser can paint first,
 			// without blocking on decode promises that can delay fast image loads.
-			if (typeof window !== 'undefined' && window.requestAnimationFrame) {
-				window.requestAnimationFrame(finalizeLoad);
-				return;
-			}
-
-			finalizeLoad();
+			requestAnimationFrame(finalizeLoad);
 		},
 		[markAsLoaded, onLoad, src],
 	);
@@ -156,7 +160,9 @@ function Image({
 			clearTimeout(skeletonTimerRef.current);
 			skeletonTimerRef.current = null;
 		}
+
 		setShowSkeleton(false);
+
 		setState((prevState) => ({
 			...prevState,
 			loading: false,
@@ -165,22 +171,16 @@ function Image({
 	}, [onError]);
 
 	const { loading, withError } = state;
-	const wrapperClassNames = [
-		'picture',
-		'gallery-image-wrapper',
-		`gallery-image-wrapper--${variant}`,
-		loading && 'is-loading',
-	];
-	const classNames = [
-		className,
-		'media-image',
-		'gallery-image',
-		loading && 'gallery-image--loading',
-		!loading && !withError && 'gallery-image--loaded',
-	];
 
 	return (
-		<div className={clsx(wrapperClassNames)}>
+		<div
+			className={clsx(
+				'picture',
+				'gallery-image-wrapper',
+				`gallery-image-wrapper--${variant}`,
+				loading && 'is-loading',
+			)}
+		>
 			{loading && showSkeleton && (
 				<div
 					className={clsx(
@@ -194,12 +194,18 @@ function Image({
 				<img
 					ref={imageRef}
 					alt={alt}
-					className={clsx(classNames)}
+					className={clsx(
+						'media-image',
+						'gallery-image',
+						loading && 'gallery-image--loading',
+						!loading && !withError && 'gallery-image--loaded',
+						className,
+					)}
 					draggable={draggable}
 					onLoad={handleLoad}
 					onError={handleError}
 					src={src}
-					style={style || undefined}
+					style={style}
 					{...imageProps}
 				/>
 			)}

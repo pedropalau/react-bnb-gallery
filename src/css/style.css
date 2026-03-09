@@ -196,7 +196,7 @@
 		display: block;
 		width: 1.5em;
 		height: 1.5em;
-		fill: currentColor;
+		fill: none;
 	}
 
 	.gallery-modal--close button.gallery-close:hover {

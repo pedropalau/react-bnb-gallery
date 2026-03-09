@@ -20,24 +20,13 @@ export function usePrefersReducedMotion(): boolean {
 	);
 
 	useEffect(() => {
-		if (
-			typeof window === 'undefined' ||
-			typeof window.matchMedia !== 'function'
-		) {
-			return;
-		}
-
 		const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const onChange = (event: MediaQueryListEvent) => {
 			setPrefersReducedMotion(event.matches);
 		};
 
-		setPrefersReducedMotion(mediaQuery.matches);
 		mediaQuery.addEventListener('change', onChange);
-
-		return () => {
-			mediaQuery.removeEventListener('change', onChange);
-		};
+		return () => mediaQuery.removeEventListener('change', onChange);
 	}, []);
 
 	return prefersReducedMotion;
