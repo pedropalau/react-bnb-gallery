@@ -1,6 +1,7 @@
 'use client';
 
-import { IconCheck, IconCopy } from '@tabler/icons-react';
+import { CheckmarkCircle02Icon, Copy01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -45,7 +46,11 @@ export function CopyButton({
 			{...props}
 		>
 			<span className="sr-only">Copy</span>
-			{hasCopied ? <IconCheck /> : <IconCopy />}
+			{hasCopied ? (
+				<HugeiconsIcon icon={CheckmarkCircle02Icon} strokeWidth={2} />
+			) : (
+				<HugeiconsIcon icon={Copy01Icon} strokeWidth={2} />
+			)}
 		</Button>
 	);
 }

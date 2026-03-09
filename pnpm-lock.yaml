@@ -75,9 +75,6 @@ importers:
       '@hugeicons/react':
         specifier: ^1.1.5
         version: 1.1.5(react@19.2.4)
-      '@tabler/icons-react':
-        specifier: ^3.39.0
-        version: 3.39.0(react@19.2.4)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -103,8 +100,8 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
       shadcn:
-        specifier: ^3.8.5
-        version: 3.8.5(@types/node@25.3.5)(typescript@5.9.3)
+        specifier: ^4.0.2
+        version: 4.0.2(@types/node@25.3.5)(typescript@5.9.3)
       tailwind-merge:
         specifier: ^3.5.0
         version: 3.5.0
@@ -1919,14 +1916,6 @@ packages:
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
-  '@tabler/icons-react@3.39.0':
-    resolution: {integrity: sha512-2LeQDdFdBxsWTCwy8MgYze/q/d/o7ePRD7lHscV/0YCHyFLk8TQz/HFnrkM8InI8lpZfKdYegYJXiADtL7J3jA==}
-    peerDependencies:
-      react: '>= 16'
-
-  '@tabler/icons@3.39.0':
-    resolution: {integrity: sha512-nd9f5+OVJNDR13v6rqPdmALkVhDknDuGMLuj16sK9UaRkOTQWwQM+EWG2fMYBNSH8ISsHiXfryNGQogIpsar4g==}
-
   '@tailwindcss/node@4.2.1':
     resolution: {integrity: sha512-jlx6sLk4EOwO6hHe1oCGm1Q4AN/s0rSrTTPBGPM0/RQ6Uylwq17FuU8IeJJKEjtc6K6O07zsvP+gDO6MMWo7pg==}
 
@@ -3592,8 +3581,8 @@ packages:
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  shadcn@3.8.5:
-    resolution: {integrity: sha512-jPRx44e+eyeV7xwY3BLJXcfrks00+M0h5BGB9l6DdcBW4BpAj4x3lVmVy0TXPEs2iHEisxejr62sZAAw6B1EVA==}
+  shadcn@4.0.2:
+    resolution: {integrity: sha512-U6BxywcVt5Vy+iLdjoyWTPcuz2RQNad09tjJsW8hyKtxlx7VAvzHIvoNxvXN+gxWt/HX8kt/cVNk8AXcmPUaNQ==}
     hasBin: true
 
   sharp@0.34.5:
@@ -5761,13 +5750,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@tabler/icons-react@3.39.0(react@19.2.4)':
-    dependencies:
-      '@tabler/icons': 3.39.0
-      react: 19.2.4
-
-  '@tabler/icons@3.39.0': {}
-
   '@tailwindcss/node@4.2.1':
     dependencies:
       '@jridgewell/remapping': 2.3.5
@@ -7426,7 +7408,7 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  shadcn@3.8.5(@types/node@25.3.5)(typescript@5.9.3):
+  shadcn@4.0.2(@types/node@25.3.5)(typescript@5.9.3):
     dependencies:
       '@antfu/ni': 25.0.0
       '@babel/core': 7.29.0

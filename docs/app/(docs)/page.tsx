@@ -59,6 +59,7 @@ export default function HomePage() {
 				photos={galleryPhotos}
 				activePhotoIndex={activePhotoIndex}
 				onClose={() => setOpen(false)}
+				imageFit="cover"
 			/>
 		</>
 	);

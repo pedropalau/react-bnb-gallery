@@ -1,6 +1,11 @@
 'use client';
 
-import { IconCheck, IconCopy, IconTerminal } from '@tabler/icons-react';
+import {
+	CheckmarkCircle02Icon,
+	ComputerTerminal01Icon,
+	Copy01Icon,
+} from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import * as React from 'react';
 import { copyToClipboardWithMeta } from '@/components/copy-button';
 import { Button } from '@/components/ui/button';
@@ -62,7 +67,11 @@ export function CodeBlockCommand({
 					>
 						<div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
 							<div className="bg-foreground flex size-4 items-center justify-center rounded-[1px] opacity-70">
-								<IconTerminal className="text-muted size-3" />
+								<HugeiconsIcon
+									icon={ComputerTerminal01Icon}
+									className="text-muted size-3"
+									strokeWidth={2}
+								/>
 							</div>
 							<TabsList className="rounded-none bg-transparent p-0">
 								{Object.entries(tabs).map(([key]) => {
@@ -107,7 +116,11 @@ export function CodeBlockCommand({
 						onClick={copyCommand}
 					>
 						<span className="sr-only">Copy</span>
-						{hasCopied ? <IconCheck /> : <IconCopy />}
+						{hasCopied ? (
+							<HugeiconsIcon icon={CheckmarkCircle02Icon} strokeWidth={2} />
+						) : (
+							<HugeiconsIcon icon={Copy01Icon} strokeWidth={2} />
+						)}
 					</Button>
 				</div>
 			</div>

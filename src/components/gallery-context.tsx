@@ -31,7 +31,10 @@ function useGalleryContext(): GalleryContextValue | null {
 /** Throws when used outside a GalleryContext.Provider. Use for strictly internal components. */
 function useRequiredGalleryContext(): GalleryContextValue {
 	const ctx = useContext(GalleryContext);
-	if (!ctx) throw new Error('useRequiredGalleryContext must be used inside GalleryContext.Provider');
+	if (!ctx)
+		throw new Error(
+			'useRequiredGalleryContext must be used inside GalleryContext.Provider',
+		);
 	return ctx;
 }
 
