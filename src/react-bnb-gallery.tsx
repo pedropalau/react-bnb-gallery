@@ -87,7 +87,7 @@ export interface ReactBnbGalleryProps {
  * @param light - Enables light mode styling (default: `false`)
  * @param nextButtonPressed - Callback fired when the next button is pressed
  * @param onClose - Callback fired when the gallery is closed
- * @param opacity - Overlay opacity between `0` and `1` (default: `0.8`)
+ * @param opacity - Overlay opacity between `0` and `1` (default: `0.8`); `styles.overlay.opacity` takes precedence when both are provided
  * @param photos - Photos to display; accepts an array of URL strings and/or `GalleryPhoto` objects
  * @param phrases - Localization strings for UI labels
  * @param preloadSize - Number of photos to preload ahead of the active photo (default: `5`)

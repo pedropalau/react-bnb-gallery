@@ -141,6 +141,7 @@ export interface GalleryClassNames {
 /** Inline style overrides for default gallery UI slots. */
 export interface GalleryStyles {
 	modal?: CSSProperties;
+	/** Applied after the `opacity` prop, so explicit overlay style values take precedence. */
 	overlay?: CSSProperties;
 	modalContainer?: CSSProperties;
 	closeButtonWrapper?: CSSProperties;
