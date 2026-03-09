@@ -40,15 +40,15 @@ function Photo({
 	const captionText = getCaptionText(photo.caption);
 	const mergedImageStyle = { ...(style || {}), ...(imageStyle || {}) };
 	return (
-		<ul className="gallery-photo-list">
-			<li className="gallery-photo-item">
+		<div className="gallery-photo-list">
+			<div className="gallery-photo-item">
 				<button
 					{...buttonProps}
 					ref={buttonRef}
 					type="button"
 					onClick={onPressHandler}
 					className={clsx(
-							'gallery-photo-button',
+						'gallery-photo-button',
 						enableZoom && 'gallery-photo-button--zoom-enabled',
 						isZoomMode && 'gallery-photo-button--zoomed',
 						isPanning && 'gallery-photo-button--panning',
@@ -71,8 +71,8 @@ function Photo({
 						imageRef={imageRef}
 					/>
 				</button>
-			</li>
-		</ul>
+			</div>
+		</div>
 	);
 }
 

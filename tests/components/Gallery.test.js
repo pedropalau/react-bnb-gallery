@@ -87,7 +87,9 @@ describe('Gallery', () => {
 			const preloadImages = Array.from(
 				container.querySelectorAll('.gallery-modal--preload img'),
 			);
-			const preloadAlts = preloadImages.map((image) => image.getAttribute('alt'));
+			const preloadAlts = preloadImages.map((image) =>
+				image.getAttribute('alt'),
+			);
 
 			expect(preloadImages).toHaveLength(2);
 			expect(preloadAlts).toContain('Living room');
@@ -161,11 +163,7 @@ describe('Gallery', () => {
 			const galleryRef = createRef();
 			const photoList = photos.slice(0, 3);
 			const { container } = render(
-				<Gallery
-					ref={galleryRef}
-					photos={photoList}
-					showThumbnails={false}
-				/>,
+				<Gallery ref={galleryRef} photos={photoList} showThumbnails={false} />,
 			);
 			const activeImage = () => container.querySelector('.gallery-photo-image');
 
@@ -395,7 +393,7 @@ describe('Gallery', () => {
 				<Gallery photos={photos.slice(0, 1)} showThumbnails={false} />,
 			);
 
-			expect(container.querySelector('img.photo')).toHaveAttribute(
+			expect(container.querySelector('.gallery-photo-image')).toHaveAttribute(
 				'draggable',
 				'false',
 			);
@@ -418,11 +416,13 @@ describe('Gallery', () => {
 				<Gallery photos={photoList} showThumbnails />,
 			);
 
-			expect(container.querySelector('img.photo')).toHaveAttribute('alt', '');
-			expect(container.querySelector('img.thumbnail')).toHaveAttribute(
+			expect(container.querySelector('.gallery-photo-image')).toHaveAttribute(
 				'alt',
 				'',
 			);
+			expect(
+				container.querySelector('.gallery-thumbnail-image'),
+			).toHaveAttribute('alt', '');
 		});
 
 		it('triggers next callback when swiping left on photo', () => {
@@ -483,7 +483,7 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const activeImage = container.querySelector('img.photo');
+			const activeImage = container.querySelector('.gallery-photo-image');
 			expect(activeImage).toBeInTheDocument();
 
 			fireEvent.click(activeImage);

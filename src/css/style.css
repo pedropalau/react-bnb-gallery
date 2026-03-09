@@ -351,7 +351,6 @@
 	.gallery-photo-list {
 		position: relative;
 		height: 100%;
-		list-style-type: none;
 		margin: 0;
 		padding: 0;
 	}
@@ -677,7 +676,7 @@
 		border-radius: calc(var(--rbg-radius) - 0.125rem);
 		transition:
 			opacity var(--rbg-thumbnail-reveal-duration)
-				var(--rbg-image-reveal-easing),
+			var(--rbg-image-reveal-easing),
 			transform var(--rbg-feedback-duration) var(--rbg-motion-easing);
 	}
 
