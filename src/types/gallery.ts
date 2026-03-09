@@ -164,13 +164,11 @@ export interface GalleryStyles {
 export interface GalleryCloseButtonProps
 	extends Omit<ComponentPropsWithRef<'button'>, 'onClick'> {
 	onPress?: () => void;
-	light?: boolean;
 	phrases?: GalleryPhrases;
 }
 
 /** Props for overriding the modal overlay component. */
 export interface GalleryOverlayProps extends ComponentPropsWithRef<'div'> {
-	light?: boolean;
 	opacity?: number;
 }
 

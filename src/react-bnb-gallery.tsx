@@ -338,7 +338,6 @@ export function ReactBnbGallery({
 												>
 													<CloseButtonComponent
 														onPress={close}
-														light={light}
 														phrases={phrases}
 														className={classNames?.closeButton}
 														style={styles?.closeButton}
@@ -387,7 +386,6 @@ export function ReactBnbGallery({
 												>
 													<CloseButtonComponent
 														onPress={close}
-														light={light}
 														phrases={phrases}
 														className={classNames?.closeButton}
 														style={styles?.closeButton}
@@ -453,7 +451,6 @@ export function ReactBnbGallery({
 					<OverlayComponent
 						className={clsx('gallery-modal--overlay', classNames?.overlay)}
 						style={galleryModalOverlayStyles}
-						light={light}
 						opacity={opacity}
 					/>
 				) : (

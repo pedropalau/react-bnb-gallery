@@ -14,12 +14,10 @@ describe('CloseButton', () => {
 		expect(icon).not.toHaveStyle({ display: 'block' });
 	});
 
-	it('applies light class when light prop is true', () => {
-		render(<CloseButton light />);
+	it('forwards supported button props to the DOM', () => {
+		render(<CloseButton data-testid="close-button" />);
 
-		expect(screen.getByRole('button', { name: 'Close gallery' })).toHaveClass(
-			'gallery-close--light',
-		);
+		expect(screen.getByTestId('close-button')).toBeInTheDocument();
 	});
 
 	it('uses localized close label from phrases', () => {
