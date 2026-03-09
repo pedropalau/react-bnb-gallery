@@ -68,6 +68,46 @@ describe('Gallery', () => {
 			expect(preloadSources).not.toContain(photoList[2].photo);
 		});
 
+		it('uses configured alt text for preload images and falls back to empty alt', () => {
+			const photoList = [
+				{ photo: 'https://example.com/one.jpg', alt: 'Living room' },
+				{ photo: 'https://example.com/two.jpg' },
+				{ photo: 'https://example.com/three.jpg', alt: 'Kitchen' },
+			];
+			const { container } = render(
+				<Gallery
+					photos={photoList}
+					preloadSize={2}
+					showThumbnails={false}
+					activePhotoIndex={1}
+				/>,
+			);
+
+			const preloadImages = Array.from(
+				container.querySelectorAll('.gallery-modal--preload img'),
+			);
+			const preloadAlts = preloadImages.map((image) => image.getAttribute('alt'));
+
+			expect(preloadImages).toHaveLength(2);
+			expect(preloadAlts).toContain('Living room');
+			expect(preloadAlts).toContain('Kitchen');
+
+			const { container: fallbackContainer } = render(
+				<Gallery
+					photos={[
+						{ photo: 'https://example.com/four.jpg' },
+						{ photo: 'https://example.com/five.jpg' },
+					]}
+					preloadSize={1}
+					showThumbnails={false}
+				/>,
+			);
+
+			expect(
+				fallbackContainer.querySelector('.gallery-modal--preload img'),
+			).toHaveAttribute('alt', '');
+		});
+
 		it('does not render skeleton placeholders immediately while images are loading', () => {
 			const { container } = render(<Gallery photos={photos} showThumbnails />);
 

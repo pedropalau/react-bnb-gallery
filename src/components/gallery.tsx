@@ -1168,7 +1168,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			return (
 				<img
 					key={photo.photo || photoIndex}
-					alt={photo.photo}
+					alt={photo.alt ?? ''}
 					src={photo.photo}
 				/>
 			);
