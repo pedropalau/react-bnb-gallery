@@ -102,6 +102,7 @@ function clampZoomOffset(
 	scale: number,
 	element: HTMLElement | null,
 	mediaElement: HTMLImageElement | null,
+	imageFit: GalleryImageFit,
 ) {
 	if (!element || !mediaElement || scale <= MIN_ZOOM) {
 		return { x: 0, y: 0 };
@@ -122,13 +123,16 @@ function clampZoomOffset(
 		return { x: 0, y: 0 };
 	}
 
-	const containScale = Math.min(
-		viewportWidth / intrinsicWidth,
-		viewportHeight / intrinsicHeight,
-		1,
-	);
-	const renderedWidth = intrinsicWidth * containScale;
-	const renderedHeight = intrinsicHeight * containScale;
+	const fittedScale =
+		imageFit === 'cover'
+			? Math.max(viewportWidth / intrinsicWidth, viewportHeight / intrinsicHeight)
+			: Math.min(
+					viewportWidth / intrinsicWidth,
+					viewportHeight / intrinsicHeight,
+					1,
+				);
+	const renderedWidth = intrinsicWidth * fittedScale;
+	const renderedHeight = intrinsicHeight * fittedScale;
 	const maxX = Math.max(0, (renderedWidth * scale - viewportWidth) / 2);
 	const maxY = Math.max(0, (renderedHeight * scale - viewportHeight) / 2);
 
@@ -692,6 +696,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					clampedScale,
 					element,
 					photoImageRef.current,
+					imageFit,
 				);
 
 				return {
@@ -703,7 +708,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				};
 			});
 		},
-		[normalizedMaxZoom],
+		[imageFit, normalizedMaxZoom],
 	);
 
 	const startPan = useCallback(
@@ -734,6 +739,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				prevState.zoomScale,
 				photoButtonRef.current,
 				photoImageRef.current,
+				imageFit,
 			);
 
 			return {
@@ -742,7 +748,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				zoomOffsetY: nextOffsets.y,
 			};
 		});
-	}, []);
+	}, [imageFit]);
 
 	const endPan = useCallback(() => {
 		setState((prevState) => {
@@ -884,6 +890,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 						clampedScale,
 						element,
 						photoImageRef.current,
+						imageFit,
 					);
 
 					return {

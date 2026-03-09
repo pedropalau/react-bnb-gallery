@@ -413,7 +413,7 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			expect(photoButton).toBeInTheDocument();
 
 			fireEvent.touchStart(photoButton, {
@@ -437,7 +437,7 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			expect(photoButton).toBeInTheDocument();
 
 			fireEvent.touchStart(photoButton, {
@@ -795,7 +795,7 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			const photoImage = container.querySelector('.gallery-photo-image');
 
 			fireEvent.wheel(photoButton, {
@@ -866,7 +866,7 @@ describe('Gallery', () => {
 				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			const photoImage = container.querySelector('.gallery-photo-image');
 
 			Object.defineProperty(photoButton, 'clientWidth', {
@@ -896,6 +896,47 @@ describe('Gallery', () => {
 			fireEvent.mouseUp(photoButton);
 
 			expect(photoImage.style.getPropertyValue('--rbg-pan-x')).toBe('0px');
+		});
+
+		it('allows horizontal pan for cover-fit images using cover bounds', () => {
+			const { container } = render(
+				<Gallery
+					photos={photos.slice(0, 2)}
+					showThumbnails={false}
+					imageFit="cover"
+				/>,
+			);
+
+			const photoButton = container.querySelector('.gallery-photo-button');
+			const photoImage = container.querySelector('.gallery-photo-image');
+
+			Object.defineProperty(photoButton, 'clientWidth', {
+				value: 1000,
+				configurable: true,
+			});
+			Object.defineProperty(photoButton, 'clientHeight', {
+				value: 500,
+				configurable: true,
+			});
+			Object.defineProperty(photoImage, 'naturalWidth', {
+				value: 600,
+				configurable: true,
+			});
+			Object.defineProperty(photoImage, 'naturalHeight', {
+				value: 1200,
+				configurable: true,
+			});
+
+			fireEvent.wheel(photoButton, {
+				deltaY: -120,
+				clientX: 200,
+				clientY: 200,
+			});
+			fireEvent.mouseDown(photoButton, { clientX: 100, clientY: 100 });
+			fireEvent.mouseMove(photoButton, { clientX: 700, clientY: 100 });
+			fireEvent.mouseUp(photoButton);
+
+			expect(photoImage.style.getPropertyValue('--rbg-pan-x')).toBe('150px');
 		});
 
 		it('disables swipe navigation while zoomed in from pinch', () => {
