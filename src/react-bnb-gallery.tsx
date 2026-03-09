@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { CloseButton } from './components/close-button';
 import { Gallery } from './components/gallery';
 import { defaultPhrases } from './default-phrases';
+import { useControllableState } from './hooks/use-controllable-state';
 import { usePrefersReducedMotion } from './hooks/use-prefers-reduced-motion';
 import { useScrollLock } from './hooks/use-scroll-lock';
 import type {
@@ -157,9 +158,11 @@ export function ReactBnbGallery({
 		activePhotoIndex,
 		photos.length,
 	);
-	const [displayedPhotoIndex, setDisplayedPhotoIndex] = useState(
-		() => normalizedActiveIndex,
-	);
+	const [displayedPhotoIndex, setDisplayedPhotoIndex] = useControllableState({
+		value: show ? undefined : normalizedActiveIndex,
+		defaultValue: normalizedActiveIndex,
+		onChange: onActivePhotoIndexChange,
+	});
 	const [isRendered, setIsRendered] = useState(show);
 	const [isClosing, setIsClosing] = useState(false);
 	const prefersReducedMotion = usePrefersReducedMotion();
@@ -195,7 +198,6 @@ export function ReactBnbGallery({
 
 	useEffect(() => {
 		if (show) {
-			setDisplayedPhotoIndex(normalizedActiveIndex);
 			setIsRendered(true);
 			setIsClosing(false);
 			return;
@@ -220,37 +222,11 @@ export function ReactBnbGallery({
 		return () => {
 			window.clearTimeout(timeoutId);
 		};
-	}, [
-		closeAnimationDurationMs,
-		isRendered,
-		normalizedActiveIndex,
-		shouldAnimateClose,
-		show,
-	]);
-
-	useEffect(() => {
-		if (show) {
-			return;
-		}
-
-		setDisplayedPhotoIndex((previousIndex) =>
-			previousIndex === normalizedActiveIndex
-				? previousIndex
-				: normalizedActiveIndex,
-		);
-	}, [normalizedActiveIndex, show]);
+	}, [closeAnimationDurationMs, isRendered, shouldAnimateClose, show]);
 
 	const close = useCallback(() => {
 		onClose?.();
 	}, [onClose]);
-
-	const handleActivePhotoIndexChange = useCallback(
-		(index: number) => {
-			setDisplayedPhotoIndex(index);
-			onActivePhotoIndexChange?.(index);
-		},
-		[onActivePhotoIndexChange],
-	);
 
 	const onKeyDown = useCallback(
 		(event: KeyboardEvent<HTMLDivElement>) => {
@@ -442,7 +418,7 @@ export function ReactBnbGallery({
 							preloadSize={preloadSize}
 							maxZoom={maxZoom}
 							zoomStep={zoomStep}
-							onActivePhotoIndexChange={handleActivePhotoIndexChange}
+							onActivePhotoIndexChange={setDisplayedPhotoIndex}
 						/>
 					</div>
 				</div>

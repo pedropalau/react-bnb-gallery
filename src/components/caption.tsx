@@ -1,74 +1,13 @@
 import clsx from 'clsx';
 import type { MouseEvent } from 'react';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { defaultPhrases } from '../default-phrases';
+import { useThumbnailLayout } from '../hooks/use-thumbnail-layout';
 import type { GalleryCaptionComponentProps } from '../types/gallery';
-import {
-	calculateThumbnailsContainerDimension,
-	calculateThumbnailsLeftScroll,
-	type ThumbnailLayoutDimensions,
-} from '../utils/thumbnail-layout';
+import { calculateThumbnailsContainerDimension } from '../utils/thumbnail-layout';
 import { useGalleryContext } from './gallery-context';
 import { Thumbnail } from './thumbnail';
 import { TogglePhotoList } from './toggle-photo-list';
-
-function parsePixelValue(value?: string): number {
-	if (!value) {
-		return 0;
-	}
-
-	const parsed = Number.parseFloat(value);
-	return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function getMeasuredThumbnailLayout(
-	thumbnailsList: HTMLUListElement,
-): ThumbnailLayoutDimensions {
-	const thumbnailItems = thumbnailsList.querySelectorAll<HTMLLIElement>('li');
-	const firstThumbnail = thumbnailItems[0];
-	const secondThumbnail = thumbnailItems[1];
-	const measuredLayout: ThumbnailLayoutDimensions = {};
-
-	if (firstThumbnail) {
-		const firstRect = firstThumbnail.getBoundingClientRect();
-		if (firstRect.width > 0) {
-			measuredLayout.thumbnailFrameWidth = firstRect.width;
-		}
-	}
-
-	if (firstThumbnail && secondThumbnail) {
-		const firstRect = firstThumbnail.getBoundingClientRect();
-		const secondRect = secondThumbnail.getBoundingClientRect();
-		const measuredStep = secondRect.left - firstRect.left;
-		if (measuredStep > 0) {
-			measuredLayout.thumbnailStep = measuredStep;
-		}
-	}
-
-	const thumbnailsContainer = thumbnailsList.parentElement;
-	if (thumbnailsContainer) {
-		const containerStyles = window.getComputedStyle(thumbnailsContainer);
-		const viewportInset =
-			Math.abs(parsePixelValue(containerStyles.marginLeft)) +
-			Math.abs(parsePixelValue(containerStyles.marginRight));
-		if (viewportInset > 0) {
-			measuredLayout.thumbnailViewportInset = viewportInset;
-		}
-	}
-
-	return measuredLayout;
-}
-
-function areThumbnailLayoutsEqual(
-	prevLayout: ThumbnailLayoutDimensions,
-	nextLayout: ThumbnailLayoutDimensions,
-): boolean {
-	return (
-		prevLayout.thumbnailFrameWidth === nextLayout.thumbnailFrameWidth &&
-		prevLayout.thumbnailStep === nextLayout.thumbnailStep &&
-		prevLayout.thumbnailViewportInset === nextLayout.thumbnailViewportInset
-	);
-}
 
 /**
  * Renders the current photo caption and optional thumbnail navigation.
@@ -121,48 +60,15 @@ function Caption({
 	const mergedThumbnailItemStyle =
 		thumbnailItemStyle || context?.styles?.thumbnailItem;
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
-	const [thumbnailLayout, setThumbnailLayout] =
-		useState<ThumbnailLayoutDimensions>({});
-	const thumbnailsWrapperRef = useRef<HTMLDivElement | null>(null);
-	const thumbnailsListRef = useRef<HTMLUListElement | null>(null);
-
-	const syncThumbnailsLayout = useCallback(() => {
-		if (!thumbnailsWrapperRef.current || !thumbnailsListRef.current) {
-			return;
-		}
-
-		const measuredLayout = getMeasuredThumbnailLayout(
-			thumbnailsListRef.current,
-		);
-		setThumbnailLayout((previousLayout) =>
-			areThumbnailLayoutsEqual(previousLayout, measuredLayout)
-				? previousLayout
-				: measuredLayout,
-		);
-		const bounding = thumbnailsWrapperRef.current.getBoundingClientRect();
-		const scrollLeft = calculateThumbnailsLeftScroll(
+	const { thumbnailLayout, thumbnailsWrapperRef, thumbnailsListRef } =
+		useThumbnailLayout({
 			current,
-			photos.length,
-			bounding,
-			measuredLayout,
-		);
-		thumbnailsListRef.current.style.marginLeft = `${scrollLeft}px`;
-	}, [current, photos.length]);
-
-	useEffect(() => {
-		syncThumbnailsLayout();
-	}, [syncThumbnailsLayout]);
+			totalPhotos: photos.length,
+		});
 
 	useEffect(() => {
 		setShowThumbnails(showThumbnailsProp);
 	}, [showThumbnailsProp]);
-
-	useEffect(() => {
-		window.addEventListener('resize', syncThumbnailsLayout);
-		return () => {
-			window.removeEventListener('resize', syncThumbnailsLayout);
-		};
-	}, [syncThumbnailsLayout]);
 
 	const onThumbnailPress = useCallback(
 		(event: MouseEvent<HTMLElement>) => {
