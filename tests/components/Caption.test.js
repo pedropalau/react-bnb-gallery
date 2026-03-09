@@ -23,13 +23,13 @@ describe('Caption', () => {
 			).toBeInTheDocument();
 		});
 
-		it('uses showThumbnails prop as initial state only', () => {
+		it('syncs showThumbnails when the prop changes', () => {
 			const { container, rerender } = render(
 				<Caption current={0} photos={photos.slice(0, 2)} showThumbnails />,
 			);
 
 			expect(
-				container.querySelector('figcaption.hide'),
+				container.querySelector('.gallery-figcaption.is-thumbnails-collapsed'),
 			).not.toBeInTheDocument();
 
 			rerender(
@@ -41,8 +41,8 @@ describe('Caption', () => {
 			);
 
 			expect(
-				container.querySelector('figcaption.hide'),
-			).not.toBeInTheDocument();
+				container.querySelector('.gallery-figcaption.is-thumbnails-collapsed'),
+			).toBeInTheDocument();
 		});
 
 		it('keeps photo-list toggle visible after collapsing thumbnails', () => {
@@ -76,9 +76,11 @@ describe('Caption', () => {
 			)}px`;
 
 			await waitFor(() => {
-				expect(container.querySelector('.thumbnails-list')).toHaveStyle({
-					marginLeft: expectedMarginLeft,
-				});
+				expect(container.querySelector('.gallery-thumbnails-list')).toHaveStyle(
+					{
+						marginLeft: expectedMarginLeft,
+					},
+				);
 			});
 		});
 
@@ -87,7 +89,9 @@ describe('Caption', () => {
 				<Caption current={0} photos={photos.slice(0, 3)} showThumbnails />,
 			);
 
-			const thumbnailImages = container.querySelectorAll('img.thumbnail');
+			const thumbnailImages = container.querySelectorAll(
+				'img.gallery-thumbnail-image',
+			);
 			expect(thumbnailImages[0]).toHaveAttribute('loading', 'eager');
 			expect(thumbnailImages[1]).toHaveAttribute('loading', 'lazy');
 			expect(thumbnailImages[2]).toHaveAttribute('loading', 'lazy');

@@ -120,7 +120,6 @@ function Caption({
 	);
 	const mergedThumbnailItemStyle =
 		thumbnailItemStyle || context?.styles?.thumbnailItem;
-	// `showThumbnails` prop is treated as the initial uncontrolled state.
 	const [showThumbnails, setShowThumbnails] = useState(showThumbnailsProp);
 	const [thumbnailLayout, setThumbnailLayout] =
 		useState<ThumbnailLayoutDimensions>({});
@@ -153,6 +152,10 @@ function Caption({
 	useEffect(() => {
 		syncThumbnailsLayout();
 	}, [syncThumbnailsLayout]);
+
+	useEffect(() => {
+		setShowThumbnails(showThumbnailsProp);
+	}, [showThumbnailsProp]);
 
 	useEffect(() => {
 		window.addEventListener('resize', syncThumbnailsLayout);

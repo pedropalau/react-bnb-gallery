@@ -11,6 +11,11 @@ const galleryProps = [
 	{ prop: 'leftKeyPressed', type: '() => void', default: 'undefined' },
 	{ prop: 'light', type: 'boolean', default: 'false' },
 	{ prop: 'nextButtonPressed', type: '() => void', default: 'undefined' },
+	{
+		prop: 'onActivePhotoIndexChange',
+		type: '(index: number) => void',
+		default: 'undefined',
+	},
 	{ prop: 'onClose', type: '() => void', default: 'undefined' },
 	{ prop: 'opacity', type: 'number', default: '1' },
 	{ prop: 'photos', type: 'Array<string | GalleryPhoto>', default: '[]' },
@@ -180,6 +185,37 @@ export default function OptionsPage() {
   show={open}
   photos={photos}
   activePhotoPressed={(index) => console.log('Pressed:', index)}
+  onClose={() => setOpen(false)}
+/>`}</code>
+								</pre>
+							</CodeBlock>
+						</PropDetail>
+
+						<PropDetail name="onActivePhotoIndexChange">
+							<p>
+								Callback fired whenever the displayed photo changes. Use it to
+								keep external state in sync with keyboard, swipe, thumbnail, or
+								button navigation.
+							</p>
+							<CodeBlock
+								__raw__={`const [index, setIndex] = useState(0);
+
+<ReactBnbGallery
+  show={open}
+  photos={photos}
+  activePhotoIndex={index}
+  onActivePhotoIndexChange={setIndex}
+  onClose={() => setOpen(false)}
+/>`}
+							>
+								<pre>
+									<code>{`const [index, setIndex] = useState(0);
+
+<ReactBnbGallery
+  show={open}
+  photos={photos}
+  activePhotoIndex={index}
+  onActivePhotoIndexChange={setIndex}
   onClose={() => setOpen(false)}
 />`}</code>
 								</pre>
@@ -710,7 +746,8 @@ export default function OptionsPage() {
 							<p>
 								When <code>true</code>, a strip of thumbnail images is displayed
 								at the bottom of the gallery for quick navigation. Set to{' '}
-								<code>false</code> to hide it.
+								<code>false</code> to hide it, and toggle the prop again later
+								to show the strip back.
 							</p>
 							<CodeBlock
 								__raw__={`<ReactBnbGallery

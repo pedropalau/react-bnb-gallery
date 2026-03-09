@@ -172,6 +172,7 @@ Prefer these class hooks in custom CSS and tests:
 | `leftKeyPressed` | `() => void` | `undefined` | Callback fired when the left arrow key is pressed. |
 | `light` | `boolean` | `false` | Enables light mode styles for controls. |
 | `nextButtonPressed` | `() => void` | `undefined` | Callback fired when the next button is pressed. |
+| `onActivePhotoIndexChange` | `(index: number) => void` | `undefined` | Callback fired when the displayed photo index changes. |
 | `onClose` | `() => void` | `undefined` | Callback fired when the gallery is closed. |
 | `opacity` | `number` | `1` | Background overlay opacity (0-1). |
 | `photos` | `Array<string \| GalleryPhoto>` | `[]` | Photos to render. |
@@ -180,7 +181,7 @@ Prefer these class hooks in custom CSS and tests:
 | `prevButtonPressed` | `() => void` | `undefined` | Callback fired when the previous button is pressed. |
 | `rightKeyPressed` | `() => void` | `undefined` | Callback fired when the right arrow key is pressed. |
 | `show` | `boolean` | `false` | Controls whether the gallery modal is visible. |
-| `showThumbnails` | `boolean` | `true` | Show the thumbnail strip. |
+| `showThumbnails` | `boolean` | `true` | Show or hide the thumbnail strip. Updates are applied after mount. |
 | `wrap` | `boolean` | `false` | Wrap continuously through photos. |
 | `zIndex` | `number` | `2000` | CSS `z-index` for the modal overlay. |
 

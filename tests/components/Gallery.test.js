@@ -349,14 +349,12 @@ describe('Gallery', () => {
 				<Gallery photos={photoList} showThumbnails />,
 			);
 
-			expect(container.querySelector('img.photo')).toHaveAttribute(
-				'alt',
-				'Fallback caption',
-			);
-			expect(container.querySelector('img.thumbnail')).toHaveAttribute(
-				'alt',
-				'Fallback caption',
-			);
+			expect(
+				container.querySelector('img.gallery-photo-image'),
+			).toHaveAttribute('alt', 'Fallback caption');
+			expect(
+				container.querySelector('img.gallery-thumbnail-image'),
+			).toHaveAttribute('alt', 'Fallback caption');
 		});
 
 		it('uses explicit alt and thumbnailAlt values when provided', () => {
@@ -378,14 +376,12 @@ describe('Gallery', () => {
 				<Gallery photos={photoList} showThumbnails />,
 			);
 
-			expect(container.querySelector('img.photo')).toHaveAttribute(
-				'alt',
-				'Main photo alt',
-			);
-			expect(container.querySelector('img.thumbnail')).toHaveAttribute(
-				'alt',
-				'Thumbnail alt text',
-			);
+			expect(
+				container.querySelector('img.gallery-photo-image'),
+			).toHaveAttribute('alt', 'Main photo alt');
+			expect(
+				container.querySelector('img.gallery-thumbnail-image'),
+			).toHaveAttribute('alt', 'Thumbnail alt text');
 		});
 
 		it('renders gallery images as non-draggable by default', () => {
@@ -603,7 +599,7 @@ describe('Gallery', () => {
 			expect(container.querySelector('.gallery-control--next')).toHaveClass(
 				'custom-next',
 			);
-			expect(container.querySelector('.photo-button')).toHaveClass(
+			expect(container.querySelector('.gallery-photo-button')).toHaveClass(
 				'custom-photo-button',
 			);
 			expect(container.querySelector('.gallery-photo-image')).toHaveClass(
@@ -835,7 +831,7 @@ describe('Gallery', () => {
 				<Gallery photos={photos.slice(0, 2)} showThumbnails={false} />,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			const photoImage = container.querySelector('.gallery-photo-image');
 
 			fireEvent.wheel(photoButton, {
@@ -857,7 +853,7 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			const photoImage = container.querySelector('.gallery-photo-image');
 
 			fireEvent.wheel(photoButton, {
@@ -971,7 +967,7 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			fireEvent.touchStart(photoButton, {
 				targetTouches: [
 					{ clientX: 100, clientY: 100 },
@@ -1007,13 +1003,15 @@ describe('Gallery', () => {
 				/>,
 			);
 
-			const photoButton = container.querySelector('.photo-button');
+			const photoButton = container.querySelector('.gallery-photo-button');
 			expect(photoButton).toBeInTheDocument();
 
 			onActivePhotoIndexChange.mockClear();
 
 			const swipeLeft = () => {
-				const currentPhotoButton = container.querySelector('.photo-button');
+				const currentPhotoButton = container.querySelector(
+					'.gallery-photo-button',
+				);
 				fireEvent.touchStart(currentPhotoButton, {
 					targetTouches: [{ screenX: 220 }],
 				});
@@ -1023,7 +1021,9 @@ describe('Gallery', () => {
 				fireEvent.touchEnd(currentPhotoButton);
 			};
 			const swipeRight = () => {
-				const currentPhotoButton = container.querySelector('.photo-button');
+				const currentPhotoButton = container.querySelector(
+					'.gallery-photo-button',
+				);
 				fireEvent.touchStart(currentPhotoButton, {
 					targetTouches: [{ screenX: 120 }],
 				});

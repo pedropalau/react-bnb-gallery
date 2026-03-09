@@ -49,6 +49,7 @@ export interface ReactBnbGalleryProps {
 	leftKeyPressed?: () => void;
 	light?: boolean;
 	nextButtonPressed?: () => void;
+	onActivePhotoIndexChange?: (index: number) => void;
 	onClose?: () => void;
 	opacity?: number;
 	photos?: Array<string | GalleryPhoto>;
@@ -86,6 +87,7 @@ export interface ReactBnbGalleryProps {
  * @param leftKeyPressed - Callback fired when the left arrow key is pressed
  * @param light - Enables light mode styling (default: `false`)
  * @param nextButtonPressed - Callback fired when the next button is pressed
+ * @param onActivePhotoIndexChange - Callback fired when the displayed photo index changes
  * @param onClose - Callback fired when the gallery is closed
  * @param opacity - Overlay opacity between `0` and `1` (default: `0.8`); `styles.overlay.opacity` takes precedence when both are provided
  * @param photos - Photos to display; accepts an array of URL strings and/or `GalleryPhoto` objects
@@ -119,6 +121,7 @@ export function ReactBnbGallery({
 	leftKeyPressed,
 	light = false,
 	nextButtonPressed,
+	onActivePhotoIndexChange,
 	onClose,
 	opacity = 1,
 	photos: photosInput = [],
@@ -150,8 +153,12 @@ export function ReactBnbGallery({
 		() => ({ ...defaultPhrases, ...(phrasesProp || {}) }),
 		[phrasesProp],
 	);
-	const [displayedPhotoIndex, setDisplayedPhotoIndex] = useState(() =>
-		normalizeActivePhotoIndex(activePhotoIndex, photos.length),
+	const normalizedActiveIndex = normalizeActivePhotoIndex(
+		activePhotoIndex,
+		photos.length,
+	);
+	const [displayedPhotoIndex, setDisplayedPhotoIndex] = useState(
+		() => normalizedActiveIndex,
 	);
 	const [isRendered, setIsRendered] = useState(show);
 	const [isClosing, setIsClosing] = useState(false);
@@ -188,6 +195,7 @@ export function ReactBnbGallery({
 
 	useEffect(() => {
 		if (show) {
+			setDisplayedPhotoIndex(normalizedActiveIndex);
 			setIsRendered(true);
 			setIsClosing(false);
 			return;
@@ -212,11 +220,37 @@ export function ReactBnbGallery({
 		return () => {
 			window.clearTimeout(timeoutId);
 		};
-	}, [closeAnimationDurationMs, isRendered, shouldAnimateClose, show]);
+	}, [
+		closeAnimationDurationMs,
+		isRendered,
+		normalizedActiveIndex,
+		shouldAnimateClose,
+		show,
+	]);
+
+	useEffect(() => {
+		if (show) {
+			return;
+		}
+
+		setDisplayedPhotoIndex((previousIndex) =>
+			previousIndex === normalizedActiveIndex
+				? previousIndex
+				: normalizedActiveIndex,
+		);
+	}, [normalizedActiveIndex, show]);
 
 	const close = useCallback(() => {
 		onClose?.();
 	}, [onClose]);
+
+	const handleActivePhotoIndexChange = useCallback(
+		(index: number) => {
+			setDisplayedPhotoIndex(index);
+			onActivePhotoIndexChange?.(index);
+		},
+		[onActivePhotoIndexChange],
+	);
 
 	const onKeyDown = useCallback(
 		(event: KeyboardEvent<HTMLDivElement>) => {
@@ -272,23 +306,27 @@ export function ReactBnbGallery({
 			zIndex,
 		],
 	);
+	const safeDisplayedPhotoIndex = normalizeActivePhotoIndex(
+		displayedPhotoIndex,
+		photos.length,
+	);
 	const hasMoreThanOnePhoto = photos.length > 1;
-	const currentPhoto = photos[displayedPhotoIndex];
-	const photoCounterLabel = `${displayedPhotoIndex + 1} / ${photos.length}`;
+	const currentPhoto = photos[safeDisplayedPhotoIndex];
+	const photoCounterLabel = `${safeDisplayedPhotoIndex + 1} / ${photos.length}`;
 	const CloseButtonComponent = components?.CloseButton ?? CloseButton;
 	const OverlayComponent = components?.Overlay;
 	const PhotoCounterComponent = components?.PhotoCounter;
 	const ModalContainerComponent = components?.ModalContainer;
 	const topBarSlotContext = useMemo(
 		() => ({
-			currentPhotoIndex: displayedPhotoIndex,
+			currentPhotoIndex: safeDisplayedPhotoIndex,
 			currentPhoto,
 			photos,
 			totalPhotos: photos.length,
 			hasMultiplePhotos: hasMoreThanOnePhoto,
 			close,
 		}),
-		[close, currentPhoto, displayedPhotoIndex, hasMoreThanOnePhoto, photos],
+		[close, currentPhoto, hasMoreThanOnePhoto, photos, safeDisplayedPhotoIndex],
 	);
 
 	if (!isRendered) {
@@ -343,7 +381,7 @@ export function ReactBnbGallery({
 														classNames?.photoCounter,
 													)}
 													style={styles?.photoCounter}
-													current={displayedPhotoIndex + 1}
+													current={safeDisplayedPhotoIndex + 1}
 													total={photos.length}
 													label={photoCounterLabel}
 												/>
@@ -404,7 +442,7 @@ export function ReactBnbGallery({
 							preloadSize={preloadSize}
 							maxZoom={maxZoom}
 							zoomStep={zoomStep}
-							onActivePhotoIndexChange={setDisplayedPhotoIndex}
+							onActivePhotoIndexChange={handleActivePhotoIndexChange}
 						/>
 					</div>
 				</div>

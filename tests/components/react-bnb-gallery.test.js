@@ -58,6 +58,43 @@ describe('ReactBnbGallery', () => {
 			expect(document.body.style.overflow).toBe('');
 		});
 
+		it('forwards active photo index changes to consumers', () => {
+			const onActivePhotoIndexChange = vi.fn();
+
+			render(
+				<ReactBnbGallery
+					photos={photos.slice(0, 3)}
+					show
+					onActivePhotoIndexChange={onActivePhotoIndexChange}
+				/>,
+			);
+
+			onActivePhotoIndexChange.mockClear();
+			fireEvent.keyDown(document.body.querySelector('.gallery-modal'), {
+				key: 'ArrowRight',
+			});
+
+			expect(onActivePhotoIndexChange).toHaveBeenCalledWith(1);
+		});
+
+		it('uses the latest activePhotoIndex when reopening the modal', () => {
+			const { rerender } = render(
+				<ReactBnbGallery photos={photos.slice(0, 3)} activePhotoIndex={0} />,
+			);
+
+			rerender(
+				<ReactBnbGallery
+					photos={photos.slice(0, 3)}
+					activePhotoIndex={2}
+					show
+				/>,
+			);
+
+			expect(
+				document.body.querySelector('.gallery-photo-counter'),
+			).toHaveTextContent('3 / 3');
+		});
+
 		it('invokes keyboard callbacks on arrow keys', () => {
 			const leftKeyPressed = vi.fn();
 			const rightKeyPressed = vi.fn();
