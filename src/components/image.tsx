@@ -169,8 +169,6 @@ function Image({
 		'picture',
 		'gallery-image-wrapper',
 		`gallery-image-wrapper--${variant}`,
-		// Legacy alias kept for 2.x compatibility; use `is-loading` going forward.
-		loading && 'loading',
 		loading && 'is-loading',
 	];
 	const classNames = [
