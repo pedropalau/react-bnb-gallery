@@ -1,4 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from 'react';
 
 interface UseScrollLockOptions {
 	autoLock?: boolean;
@@ -61,7 +67,7 @@ export function useScrollLock(
 	const [isLocked, setIsLocked] = useState(false);
 	const targetRef = useRef<HTMLElement | null>(null);
 
-	const lock = () => {
+	const lock = useCallback(() => {
 		const target = targetRef.current;
 		if (!target) {
 			return;
@@ -89,9 +95,9 @@ export function useScrollLock(
 
 		targetLockCounts.set(target, currentCount + 1);
 		setIsLocked(true);
-	};
+	}, [widthReflow]);
 
-	const unlock = () => {
+	const unlock = useCallback(() => {
 		const target = targetRef.current;
 		if (!target) {
 			return;
@@ -119,7 +125,7 @@ export function useScrollLock(
 		}
 
 		setIsLocked(false);
-	};
+	}, []);
 
 	useIsomorphicLayoutEffect(() => {
 		targetRef.current = resolveTarget(lockTarget);
@@ -136,7 +142,7 @@ export function useScrollLock(
 				unlock();
 			}
 		};
-	}, [autoLock, lockTarget, widthReflow]);
+	}, [autoLock, lock, lockTarget, unlock]);
 
 	return { isLocked, lock, unlock };
 }
