@@ -283,4 +283,6 @@ export interface GalleryController {
 	prev: () => void;
 	/** Navigate to the next photo. */
 	next: () => void;
+	/** Navigate to a specific photo index. */
+	to: (index: number) => void;
 }

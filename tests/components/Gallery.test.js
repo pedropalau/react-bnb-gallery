@@ -1,4 +1,5 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { createRef } from 'react';
 import { vi } from 'vitest';
 
 import { Gallery } from '../../src/components/gallery';
@@ -154,6 +155,27 @@ describe('Gallery', () => {
 			expect(
 				container.querySelector('.gallery-control--next'),
 			).toBeInTheDocument();
+		});
+
+		it('exposes to(index) on the gallery controller ref', () => {
+			const galleryRef = createRef();
+			const photoList = photos.slice(0, 3);
+			const { container } = render(
+				<Gallery
+					ref={galleryRef}
+					photos={photoList}
+					showThumbnails={false}
+				/>,
+			);
+			const activeImage = () => container.querySelector('.gallery-photo-image');
+
+			expect(activeImage()).toHaveAttribute('src', photoList[0].photo);
+
+			act(() => {
+				galleryRef.current.to(2);
+			});
+
+			expect(activeImage()).toHaveAttribute('src', photoList[2].photo);
 		});
 
 		it('keeps both controls visible when wrap is enabled', () => {

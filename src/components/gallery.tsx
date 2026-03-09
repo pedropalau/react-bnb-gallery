@@ -125,7 +125,10 @@ function clampZoomOffset(
 
 	const fittedScale =
 		imageFit === 'cover'
-			? Math.max(viewportWidth / intrinsicWidth, viewportHeight / intrinsicHeight)
+			? Math.max(
+					viewportWidth / intrinsicWidth,
+					viewportHeight / intrinsicHeight,
+				)
 			: Math.min(
 					viewportWidth / intrinsicWidth,
 					viewportHeight / intrinsicHeight,
@@ -291,7 +294,10 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		animationDurationMs > 0;
 	const shouldWaitForTransitionDuration =
 		isImageMotionEnabled &&
-		!(imageFit === 'contain' && (animationPreset === 'slide' || animationPreset === 'zoom'));
+		!(
+			imageFit === 'contain' &&
+			(animationPreset === 'slide' || animationPreset === 'zoom')
+		);
 
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
@@ -590,15 +596,6 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		move('next');
 	}, [move]);
 
-	useImperativeHandle(
-		ref,
-		() => ({
-			prev,
-			next,
-		}),
-		[prev, next],
-	);
-
 	const onNextButtonPress = useCallback(() => {
 		next();
 		nextButtonPressed?.();
@@ -725,30 +722,33 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		[enableZoom, state.zoomOffsetX, state.zoomOffsetY, state.zoomScale],
 	);
 
-	const updatePan = useCallback((clientX: number, clientY: number) => {
-		setState((prevState) => {
-			if (!prevState.isPanning) {
-				return prevState;
-			}
+	const updatePan = useCallback(
+		(clientX: number, clientY: number) => {
+			setState((prevState) => {
+				if (!prevState.isPanning) {
+					return prevState;
+				}
 
-			const deltaX = clientX - panStartRef.current.x;
-			const deltaY = clientY - panStartRef.current.y;
-			const nextOffsets = clampZoomOffset(
-				panOriginRef.current.x + deltaX,
-				panOriginRef.current.y + deltaY,
-				prevState.zoomScale,
-				photoButtonRef.current,
-				photoImageRef.current,
-				imageFit,
-			);
+				const deltaX = clientX - panStartRef.current.x;
+				const deltaY = clientY - panStartRef.current.y;
+				const nextOffsets = clampZoomOffset(
+					panOriginRef.current.x + deltaX,
+					panOriginRef.current.y + deltaY,
+					prevState.zoomScale,
+					photoButtonRef.current,
+					photoImageRef.current,
+					imageFit,
+				);
 
-			return {
-				...prevState,
-				zoomOffsetX: nextOffsets.x,
-				zoomOffsetY: nextOffsets.y,
-			};
-		});
-	}, [imageFit]);
+				return {
+					...prevState,
+					zoomOffsetX: nextOffsets.x,
+					zoomOffsetY: nextOffsets.y,
+				};
+			});
+		},
+		[imageFit],
+	);
 
 	const endPan = useCallback(() => {
 		setState((prevState) => {
@@ -927,6 +927,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		[
 			getTouchDistance,
 			enableZoom,
+			imageFit,
 			normalizedMaxZoom,
 			state.zoomScale,
 			updatePan,
@@ -1050,6 +1051,16 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 			to(index);
 		},
 		[to],
+	);
+
+	useImperativeHandle(
+		ref,
+		() => ({
+			prev,
+			next,
+			to,
+		}),
+		[to, prev, next],
 	);
 
 	const controls = useMemo(() => {
