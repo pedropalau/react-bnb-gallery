@@ -285,6 +285,9 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		!prefersReducedMotion &&
 		animationPreset !== 'none' &&
 		animationDurationMs > 0;
+	const shouldWaitForTransitionDuration =
+		isImageMotionEnabled &&
+		!(imageFit === 'contain' && (animationPreset === 'slide' || animationPreset === 'zoom'));
 
 	const photoButtonRef = useRef<HTMLButtonElement | null>(null);
 	const photoImageRef = useRef<HTMLImageElement | null>(null);
@@ -364,13 +367,20 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 				activePhotoReady: isPhotoChanged
 					? isNextPhotoKnownAsLoaded
 					: prevState.activePhotoReady,
-				transitionDurationComplete: nextTransitionFromIndex == null,
+				transitionDurationComplete:
+					nextTransitionFromIndex == null || !shouldWaitForTransitionDuration,
 				hidePrevButton,
 				hideNextButton,
 				lastDirection: nextDirection,
 			};
 		});
-	}, [activePhotoIndex, isImageMotionEnabled, photos, wrap]);
+	}, [
+		activePhotoIndex,
+		isImageMotionEnabled,
+		photos,
+		shouldWaitForTransitionDuration,
+		wrap,
+	]);
 
 	useEffect(() => {
 		onActivePhotoIndexChange?.(state.activePhotoIndex);
@@ -395,7 +405,11 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 	}, [isImageMotionEnabled]);
 
 	useEffect(() => {
-		if (!isImageMotionEnabled || state.transitionFromIndex === null) {
+		if (
+			!isImageMotionEnabled ||
+			!shouldWaitForTransitionDuration ||
+			state.transitionFromIndex === null
+		) {
 			return;
 		}
 
@@ -418,7 +432,12 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 		return () => {
 			window.clearTimeout(timeoutId);
 		};
-	}, [animationDurationMs, isImageMotionEnabled, state.transitionFromIndex]);
+	}, [
+		animationDurationMs,
+		isImageMotionEnabled,
+		shouldWaitForTransitionDuration,
+		state.transitionFromIndex,
+	]);
 
 	useEffect(() => {
 		if (state.transitionFromIndex == null) {
@@ -542,14 +561,21 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 					activePhotoReady: isPhotoChanged
 						? isNextPhotoKnownAsLoaded
 						: prevState.activePhotoReady,
-					transitionDurationComplete: nextTransitionFromIndex == null,
+					transitionDurationComplete:
+						nextTransitionFromIndex == null || !shouldWaitForTransitionDuration,
 					hidePrevButton,
 					hideNextButton,
 					lastDirection: direction,
 				};
 			});
 		},
-		[getItemByDirection, isImageMotionEnabled, photos, wrap],
+		[
+			getItemByDirection,
+			isImageMotionEnabled,
+			photos,
+			shouldWaitForTransitionDuration,
+			wrap,
+		],
 	);
 
 	const prev = useCallback(() => {
@@ -1207,6 +1233,7 @@ const Gallery = forwardRef<GalleryController, GalleryProps>(function Gallery(
 									key={`current-${state.activePhotoIndex}-${state.lastDirection}`}
 									className={clsx(
 										'gallery-photo--current',
+										imageFit === 'contain' && 'gallery-photo--mask-outgoing',
 										photoDirectionClass,
 									)}
 								>

@@ -643,6 +643,36 @@ describe('Gallery', () => {
 			});
 		});
 
+		it('masks the outgoing layer during contain-fit transitions', () => {
+			const photoList = photos.slice(0, 2);
+			const { container, rerender } = render(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					activePhotoIndex={0}
+					imageFit="contain"
+					animations={{ preset: 'fade', durationMs: 40 }}
+				/>,
+			);
+
+			rerender(
+				<Gallery
+					photos={photoList}
+					showThumbnails={false}
+					activePhotoIndex={1}
+					imageFit="contain"
+					animations={{ preset: 'fade', durationMs: 40 }}
+				/>,
+			);
+
+			expect(container.querySelector('.gallery-photo--current')).toHaveClass(
+				'gallery-photo--mask-outgoing',
+			);
+			expect(
+				container.querySelector('.gallery-photo--outgoing'),
+			).toBeInTheDocument();
+		});
+
 		it('does not keep an outgoing layer when image transitions are disabled', () => {
 			const photoList = photos.slice(0, 2);
 			const { container, rerender } = render(

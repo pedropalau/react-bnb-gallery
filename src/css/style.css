@@ -19,7 +19,7 @@
 		--rbg-skeleton-base: rgb(255 255 255 / 10%);
 		--rbg-skeleton-highlight: rgb(255 255 255 / 24%);
 		--rbg-control-hover-surface: rgb(255 255 255 / 20%);
-		--rbg-image-surface-photo: rgb(255 255 255 / 6%);
+		--rbg-image-surface-photo: transparent;
 		--rbg-image-surface-thumbnail: rgb(255 255 255 / 8%);
 
 		/* Shadow token. */
@@ -63,7 +63,7 @@
 		--rbg-skeleton-base: rgb(0 0 0 / 8%);
 		--rbg-skeleton-highlight: rgb(0 0 0 / 16%);
 		--rbg-control-hover-surface: rgb(0 0 0 / 8%);
-		--rbg-image-surface-photo: rgb(0 0 0 / 4%);
+		--rbg-image-surface-photo: transparent;
 		--rbg-image-surface-thumbnail: rgb(0 0 0 / 6%);
 	}
 }
@@ -333,6 +333,12 @@
 
 	.gallery-photo--current {
 		z-index: 2;
+	}
+
+	/* Mask the outgoing layer while contain-fit images are transparent around their edges. */
+	.gallery-photo--mask-outgoing {
+		background-color: var(--rbg-overlay);
+		border-radius: var(--rbg-radius);
 	}
 
 	.gallery-photo--outgoing {
