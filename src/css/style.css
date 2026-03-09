@@ -676,7 +676,8 @@
 		object-fit: cover;
 		border-radius: calc(var(--rbg-radius) - 0.125rem);
 		transition:
-			opacity var(--rbg-feedback-duration) var(--rbg-motion-easing),
+			opacity var(--rbg-thumbnail-reveal-duration)
+				var(--rbg-image-reveal-easing),
 			transform var(--rbg-feedback-duration) var(--rbg-motion-easing);
 	}
 
@@ -685,8 +686,7 @@
 	}
 
 	.gallery-thumbnail-image.gallery-image--loaded {
-		animation: GalleryThumbnailFadeIn var(--rbg-thumbnail-reveal-duration)
-			var(--rbg-image-reveal-easing) both;
+		opacity: var(--rbg-thumbnail-opacity-target);
 	}
 
 	.gallery-thumbnail-button:hover
