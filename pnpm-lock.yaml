@@ -74,7 +74,7 @@ importers:
         version: 4.0.0
       '@hugeicons/react':
         specifier: ^1.1.5
-        version: 1.1.5(react@19.2.4)
+        version: 1.1.6(react@19.2.4)
       '@tabler/icons-react':
         specifier: ^3.39.0
         version: 3.39.0(react@19.2.4)
@@ -661,8 +661,8 @@ packages:
   '@hugeicons/core-free-icons@4.0.0':
     resolution: {integrity: sha512-bzfbKumv3ke3ajbe2MyXi9i0I/cdsZ6n/mO9EfIPNSL++pHLqs7nSGRIVUtjF4xrrEyVkfhxssv4Jek8DPA6gA==}
 
-  '@hugeicons/react@1.1.5':
-    resolution: {integrity: sha512-JX/iDz3oO7hWdVqbjwFwRrAjHk8h2vI+mBkNzp4JcXG3t4idoupfjon73nLOA7cr27m0M8hrRC1Q2h6nEBGKVA==}
+  '@hugeicons/react@1.1.6':
+    resolution: {integrity: sha512-c2LhXJMAW5wN1pC/smBXG0YPqUON6ceR/ZdXHCjEI9KvB+hjtqYjmzIxok5hAQOeXGz0WtORgCQMzqewFKAZwg==}
     peerDependencies:
       react: '>=16.0.0'
 
@@ -4609,7 +4609,7 @@ snapshots:
 
   '@hugeicons/core-free-icons@4.0.0': {}
 
-  '@hugeicons/react@1.1.5(react@19.2.4)':
+  '@hugeicons/react@1.1.6(react@19.2.4)':
     dependencies:
       react: 19.2.4
 
